@@ -122,14 +122,16 @@ function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }
                 </div>
               </div>
 
-              <Link
-                to="/merchant"
+              <a
+                href="https://app.blip.money/waitlist/merchant"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={onClose}
                 className="group flex items-center justify-center gap-2 h-[46px] rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]"
               >
                 <span>Join as Merchant</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </Link>
+              </a>
 
               <p className="text-[10.5px] text-black/40 text-center mt-3 leading-relaxed">
                 No guaranteed returns. Earnings depend on volume + competitive spreads.
@@ -337,13 +339,15 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">
-          <button
-            onClick={() => setPopupOpen(true)}
+          <a
+            href="https://app.blip.money/waitlist/merchant"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </button>
+          </a>
           <Link
             to="/blip-market"
             className="group inline-flex items-center gap-1.5 h-[48px] px-4 text-white/75 text-[14px] font-medium tracking-tight hover:text-white transition-colors"

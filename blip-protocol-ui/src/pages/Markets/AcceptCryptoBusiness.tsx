@@ -548,24 +548,28 @@ const CTABottomSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <Link
-            to="/merchant"
+          <a
+            href="https://app.blip.money/waitlist/merchant"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
           >
             Apply as a Merchant
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </a>
 
-          <Link
-            to="/waitlist"
+          <a
+            href="https://app.blip.money/waitlist/merchant"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-black/10 dark:border-white/10 text-black dark:text-white font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all"
           >
             Join Waitlist
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>

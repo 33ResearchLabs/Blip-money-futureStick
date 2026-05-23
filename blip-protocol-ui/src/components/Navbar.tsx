@@ -92,7 +92,7 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <CTAButton to="/register">Join Waitlist</CTAButton>
+                <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
               )}
             </div>
 
@@ -225,6 +225,7 @@ export const CTAButton = ({
   variant?: "primary" | "secondary";
 }) => {
   const isPrimary = variant === "primary";
+  const isExternal = typeof to === "string" && /^https?:\/\//.test(to);
   const ref = React.useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -254,6 +255,44 @@ export const CTAButton = ({
       style={{ x: sx, y: sy }}
       className="relative inline-block"
     >
+      {isExternal ? (
+        <a
+          href={to}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => sounds.click()}
+          onMouseEnter={() => sounds.hover()}
+          className={`
+            ${className}
+            group relative overflow-hidden inline-flex
+            items-center justify-center px-3.5 py-1.5 rounded-full
+            text-[12px] font-semibold transition-all duration-300 ease-out
+            ${
+              isPrimary
+                ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
+                : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
+            }
+          `}
+        >
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
+            style={{
+              background: isPrimary
+                ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
+                : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
+            }}
+          />
+          <span className="relative z-10 font-semibold flex items-center gap-2">
+            {children}
+            {isPrimary ? (
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            ) : (
+              ""
+            )}
+          </span>
+        </a>
+      ) : (
       <Link
         to={to}
         onClick={() => sounds.click()}
@@ -289,6 +328,7 @@ export const CTAButton = ({
           )}
         </span>
       </Link>
+      )}
     </motion.div>
   );
 };
@@ -397,8 +437,9 @@ const MobileMenu = memo(({
               </a>
             ) : (
               <a
-                href="/register"
-                onClick={(e) => handleNavClick(e, "/waitlist")}
+                href="https://app.blip.money/waitlist/user"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
               >
                 Join Waitlist

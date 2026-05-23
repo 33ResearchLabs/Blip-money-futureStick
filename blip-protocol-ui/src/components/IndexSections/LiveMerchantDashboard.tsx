@@ -986,20 +986,24 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     +${settledCelebration.earned.toFixed(2)}
                   </motion.span>
                 </motion.div>
-                <Link
-                  to="/merchant"
+                <a
+                  href="https://app.blip.money/waitlist/merchant"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setSettledCelebration(null)}
                   className="group mt-2 inline-flex items-center justify-center gap-1 w-full text-[11px] font-semibold text-black/65 hover:text-black tracking-tight transition-colors"
                 >
                   Earn like this — join as a merchant
                   <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
-                </Link>
+                </a>
               </div>
 
               {/* ── CTA ── */}
               <div className="px-5 pt-3 pb-4 bg-white text-center">
-                <Link
-                  to="/register"
+                <a
+                  href="https://app.blip.money/waitlist/merchant"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setSettledCelebration(null)}
                   className="group inline-flex items-center justify-center gap-1.5 w-full h-[42px] rounded-full text-[13px] font-semibold tracking-tight transition-all active:scale-[0.98]"
                   style={{
@@ -1010,7 +1014,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 >
                   <span>Join Waitlist</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                </Link>
+                </a>
                 <div className="mt-1.5 text-[10px] text-black/40 tracking-tight">
                   +2,400 on the early list
                 </div>

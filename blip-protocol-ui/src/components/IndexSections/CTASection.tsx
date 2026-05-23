@@ -1,6 +1,5 @@
 import { useRef, useMemo, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { sounds } from "@/lib/sounds";
 
@@ -93,18 +92,37 @@ const CTASection = () => {
         className="relative z-10 max-w-4xl mx-auto px-6 text-center"
         style={{ opacity, scale }}
       >
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-[12px] font-bold uppercase tracking-[0.36em] mb-6"
+          style={{ color: "#cc785c" }}
+        >
+          The next chapter
+        </motion.p>
+
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="heading-h2 text-center"
+          className="font-display text-center"
           style={{
-            marginBottom: 24,
+            fontSize: "clamp(2.6rem, 7vw, 4.4rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.05em",
+            lineHeight: 1.02,
+            marginBottom: 64,
           }}
         >
-          <span className="text-black dark:text-white">
-            The new financial rail is being built.
+          <span className="text-black dark:text-white">The new financial rail is </span>
+          <span
+            className="text-black dark:text-white"
+            style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+          >
+            being built.
           </span>
         </motion.h2>
 
@@ -115,22 +133,22 @@ const CTASection = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
-          {/* Primary — black on light, white on dark (inverts page bg) */}
-          <Link
-            to="/register"
+          <a
+            href="https://app.blip.money/waitlist/user"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => sounds.click()}
-            className="group w-[180px] h-[48px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] dark:bg-white dark:text-black dark:border-white dark:hover:shadow-[0_8px_28px_rgba(255,255,255,0.18)] active:scale-[0.98]"
+            className="group w-[220px] h-[56px] inline-flex items-center justify-center gap-2 px-7 rounded-full text-[17px] font-bold tracking-tight transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_14px_36px_rgba(0,0,0,0.3)] hover:-translate-y-[1px] dark:bg-white dark:text-black dark:border-white dark:hover:shadow-[0_14px_36px_rgba(255,255,255,0.2)] active:scale-[0.98]"
           >
             Join waitlist
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </a>
 
-          {/* Tertiary — same outline treatment */}
           <a
             href="https://app.blip.money/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-[180px] h-[48px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out text-black border border-black/30 hover:border-black/60 hover:bg-black/5 dark:text-white dark:border-white/30 dark:hover:border-white/60 dark:hover:bg-white/10 active:scale-[0.98]"
+            className="w-[220px] h-[56px] inline-flex items-center justify-center px-7 rounded-full text-[17px] font-semibold tracking-tight transition-all duration-300 ease-out text-black border border-black/30 hover:border-black/60 hover:bg-black/5 dark:text-white dark:border-white/30 dark:hover:border-white/60 dark:hover:bg-white/10 active:scale-[0.98]"
           >
             Provide liquidity
           </a>

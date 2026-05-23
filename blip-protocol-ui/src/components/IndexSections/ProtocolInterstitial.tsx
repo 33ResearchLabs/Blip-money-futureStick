@@ -453,28 +453,38 @@ const ProtocolInterstitial = () => {
           transition={{ duration: 0.6, ease: EASE }}
           style={{
             fontSize: 12,
-            fontWeight: 600,
-            letterSpacing: "3px",
+            fontWeight: 700,
+            letterSpacing: "0.32em",
             textTransform: "uppercase",
-            color: isDark ? "#555" : "#999",
-            marginBottom: 32,
+            color: "#cc785c",
+            marginBottom: 28,
           }}
         >
           Introducing
         </motion.p>
 
         <motion.h2
-          className="heading-h2 text-black dark:text-white"
+          className="font-display text-black dark:text-white"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE }}
-          style={{ marginBottom: 48 }}
+          style={{
+            fontSize: "clamp(2.4rem, 6vw, 3.6rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.045em",
+            lineHeight: 1.04,
+            marginBottom: 48,
+          }}
         >
-          The Blip Protocol
+          The{" "}
+          <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}>
+            Blip Protocol
+          </span>
         </motion.h2>
 
-        {/* Protocol CTAs */}
+        {/* Top CTAs — GitHub + Docs only. Read Whitepaper moved into the
+            "Deterministic. Timed. Final." card below. */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -483,13 +493,6 @@ const ProtocolInterstitial = () => {
           className="flex flex-wrap items-center justify-center gap-3"
           style={{ marginBottom: 8 }}
         >
-          <a
-            href="/whitepaper"
-            className="group inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:-translate-y-[1px]"
-          >
-            Read Whitepaper
-            <span aria-hidden>→</span>
-          </a>
           <a
             href="https://github.com/blip-money"
             target="_blank"
@@ -534,9 +537,16 @@ const ProtocolInterstitial = () => {
               <h3 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 8 }}>
                 {FEATURES[0].headline}
               </h3>
-              <p style={{ fontSize: 15, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", maxWidth: 400 }}>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", maxWidth: 400, marginBottom: 20 }}>
                 {FEATURES[0].desc}
               </p>
+              <a
+                href="/whitepaper"
+                className="group inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-bold tracking-tight transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:-translate-y-[1px]"
+              >
+                Read Whitepaper
+                <span aria-hidden>→</span>
+              </a>
             </div>
             <div className="flex-1 min-w-0">
               <SpeedVisual isInView={true} />

@@ -69,12 +69,14 @@ function AnimatedMerchantVisual() {
                 Onboard in 5 minutes
               </div>
             </div>
-            <Link
-              to="/merchant"
+            <a
+              href="https://app.blip.money/waitlist/merchant"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-black text-white text-[12px] font-semibold rounded-full px-4 py-1.5 whitespace-nowrap inline-flex items-center gap-1"
             >
               Start <ArrowRight className="w-3 h-3" />
-            </Link>
+            </a>
           </div>
         </div>
       </motion.div>
@@ -233,13 +235,15 @@ const BecomeMerchantSection = memo(function BecomeMerchantSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <Link
-              to="/merchant"
+            <a
+              href="https://app.blip.money/waitlist/merchant"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
             >
               <span>Start Onboarding</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
+            </a>
             <Link
               to="/merchant"
               className="group inline-flex items-center gap-1.5 h-[44px] px-2 text-white/75 text-[13.5px] font-medium tracking-tight hover:text-white transition-colors"

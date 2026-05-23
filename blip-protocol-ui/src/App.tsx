@@ -74,6 +74,7 @@ const Gdpr = lazy(() => import("./pages/Legel/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
 const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
+const CardPreview = lazy(() => import("./pages/CardPreview"));
 const User = lazy(() => import("./pages/User"));
 const Blog = lazy(() => import("./pages/Resources/Blog"));
 const BlogArticle = lazy(() => import("./pages/Resources/BlogArticle"));
@@ -210,6 +211,7 @@ const App = () => (
                     <Route path="/rates" element={<Rates />} />
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
+                    <Route path="/card-preview" element={<CardPreview />} />
                     <Route path="/user" element={<User />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
@@ -330,7 +332,7 @@ const App = () => (
                     <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
                   </Route>
 
-                  {/* PROTECTED DASHBOARDS */}
+                  {/* PROTECTED DASHBOARD (NO LAYOUT) */}
                   <Route
                     path="/dashboard"
                     element={
@@ -339,6 +341,7 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+
                   <Route
                     path="/merchant-dashboard"
                     element={

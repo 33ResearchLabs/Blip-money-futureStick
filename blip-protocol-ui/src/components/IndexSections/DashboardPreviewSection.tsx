@@ -264,13 +264,15 @@ const DashboardPreviewSection = () => {
           transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
           className="mt-12 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <Link
-            to="/merchant"
+          <a
+            href="https://app.blip.money/waitlist/merchant"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-6 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985] shadow-[0_8px_28px_-10px_rgba(255,255,255,0.25)]"
           >
             Become a merchant
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
+          </a>
           <span className="text-[12px] text-white/45">
             Or{" "}
             <Link

@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, X, Search, RefreshCw, Sparkles, ChevronDown, TrendingDown } from "lucide-react";
-import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { CTAButton } from "@/components/Navbar";
 
@@ -603,13 +602,15 @@ const RateFinder = () => {
                     </div>
                   </div>
                 </div>
-                <Link
-                  to="/register"
+                <a
+                  href="https://app.blip.money/waitlist/user"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0 w-full sm:w-auto"
                 >
                   Lock this rate
                   <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                </a>
               </div>
             </motion.div>
           )}
@@ -662,22 +663,26 @@ const RateFinder = () => {
                     {formatRate(blipTotal, currency.digits, currency.symbol)}
                   </div>
                 </div>
-                <Link
-                  to="/register"
+                <a
+                  href="https://app.blip.money/waitlist/user"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[12px] font-semibold hover:opacity-90 transition-opacity sm:ml-2"
                 >
                   Get rate
                   <ArrowRight className="w-3 h-3" />
-                </Link>
+                </a>
               </div>
               {/* Mobile-only Get rate button — full width below the rates */}
-              <Link
-                to="/register"
+              <a
+                href="https://app.blip.money/waitlist/user"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="sm:hidden inline-flex items-center justify-center gap-1 mt-1 w-full px-3 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black text-[13px] font-semibold"
               >
                 Get this rate
                 <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              </a>
             </div>
           </motion.div>
 
@@ -946,7 +951,7 @@ const ComparisonSection = () => {
               One protocol. Every venue beat on the row that matters: the rate
               you actually pay.
             </p>
-            <CTAButton to="/register">Join Waitlist</CTAButton>
+            <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
           </div>
       </motion.div>
     </section>

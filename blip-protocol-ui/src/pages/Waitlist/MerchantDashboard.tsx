@@ -1791,7 +1791,7 @@ export default function MerchantDashboard() {
               <button
                 onClick={() =>
                   window.open(
-                    "https://www.blip.money/merchant-waitlist",
+                    "https://app.blip.money/waitlist/merchant",
                     "_blank",
                   )
                 }

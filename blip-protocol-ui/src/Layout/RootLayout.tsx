@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { NotificationBannerProvider } from "@/components/NotificationPopup";
 import ScrollToBottomButton from "@/components/ScrollToBottomButton";
 import { ScrollProgressBar } from "@/components/GlobalPolish";
-import { Link, useLocation as useLoc } from "react-router-dom";
+import { useLocation as useLoc } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 /* Sticky mobile-only Join Waitlist CTA. Pinned to the bottom of the viewport,
@@ -29,8 +29,10 @@ const StickyJoinWaitlist = () => {
           "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0) 100%)",
       }}
     >
-      <Link
-        to="/waitlist"
+      <a
+        href="https://app.blip.money/waitlist/user"
+        target="_blank"
+        rel="noopener noreferrer"
         className="pointer-events-auto group inline-flex w-full items-center justify-center gap-2 h-14 rounded-full text-[17px] font-bold tracking-tight transition-transform active:scale-[0.98]"
         style={{
           background: "#cc785c",
@@ -40,7 +42,7 @@ const StickyJoinWaitlist = () => {
       >
         <span>Join Waitlist</span>
         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-      </Link>
+      </a>
     </div>
   );
 };

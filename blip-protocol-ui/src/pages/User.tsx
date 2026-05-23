@@ -529,89 +529,345 @@ const UserHowItWorks = () => {
   );
 };
 
+/* ─── Realistic iPhone 15 Pro frame around the screenshot ─── */
+const IPhoneFrame = ({ src }: { src: string }) => (
+  <div
+    className="relative mx-auto"
+    style={{
+      aspectRatio: "9/19.5",
+      width: "100%",
+      padding: "10px",
+      background: "linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)",
+      borderRadius: 54,
+      border: "1px solid rgba(255,255,255,0.06)",
+      boxShadow:
+        "0 0 0 1px rgba(255,255,255,0.04) inset, 0 80px 180px -40px rgba(0,0,0,0.7), 0 30px 80px -20px rgba(0,0,0,0.6)",
+    }}
+  >
+    {/* Side buttons */}
+    <span aria-hidden className="absolute -left-[2px] top-[18%] h-9 w-[3px] rounded-r bg-[#222]" />
+    <span aria-hidden className="absolute -left-[2px] top-[28%] h-14 w-[3px] rounded-r bg-[#222]" />
+    <span aria-hidden className="absolute -left-[2px] top-[42%] h-14 w-[3px] rounded-r bg-[#222]" />
+    <span aria-hidden className="absolute -right-[2px] top-[32%] h-20 w-[3px] rounded-l bg-[#222]" />
+
+    {/* Inner screen */}
+    <div
+      className="relative w-full h-full overflow-hidden bg-black"
+      style={{ borderRadius: 44 }}
+    >
+      <img
+        src={src}
+        alt="Blip app — unlocked wallet"
+        className="absolute inset-0 w-full h-full object-cover object-top"
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = "/home.svg";
+        }}
+      />
+      {/* Dynamic Island */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 -translate-x-1/2"
+        style={{
+          top: 10,
+          width: 96,
+          height: 28,
+          borderRadius: 999,
+          background: "#000",
+          boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
+          zIndex: 2,
+        }}
+      />
+    </div>
+  </div>
+);
+
+/* ─── Tooltip callout — rounded pill with icon + connector line to the phone ─── */
+const Tooltip = ({
+  line,
+  accent,
+  Icon,
+  side,
+  delay,
+}: {
+  line: string;
+  accent: string;
+  Icon: React.ElementType;
+  side: "left" | "right" | "mobile";
+  delay: number;
+}) => {
+  const isMobile = side === "mobile";
+  const isLeft = side === "left";
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: isLeft ? -20 : isMobile ? 0 : 20, y: isMobile ? 12 : 8, scale: 0.94 }}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-12%" }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
+      whileHover={{ y: -3, scale: 1.02 }}
+      className={`relative ${isMobile ? "" : isLeft ? "pr-5" : "pl-5"}`}
+    >
+      {/* Scroll-triggered glow halo behind the pill */}
+      <motion.span
+        aria-hidden
+        initial={{ opacity: 0, scale: 0.85 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: false, margin: "-10%" }}
+        transition={{ duration: 1.2, delay, ease: EASE }}
+        className="absolute inset-0 -m-6 rounded-[28px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 70% at 50% 50%, rgba(204,120,92,0.28), transparent 70%)",
+          filter: "blur(20px)",
+        }}
+      />
+      <motion.div
+        animate={{ y: [0, -3, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: delay * 2 }}
+        className="relative rounded-2xl px-4 py-3 max-w-[280px] flex items-start gap-3"
+        style={{
+          background: "#ffffff",
+          border: "1px solid rgba(0,0,0,0.06)",
+          boxShadow:
+            "0 24px 48px -22px rgba(0,0,0,0.45), 0 8px 18px -8px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.04) inset",
+        }}
+      >
+        {/* Subtle inner gloss */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.9) 50%, transparent)",
+          }}
+        />
+        <span
+          className="flex items-center justify-center rounded-lg flex-shrink-0"
+          style={{
+            width: 32,
+            height: 32,
+            background: "#0a0a0a",
+            color: "#ffffff",
+          }}
+        >
+          <Icon className="w-4 h-4" strokeWidth={2.2} />
+        </span>
+        <p
+          className="font-display text-black"
+          style={{
+            fontSize: "clamp(1.05rem, 1.6vw, 1.25rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.022em",
+            lineHeight: 1.25,
+          }}
+        >
+          {line}{" "}
+          <span
+            style={{
+              fontStyle: "italic",
+              fontFamily: "ui-serif, Georgia, serif",
+              fontWeight: 500,
+              color: "#cc785c",
+            }}
+          >
+            {accent}
+          </span>
+        </p>
+        {/* Bubble tail */}
+        {!isMobile && (
+          <>
+            <span
+              aria-hidden
+              className={`absolute top-1/2 -translate-y-1/2 ${isLeft ? "-right-[5px]" : "-left-[5px]"} w-2.5 h-2.5 rotate-45`}
+              style={{
+                background: "#ffffff",
+                borderRight: isLeft ? "1px solid rgba(0,0,0,0.06)" : undefined,
+                borderTop: isLeft ? undefined : "1px solid rgba(0,0,0,0.06)",
+                borderLeft: isLeft ? undefined : "1px solid rgba(0,0,0,0.06)",
+                borderBottom: isLeft ? "1px solid rgba(0,0,0,0.06)" : undefined,
+              }}
+            />
+            {/* Animated connector line */}
+            <motion.span
+              aria-hidden
+              className={`absolute top-1/2 ${isLeft ? "left-full ml-2" : "right-full mr-2"} h-[2px] rounded-full`}
+              style={{
+                width: 56,
+                background:
+                  "linear-gradient(90deg, rgba(204,120,92,0.85) 0%, rgba(204,120,92,0.15) 100%)",
+                transform: isLeft ? "translateY(-50%)" : "translateY(-50%) scaleX(-1)",
+              }}
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay }}
+            />
+            {/* Travelling dot along the connector */}
+            <motion.span
+              aria-hidden
+              className={`absolute top-1/2 ${isLeft ? "left-full ml-2" : "right-full mr-2"} w-1.5 h-1.5 rounded-full`}
+              style={{
+                background: "#cc785c",
+                boxShadow: "0 0 8px rgba(204,120,92,0.8)",
+                transform: "translateY(-50%)",
+              }}
+              animate={{ x: isLeft ? [0, 48, 0] : [0, -48, 0], opacity: [0, 1, 0] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay }}
+            />
+          </>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+};
+
 /* ============================================
-   4. APP PREVIEW — big image card with stats
+   4. APP PREVIEW — grand scroll-revealed copy + phone image
    ============================================ */
 const AppPreviewSection = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const lines: { text: string; accent: string; Icon: React.ElementType }[] = [
+    { text: "Settle in under", accent: "a minute.", Icon: Zap },
+    { text: "Best rates,", accent: "guaranteed.", Icon: BadgeCheck },
+    { text: "Your keys.", accent: "Your money.", Icon: Lock },
+    { text: "Every order,", accent: "live.", Icon: Activity },
+  ];
+
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-white dark:bg-[#0a0a0a]">
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <div className="text-center mb-14">
+    <section
+      ref={ref}
+      className="relative py-20 md:py-32 overflow-hidden bg-black text-white"
+    >
+      {/* Apple-style ambient backdrop: ultra-subtle grid + soft spotlight */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          maskImage:
+            "radial-gradient(ellipse 65% 55% at 50% 45%, black 30%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 65% 55% at 50% 45%, black 30%, transparent 80%)",
+        }}
+      />
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 1.6, ease: EASE }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[820px] h-[520px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 50% 50%, rgba(204,120,92,0.18), transparent 70%)",
+          filter: "blur(60px)",
+        }}
+      />
+      <div className="relative z-10 max-w-[1180px] mx-auto px-5 sm:px-6 md:px-10">
+        {/* Grand header */}
+        <div className="text-center mb-16 md:mb-20 max-w-[820px] mx-auto">
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
+            transition={{ duration: 0.7 }}
+            className="text-[12px] font-bold uppercase tracking-[0.36em] mb-6"
+            style={{ color: "#cc785c" }}
           >
             The app
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+            transition={{ duration: 1, delay: 0.1, ease: EASE }}
+            className="font-display text-white"
+            style={{
+              fontSize: "clamp(2.4rem, 6vw, 3.6rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.045em",
+              lineHeight: 1.02,
+            }}
           >
             One app.{" "}
-            <span className="text-black/60 dark:text-white/40">
+            <span
+              style={{
+                fontStyle: "italic",
+                fontFamily: "ui-serif, Georgia, serif",
+                fontWeight: 500,
+              }}
+              className="text-white/65"
+            >
               Everything you need.
             </span>
           </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
-          >
-            Swap, settle, and track — all in a simple, fast interface.
-          </motion.p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.2, ease: EASE }}
-          className="relative rounded-3xl overflow-hidden border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-[#FAF8F5] to-white dark:from-[#111] dark:to-[#050505]"
-        >
-          {/* Image — fully visible, no overlay covering it */}
-          <div className="px-6 pt-10 sm:px-12 sm:pt-14">
-            <img
-              src="/home.svg"
-              alt="Blip app preview — USDT to AED in under 60 seconds"
-              className="w-full h-auto max-h-[620px] object-contain mx-auto"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/home.webp";
-              }}
-            />
-          </div>
-          {/* Stats — sit below the image, not overlaid */}
-          <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-2 px-6 sm:px-12 py-8 md:py-10">
-            <div className="grid grid-cols-3 gap-4 sm:gap-6 max-w-xl mx-auto">
-              {[
-                { val: "<60s", lbl: "avg settlement" },
-                { val: "0%", lbl: "protocol fees · for now" },
-                { val: "24/7", lbl: "always on" },
-              ].map((s, i) => (
-                <motion.div
-                  key={s.lbl}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
-                  className="text-center md:text-left"
-                >
-                  <div className="font-display text-2xl md:text-3xl font-semibold text-black dark:text-white tracking-tight tabular-nums">
-                    {s.val}
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-black/55 dark:text-white/50 mt-1.5">
-                    {s.lbl}
-                  </div>
-                </motion.div>
+        {/* Centered iPhone with tooltip callouts pointing to it */}
+        <div className="relative">
+          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_minmax(300px,360px)_1fr] gap-8 lg:gap-12 items-center">
+            {/* LEFT column — top-left + bottom-left tooltips */}
+            <div className="hidden lg:flex flex-col gap-20 justify-center items-end">
+              {[lines[0], lines[2]].map((line, i) => (
+                <Tooltip key={`l-${i}`} line={line.text} accent={line.accent} Icon={line.Icon} side="left" delay={0.25 + i * 0.18} />
+              ))}
+            </div>
+
+            {/* CENTER — iPhone frame */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 24 }}
+              animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+              transition={{ duration: 1.1, delay: 0.1, ease: EASE }}
+              className="relative w-[78%] sm:w-full max-w-[280px] sm:max-w-[340px] mx-auto"
+            >
+              <IPhoneFrame src="/illustrations/app-unlocked-wallet.png" />
+            </motion.div>
+
+            {/* RIGHT column — top-right + bottom-right tooltips */}
+            <div className="hidden lg:flex flex-col gap-20 justify-center items-start">
+              {[lines[1], lines[3]].map((line, i) => (
+                <Tooltip key={`r-${i}`} line={line.text} accent={line.accent} Icon={line.Icon} side="right" delay={0.35 + i * 0.18} />
+              ))}
+            </div>
+
+            {/* MOBILE — stacked tooltips under the phone */}
+            <div className="lg:hidden flex flex-col gap-3 max-w-[480px] mx-auto mt-4">
+              {lines.map((line, i) => (
+                <Tooltip key={`m-${i}`} line={line.text} accent={line.accent} Icon={line.Icon} side="mobile" delay={i * 0.1} />
               ))}
             </div>
           </div>
-        </motion.div>
+
+          {/* Stats row — centered under the whole composition */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-15%" }}
+            transition={{ duration: 0.8, delay: 0.6, ease: EASE }}
+            className="mt-16 md:mt-20 pt-8 border-t border-white/[0.08] grid grid-cols-3 gap-4 sm:gap-6 max-w-[640px] mx-auto text-center"
+          >
+            {[
+              { val: "<60s", lbl: "avg settlement" },
+              { val: "0%", lbl: "protocol fees" },
+              { val: "24/7", lbl: "always on" },
+            ].map((s) => (
+              <div key={s.lbl}>
+                <div
+                  className="font-display text-white tabular-nums"
+                  style={{
+                    fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+                    fontWeight: 600,
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  {s.val}
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.22em] text-white/45 mt-1.5">
+                  {s.lbl}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -784,10 +1040,7 @@ const User = () => {
 
       <UserHero />
       <BestRatesBlackSection />
-      {/* Replaced "Crypto out, cash in" with the two redesign sections */}
       <SendGloballySection />
-      <BestRatesSection />
-      <UserHowItWorks />
       <AppPreviewSection />
       <UserTrustSection />
       <UserCTA />
