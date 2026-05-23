@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { compression } from "vite-plugin-compression2";
+import blipDashboardPlugin from "./vite-plugin-blip-dashboard.mjs";
 
 export default defineConfig(({ mode }) => ({
   server: {
@@ -19,6 +20,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === "development" && componentTagger(),
+    mode === "development" && blipDashboardPlugin(),
     // Gzip + Brotli compression for production builds
     mode === "production" && compression({ algorithms: ["gzip", "brotliCompress"], threshold: 1024 }),
   ].filter(Boolean),

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
 import { MerchantHeroDashbaord } from "../MerchantHeroDashboard";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -89,15 +90,15 @@ export const CinematicHeroOfMerchant = () => {
             className="inline-flex items-center gap-3 mb-6"
           >
             <span className="w-5 h-px bg-white/25" />
-            <span
+            <EditableText
+              id="merchant.hero.eyebrow"
+              default="Merchant-First Protocol"
               className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap"
               style={{
                 color: "#ff7a3d",
                 textShadow: "0 0 18px rgba(255,122,61,0.45)",
               }}
-            >
-              Merchant-First Protocol
-            </span>
+            />
             <span className="w-5 h-px bg-white/25" />
           </motion.div>
 
@@ -115,8 +116,8 @@ export const CinematicHeroOfMerchant = () => {
               textShadow: "0 2px 24px rgba(0,0,0,0.45)",
             }}
           >
-            <span>You set the margin. </span>
-            <span className="text-white/75">You win the order.</span>
+            <EditableText id="merchant.hero.title.pre" default="You set the margin. " />
+            <EditableText id="merchant.hero.title.accent" default="You win the order." as="span" className="text-white/75" />
           </motion.h1>
 
           <motion.p
@@ -125,9 +126,11 @@ export const CinematicHeroOfMerchant = () => {
             transition={{ duration: 1, ease: EASE, delay: 0.22 }}
             className="text-white/65 max-w-[560px] mx-auto leading-[1.5] text-[15px] md:text-[16px] mb-9 tracking-tight"
           >
-            Orders route to you through{" "}
-            <span style={{ color: "#cc785c" }}>Blip Market</span> — paid on-chain,
-            no banks, no chargebacks. Earn on every settlement.
+            <EditableText
+              id="merchant.hero.sub"
+              default="Orders route to you through Blip Market — paid on-chain, no banks, no chargebacks. Earn on every settlement."
+              multiline
+            />
           </motion.p>
 
           <motion.div

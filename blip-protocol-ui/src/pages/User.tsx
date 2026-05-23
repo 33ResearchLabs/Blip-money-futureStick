@@ -20,6 +20,8 @@ import { SEO, StructuredData } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+import { EditableText, EditableImage } from "@/components/dashboard/Editable";
+import { useOverride } from "@/hooks/useOverride";
 import SendGloballySection from "@/components/IndexSections/SendGloballySection";
 import BestRatesSection from "@/components/IndexSections/BestRatesSection";
 
@@ -181,10 +183,8 @@ const UserHero = () => {
             letterSpacing: "-0.055em",
           }}
         >
-          Send crypto.{" "}
-          <span style={{ fontStyle: "italic", fontWeight: 600 }} className="lg:font-medium">
-            Get fiat instantly.
-          </span>
+          <EditableText id="user.hero.title.line1" default="Send crypto." />{" "}
+          <EditableText id="user.hero.title.line2" default="Get fiat instantly." as="span" style={{ fontStyle: "italic", fontWeight: 600 }} className="lg:font-medium" />
         </motion.h1>
 
         <motion.p
@@ -193,8 +193,7 @@ const UserHero = () => {
           transition={{ duration: 1, ease: EASE, delay: 0.18 }}
           className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto lg:mx-0 mb-7"
         >
-          Convert USDT, USDC, or SOL to AED, INR, and more — settled
-          on-chain, landed in your bank.
+          <EditableText id="user.hero.sub" default="Convert USDT, USDC, or SOL to AED, INR, and more — settled on-chain, landed in your bank." multiline />
         </motion.p>
 
         {/* Live settlement-request card — split into 2 stacked cards on mobile, single card on desktop */}
@@ -537,6 +536,20 @@ const UserHowItWorks = () => {
 };
 
 /* ─── Realistic iPhone 15 Pro frame around the screenshot ─── */
+function PhoneScreenImage({ defaultSrc }: { defaultSrc: string }) {
+  const [src] = useOverride<string>("image:user.app.screenshot", defaultSrc);
+  return (
+    <img
+      src={src}
+      alt="Blip app — unlocked wallet"
+      className="absolute inset-0 w-full h-full object-cover object-top"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = "/home.svg";
+      }}
+    />
+  );
+}
+
 const IPhoneFrame = ({ src }: { src: string }) => (
   <div
     className="relative mx-auto"
@@ -562,14 +575,8 @@ const IPhoneFrame = ({ src }: { src: string }) => (
       className="relative w-full h-full overflow-hidden bg-black"
       style={{ borderRadius: 44 }}
     >
-      <img
-        src={src}
-        alt="Blip app — unlocked wallet"
-        className="absolute inset-0 w-full h-full object-cover object-top"
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = "/home.svg";
-        }}
-      />
+      <PhoneScreenImage defaultSrc={src} />
+
       {/* Dynamic Island */}
       <div
         aria-hidden
@@ -795,17 +802,14 @@ const AppPreviewSection = () => {
               lineHeight: 1.02,
             }}
           >
-            One app.{" "}
-            <span
-              style={{
-                fontStyle: "italic",
-                fontFamily: "ui-serif, Georgia, serif",
-                fontWeight: 500,
-              }}
+            <EditableText id="user.app.title.pre" default="One app. " />
+            <EditableText
+              id="user.app.title.accent"
+              default="Everything you need."
+              as="span"
+              style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
               className="text-white/65"
-            >
-              Everything you need.
-            </span>
+            />
           </motion.h2>
         </div>
 
@@ -1013,11 +1017,11 @@ const UserCTA = () => {
         className="relative z-10 max-w-3xl mx-auto px-6 text-center"
       >
         <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.05] mb-6">
-          Ready to try{" "}
-          <span className="text-black/60 dark:text-white/40">Blip?</span>
+          <EditableText id="user.cta.title.pre" default="Ready to try " />
+          <EditableText id="user.cta.title.accent" default="Blip?" as="span" className="text-black/60 dark:text-white/40" />
         </h2>
         <p className="text-lg text-black/60 dark:text-white/50 mb-10 max-w-xl mx-auto">
-          Join the waitlist. Early users get priority access and bonus rewards.
+          <EditableText id="user.cta.sub" default="Join the waitlist. Early users get priority access and bonus rewards." multiline />
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>

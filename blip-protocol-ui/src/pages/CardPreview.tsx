@@ -7,6 +7,7 @@ import {
   MERCHANT_CARDS_VARIANTS,
   type MerchantCardsVariant,
 } from "@/hooks/useMerchantCardsVariant";
+import { Dashboard } from "@/components/dashboard/Dashboard";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -73,6 +74,8 @@ export default function CardPreview() {
         >
           5 cards — claude_web_theme.md
         </h1>
+
+        <Dashboard />
 
         <HomepageVariantPicker />
 

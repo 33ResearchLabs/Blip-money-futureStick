@@ -14,6 +14,7 @@ import {
   CardHeroGrid,
 } from "@/pages/CardPreview";
 import { useMerchantCardsVariant } from "@/hooks/useMerchantCardsVariant";
+import { EditableText } from "@/components/dashboard/Editable";
 import {
   ArrowRight,
   Loader2,
@@ -2256,9 +2257,7 @@ const CinematicHero = () => {
           transition={{ duration: 1, ease: EASE }}
           className="relative max-w-[1180px] mx-auto px-4 md:px-10 py-20 md:py-28 flex flex-col items-center text-center w-full"
         >
-          <div className="text-[11.5px] font-bold tracking-[0.36em] uppercase mb-5" style={{ color: "#cc785c" }}>
-            Powered by Merchants
-          </div>
+          <EditableText id="home.merchant.eyebrow" default="Powered by Merchants" as="div" className="text-[11.5px] font-bold tracking-[0.36em] uppercase mb-5" style={{ color: "#cc785c" }} />
 
           <h2
             className="font-display text-black mx-auto"
@@ -2271,14 +2270,17 @@ const CinematicHero = () => {
               maxWidth: "720px",
             }}
           >
-            <span className="text-black">Merchants provide liquidity. </span>
-            <span className="text-black">Earn on every order.</span>
+            <EditableText id="home.merchant.title.pre" default="Merchants provide liquidity. " className="text-black" />
+            <EditableText id="home.merchant.title.accent" default="Earn on every order." className="text-black" />
           </h2>
 
-          <p className="text-black/55 max-w-[480px] mx-auto leading-[1.55] text-[13px] md:text-[14.5px] mb-10 tracking-tight">
-            Verified merchants bid live, set their own spread, and capture
-            profit on every settlement — paid out instantly, on-chain.
-          </p>
+          <EditableText
+            id="home.merchant.sub"
+            default="Verified merchants bid live, set their own spread, and capture profit on every settlement — paid out instantly, on-chain."
+            as="p"
+            multiline
+            className="text-black/55 max-w-[480px] mx-auto leading-[1.55] text-[13px] md:text-[14.5px] mb-10 tracking-tight block"
+          />
 
           {/* ── 4-card merchant set. Switch live from /card-preview via the variant picker. ── */}
           <LiveMerchantCards />
