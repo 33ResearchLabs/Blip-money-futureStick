@@ -214,8 +214,6 @@ const App = () => (
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/card-preview" element={<CardPreview />} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="/card-creator" element={<CardCreator />} />
                     <Route path="/user" element={<User />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
@@ -368,6 +366,10 @@ const App = () => (
                   <Route path="/redeem" element={<RedeemTelegram />} />
 
                   {/* 404 */}
+                  {/* NO-LAYOUT ROUTES (admin tools — no global navbar/footer) */}
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/card-creator" element={<CardCreator />} />
+
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
