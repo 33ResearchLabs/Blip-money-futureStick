@@ -140,7 +140,7 @@ const UserHero = () => {
 
   return (
     <section className="relative min-h-[92vh] overflow-hidden flex flex-col items-stretch bg-white text-black">
-      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,460px)] gap-10 lg:gap-16 items-center min-h-[80vh] md:min-h-[58vh]">
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,460px)] gap-10 lg:gap-14 items-center min-h-[80vh] lg:min-h-[70vh]">
       <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
         {/* Eyebrow chip — live USDT/INR rate */}
         <motion.div
@@ -169,22 +169,20 @@ const UserHero = () => {
           <span className="w-5 h-px bg-black/15" />
         </motion.div>
 
-        {/* Big headline — matches landing hero scale */}
+        {/* Headline — big landing-hero scale on mobile, calmer on desktop */}
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
-          className="font-display text-black w-full max-w-none sm:max-w-[760px] px-1"
+          className="font-display text-black w-full max-w-none lg:max-w-[560px] px-1 lg:px-0 text-[clamp(3.2rem,11vw,3.9rem)] lg:text-[clamp(1.7rem,3.6vw,2.6rem)] mb-4 lg:mb-5"
           style={{
-            fontSize: "clamp(3.2rem, 11vw, 3.9rem)",
             fontWeight: 700,
             lineHeight: 0.98,
-            letterSpacing: "-0.06em",
-            marginBottom: 18,
+            letterSpacing: "-0.055em",
           }}
         >
           Send crypto.{" "}
-          <span style={{ fontStyle: "italic", fontWeight: 600 }}>
+          <span style={{ fontStyle: "italic", fontWeight: 600 }} className="lg:font-medium">
             Get fiat instantly.
           </span>
         </motion.h1>
@@ -193,7 +191,7 @@ const UserHero = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.18 }}
-          className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto mb-7"
+          className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto lg:mx-0 mb-7"
         >
           Convert USDT, USDC, or SOL to AED, INR, and more — settled
           on-chain, landed in your bank.
@@ -259,25 +257,25 @@ const UserHero = () => {
           </div>
         </motion.div>
 
-        {/* CTAs — same treatment as landing hero */}
+        {/* CTAs — full-width bold on mobile, calmer inline on desktop */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2 w-full"
+          className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-2 mt-2 w-full"
         >
           <a
             href="https://app.blip.money/waitlist/user"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-7 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)]"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <Link
             to="/how-it-works"
-            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-6 rounded-full text-[17px] sm:text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-6 lg:px-5 rounded-full text-[17px] sm:text-[14.5px] lg:text-[13.5px] font-bold lg:font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
             style={{
               background: "rgba(204,120,92,0.10)",
               color: "#cc785c",
