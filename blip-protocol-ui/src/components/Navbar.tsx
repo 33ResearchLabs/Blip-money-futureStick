@@ -247,7 +247,7 @@ const NavItem = ({
       to={to}
       onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-3 py-2 text-[13.5px] font-medium tracking-tight transition-colors duration-200"
+      className="relative px-3 py-2 text-[17px] font-semibold tracking-tight transition-colors duration-200"
     >
       <span
         className={
@@ -440,7 +440,7 @@ const MobileMenu = memo(({
               key={item.to}
               href={item.to}
               onClick={(e) => handleNavClick(e, item.to)}
-              className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-[#18181B] transition-colors"
+              className="flex items-center justify-between py-3 px-3 rounded-lg text-[19px] font-semibold text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-[#18181B] transition-colors"
             >
               {item.label}
               <ChevronRight className="w-4 h-4 " />
