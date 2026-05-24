@@ -86,8 +86,15 @@ export function CardGeneratorPanel({ onGenerated }: { onGenerated?: () => void }
     } finally { setBusy(false); }
   };
 
+  const isDev = import.meta.env.DEV;
+
   return (
     <div className="space-y-3">
+      {!isDev && (
+        <div className="rounded-md border border-[#ff7a3d]/30 bg-[#ff7a3d]/[0.08] px-3 py-2 text-[11px] text-white/85">
+          <span className="font-bold">Dev-only.</span> Card generation runs through the local Vite dev server. To create new cards, pull this repo, run <code className="text-white">npm run dev</code> in <code className="text-white">blip-protocol-ui/</code>, open <code className="text-white">localhost:8082/admin</code>, generate, then commit the new PNG and push.
+        </div>
+      )}
       <div>
         <label className="text-[10.5px] font-semibold text-white/65 block mb-1">Card type</label>
         <div className="flex flex-wrap gap-1.5 mb-2">
