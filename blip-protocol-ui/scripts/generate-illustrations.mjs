@@ -119,6 +119,16 @@ const SCENES = [
     file: "waitlist-hero.png",
     prompt: `A premium editorial portrait of a single friendly confident person centered in the frame, 3/4 body, looking slightly off-camera at golden hour. They hold a glowing phone close to their chest; a soft warm arc of light lifts from the phone into the air above their shoulder, where a single luminous circular token gently hovers (no readable text). Warm cream backdrop with a soft Claude-orange wash, soft cinematic rim-light on hair and jaw. One small ambient sparkle. Visible friendly face with eyes and a soft smile, calm hopeful expression. Generous breathing room. No banks, no logos, no readable text. Painterly editorial flat illustration, premium and uncrowded.`,
   },
+  // Custom portrait for /join-waitlist (88px circle on the left column)
+  {
+    file: "join-waitlist-avatar.png",
+    prompt: `A close-up 1:1 square portrait of a single friendly confident character, head and shoulders centered, looking slightly off-camera with a soft warm smile and quiet anticipation. Soft cinematic golden-hour light from the upper-left rim-lighting their hair and jaw. A single small luminous circular token (no readable text) floats gently near their shoulder. Cream and warm Claude-orange palette with a soft ink silhouette, painterly editorial flat illustration in the Uber / Apple / Stripe landing-art lineage. Generous breathing room around the head, ~15% margin all sides so the face stays clear when cropped to a circle avatar. No banks, no logos, no readable text, no neon.`,
+  },
+  // App-icon-style tile for /join-waitlist — premium mini-card, single focal
+  {
+    file: "join-waitlist-icon.png",
+    prompt: `A premium 1:1 painted mini-card illustration that reads as an iOS app icon. The whole frame is a rounded-square (squircle) tile painted in a soft warm cream gradient (top-left lighter, bottom-right warmer toward Claude orange #cc785c) with subtle painterly brushwork — calm, expensive, restrained. One bold focal element only, centered with generous negative space around it: a single elegant golden coin in 3/4 perspective, leaning slightly forward, with a small ink "$" mark on its face, painted in a warm-amber tone with a soft cinematic rim-light from the upper-left. Two or three tiny sparkles dance around the coin (small star-burst glyphs, no readable text). Soft inner highlight along the very top edge of the tile, very soft drop shadow underneath. ~12% breathing room from the focal element to the tile edges. Painterly editorial flat illustration in the Uber / Apple / Stripe landing-art lineage, no readable text, no logos, no photoreal textures, no neon, no glow, no labels, no chips, no UI elements.`,
+  },
   {
     file: "app-unlocked-wallet.png",
     prompt: `A clean editorial scene of an open wallet floating mid-frame on a soft cream surface, a single Claude-orange coin descending into it with a faint arc, a tiny padlock unlocked beside the wallet. Warm light from above, restrained palette, no readable text, generous breathing room.`,

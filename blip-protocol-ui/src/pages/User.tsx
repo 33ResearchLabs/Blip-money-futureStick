@@ -836,7 +836,7 @@ const AppPreviewSection = () => {
               transition={{ duration: 1.1, delay: 0.1, ease: EASE }}
               className="relative w-[78%] sm:w-full max-w-[280px] sm:max-w-[340px] mx-auto"
             >
-              <IPhoneFrame src="/illustrations/app-unlocked-wallet.png" />
+              <IPhoneFrame src="/screenshots/app-screen-3.png" />
             </motion.div>
 
             {/* RIGHT column — top-right + bottom-right tooltips */}

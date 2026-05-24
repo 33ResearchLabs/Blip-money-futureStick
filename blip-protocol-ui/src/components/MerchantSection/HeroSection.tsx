@@ -117,7 +117,13 @@ export const CinematicHeroOfMerchant = () => {
             }}
           >
             <EditableText id="merchant.hero.title.pre" default="You set the margin. " />
-            <EditableText id="merchant.hero.title.accent" default="You win the order." as="span" className="text-white/75" />
+            <EditableText
+              id="merchant.hero.title.accent"
+              default="You win the order."
+              as="span"
+              className="text-white/85"
+              style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+            />
           </motion.h1>
 
           <motion.p

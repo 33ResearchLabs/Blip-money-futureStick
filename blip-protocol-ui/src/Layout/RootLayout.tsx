@@ -7,7 +7,6 @@ import { Footer } from "@/components/Footer";
 import { NotificationBannerProvider } from "@/components/NotificationPopup";
 import ScrollToBottomButton from "@/components/ScrollToBottomButton";
 import { ScrollProgressBar } from "@/components/GlobalPolish";
-import { RatesTicker } from "@/components/RatesTicker";
 import { Link, useLocation as useLoc } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -71,7 +70,6 @@ const MainLayout = () => {
     <NotificationBannerProvider>
       <RouteThemeSync />
       <ScrollProgressBar />
-      <RatesTicker />
       <Navbar />
       <HashRedirectScroll />
       <Outlet />

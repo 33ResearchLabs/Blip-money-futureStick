@@ -2293,7 +2293,43 @@ const CinematicHero = () => {
           />
 
           {/* ── 4-card merchant set. Switch live from /card-preview via the variant picker. ── */}
-          <LiveMerchantCards />
+          <div className="merchant-cards-hover-zoom">
+            <style>{`
+              .merchant-cards-hover-zoom > div { overflow: visible !important; }
+              .merchant-cards-hover-zoom .grid > *,
+              .merchant-cards-hover-zoom [class*="grid-cols-"] > * {
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                            box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                transform-origin: center center;
+                will-change: transform;
+              }
+              .merchant-cards-hover-zoom .grid > *:hover,
+              .merchant-cards-hover-zoom [class*="grid-cols-"] > *:hover {
+                transform: scale(1.08) translateY(-10px) !important;
+                z-index: 20;
+                box-shadow:
+                  0 1px 0 rgba(255,255,255,0.7) inset,
+                  0 50px 110px -30px rgba(0,0,0,0.55),
+                  0 24px 50px -20px rgba(204,120,92,0.28) !important;
+              }
+              /* Fee card: animated strike-through + WAIVED chip on hover */
+              .merchant-cards-hover-zoom .grid > *:hover [data-fee-strike],
+              .merchant-cards-hover-zoom [class*="grid-cols-"] > *:hover [data-fee-strike] {
+                transform: scaleX(1) !important;
+              }
+              .merchant-cards-hover-zoom .grid > *:hover [data-fee-waived],
+              .merchant-cards-hover-zoom [class*="grid-cols-"] > *:hover [data-fee-waived] {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+              }
+              .merchant-cards-hover-zoom .grid > *:hover [data-fee-amount],
+              .merchant-cards-hover-zoom [class*="grid-cols-"] > *:hover [data-fee-amount] {
+                color: rgba(255,255,255,0.32) !important;
+                transition: color 0.35s ease;
+              }
+            `}</style>
+            <LiveMerchantCards />
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10 md:mt-14 mb-5">
             <Link

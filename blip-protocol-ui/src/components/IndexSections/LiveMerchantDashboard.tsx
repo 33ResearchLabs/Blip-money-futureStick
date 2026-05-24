@@ -163,7 +163,7 @@ function makeOrder(): Order {
 }
 
 function seedPending(): Order[] {
-  return Array.from({ length: 3 }, makeOrder);
+  return Array.from({ length: 7 }, makeOrder);
 }
 
 function seedActive(): ActiveTrade[] {
@@ -1131,7 +1131,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           are fixed and narrow. On lg+ the grid is height-locked + overflow-
           hidden so streaming pending orders don't push the dashboard taller —
           inner panels clip via their own flex-1 overflow rules. */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 lg:h-[600px] lg:overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-5 lg:h-[720px] lg:overflow-hidden">
         {/* ===== Col 1: Wallet sidebar ===== */}
         <div className="border-r border-white/[0.05] flex flex-col min-h-0">
           <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.04] text-[9px] font-mono">

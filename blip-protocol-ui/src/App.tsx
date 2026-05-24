@@ -30,6 +30,7 @@ import { Toaster } from "./components/ui/toaster";
 const CryptoToUae = lazy(() => import("./pages/Markets/CryptoToUae"));
 const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
 const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
+const WaitlistUserHero = lazy(() => import("./pages/Waitlist/WaitlistUserHero"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
 const EmailVerificationPending = lazy(
@@ -73,8 +74,10 @@ const Cookies = lazy(() => import("./components/Cookies"));
 const Gdpr = lazy(() => import("./pages/Legel/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
+const Market = lazy(() => import("./pages/Market"));
 const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
 const CardPreview = lazy(() => import("./pages/CardPreview"));
+const DarkFintechPreview = lazy(() => import("./pages/Preview/DarkFintechPreview"));
 const Admin = lazy(() => import("./pages/Admin"));
 const CardCreator = lazy(() => import("./pages/CardCreator"));
 const User = lazy(() => import("./pages/User"));
@@ -214,6 +217,7 @@ const App = () => (
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/card-preview" element={<CardPreview />} />
+                    <Route path="/preview/dark-fintech" element={<DarkFintechPreview />} />
                     <Route path="/user" element={<User />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
@@ -229,6 +233,7 @@ const App = () => (
                     <Route path="/legal" element={<LegalPage />} />
 
                     <Route path="/whitepaper" element={<Whitepaper />} />
+                    <Route path="/market" element={<Market />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
                     <Route path="/cryptoToAed" element={<CryptoToUae />} />
                     <Route path="/blog" element={<Blog />} />
@@ -325,7 +330,7 @@ const App = () => (
                         click "Create one" / "Register as Merchant" to reach the
                         register pages below. */}
                     <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
-                    <Route path="/waitlist/user" element={<UserRegister />} />
+                    <Route path="/waitlist/user" element={<WaitlistUserHero />} />
                     <Route path="/waitlist/merchant" element={<MerchantRegister />} />
                     <Route path="/merchant-waitlist" element={<MerchantLogin initialView="waitlist" />} />
                     {/* Explicit register routes */}

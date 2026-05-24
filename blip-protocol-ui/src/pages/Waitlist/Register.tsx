@@ -42,6 +42,8 @@ export default function Register({
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // Defer captcha render until the user actually engages with the form
+  const [captchaArmed, setCaptchaArmed] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
@@ -319,48 +321,43 @@ export default function Register({
           </div>
         )}
 
-        {/* Bonus pill — single emerald accent, restrained */}
-        <div
-          className="flex items-center gap-2.5 rounded-xl border px-4 py-3 mb-2"
-          style={{
-            background: "rgba(14,124,90,0.08)",
-            borderColor: "rgba(14,124,90,0.22)",
-          }}
-        >
-          <div
-            className="flex h-7 w-7 items-center justify-center rounded-full"
-            style={{ background: "rgba(14,124,90,0.18)" }}
-          >
-            <Gift className="h-3.5 w-3.5" style={{ color: "#34c08c" }} />
+        {/* Bonus pill — neutral, no accent */}
+        <div className="flex items-center gap-3 rounded-xl px-4 py-2.5 mb-3 bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.08]">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black dark:bg-white">
+            <Gift className="h-4 w-4 text-white dark:text-black" />
           </div>
-          <p className="text-[13px] font-medium text-white">
-            Get{" "}
-            <span className="font-semibold" style={{ color: "#34c08c" }}>
-              +5,000 BLIP pts
-            </span>
-            <span className="text-white/55"> for joining the waitlist</span>
-          </p>
+          <div className="leading-snug">
+            <div className="text-[13.5px] font-bold text-black dark:text-white tracking-tight">
+              +5,000 BLIP points{" "}
+              <span className="font-medium text-[#3a3a3c] dark:text-white/75">
+                on signup
+              </span>
+            </div>
+            <div className="text-[11px] text-[#6e6e73] dark:text-white/60 mt-0.5">
+              Auto-credited after email verification
+            </div>
+          </div>
         </div>
 
-        {/* Sign up / Sign in tab toggle — flatter Apple-style pill */}
-        <div className="mb-2 grid grid-cols-2 p-1 rounded-2xl bg-black/[0.04] dark:bg-white/[0.04]">
+        {/* Apple segmented control */}
+        <div className="mb-4 grid grid-cols-2 p-[3px] rounded-full bg-[#EFEFF2] dark:bg-white/[0.06]">
           <button
             type="button"
             aria-current="page"
-            className="py-2.5 rounded-xl text-[13px] font-semibold text-black dark:text-black bg-white"
+            className="py-2.5 rounded-full text-[13px] font-semibold bg-white dark:bg-white/[0.12] text-black dark:text-white shadow-[0_1px_2px_rgba(0,0,0,0.06),0_2px_8px_rgba(0,0,0,0.08)]"
           >
             Sign up
           </button>
           <Link
             to={loginPath}
-            className="py-2.5 rounded-xl text-[13px] font-semibold text-black/50 dark:text-white/55 hover:text-black/75 dark:hover:text-white/85 text-center transition-colors duration-200"
+            className="py-2.5 rounded-full text-[13px] font-semibold text-[#3a3a3c] dark:text-white/75 hover:text-black/85 dark:hover:text-white/85 text-center transition-colors duration-200"
           >
             Sign in
           </Link>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {/* Email */}
           <div>
             {/* <label
@@ -378,11 +375,12 @@ export default function Register({
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
+                onFocus={() => setCaptchaArmed(true)}
+                className={`w-full pl-11 pr-4 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/[0.12]"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
+                    : "border-transparent"
+                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
@@ -412,11 +410,11 @@ export default function Register({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 onFocus={() => setShowRequirements(true)}
-                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
+                className={`w-full pl-11 pr-11 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/[0.12]"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
+                    : "border-transparent"
+                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="Min 8 characters"
                 maxLength={50}
                 disabled={isLoading}
@@ -560,11 +558,11 @@ export default function Register({
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
+                className={`w-full pl-11 pr-11 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border ${
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/[0.12]"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
+                    : "border-transparent"
+                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="Confirm your password"
                 maxLength={50}
                 disabled={isLoading}
@@ -596,14 +594,16 @@ export default function Register({
               name="referral_code"
               value={formData.referral_code}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border border-black/10 dark:border-white/[0.12] rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200"
+              className="w-full px-4 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border-0 rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200"
               placeholder="Referral code (optional)"
               disabled={isLoading}
             />
           </div>
 
-          {/* reCAPTCHA — only render if site key is a real Google key (not the placeholder) */}
-          {import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
+          {/* reCAPTCHA — only render if site key is real AND the user has
+              focused the email input (defer Google iframe load until needed). */}
+          {captchaArmed &&
+            import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
             import.meta.env.VITE_RECAPTCHA_SITE_KEY !==
               "your_recaptcha_site_key" && (
               <div className="flex justify-center opacity-90 hover:opacity-100 transition-opacity">
@@ -625,7 +625,7 @@ export default function Register({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-white text-black font-bold text-[15px] tracking-tight rounded-full shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] hover:-translate-y-[1px] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full py-3 bg-black text-white dark:bg-white dark:text-black font-bold text-[15px] tracking-tight rounded-full shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] hover:-translate-y-[1px] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -643,7 +643,7 @@ export default function Register({
                 </>
               )}
             </button>
-            <p className="mt-3 text-center text-[11px] text-black/40 dark:text-white/40 flex items-center justify-center gap-1.5">
+            <p className="mt-3 text-center text-[11.5px] text-[#3a3a3c] dark:text-white/65 flex items-center justify-center gap-1.5">
               <Shield className="w-3 h-3" strokeWidth={2} />
               We respect your privacy. No spam, ever.
             </p>
@@ -652,7 +652,7 @@ export default function Register({
 
         {/* Footer Links */}
         <div className="mt-4 text-center space-y-1">
-          <p className="text-sm text-black/50 dark:text-white/40">
+          <p className="text-[13.5px] text-[#1d1d1f] dark:text-white/85">
             Already have an account?{" "}
             <Link
               to={loginPath}
@@ -661,18 +661,18 @@ export default function Register({
               {isMerchant ? "Merchant Sign In" : "Sign in"}
             </Link>
           </p>
-          <p className="text-xs text-black/30 dark:text-white/30 leading-relaxed">
+          <p className="text-[12px] text-[#3a3a3c] dark:text-white/65 leading-relaxed">
             By creating an account, you agree to our{" "}
             <Link
               to="/terms"
-              className="underline underline-offset-2 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
+              className="underline underline-offset-2 hover:text-black dark:hover:text-white transition-colors duration-200"
             >
               Terms of Service
             </Link>{" "}
             and{" "}
             <Link
               to="/privacy"
-              className="underline underline-offset-2 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
+              className="underline underline-offset-2 hover:text-black dark:hover:text-white transition-colors duration-200"
             >
               Privacy Policy
             </Link>
@@ -683,7 +683,7 @@ export default function Register({
       {/* OTP Verification Modal */}
       {showOTPModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/70 backdrop-blur-md">
-          <div className="w-full max-w-md bg-white dark:bg-[#111] border border-black/5 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="w-full max-w-md bg-white dark:bg-[#111] border border-black/5 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="p-6 pb-5 border-b border-black/5 dark:border-white/[0.06]">
               <div className="flex items-center gap-4">
@@ -702,7 +702,7 @@ export default function Register({
             </div>
 
             {/* Content */}
-            <form onSubmit={handleVerifyOTP} className="p-6 space-y-5">
+            <form onSubmit={handleVerifyOTP} className="p-6 space-y-3">
               <div>
                 <label className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2">
                   Enter 6-Digit Code
@@ -713,7 +713,7 @@ export default function Register({
                   onChange={(e) =>
                     setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
                   }
-                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.03] dark:bg-white/[0.06] border border-black/10 dark:border-white/[0.12] rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-[#F2F2F5] dark:bg-white/[0.06] border-0 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200"
                   placeholder="000000"
                   maxLength={6}
                   autoFocus
@@ -727,7 +727,7 @@ export default function Register({
               <button
                 type="submit"
                 disabled={isVerifying || otp.length !== 6}
-                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
               >
                 {isVerifying ? (
                   <>
@@ -760,7 +760,7 @@ export default function Register({
               <button
                 type="button"
                 onClick={() => setShowOTPModal(false)}
-                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
+                className="w-full py-2.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
               >
                 Go Back
               </button>

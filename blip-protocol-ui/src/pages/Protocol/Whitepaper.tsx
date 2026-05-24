@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { Download } from "lucide-react";
+import { Download, FileText, GitCommit, Hash, Clock } from "lucide-react";
 import SEO from "@/components/SEO";
 import { HreflangTags } from "@/components/HreflangTags";
+
+const ACCENT = "#cc785c";
+const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
 
 const sections = [
   { id: "abstract", title: "Abstract" },
@@ -19,9 +22,21 @@ const sections = [
 
 const Whitepaper = () => {
   const [activeSection, setActiveSection] = useState("");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const total = h.scrollHeight - h.clientHeight;
+      setProgress(total > 0 ? Math.min(1, h.scrollTop / total) : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -84,80 +99,353 @@ const Whitepaper = () => {
       />
       <HreflangTags path="/whitepaper" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-20">
-        {/* Hero Header */}
-        <div className="pt-32 pb-16 px-6">
+      {/* Top scroll-progress bar */}
+      <div
+        className="fixed left-0 right-0 z-[60] pointer-events-none"
+        style={{ top: 0, height: 2, background: "rgba(0,0,0,0.06)" }}
+      >
+        <div
+          className="h-full origin-left"
+          style={{
+            width: `${progress * 100}%`,
+            background: `linear-gradient(90deg, ${ACCENT}, #ffb38a)`,
+            boxShadow: `0 0 12px ${ACCENT}aa`,
+            transition: "width 0.08s linear",
+          }}
+        />
+      </div>
+
+      {/* Global restyle: any prose inside .prose-tech gets deep-tech treatment */}
+      <style>{`
+        .prose-tech section { scroll-margin-top: 120px; }
+        .prose-tech h2, .prose-tech h2 * {
+          color: #0a0a0a !important;
+        }
+        .prose-tech h2 {
+          font-size: 30px;
+          line-height: 1.12;
+          letter-spacing: -0.028em;
+          font-weight: 600;
+          margin-bottom: 24px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid rgba(0,0,0,0.10);
+        }
+        .prose-tech h3, .prose-tech h3 * {
+          color: #0a0a0a !important;
+        }
+        .prose-tech h3 {
+          font-size: 17px;
+          line-height: 1.3;
+          letter-spacing: -0.01em;
+          font-weight: 600;
+          margin-top: 32px;
+          margin-bottom: 14px;
+        }
+        .prose-tech p, .prose-tech li, .prose-tech li *, .prose-tech p * {
+          color: #0a0a0a !important;
+        }
+        .prose-tech p {
+          line-height: 1.72;
+          font-size: 15.5px;
+          margin-bottom: 16px;
+        }
+        .prose-tech strong { color: #0a0a0a !important; font-weight: 600; }
+        .prose-tech em { color: #0a0a0a !important; }
+        .prose-tech a { color: ${ACCENT} !important; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+        .prose-tech ul, .prose-tech ol {
+          color: #0a0a0a !important;
+          line-height: 1.72;
+          font-size: 15.5px;
+          margin-left: 0 !important;
+          padding-left: 0;
+          list-style: none;
+        }
+        .prose-tech ul > li, .prose-tech ol > li {
+          position: relative;
+          padding-left: 22px;
+          margin-bottom: 10px;
+        }
+        .prose-tech ul > li::before {
+          content: "";
+          position: absolute;
+          left: 4px; top: 0.7em;
+          width: 6px; height: 6px;
+          background: ${ACCENT};
+          border-radius: 1px;
+          transform: rotate(45deg);
+        }
+        .prose-tech ol { counter-reset: wp-li; }
+        .prose-tech ol > li { counter-increment: wp-li; }
+        .prose-tech ol > li::before {
+          content: counter(wp-li, decimal-leading-zero);
+          position: absolute;
+          left: 0; top: 0;
+          font-family: ${MONO};
+          font-size: 11px;
+          font-weight: 700;
+          color: ${ACCENT};
+          letter-spacing: 0.05em;
+        }
+        .prose-tech table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0;
+          background: #fff;
+          border: 1px solid rgba(0,0,0,0.08) !important;
+          border-radius: 12px;
+          overflow: hidden;
+          font-size: 14px;
+        }
+        .prose-tech thead { background: rgba(204,120,92,0.06); }
+        .prose-tech th, .prose-tech td {
+          border: none !important;
+          border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+          padding: 14px 16px !important;
+          text-align: left;
+          color: #0a0a0a;
+          vertical-align: top;
+        }
+        .prose-tech th {
+          font-family: ${MONO};
+          font-size: 10.5px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: ${ACCENT} !important;
+          font-weight: 700;
+        }
+        .prose-tech tbody tr:last-child td { border-bottom: none !important; }
+        .prose-tech tbody tr:hover { background: rgba(0,0,0,0.02); }
+        .prose-tech td:first-child { color: #0a0a0a; font-weight: 600; }
+        .prose-tech sub, .prose-tech sup { font-family: ${MONO}; font-size: 0.7em; color: ${ACCENT}; }
+      `}</style>
+
+      <div className="min-h-screen bg-white text-black mt-20 relative overflow-hidden">
+        {/* Faint dotted grid background */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.5]"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+            maskImage:
+              "radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 75%)",
+          }}
+        />
+
+        {/* ── HERO ───────────────────────────────────────────────── */}
+        <div className="relative pt-24 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
-              Blip
-              <span className="text-black/80 dark:text-white/50">.money</span>:
-              <span className="text-[#ff6b35]">
-                On Chain P2P Settlement
+            {/* Doc metadata bar */}
+            <div
+              className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-10 text-[10.5px] font-semibold tracking-[0.22em] uppercase"
+              style={{ fontFamily: MONO, color: "rgba(0,0,0,0.45)" }}
+            >
+              <span className="flex items-center gap-1.5">
+                <FileText className="w-3 h-3" style={{ color: ACCENT }} />
+                Whitepaper · v1.0
+              </span>
+              <span className="text-black/15">/</span>
+              <span className="flex items-center gap-1.5">
+                <GitCommit className="w-3 h-3" />
+                draft
+              </span>
+              <span className="text-black/15">/</span>
+              <span className="flex items-center gap-1.5">
+                <Hash className="w-3 h-3" />
+                blip-money/protocol
+              </span>
+              <span className="text-black/15">/</span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3 h-3" />
+                ~22 min read
+              </span>
+            </div>
+
+            {/* Eyebrow */}
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
+              style={{
+                background: `${ACCENT}14`,
+                border: `1px solid ${ACCENT}44`,
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }}
+              />
+              <span
+                className="text-[10.5px] font-bold tracking-[0.22em]"
+                style={{ color: ACCENT, fontFamily: MONO }}
+              >
+                MAINNET · SOLANA SPL
+              </span>
+            </div>
+
+            <h1
+              className="font-semibold tracking-[-0.035em] leading-[1.02] mb-6"
+              style={{ fontSize: "clamp(38px, 6.4vw, 76px)", color: "#0a0a0a" }}
+            >
+              A pseudonymous,<br />
+              on-chain protocol for<br />
+              <span style={{ color: ACCENT, fontStyle: "italic", fontWeight: 500, fontFamily: "ui-serif, Georgia, serif" }}>
+                global P2P settlement.
               </span>
             </h1>
 
-            {/* Download Button */}
-            <button
-              onClick={handleDownload}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black border border-black/10 rounded-full font-medium hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
+            <p
+              className="max-w-[640px] text-[16px] leading-[1.65] mb-10"
+              style={{ color: "rgba(0,0,0,0.65)" }}
             >
-              <Download className="w-5 h-5" />
-              Download PDF
-            </button>
+              Blip.money is a trust-minimized cross-border settlement protocol
+              that enforces escrow, bonding, reputation, and dispute resolution
+              entirely on-chain — and discovers fees through sealed-bid, second-price
+              merchant auctions.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handleDownload}
+                className="group inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all"
+                style={{
+                  background: "#0a0a0a",
+                  color: "#fff",
+                  boxShadow: "0 10px 30px -10px rgba(0,0,0,0.35)",
+                }}
+              >
+                <Download className="w-4 h-4" />
+                Download PDF
+              </button>
+              <a
+                href="#abstract"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("abstract");
+                }}
+                className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-colors"
+                style={{
+                  background: "transparent",
+                  color: "rgba(0,0,0,0.85)",
+                  border: "1px solid rgba(0,0,0,0.14)",
+                }}
+              >
+                Read in-browser →
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Content Area with Sidebar */}
-        <div className="bg-gray-50 dark:bg-[#111111]">
-          <div className="max-w-6xl mx-auto px-6 py-16">
+        {/* ── CONTENT + SIDEBAR ──────────────────────────────────── */}
+        <div className="relative">
+          <div className="max-w-6xl mx-auto px-6 pb-24">
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
-              {/* Left Sidebar */}
-              {/* Left Sidebar */}
-              <aside className="lg:w-60 flex-shrink-0">
-                {/* Mobile Horizontal Scroll Menu */}
-                <div className="lg:hidden overflow-x-auto pb-4">
-                  <div className="flex gap-3 min-w-max">
+              {/* Sidebar */}
+              <aside className="lg:w-64 flex-shrink-0">
+                {/* Mobile horizontal chips */}
+                <div className="lg:hidden overflow-x-auto pb-4 -mx-6 px-6">
+                  <div className="flex gap-2 min-w-max">
                     {sections.map((section, index) => (
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition ${
-                          activeSection === section.id
-                            ? "bg-black dark:bg-white text-white dark:text-black"
-                            : "bg-gray-200 dark:bg-[#222] text-gray-600 dark:text-gray-400"
-                        }`}
+                        className="whitespace-nowrap px-3 h-8 rounded-full text-[11px] font-semibold tracking-tight transition"
+                        style={{
+                          fontFamily: MONO,
+                          background:
+                            activeSection === section.id
+                              ? `${ACCENT}1f`
+                              : "rgba(0,0,0,0.04)",
+                          color:
+                            activeSection === section.id
+                              ? ACCENT
+                              : "rgba(0,0,0,0.6)",
+                          border:
+                            activeSection === section.id
+                              ? `1px solid ${ACCENT}55`
+                              : "1px solid rgba(0,0,0,0.08)",
+                        }}
                       >
-                        {index + 1}. {section.title}
+                        {String(index + 1).padStart(2, "0")} · {section.title}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Desktop Sticky Sidebar */}
-                <div className="hidden lg:block sticky top-24">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
-                    Contents
-                  </p>
-                  <nav className="space-y-2">
-                    {sections.map((section, index) => (
-                      <button
-                        key={section.id}
-                        onClick={() => scrollToSection(section.id)}
-                        className={`block text-sm transition-all text-left w-full rounded-md ${
-                          activeSection === section.id
-                            ? "text-black dark:text-white font-bold bg-black/10 dark:bg-white/10 px-3 py-2"
-                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
-                        }`}
-                      >
-                        {index + 1}. {section.title}
-                      </button>
-                    ))}
-                  </nav>
+                {/* Desktop sticky TOC */}
+                <div className="hidden lg:block sticky top-28">
+                  <div
+                    className="text-[10px] font-bold tracking-[0.22em] mb-4 flex items-center gap-2"
+                    style={{ color: "rgba(0,0,0,0.5)", fontFamily: MONO }}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ background: ACCENT }}
+                    />
+                    CONTENTS
+                  </div>
+                  {/* Reading progress (vertical) */}
+                  <div className="relative">
+                    <div
+                      className="absolute left-0 top-0 bottom-0 w-px"
+                      style={{ background: "rgba(0,0,0,0.08)" }}
+                    />
+                    <div
+                      className="absolute left-0 top-0 w-px origin-top"
+                      style={{
+                        height: `${progress * 100}%`,
+                        background: `linear-gradient(180deg, ${ACCENT}, #ffb38a)`,
+                        boxShadow: `0 0 8px ${ACCENT}aa`,
+                        transition: "height 0.1s linear",
+                      }}
+                    />
+                    <nav className="pl-5 space-y-0.5">
+                      {sections.map((section, index) => {
+                        const active = activeSection === section.id;
+                        return (
+                          <button
+                            key={section.id}
+                            onClick={() => scrollToSection(section.id)}
+                            className="group block text-left w-full py-2 transition-colors relative"
+                            style={{
+                              fontFamily: MONO,
+                              fontSize: 12,
+                              letterSpacing: "-0.005em",
+                              color: active
+                                ? "#0a0a0a"
+                                : "rgba(0,0,0,0.5)",
+                              fontWeight: active ? 700 : 500,
+                            }}
+                          >
+                            {active && (
+                              <span
+                                className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
+                                style={{
+                                  background: ACCENT,
+                                  boxShadow: `0 0 8px ${ACCENT}`,
+                                }}
+                              />
+                            )}
+                            <span
+                              className="mr-2"
+                              style={{
+                                color: active ? ACCENT : "rgba(0,0,0,0.3)",
+                              }}
+                            >
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <span className="hover:text-black transition-colors">
+                              {section.title}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </nav>
+                  </div>
                 </div>
               </aside>
 
               {/* Main Content */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 prose-tech">
                 {/* Abstract */}
                 <section id="abstract" className="mb-16">
                   <h2 className="text-3xl font-bold text-black dark:text-white mb-6">
@@ -1398,21 +1686,55 @@ const Whitepaper = () => {
                   </ol>
                 </section>
 
-                {/* Download Again */}
-                <div className="mt-16 p-8 bg-white dark:bg-[#1a1a1a] rounded-2xl border border-gray-200 dark:border-gray-800 text-center">
-                  <h3 className="text-2xl font-bold text-black dark:text-white mb-4">
-                    Download Full Whitepaper
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    Get the complete technical specification as a PDF document.
-                  </p>
-                  <button
-                    onClick={handleDownload}
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black border border-black/10 rounded-full font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
-                  >
-                    <Download className="w-5 h-5" />
-                    Download PDF
-                  </button>
+                {/* ── End-of-doc footer card ── */}
+                <div
+                  className="mt-20 relative rounded-[20px] overflow-hidden bg-white"
+                  style={{
+                    border: "1px solid rgba(0,0,0,0.08)",
+                    boxShadow: `0 30px 80px -30px rgba(204,120,92,0.22), 0 14px 36px -18px rgba(0,0,0,0.12)`,
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent 0%, ${ACCENT}88 50%, transparent 100%)`,
+                    }}
+                  />
+                  <div className="p-8 sm:p-10 grid sm:grid-cols-[1fr_auto] gap-6 items-center">
+                    <div>
+                      <div
+                        className="text-[10.5px] font-bold tracking-[0.22em] mb-3"
+                        style={{ color: ACCENT, fontFamily: MONO }}
+                      >
+                        END OF DOCUMENT · v1.0
+                      </div>
+                      <h3
+                        className="text-[24px] font-semibold tracking-[-0.02em] text-black mb-2"
+                      >
+                        Download the full specification.
+                      </h3>
+                      <p
+                        className="text-[14px] leading-[1.6]"
+                        style={{ color: "rgba(0,0,0,0.6)" }}
+                      >
+                        Complete technical paper as a portable PDF — including diagrams,
+                        appendices, and signatures.
+                      </p>
+                    </div>
+                    <button
+                      onClick={handleDownload}
+                      className="inline-flex items-center gap-2 px-5 h-12 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
+                      style={{
+                        background: "#0a0a0a",
+                        color: "#fff",
+                        boxShadow: "0 14px 36px -10px rgba(0,0,0,0.35)",
+                      }}
+                    >
+                      <Download className="w-4 h-4" />
+                      Download PDF
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

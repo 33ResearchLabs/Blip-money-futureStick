@@ -232,6 +232,28 @@ function ProfitTooltipSwarm() {
   );
 }
 
+function TiltDashboard({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
+      className="relative rounded-[28px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-3 md:p-4 overflow-hidden shadow-[0_60px_140px_-40px_rgba(204,120,92,0.35),0_30px_80px_-30px_rgba(0,0,0,0.6),0_1px_0_rgba(255,255,255,0.06)_inset]"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
+        }}
+      />
+      <div className="overflow-x-auto">{children}</div>
+    </motion.div>
+  );
+}
+
 const BlipMarketsSection = memo(function BlipMarketsSection() {
   const [popupOpen, setPopupOpen] = useState(false);
   const state = useMerchantDashboardState();
@@ -326,18 +348,10 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           ))}
         </motion.div>
 
-        {/* The live dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10%" }}
-          transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
-          className="relative rounded-[28px] bg-gradient-to-b from-white/[0.03] to-white/[0.01] border border-white/[0.07] p-3 md:p-4 overflow-hidden shadow-[0_30px_80px_-30px_rgba(204,120,92,0.22),0_14px_36px_-18px_rgba(0,0,0,0.35)]"
-        >
-          <div className="overflow-x-auto">
-            <MerchantDashboardBody state={state} />
-          </div>
-        </motion.div>
+        {/* The live dashboard — rests at a subtle tilt, straightens on hover */}
+        <TiltDashboard>
+          <MerchantDashboardBody state={state} />
+        </TiltDashboard>
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">

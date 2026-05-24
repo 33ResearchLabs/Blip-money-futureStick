@@ -112,17 +112,53 @@ export const Navbar = () => {
         animate={{
           y: isHidden && !mobileMenuOpen ? -100 : 0,
         }}
-        transition={{ duration: 0.25 }}
-        style={{ top: bannerHeight }}
-        className="fixed w-full z-50 bg-black border-b border-white/[0.08]"
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          top: bannerHeight,
+          background: "#000",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
+          boxShadow: isScrolled ? "0 10px 40px -20px rgba(0,0,0,0.6)" : "none",
+        }}
+        className="fixed w-full z-50"
       >
-        <div className="max-w-[1240px] mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="h-[68px] flex items-center justify-between">
-            <Logo onDark={true} />
+        {/* hairline accent — barely-there gradient under the bar */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(204,120,92,0.22) 50%, transparent 100%)",
+          }}
+        />
 
-            <div className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-10">
+          <div className="h-[58px] flex items-center justify-between">
+            {/* LEFT — Logo + tiny deep-tech status chip */}
+            <div className="flex items-center gap-4">
+              <Logo onDark={true} />
+              <div className="hidden md:flex items-center gap-1.5 pl-4 ml-1 border-l border-white/[0.08]">
+                <motion.span
+                  animate={{ opacity: [1, 0.35, 1] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: "#cc785c", boxShadow: "0 0 8px rgba(204,120,92,0.7)" }}
+                />
+                <span
+                  className="text-[9.5px] font-semibold tracking-[0.22em] text-white/55"
+                  style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}
+                >
+                  MAINNET · LIVE
+                </span>
+              </div>
+            </div>
+
+            {/* CENTER — nav */}
+            <div className="hidden lg:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
               <NavItem to="/how-it-works" onDark={true}>
                 {t("howItWorks")}
+              </NavItem>
+              <NavItem to="/market" onDark={true}>
+                Market
               </NavItem>
               <NavItem to="/merchant" onDark={true}>
                 Merchant
@@ -135,6 +171,7 @@ export const Navbar = () => {
               </NavItem>
             </div>
 
+            {/* RIGHT — CTA */}
             <div className="hidden lg:flex items-center gap-3">
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
@@ -143,17 +180,18 @@ export const Navbar = () => {
               )}
             </div>
 
+            {/* MOBILE — install + menu */}
             <div className="flex gap-2 lg:hidden">
               {showDownload && (
                 <button
                   type="button"
                   onClick={handleDownload}
                   aria-label="Install Blip app"
-                  className="h-9 inline-flex items-center gap-1.5 px-3 rounded-lg text-[12px] font-bold tracking-tight"
+                  className="h-9 inline-flex items-center gap-1.5 px-3 rounded-full text-[11.5px] font-semibold tracking-tight transition-transform active:scale-[0.97]"
                   style={{
                     background: "#cc785c",
                     color: "#ffffff",
-                    boxShadow: "0 6px 16px -6px rgba(204,120,92,0.6)",
+                    boxShadow: "0 8px 22px -8px rgba(204,120,92,0.65)",
                   }}
                 >
                   <Download className="w-3.5 h-3.5" strokeWidth={2.5} />
@@ -165,7 +203,11 @@ export const Navbar = () => {
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
-                className="w-9 h-9 rounded-lg bg-white/10 dark:bg-[#18181B] border border-white/[0.1] dark:border-white/[0.06] flex items-center justify-center"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
               >
                 {mobileMenuOpen ? (
                   <X className="w-4 h-4 text-white" />
@@ -253,14 +295,33 @@ const NavItem = ({
       to={to}
       onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-4 py-2 text-[15.5px] font-bold tracking-tight transition-colors duration-200"
+      className="group relative px-4 h-9 inline-flex items-center rounded-full text-[14.5px] font-semibold tracking-[-0.01em] transition-colors duration-200"
     >
+      {/* hover/active soft pill */}
       <span
-        className={
+        aria-hidden
+        className={`absolute inset-0 rounded-full transition-opacity duration-200 ${
+          isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`}
+        style={{
+          background: isActive
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(255,255,255,0.05)",
+          border: isActive
+            ? "1px solid rgba(255,255,255,0.10)"
+            : "1px solid rgba(255,255,255,0.06)",
+        }}
+      />
+      <span
+        className={`relative z-10 ${
           onDark
-            ? "text-white"
-            : "text-black dark:text-white"
-        }
+            ? isActive
+              ? "text-white"
+              : "text-white/80 group-hover:text-white"
+            : isActive
+              ? "text-black dark:text-white"
+              : "text-black/75 dark:text-white/80 group-hover:text-black dark:group-hover:text-white"
+        }`}
       >
         {children}
       </span>
@@ -268,7 +329,8 @@ const NavItem = ({
       {isActive && (
         <motion.div
           layoutId="navIndicator"
-          className={`absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full ${onDark ? "bg-white" : "bg-black dark:bg-white"}`}
+          className="absolute -bottom-[3px] left-1/2 -translate-x-1/2 h-[2px] w-4 rounded-full"
+          style={{ background: "#cc785c", boxShadow: "0 0 8px rgba(204,120,92,0.6)" }}
           transition={{ type: "spring", stiffness: 500, damping: 35 }}
         />
       )}
@@ -324,14 +386,14 @@ export const CTAButton = ({
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
         className={`
-          ${className}
+          ${className ?? ""}
           group relative overflow-hidden inline-flex
-          items-center justify-center px-3.5 py-1.5 rounded-full
-          text-[12px] font-semibold transition-all duration-300 ease-out
+          items-center justify-center h-10 px-5 rounded-full
+          text-[13px] font-semibold tracking-tight transition-all duration-300 ease-out
           ${
             isPrimary
-              ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
-              : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
+              ? "bg-white/[0.04] text-white border border-white/[0.14] hover:bg-white/[0.09] hover:border-white/30"
+              : "bg-transparent text-white/85 border border-white/[0.10] hover:text-white hover:bg-white/[0.06] hover:border-white/25"
           }
         `}
       >
@@ -340,9 +402,8 @@ export const CTAButton = ({
           aria-hidden
           className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
           style={{
-            background: isPrimary
-              ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
-              : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
+            background:
+              "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%)",
           }}
         />
         <span className="relative z-10 font-semibold flex items-center gap-2">
@@ -417,6 +478,7 @@ const MobileMenu = memo(({
 
   const menuItems = [
     { to: "/how-it-works", label: t("howItWorks") },
+    { to: "/market", label: "Market" },
     { to: "/merchant", label: "Merchant" },
     // { to: "/research", label: "Research" },
     // { to: "/blog", label: "Blog" },

@@ -1210,7 +1210,7 @@ function CardFooter({ card, dark }: { card: { titlePre: string; titleAccent: str
   );
 }
 
-function WalletPassHero({ accent }: { accent: string }) {
+function WalletPassHero({ accent, hovered = false }: { accent: string; hovered?: boolean }) {
   return (
     <motion.div animate={{ y: [0, -3, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }} style={{ transform: "rotateX(10deg) rotateY(-10deg) rotateZ(-1deg)", transformStyle: "preserve-3d", filter: `drop-shadow(0 20px 32px rgba(0,0,0,0.35)) drop-shadow(0 0 16px ${accent}33)` }}>
       <div className="rounded-[16px] overflow-hidden relative" style={{ width: 188, height: 124, background: `radial-gradient(ellipse 100% 60% at 50% 0%, rgba(255,255,255,0.06), transparent 60%), linear-gradient(160deg, #1f1f1f 0%, #0e0e0e 55%, #050505 100%)`, boxShadow: "0 1px 0 rgba(255,255,255,0.1) inset, 0 -1px 0 rgba(0,0,0,0.5) inset" }}>
@@ -1225,7 +1225,40 @@ function WalletPassHero({ accent }: { accent: string }) {
         <div className="px-3.5 mt-2"><span className="text-[8px] font-bold tracking-[0.24em] text-white/45">FEE WAIVER · LIVE</span></div>
         <div className="px-3.5 mt-0.5 flex items-baseline gap-2">
           <span className="font-bold leading-none" style={{ color: "#fff", fontFamily: "ui-serif, Georgia, serif", fontSize: 44, letterSpacing: "-0.045em", textShadow: `0 0 24px ${accent}66` }}>0<span style={{ color: accent, fontStyle: "italic" }}>%</span></span>
-          <span className="text-[9px] font-bold text-white/40 line-through pb-1" style={{ fontFamily: "ui-monospace, monospace" }}>$4.20</span>
+          <motion.span
+            animate={{ color: hovered ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.55)" }}
+            transition={{ duration: 0.3 }}
+            className="relative text-[9px] font-bold pb-1"
+            style={{ fontFamily: "ui-monospace, monospace" }}
+          >
+            $4.20
+            <motion.span
+              aria-hidden
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: hovered ? 1 : 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-none absolute left-0 top-1/2 h-[1.5px] origin-left"
+              style={{
+                width: "100%",
+                background: `linear-gradient(90deg, ${accent}, #ffb38a)`,
+                boxShadow: `0 0 8px ${accent}cc`,
+              }}
+            />
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 2 }}
+            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 2 }}
+            transition={{ duration: 0.35, delay: hovered ? 0.25 : 0 }}
+            className="ml-1 inline-flex items-center px-1.5 py-[2px] rounded-full text-[7.5px] font-bold tracking-[0.18em]"
+            style={{
+              color: accent,
+              background: `${accent}22`,
+              border: `1px solid ${accent}66`,
+              fontFamily: "ui-monospace, monospace",
+            }}
+          >
+            WAIVED
+          </motion.span>
         </div>
       </div>
     </motion.div>
@@ -1400,7 +1433,31 @@ export function DashboardClearCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {CLEAR_CARDS.map((c, i) => (
-        <motion.div key={c.key} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }} whileHover={{ y: -4 }} className="relative rounded-[24px] overflow-hidden text-left flex flex-col" style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)", transition: "transform 0.35s ease", boxShadow: "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)", color: "#0a0a0a" }}>
+        <motion.div
+          key={c.key}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-8%" }}
+          transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }}
+          whileHover={{
+            scale: 1.08,
+            y: -10,
+            zIndex: 20,
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.7) inset, 0 50px 110px -30px rgba(0,0,0,0.55), 0 24px 50px -20px rgba(204,120,92,0.28)",
+            transition: { type: "spring", stiffness: 220, damping: 22, mass: 0.6 },
+          }}
+          className="relative rounded-[24px] overflow-hidden text-left flex flex-col cursor-pointer"
+          style={{
+            background: "#fff",
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)",
+            color: "#0a0a0a",
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+        >
           <CardEyebrow label={c.label} refTag={c.refTag} accent={APPLE_ACCENT} dark={false} />
           <div className="relative mx-5 mt-5 rounded-2xl overflow-hidden flex items-center justify-center" style={{ aspectRatio: "16/11", background: `radial-gradient(ellipse 80% 80% at 50% 40%, ${APPLE_ACCENT}1f 0%, #fafafa 100%)`, border: `1px solid ${APPLE_ACCENT}22` }}>
             {renderHero(c.hero)}
@@ -1475,7 +1532,31 @@ export function EditorialMerchantCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {CLEAR_CARDS.map((c, i) => (
-        <motion.div key={c.key} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }} whileHover={{ y: -4 }} className="relative rounded-[24px] overflow-hidden text-left flex flex-col" style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)", transition: "transform 0.35s ease", boxShadow: "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)", color: "#0a0a0a" }}>
+        <motion.div
+          key={c.key}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-8%" }}
+          transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }}
+          whileHover={{
+            scale: 1.08,
+            y: -10,
+            zIndex: 20,
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.7) inset, 0 50px 110px -30px rgba(0,0,0,0.55), 0 24px 50px -20px rgba(204,120,92,0.28)",
+            transition: { type: "spring", stiffness: 220, damping: 22, mass: 0.6 },
+          }}
+          className="relative rounded-[24px] overflow-hidden text-left flex flex-col cursor-pointer"
+          style={{
+            background: "#fff",
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)",
+            color: "#0a0a0a",
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+        >
           <CardEyebrow label={c.label} refTag={c.refTag} accent={APPLE_ACCENT} dark={false} />
           <div className="px-6 pt-6 pb-2">
             <span className="font-bold leading-none" style={{ fontSize: 40, fontFamily: "ui-serif, Georgia, serif", color: APPLE_ACCENT, letterSpacing: "-0.04em", fontStyle: "italic" }}>{HEROES[i]}</span>
@@ -1497,14 +1578,41 @@ export function DashboardMixedCards() {
     { key: "friend", label: APPLE_CARDS[2].label, refTag: APPLE_CARDS[2].refTag, titlePre: APPLE_CARDS[2].titlePre, titleAccent: APPLE_CARDS[2].titleAccent, cta: APPLE_CARDS[2].cta, style: "animated", hero: "messages-cash" },
     { key: "boost", label: MC_PAINTED[3].label, refTag: "RANK 3", titlePre: MC_PAINTED[3].titlePre, titleAccent: MC_PAINTED[3].titleAccent, titleTail: MC_PAINTED[3].titleTail, cta: MC_PAINTED[3].cta, style: "scene", img: MC_PAINTED[3].img },
   ];
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {MIXED.map((c, i) => (
-        <motion.div key={c.key} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }} whileHover={{ y: -4 }} className="relative rounded-[24px] overflow-hidden text-left flex flex-col" style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)", transition: "transform 0.35s ease", boxShadow: "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)", color: "#0a0a0a" }}>
+        <motion.div
+          key={c.key}
+          onHoverStart={() => setHoveredKey(c.key)}
+          onHoverEnd={() => setHoveredKey((k) => (k === c.key ? null : k))}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-8%" }}
+          transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }}
+          whileHover={{
+            scale: 1.08,
+            y: -10,
+            zIndex: 20,
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.7) inset, 0 50px 110px -30px rgba(0,0,0,0.55), 0 24px 50px -20px rgba(204,120,92,0.28)",
+            transition: { type: "spring", stiffness: 220, damping: 22, mass: 0.6 },
+          }}
+          className="relative rounded-[24px] overflow-hidden text-left flex flex-col cursor-pointer"
+          style={{
+            background: "#fff",
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow:
+              "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.5)",
+            color: "#0a0a0a",
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+        >
           <CardEyebrow label={c.label} refTag={c.refTag} accent={APPLE_ACCENT} dark={false} />
           {c.style === "animated" ? (
             <div className="relative mx-5 mt-5 rounded-2xl overflow-hidden flex items-center justify-center" style={{ aspectRatio: "1/1", background: `radial-gradient(ellipse 80% 80% at 50% 30%, #f8f8f8 0%, #eeeeee 100%)`, border: "1px solid rgba(0,0,0,0.05)", perspective: 1000 }}>
-              {c.hero === "wallet-pass" && <WalletPassHero accent={APPLE_ACCENT} />}
+              {c.hero === "wallet-pass" && <WalletPassHero accent={APPLE_ACCENT} hovered={hoveredKey === c.key} />}
               {c.hero === "messages-cash" && <MessagesCashHero accent={APPLE_ACCENT} />}
             </div>
           ) : (
