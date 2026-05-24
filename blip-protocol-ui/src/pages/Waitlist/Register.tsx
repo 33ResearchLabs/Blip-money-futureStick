@@ -319,29 +319,41 @@ export default function Register({
           </div>
         )}
 
-        <div className="flex items-center gap-2 rounded-xl border border-[#2a2a2a] bg-[#111111] px-4 py-3 mb-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1a]">
-            <Gift className="h-4 w-4 text-[#f4c8a8]" />
+        {/* Bonus pill — single emerald accent, restrained */}
+        <div
+          className="flex items-center gap-2.5 rounded-xl border px-4 py-3 mb-2"
+          style={{
+            background: "rgba(14,124,90,0.08)",
+            borderColor: "rgba(14,124,90,0.22)",
+          }}
+        >
+          <div
+            className="flex h-7 w-7 items-center justify-center rounded-full"
+            style={{ background: "rgba(14,124,90,0.18)" }}
+          >
+            <Gift className="h-3.5 w-3.5" style={{ color: "#34c08c" }} />
           </div>
-
-          <p className="text-sm font-medium text-white">
-            Get<span className="text-emerald-400"> +5,000</span>
-            <span className="text-white/70"> BLIP pts to join waitlist</span>
+          <p className="text-[13px] font-medium text-white">
+            Get{" "}
+            <span className="font-semibold" style={{ color: "#34c08c" }}>
+              +5,000 BLIP pts
+            </span>
+            <span className="text-white/55"> for joining the waitlist</span>
           </p>
         </div>
 
-        {/* Sign up / Sign in tab toggle */}
-        <div className="mb-2 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        {/* Sign up / Sign in tab toggle — flatter Apple-style pill */}
+        <div className="mb-2 grid grid-cols-2 p-1 rounded-2xl bg-black/[0.04] dark:bg-white/[0.04]">
           <button
             type="button"
             aria-current="page"
-            className="py-3 rounded-xl text-[13px] font-semibold text-black dark:text-white bg-white dark:bg-white/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_4px_12px_rgba(0,0,0,0.4)]"
+            className="py-2.5 rounded-xl text-[13px] font-semibold text-black dark:text-black bg-white"
           >
             Sign up
           </button>
           <Link
             to={loginPath}
-            className="py-3 rounded-xl text-[13px] font-semibold text-black/45 dark:text-white/45 hover:text-black/70 dark:hover:text-white/70 text-center transition-colors duration-200"
+            className="py-2.5 rounded-xl text-[13px] font-semibold text-black/50 dark:text-white/55 hover:text-black/75 dark:hover:text-white/85 text-center transition-colors duration-200"
           >
             Sign in
           </Link>
@@ -366,11 +378,11 @@ export default function Register({
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
+                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/10"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
+                    : "border-black/10 dark:border-white/[0.12]"
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
@@ -400,11 +412,11 @@ export default function Register({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 onFocus={() => setShowRequirements(true)}
-                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
+                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/10"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
+                    : "border-black/10 dark:border-white/[0.12]"
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
                 placeholder="Min 8 characters"
                 maxLength={50}
                 disabled={isLoading}
@@ -548,11 +560,11 @@ export default function Register({
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
+                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border ${
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"
-                    : "border-black/10 dark:border-white/10"
-                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
+                    : "border-black/10 dark:border-white/[0.12]"
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200`}
                 placeholder="Confirm your password"
                 maxLength={50}
                 disabled={isLoading}
@@ -576,25 +588,16 @@ export default function Register({
             )}
           </div>
 
-          {/* Referral Code (Optional) */}
+          {/* Referral Code (Optional) — borderless caption to match the rest */}
           <div>
-            <label
-              htmlFor="referral_code"
-              className="block text-[13px] font-medium text-black/70 dark:text-[#f4c8a8]/50 mb-2"
-            >
-              Referral Code{" "}
-              <span className="text-black/30 dark:text-[#f4c8a8]/50 font-normal">
-                (Optional)
-              </span>
-            </label>
             <input
               type="text"
               id="referral_code"
               name="referral_code"
               value={formData.referral_code}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/[0.08] rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200 uppercase"
-              placeholder="BLIPXXXXXX"
+              className="w-full px-4 py-3.5 bg-black/[0.03] dark:bg-white/[0.06] border border-black/10 dark:border-white/[0.12] rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-[#34c08c]/60 dark:focus:ring-[#34c08c]/50 focus:border-[#34c08c]/60 dark:focus:border-[#34c08c]/40 transition-all duration-200"
+              placeholder="Referral code (optional)"
               disabled={isLoading}
             />
           </div>
@@ -603,21 +606,15 @@ export default function Register({
           {import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
             import.meta.env.VITE_RECAPTCHA_SITE_KEY !==
               "your_recaptcha_site_key" && (
-              <div className="flex justify-center [&_iframe]:[color-scheme:light]">
-                <div className="overflow-hidden rounded w-fit">
-                  <div className="-mx-1 -mt-px -mb-1 w-fit">
-                    <ReCAPTCHA
-                      ref={recaptchaRef}
-                      sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                      onChange={(token) => setCaptchaToken(token)}
-                      onExpired={() => setCaptchaToken(null)}
-                      theme={
-                        document.documentElement.classList.contains("dark")
-                          ? "dark"
-                          : "light"
-                      }
-                    />
-                  </div>
+              <div className="flex justify-center opacity-90 hover:opacity-100 transition-opacity">
+                <div className="overflow-hidden rounded-lg w-fit">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setCaptchaToken(token)}
+                    onExpired={() => setCaptchaToken(null)}
+                    theme={embedded ? "dark" : (document.documentElement.classList.contains("dark") ? "dark" : "light")}
+                  />
                 </div>
               </div>
             )}
@@ -628,7 +625,7 @@ export default function Register({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-white text-black font-semibold text-[15px] rounded-2xl shadow-[0_10px_30px_-8px_rgba(244,200,168,0.45)] hover:shadow-[0_14px_36px_-8px_rgba(244,200,168,0.60)] transition-all duration-200 ease-out hover:scale-[1.01] hover:from-[#fadbc0] hover:to-[#eec199] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-4 bg-white text-black font-bold text-[15px] tracking-tight rounded-full shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] hover:-translate-y-[1px] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -716,7 +713,7 @@ export default function Register({
                   onChange={(e) =>
                     setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
                   }
-                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.03] dark:bg-white/[0.06] border border-black/10 dark:border-white/[0.12] rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200"
                   placeholder="000000"
                   maxLength={6}
                   autoFocus
