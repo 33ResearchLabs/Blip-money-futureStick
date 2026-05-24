@@ -325,8 +325,8 @@ const App = () => (
                         click "Create one" / "Register as Merchant" to reach the
                         register pages below. */}
                     <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
-                    <Route path="/waitlist/user" element={<UserLogin initialView="waitlist" />} />
-                    <Route path="/waitlist/merchant" element={<MerchantLogin initialView="waitlist" />} />
+                    <Route path="/waitlist/user" element={<UserRegister />} />
+                    <Route path="/waitlist/merchant" element={<MerchantRegister />} />
                     <Route path="/merchant-waitlist" element={<MerchantLogin initialView="waitlist" />} />
                     {/* Explicit register routes */}
                     <Route path="/join-waitlist" element={<UserRegister />} />
