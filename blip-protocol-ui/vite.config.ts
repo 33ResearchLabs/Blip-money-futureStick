@@ -16,6 +16,15 @@ export default defineConfig(({ mode }) => ({
       ".ngrok-free.app",
       ".ngrok.io",
     ],
+    // Dev proxy — keeps API calls same-origin so the browser doesn't fire
+    // CORS preflight against the Railway backend. Only used in `vite dev`.
+    proxy: {
+      "/api": {
+        target: "https://blip-money-futurestick-production.up.railway.app",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   plugins: [
     react(),

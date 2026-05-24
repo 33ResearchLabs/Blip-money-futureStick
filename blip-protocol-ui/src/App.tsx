@@ -31,6 +31,7 @@ const CryptoToUae = lazy(() => import("./pages/Markets/CryptoToUae"));
 const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
 const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
 const WaitlistUserHero = lazy(() => import("./pages/Waitlist/WaitlistUserHero"));
+const UserLoginHero = lazy(() => import("./pages/Waitlist/UserLoginHero"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
 const EmailVerificationPending = lazy(
@@ -337,7 +338,7 @@ const App = () => (
                     <Route path="/join-waitlist" element={<UserRegister />} />
                     <Route path="/merchant-register" element={<MerchantRegister />} />
                     {/* Explicit login routes (aliases of the waitlist defaults) */}
-                    <Route path="/login" element={<UserLogin initialView="waitlist" />} />
+                    <Route path="/login" element={<UserLoginHero />} />
                     <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
                   </Route>
 

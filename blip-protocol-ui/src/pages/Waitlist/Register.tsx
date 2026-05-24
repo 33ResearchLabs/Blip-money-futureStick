@@ -329,11 +329,11 @@ export default function Register({
           <div className="leading-snug">
             <div className="text-[13.5px] font-bold text-black dark:text-white tracking-tight">
               +5,000 BLIP points{" "}
-              <span className="font-medium text-[#3a3a3c] dark:text-white/75">
+              <span className="font-medium text-[#1d1d1f] dark:text-white/85">
                 on signup
               </span>
             </div>
-            <div className="text-[11px] text-[#6e6e73] dark:text-white/60 mt-0.5">
+            <div className="text-[11px] text-[#3a3a3c] dark:text-white/60 mt-0.5">
               Auto-credited after email verification
             </div>
           </div>
@@ -350,7 +350,7 @@ export default function Register({
           </button>
           <Link
             to={loginPath}
-            className="py-2.5 rounded-full text-[13px] font-semibold text-[#3a3a3c] dark:text-white/75 hover:text-black/85 dark:hover:text-white/85 text-center transition-colors duration-200"
+            className="py-2.5 rounded-full text-[13px] font-semibold text-[#1d1d1f] dark:text-white/85 hover:text-black/85 dark:hover:text-white/85 text-center transition-colors duration-200"
           >
             Sign in
           </Link>
@@ -380,7 +380,7 @@ export default function Register({
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-transparent"
-                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
+                } rounded-xl text-black dark:text-white placeholder:text-[#6e6e73] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
@@ -414,7 +414,7 @@ export default function Register({
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-transparent"
-                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
+                } rounded-xl text-black dark:text-white placeholder:text-[#6e6e73] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="Min 8 characters"
                 maxLength={50}
                 disabled={isLoading}
@@ -562,7 +562,7 @@ export default function Register({
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-transparent"
-                } rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
+                } rounded-xl text-black dark:text-white placeholder:text-[#6e6e73] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200`}
                 placeholder="Confirm your password"
                 maxLength={50}
                 disabled={isLoading}
@@ -594,7 +594,7 @@ export default function Register({
               name="referral_code"
               value={formData.referral_code}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border-0 rounded-xl text-black dark:text-white placeholder:text-[#86868b] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200"
+              className="w-full px-4 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border-0 rounded-xl text-black dark:text-white placeholder:text-[#6e6e73] dark:placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-black/12 dark:focus:ring-white/20 focus:bg-white dark:focus:bg-white/[0.10] transition-all duration-200"
               placeholder="Referral code (optional)"
               disabled={isLoading}
             />
@@ -643,7 +643,7 @@ export default function Register({
                 </>
               )}
             </button>
-            <p className="mt-3 text-center text-[11.5px] text-[#3a3a3c] dark:text-white/65 flex items-center justify-center gap-1.5">
+            <p className="mt-3 text-center text-[11.5px] text-[#1d1d1f] dark:text-white/80 flex items-center justify-center gap-1.5">
               <Shield className="w-3 h-3" strokeWidth={2} />
               We respect your privacy. No spam, ever.
             </p>
@@ -661,7 +661,7 @@ export default function Register({
               {isMerchant ? "Merchant Sign In" : "Sign in"}
             </Link>
           </p>
-          <p className="text-[12px] text-[#3a3a3c] dark:text-white/65 leading-relaxed">
+          <p className="text-[12px] text-[#1d1d1f] dark:text-white/80 leading-relaxed">
             By creating an account, you agree to our{" "}
             <Link
               to="/terms"

@@ -307,7 +307,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                       e.target.value.replace(/\D/g, "").slice(0, 6),
                     )
                   }
-                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
+                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-[#F2F2F5] dark:bg-white/[0.06] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
                   placeholder="000000"
                   maxLength={6}
                   autoFocus
@@ -318,7 +318,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
               <button
                 type="submit"
                 disabled={isLoading || twoFactorCode.length !== 6}
-                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-black text-white dark:bg-white dark:text-black font-bold rounded-full transition-all duration-200 ease-out hover:-translate-y-[1px] active:scale-[0.99] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
               >
                 {isLoading ? (
                   <>
@@ -347,7 +347,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                   setShow2FA(false);
                   setTwoFactorCode("");
                 }}
-                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
+                className="w-full py-2.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
               >
                 Back to Login
               </button>
@@ -369,7 +369,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                         .slice(0, 9),
                     )
                   }
-                  className="w-full px-4 py-4 text-center text-xl tracking-[0.15em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
+                  className="w-full px-4 py-4 text-center text-xl tracking-[0.15em] font-mono bg-[#F2F2F5] dark:bg-white/[0.06] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
                   placeholder="XXXX-XXXX"
                   maxLength={9}
                   autoFocus
@@ -385,7 +385,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 disabled={
                   isLoading || recoveryCode.replace(/-/g, "").length !== 8
                 }
-                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-black text-white dark:bg-white dark:text-black font-bold rounded-full transition-all duration-200 ease-out hover:-translate-y-[1px] active:scale-[0.99] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
               >
                 {isLoading ? (
                   <>
@@ -416,7 +416,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                   setUseRecoveryCode(false);
                   setRecoveryCode("");
                 }}
-                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
+                className="w-full py-2.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
               >
                 Back to Login
               </button>
@@ -433,7 +433,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         {/* Header - hidden when inside merchant wrapper which provides its own */}
 
         {/* Sign up / Sign in tab toggle */}
-        <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-[#F2F2F5] dark:bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           
           <Link
             to={registerPath}
@@ -470,7 +470,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
+                className={`w-full pl-12 pr-4 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
@@ -516,7 +516,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 value={formData.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
+                className={`w-full pl-12 pr-12 py-2.5 bg-[#F2F2F5] dark:bg-white/[0.06] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
@@ -549,7 +549,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 bg-white text-black font-semibold text-[15px] border border-black/10  rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-black text-white dark:bg-white dark:text-black font-bold text-[15px] rounded-full shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

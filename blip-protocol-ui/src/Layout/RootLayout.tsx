@@ -54,6 +54,7 @@ const StickyJoinWaitlist = () => {
 const LIGHT_ROUTES = new Set<string>([
   "/", "", "/rates",
   "/waitlist/user", "/waitlist/merchant", "/join-waitlist",
+  "/login", "/register", "/merchant-login", "/merchant-register",
 ]);
 
 const RouteThemeSync = () => {
