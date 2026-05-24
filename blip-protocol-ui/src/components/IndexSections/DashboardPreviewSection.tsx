@@ -265,7 +265,7 @@ const DashboardPreviewSection = () => {
           className="mt-12 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <a
-            href="https://app.blip.money/waitlist/merchant"
+            href="/waitlist/merchant"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-6 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985] shadow-[0_8px_28px_-10px_rgba(255,255,255,0.25)]"

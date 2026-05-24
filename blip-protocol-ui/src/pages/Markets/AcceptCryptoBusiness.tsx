@@ -549,7 +549,7 @@ const CTABottomSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <a
-            href="https://app.blip.money/waitlist/merchant"
+            href="/waitlist/merchant"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => sounds.click()}
@@ -561,7 +561,7 @@ const CTABottomSection = () => {
           </a>
 
           <a
-            href="https://app.blip.money/waitlist/merchant"
+            href="/waitlist/merchant"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => sounds.click()}

@@ -270,7 +270,7 @@ const UserHero = () => {
           className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-2 mt-2 w-full"
         >
           <a
-            href="https://app.blip.money/waitlist/user"
+            href="/waitlist/user"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
