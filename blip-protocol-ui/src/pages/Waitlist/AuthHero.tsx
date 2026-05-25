@@ -284,13 +284,13 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                         lineHeight: 0.95,
                       }}
                     >
-                      {role === "user" ? "10%" : "60s"}
+                      {role === "user" ? "10%" : "3%"}
                     </span>
                     <span
                       className="text-[9px] font-semibold tracking-[0.22em] uppercase mt-1.5"
                       style={{ color: "rgba(255,255,255,0.45)" }}
                     >
-                      {role === "user" ? "Per trade" : "Settle time"}
+                      {role === "user" ? "Per trade" : "Better rate"}
                     </span>
                   </div>
 
@@ -315,7 +315,7 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                     >
                       {role === "user"
                         ? "Earn up to 10% on every transaction"
-                        : "Send money globally in under a minute"}
+                        : "Get the best rates on the Blip market — up to 3% better than anywhere else"}
                     </p>
                   </div>
 
