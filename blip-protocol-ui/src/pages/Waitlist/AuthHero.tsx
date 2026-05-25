@@ -194,7 +194,7 @@ export default function AuthHero({ initialRole = "user", initialMode = "signin" 
                 className="mt-9 text-[11px] tracking-[0.18em] uppercase font-semibold"
                 style={{ color: "#3a3a3c" }}
               >
-                {role === "merchant" ? "1,284 merchants on the network" : "12,438 already in line"}
+                {role === "merchant" ? "1,284 merchants on the network" : "424 already in line"}
               </p>
             </motion.div>
 
@@ -253,28 +253,8 @@ export default function AuthHero({ initialRole = "user", initialMode = "signin" 
                   </p>
                 </div>
 
-                {/* Sign in / Sign up toggle */}
-                <div className="grid grid-cols-2 p-[3px] rounded-full bg-[#EFEFF2] mb-5">
-                  {(["signin", "signup"] as const).map((m) => {
-                    const active = mode === m;
-                    return (
-                      <button
-                        key={m}
-                        type="button"
-                        onClick={() => setMode(m)}
-                        className={`py-2 rounded-full text-[12px] font-semibold tracking-tight transition ${
-                          active
-                            ? "bg-[#1d1d1f] text-white shadow-[0_2px_6px_rgba(0,0,0,0.18)]"
-                            : "text-[#6e6e73] hover:text-[#1d1d1f]"
-                        }`}
-                      >
-                        {m === "signin" ? "Sign in" : "Sign up"}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* The actual form */}
+                {/* The actual form — Register/Login each render their own
+                    internal Sign up / Sign in tabs, so no outer toggle here */}
                 <motion.div
                   key={`${role}-${mode}-form`}
                   initial={{ opacity: 0, y: 6 }}
