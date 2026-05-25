@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Activity,
+  CheckCircle,
+  Star,
   Search,
   Bell,
   Settings,
@@ -46,7 +49,6 @@ import {
   Download,
   Check,
   KeyRound,
-  Star,
   Gift,
   ArrowRight,
   Crown,
@@ -1156,7 +1158,10 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 pb-24 md:pb-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
+        {/* Top of dashboard — anchored for mobile bottom-nav "Home" tab */}
+        <div id="dash-top" />
+
         {/* ── Top row: Refer Friends | Referral Code | Real-Time Activity ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 items-stretch">
           {/* Card 1: Refer Friends — 2-col, text left + dark-stage hero right */}
@@ -1298,6 +1303,7 @@ export default function MerchantDashboard() {
 
           {/* Card 3: Real-Time Activity */}
           <div
+            id="dash-activity"
             className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden flex flex-col`}
           >
             <div
@@ -1859,7 +1865,7 @@ export default function MerchantDashboard() {
             </div> */}
 
             {/* Your Progress */}
-            <div className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4`}>
+            <div id="dash-progress" className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4`}>
               <div
                 className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub} mb-1`}
               >
@@ -2095,6 +2101,46 @@ export default function MerchantDashboard() {
           </div>
         </div>
       </main>
+
+      {/* ── Mobile bottom tab bar (app-style) ────────────────────────────── */}
+      <nav
+        aria-label="Dashboard"
+        className={`md:hidden fixed inset-x-0 bottom-0 z-50 ${surface} border-t ${border}`}
+        style={{
+          paddingBottom: "max(env(safe-area-inset-bottom), 8px)",
+          backdropFilter: "saturate(140%) blur(14px)",
+          WebkitBackdropFilter: "saturate(140%) blur(14px)",
+          boxShadow: d
+            ? "0 -8px 24px -8px rgba(0,0,0,0.5)"
+            : "0 -8px 24px -12px rgba(0,0,0,0.10)",
+        }}
+      >
+        <div className="grid grid-cols-5 px-2 pt-1.5">
+          {[
+            { label: "Home", Icon: Activity, href: "#dash-top" },
+            { label: "Activity", Icon: TrendingUp, href: "#dash-activity" },
+            { label: "Refer", Icon: Share2, action: () => setShowReferralModal(true) },
+            { label: "Quests", Icon: Star, href: "#social-quests" },
+            { label: "Progress", Icon: CheckCircle, href: "#dash-progress" },
+          ].map(({ label, Icon, href, action }) => {
+            const cls = `flex flex-col items-center justify-center gap-0.5 py-2 rounded-lg text-[10px] font-semibold tracking-tight ${muted} hover:${txt} transition-colors`;
+            if (action) {
+              return (
+                <button key={label} type="button" onClick={action} className={cls}>
+                  <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
+                  <span>{label}</span>
+                </button>
+              );
+            }
+            return (
+              <a key={label} href={href} className={cls}>
+                <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
+                <span>{label}</span>
+              </a>
+            );
+          })}
+        </div>
+      </nav>
 
       <Footer skipAnimation />
 
