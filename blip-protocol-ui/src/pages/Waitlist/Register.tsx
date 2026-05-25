@@ -321,6 +321,31 @@ export default function Register({
           </div>
         )}
 
+        {/* Role chip — makes it visually obvious whether this form is for
+            a User or Merchant signup, regardless of which route mounted it. */}
+        <div className="flex items-center justify-between mb-3">
+          <div
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.18em]"
+            style={{
+              background: "rgba(204,120,92,0.10)",
+              color: "#cc785c",
+            }}
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: "#cc785c" }}
+            />
+            Joining as {isMerchant ? "a Merchant" : "a User"}
+          </div>
+          {/* Quick role switch — keeps users out of the wrong form */}
+          <Link
+            to={isMerchant ? "/register" : "/merchant-register"}
+            className="text-[11px] font-semibold underline underline-offset-4 text-black/55 dark:text-white/55 hover:text-black dark:hover:text-white transition-colors"
+          >
+            Switch to {isMerchant ? "User" : "Merchant"}
+          </Link>
+        </div>
+
         {/* Bonus pill — neutral, no accent */}
         <div className="flex items-center gap-3 rounded-xl px-4 py-2.5 mb-3 bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.08]">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black dark:bg-white">
