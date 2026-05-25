@@ -238,67 +238,100 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                 {role === "merchant" ? "1,284 merchants on the network" : "424 already in line"}
               </p>
 
-              {/* Apple-callout cross-sell — neutral ink palette, no orange.
-                  Soft ink-tinted surface, thin hairline border, restrained. */}
-              <div
-                className="mt-7 max-w-[440px] mx-auto lg:mx-0 rounded-2xl p-4 flex items-center gap-3.5"
+              {/* Commercial cross-sell card — dark ink surface, big editorial
+                  hero number, premium pill CTA. Subtle iridescent sheen and
+                  a hairline highlight on top for that Stripe / Linear ad-block
+                  vibe. */}
+              <button
+                type="button"
+                onClick={() => setRole(role === "user" ? "merchant" : "user")}
+                className="group mt-7 w-full max-w-[440px] mx-auto lg:mx-0 relative overflow-hidden rounded-2xl text-left transition-transform hover:-translate-y-[2px]"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(29,29,31,0.05) 0%, rgba(245,245,247,0.6) 100%)",
-                  border: "1px solid rgba(29,29,31,0.10)",
-                  boxShadow: "0 8px 24px -16px rgba(0,0,0,0.18)",
+                  background: "linear-gradient(135deg, #0a0a0a 0%, #1d1d1f 100%)",
+                  boxShadow:
+                    "0 24px 60px -24px rgba(0,0,0,0.55), 0 8px 24px -12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)",
                 }}
               >
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+                {/* Subtle iridescent sheen sweeping on hover */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                   style={{
-                    background: "linear-gradient(135deg, #1d1d1f 0%, #3a3a3c 100%)",
-                    boxShadow: "0 6px 14px -6px rgba(0,0,0,0.30)",
+                    background:
+                      "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%)",
                   }}
-                >
-                  <span className="text-[14px] font-bold tracking-tight">10%</span>
-                </div>
-                <div className="flex-1 min-w-0 text-left">
-                  <div
-                    className="text-[10.5px] font-semibold tracking-[0.18em] uppercase"
-                    style={{ color: "#6e6e73" }}
-                  >
-                    {role === "user" ? "Earn on every trade" : "Send money too"}
+                />
+                {/* Soft warm glow on the right edge */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -right-16 -top-10 w-48 h-48 rounded-full"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(204,120,92,0.22) 0%, rgba(204,120,92,0) 65%)",
+                    filter: "blur(2px)",
+                  }}
+                />
+
+                <div className="relative z-10 px-5 py-4 flex items-center gap-4">
+                  {/* Big editorial hero number */}
+                  <div className="flex flex-col leading-none shrink-0">
+                    <span
+                      className="font-display text-white"
+                      style={{
+                        fontSize: "44px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.06em",
+                        lineHeight: 0.95,
+                      }}
+                    >
+                      {role === "user" ? "10%" : "60s"}
+                    </span>
+                    <span
+                      className="text-[9px] font-semibold tracking-[0.22em] uppercase mt-1.5"
+                      style={{ color: "rgba(255,255,255,0.45)" }}
+                    >
+                      {role === "user" ? "Per trade" : "Settle time"}
+                    </span>
                   </div>
-                  <p
-                    className="text-[12.5px] leading-snug mt-0.5"
-                    style={{ color: "#1d1d1f" }}
+
+                  {/* Divider */}
+                  <span
+                    aria-hidden
+                    className="h-12 w-px shrink-0"
+                    style={{ background: "rgba(255,255,255,0.10)" }}
+                  />
+
+                  {/* Copy */}
+                  <div className="flex-1 min-w-0">
+                    <div
+                      className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-1"
+                      style={{ color: "#cc785c" }}
+                    >
+                      {role === "user" ? "Switch to Merchant" : "Switch to User"}
+                    </div>
+                    <p
+                      className="text-[13px] font-semibold leading-snug text-white"
+                      style={{ letterSpacing: "-0.01em" }}
+                    >
+                      {role === "user"
+                        ? "Earn up to 10% on every transaction"
+                        : "Send money globally in under a minute"}
+                    </p>
+                  </div>
+
+                  {/* Arrow */}
+                  <span
+                    className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full transition-transform group-hover:translate-x-0.5"
+                    style={{
+                      background: "rgba(255,255,255,0.10)",
+                      color: "#ffffff",
+                    }}
+                    aria-hidden
                   >
-                    {role === "user" ? (
-                      <>
-                        Join as a{" "}
-                        <span className="font-semibold">merchant / LP</span>{" "}
-                        and earn up to{" "}
-                        <span className="font-semibold">10%</span> on every transaction.
-                      </>
-                    ) : (
-                      <>
-                        Need to send money?{" "}
-                        <span className="font-semibold">Sign up as a user</span>{" "}
-                        — borderless transfers in under 60 seconds.
-                      </>
-                    )}
-                  </p>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setRole(role === "user" ? "merchant" : "user")}
-                  className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full transition-transform hover:-translate-y-[1px]"
-                  style={{
-                    background: "#1d1d1f",
-                    color: "#ffffff",
-                    boxShadow: "0 4px 12px -4px rgba(0,0,0,0.30)",
-                  }}
-                  aria-label={role === "user" ? "Switch to merchant" : "Switch to user"}
-                >
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              </button>
             </motion.div>
 
             {/* ── RIGHT — auth card with toggles ────────────────────── */}
