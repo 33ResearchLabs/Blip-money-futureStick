@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Zap,
   Shield,
@@ -293,21 +293,22 @@ const UserHero = () => {
         </motion.div>
       </div>
 
-      {/* RIGHT: Corrector character — desktop only (hidden on mobile) */}
+      {/* RIGHT: real app screenshot in an iPhone frame — desktop only */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.25, ease: EASE }}
-        className="hidden lg:block relative w-full aspect-[4/5] max-w-[520px] mx-auto rounded-[28px] overflow-hidden bg-[#f7f4ee] border border-black/[0.06]"
+        className="hidden lg:flex relative w-full max-w-[420px] mx-auto items-center justify-center"
       >
-        <img
-          src="/illustrations/user-corrector-phone.png"
-          alt="The Corrector — character using a phone to send money"
-          className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = "/illustrations/hero-char-1.png";
-          }}
-        />
+        <div className="relative w-full max-w-[260px]">
+          {/* Ambient warm glow behind the phone */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full opacity-[0.35] blur-3xl"
+            style={{ background: "radial-gradient(ellipse, #cc785c, transparent 70%)" }}
+          />
+          <IPhoneFrame src="/screenshots/app-screen-3.png" />
+        </div>
       </motion.div>
       </main>
     </section>

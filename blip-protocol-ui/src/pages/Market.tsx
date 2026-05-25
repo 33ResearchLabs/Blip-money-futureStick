@@ -257,7 +257,7 @@ const Market = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
               className="font-semibold tracking-[-0.035em] leading-[1.04] mb-5 sm:mb-6 max-w-[1000px] mx-auto px-2"
-              style={{ fontSize: "clamp(32px, 6.5vw, 80px)" }}
+              style={{ fontSize: "clamp(50px, 11vw, 80px)" }}
             >
               Trade in{" "}
               <span

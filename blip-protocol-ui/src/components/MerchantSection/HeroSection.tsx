@@ -108,7 +108,7 @@ export const CinematicHeroOfMerchant = () => {
             transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
             className="font-display text-white max-w-[920px]"
             style={{
-              fontSize: "clamp(2.1rem, 4.8vw, 3.9rem)",
+              fontSize: "clamp(2.8rem, 9vw, 3.9rem)",
               fontWeight: 500,
               lineHeight: 1.02,
               letterSpacing: "-0.055em",

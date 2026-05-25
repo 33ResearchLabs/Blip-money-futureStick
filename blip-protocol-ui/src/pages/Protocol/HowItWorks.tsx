@@ -119,31 +119,31 @@ function Step({
           >
             STEP {number}
           </span>
-          <span className="text-[10.5px] font-bold tracking-[0.22em] text-white/45">
+          <span className="text-[10.5px] font-bold tracking-[0.22em] text-black/50">
             · {eyebrow}
           </span>
         </div>
 
-        <div className="flex items-start gap-4 mb-5">
+        <div className="mb-5">
           <div
-            className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+            className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
             style={{
               background: `${ACCENT}18`,
-              border: `1px solid ${ACCENT}44`,
+              border: `1px solid ${ACCENT}55`,
             }}
           >
             <Icon className="w-5 h-5" style={{ color: ACCENT }} strokeWidth={2} />
           </div>
           <h3
-            className="font-semibold text-white tracking-[-0.025em] leading-[1.08] flex-1"
-            style={{ fontSize: "clamp(26px, 3.4vw, 38px)" }}
+            className="font-semibold text-black tracking-[-0.025em] leading-[1.08]"
+            style={{ fontSize: "clamp(24px, 3.2vw, 36px)" }}
           >
             {title}
           </h3>
         </div>
 
         <p
-          className="text-[15px] sm:text-[16px] leading-[1.6] text-white/65 max-w-[520px]"
+          className="text-[15px] sm:text-[16px] leading-[1.6] text-black/65 max-w-[520px]"
         >
           {body}
         </p>
@@ -204,22 +204,25 @@ function DashCard() {
   const state = useMerchantDashboardState();
   return (
     <div
-      className="relative rounded-[20px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-2 sm:p-3 overflow-hidden"
+      className="relative rounded-[20px] overflow-hidden"
       style={{
+        background: "#0a0a0a",
+        border: "1px solid rgba(0,0,0,0.85)",
         boxShadow:
-          "0 60px 140px -40px rgba(204,120,92,0.30), 0 30px 80px -30px rgba(0,0,0,0.6)",
+          "0 60px 140px -40px rgba(204,120,92,0.35), 0 30px 80px -30px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset",
         maxHeight: 480,
       }}
     >
+      {/* Subtle top sheen */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px z-10"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
         }}
       />
-      <div className="overflow-hidden" style={{ maxHeight: 460 }}>
+      <div className="overflow-hidden" style={{ maxHeight: 480 }}>
         <div style={{ transform: "scale(0.72)", transformOrigin: "top left", width: "139%" }}>
           <MerchantDashboardBody state={state} />
         </div>
@@ -399,19 +402,20 @@ export const HowItWorksPage = () => {
       />
       <HreflangTags path="/how-it-works" />
 
-      <div className="min-h-screen bg-black text-white mt-20 relative overflow-hidden">
-        {/* Ambient glows */}
+      <div className="min-h-screen bg-white text-black mt-20 relative overflow-hidden">
+        {/* Ambient warm glow (subtle on white) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1200px] h-[700px] rounded-full opacity-[0.12] blur-3xl"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1200px] h-[700px] rounded-full opacity-[0.10] blur-3xl"
           style={{ background: `radial-gradient(ellipse, ${ACCENT}, transparent 70%)` }}
         />
+        {/* Dotted grid (dark on white) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 opacity-[0.45]"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+              "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)",
             backgroundSize: "28px 28px",
             maskImage:
               "radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 80%)",
@@ -419,8 +423,8 @@ export const HowItWorksPage = () => {
         />
 
         {/* ── HERO ───────────────────────────────────────── */}
-        <div className="relative pt-10 sm:pt-20 pb-16 sm:pb-24 px-5 sm:px-6">
-          <div className="max-w-[1180px] mx-auto text-center">
+        <div className="relative min-h-[calc(100vh-80px)] flex items-center pt-10 sm:pt-20 pb-16 sm:pb-24 px-5 sm:px-6">
+          <div className="max-w-[1180px] mx-auto text-center w-full">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -450,7 +454,7 @@ export const HowItWorksPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
               className="font-semibold tracking-[-0.035em] leading-[1.04] mb-6 max-w-[920px] mx-auto px-2"
-              style={{ fontSize: "clamp(32px, 6.5vw, 80px)" }}
+              style={{ fontSize: "clamp(50px, 11vw, 80px)" }}
             >
               How Blip works,{" "}
               <span
@@ -469,7 +473,7 @@ export const HowItWorksPage = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.12, ease: EASE }}
-              className="max-w-[620px] mx-auto text-[14.5px] sm:text-[16px] leading-[1.6] text-white/60 mb-2 px-2"
+              className="max-w-[620px] mx-auto text-[14.5px] sm:text-[16px] leading-[1.6] text-black/65 mb-2 px-2"
             >
               You initiate a trade. Verified merchants compete in a sealed-bid
               auction. The winning bid locks funds in on-chain escrow.
@@ -479,7 +483,7 @@ export const HowItWorksPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-              className="text-[11px] font-bold tracking-[0.22em] text-white/35 mt-3"
+              className="text-[11px] font-bold tracking-[0.22em] text-black/40 mt-3"
               style={{ fontFamily: MONO }}
             >
               ~ 60 SECONDS · 0% FEES · NON-CUSTODIAL
@@ -586,67 +590,258 @@ export const HowItWorksPage = () => {
           </div>
         </div>
 
-        {/* ── WHY IT WORKS ───────────────────────────────── */}
-        <div className="relative px-5 sm:px-6 mt-24 sm:mt-36">
-          <div className="max-w-[1180px] mx-auto">
-            <div className="text-center mb-10 sm:mb-14 max-w-[680px] mx-auto">
-              <div
-                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.22em] mb-4"
-                style={{ color: ACCENT, fontFamily: MONO }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT }} />
-                WHY THIS DESIGN
-              </div>
-              <h2
-                className="font-semibold tracking-[-0.028em] leading-[1.1] text-white px-2"
-                style={{ fontSize: "clamp(24px, 4vw, 44px)" }}
-              >
-                Built so the protocol{" "}
-                <span
+        {/* ── WHY IT WORKS — full-bleed black showcase strip ─── */}
+        <section className="relative mt-24 sm:mt-36 bg-black text-white overflow-hidden">
+          {/* Top + bottom hairline accents */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 top-0 h-px"
+            style={{
+              background: `linear-gradient(90deg, transparent 0%, ${ACCENT}88 50%, transparent 100%)`,
+            }}
+          />
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-px"
+            style={{
+              background: `linear-gradient(90deg, transparent 0%, ${ACCENT}55 50%, transparent 100%)`,
+            }}
+          />
+
+          {/* Central radial glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[1100px] h-[600px] rounded-full opacity-[0.18] blur-3xl"
+            style={{ background: `radial-gradient(ellipse, ${ACCENT}, transparent 70%)` }}
+          />
+
+          {/* Dotted background grid */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-[0.4]"
+            style={{
+              backgroundImage:
+                "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+              backgroundSize: "24px 24px",
+              maskImage:
+                "radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%)",
+            }}
+          />
+
+          <div className="relative px-5 sm:px-6 py-24 sm:py-36">
+            <div className="max-w-[1180px] mx-auto">
+              {/* Section header */}
+              <div className="text-center mb-14 sm:mb-20 max-w-[820px] mx-auto">
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: EASE }}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
                   style={{
-                    fontStyle: "italic",
-                    fontWeight: 500,
-                    fontFamily: "ui-serif, Georgia, serif",
-                    color: ACCENT,
+                    background: `${ACCENT}1a`,
+                    border: `1px solid ${ACCENT}55`,
                   }}
                 >
-                  cannot lie.
-                </span>
-              </h2>
-            </div>
+                  <motion.span
+                    animate={{ opacity: [1, 0.35, 1] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }}
+                  />
+                  <span
+                    className="text-[10.5px] font-bold tracking-[0.22em]"
+                    style={{ color: ACCENT, fontFamily: MONO }}
+                  >
+                    PROTOCOL GUARANTEES
+                  </span>
+                </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {[
-                {
-                  icon: Zap,
-                  title: "Sub-second settlement",
-                  body:
-                    "Solana's high throughput means escrow lock and release happen in seconds, not minutes.",
-                },
-                {
-                  icon: ShieldCheck,
-                  title: "Merchant bonds",
-                  body:
-                    "Every merchant posts collateral. Cheat the protocol, lose the bond — enforced by smart contract, not lawyers.",
-                },
-                {
-                  icon: Eye,
-                  title: "Pseudonymous by design",
-                  body:
-                    "No phone numbers, no KYC for routine transfers. Trust comes from the protocol, not your personal data.",
-                },
-              ].map((f, i) => (
-                <FeatureCard key={f.title} {...f} index={i} />
-              ))}
+                <motion.h2
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: EASE }}
+                  className="font-semibold tracking-[-0.035em] leading-[1.04] text-white px-2"
+                  style={{ fontSize: "clamp(40px, 8vw, 76px)" }}
+                >
+                  Built so the protocol{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily: "ui-serif, Georgia, serif",
+                      color: ACCENT,
+                    }}
+                  >
+                    cannot lie.
+                  </span>
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+                  className="mt-6 text-[14.5px] sm:text-[16px] leading-[1.6] text-white/55 max-w-[560px] mx-auto"
+                >
+                  No human in the loop. No middleman to call. Every guarantee
+                  below is enforced by code, not policy.
+                </motion.p>
+              </div>
+
+              {/* Metric strip */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, ease: EASE }}
+                className="grid grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16 max-w-[820px] mx-auto"
+              >
+                {[
+                  { value: "<400ms", label: "AVG SETTLEMENT" },
+                  { value: "100%", label: "BONDED MERCHANTS" },
+                  { value: "0", label: "CUSTODIANS" },
+                ].map((m, i) => (
+                  <motion.div
+                    key={m.label}
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 + i * 0.08, ease: EASE }}
+                    className="text-center"
+                  >
+                    <div
+                      className="font-semibold leading-none mb-2 tabular-nums"
+                      style={{
+                        fontFamily: "ui-serif, Georgia, serif",
+                        fontSize: "clamp(28px, 5vw, 44px)",
+                        letterSpacing: "-0.04em",
+                        color: "#fff",
+                      }}
+                    >
+                      {m.value}
+                    </div>
+                    <div
+                      className="text-[9.5px] sm:text-[10.5px] font-bold tracking-[0.22em] text-white/45"
+                      style={{ fontFamily: MONO }}
+                    >
+                      {m.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Dramatic feature bento */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                {[
+                  {
+                    icon: Zap,
+                    title: "Sub-second settlement",
+                    body:
+                      "Solana's high throughput means escrow lock and release happen in seconds, not minutes.",
+                    tag: "PROOF · ON-CHAIN",
+                  },
+                  {
+                    icon: ShieldCheck,
+                    title: "Merchant bonds",
+                    body:
+                      "Every merchant posts collateral. Cheat the protocol, lose the bond — enforced by smart contract, not lawyers.",
+                    tag: "SLASHING · AUTOMATIC",
+                  },
+                  {
+                    icon: Eye,
+                    title: "Pseudonymous by design",
+                    body:
+                      "No phone numbers, no KYC for routine transfers. Trust comes from the protocol, not your personal data.",
+                    tag: "PRIVACY · DEFAULT",
+                  },
+                ].map((f, i) => (
+                  <motion.div
+                    key={f.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }}
+                    whileHover={{ y: -6 }}
+                    className="group relative p-6 sm:p-7 rounded-[22px] overflow-hidden"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      boxShadow:
+                        "0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 80px -30px rgba(0,0,0,0.5)",
+                      transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
+                  >
+                    {/* Top hairline accent on hover */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-x-0 top-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)`,
+                      }}
+                    />
+
+                    {/* Icon + index */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center"
+                        style={{
+                          background: `linear-gradient(135deg, ${ACCENT}26, ${ACCENT}0d)`,
+                          border: `1px solid ${ACCENT}55`,
+                          boxShadow: `inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 20px -8px ${ACCENT}55`,
+                        }}
+                      >
+                        <f.icon className="w-5 h-5" style={{ color: ACCENT }} strokeWidth={2.2} />
+                      </div>
+                      <span
+                        className="text-[10px] font-bold tracking-[0.18em] mt-1"
+                        style={{ color: "rgba(255,255,255,0.3)", fontFamily: MONO }}
+                      >
+                        / 0{i + 1}
+                      </span>
+                    </div>
+
+                    <h4
+                      className="text-[19px] sm:text-[20px] font-semibold text-white mb-2.5 tracking-[-0.015em] leading-[1.2]"
+                    >
+                      {f.title}
+                    </h4>
+                    <p className="text-[13.5px] leading-[1.55] text-white/55 mb-5">
+                      {f.body}
+                    </p>
+
+                    {/* Bottom mono tag with dot */}
+                    <div
+                      className="flex items-center gap-1.5 pt-4 border-t"
+                      style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                    >
+                      <motion.span
+                        animate={{ opacity: [1, 0.35, 1] }}
+                        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-1 h-1 rounded-full"
+                        style={{ background: ACCENT }}
+                      />
+                      <span
+                        className="text-[9.5px] font-bold tracking-[0.22em]"
+                        style={{ color: ACCENT, fontFamily: MONO }}
+                      >
+                        {f.tag}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* ── CTA ────────────────────────────────────────── */}
         <div className="relative px-5 sm:px-6 mt-24 sm:mt-36 pb-20 sm:pb-32">
           <div className="max-w-[820px] mx-auto text-center">
             <h2
-              className="font-semibold tracking-[-0.028em] leading-[1.1] text-white mb-5 sm:mb-6 px-2"
+              className="font-semibold tracking-[-0.028em] leading-[1.1] text-black mb-5 sm:mb-6 px-2"
               style={{ fontSize: "clamp(24px, 4.2vw, 48px)" }}
             >
               Ready to{" "}
@@ -661,7 +856,7 @@ export const HowItWorksPage = () => {
                 try it?
               </span>
             </h2>
-            <p className="text-[15px] sm:text-[15.5px] text-white/55 leading-[1.6] mb-8 sm:mb-9 max-w-[520px] mx-auto">
+            <p className="text-[15px] sm:text-[15.5px] text-black/60 leading-[1.6] mb-8 sm:mb-9 max-w-[520px] mx-auto">
               Join the waitlist for early access, or explore the live order
               book.
             </p>
@@ -670,9 +865,9 @@ export const HowItWorksPage = () => {
                 to="/waitlist/user"
                 className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] w-full sm:w-auto"
                 style={{
-                  background: "#fff",
-                  color: "#0a0a0a",
-                  boxShadow: "0 14px 36px -10px rgba(255,255,255,0.25)",
+                  background: "#0a0a0a",
+                  color: "#fff",
+                  boxShadow: "0 14px 36px -10px rgba(0,0,0,0.35)",
                 }}
               >
                 Join Waitlist
@@ -683,8 +878,8 @@ export const HowItWorksPage = () => {
                 className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors w-full sm:w-auto"
                 style={{
                   background: "transparent",
-                  color: "rgba(255,255,255,0.85)",
-                  border: "1px solid rgba(255,255,255,0.14)",
+                  color: "rgba(0,0,0,0.85)",
+                  border: "1px solid rgba(0,0,0,0.18)",
                 }}
               >
                 See the live market

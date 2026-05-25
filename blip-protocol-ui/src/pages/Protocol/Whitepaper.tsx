@@ -235,10 +235,10 @@ const Whitepaper = () => {
 
         {/* ── HERO ───────────────────────────────────────────────── */}
         <div className="relative pt-12 sm:pt-24 pb-12 sm:pb-20 px-5 sm:px-6">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto text-center lg:text-left">
             {/* Doc metadata bar */}
             <div
-              className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-10 text-[10.5px] font-semibold tracking-[0.22em] uppercase"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 mb-10 text-[10.5px] font-semibold tracking-[0.22em] uppercase"
               style={{ fontFamily: MONO, color: "rgba(0,0,0,0.45)" }}
             >
               <span className="flex items-center gap-1.5">
@@ -284,7 +284,7 @@ const Whitepaper = () => {
 
             <h1
               className="font-semibold tracking-[-0.035em] leading-[1.02] mb-6"
-              style={{ fontSize: "clamp(30px, 6.4vw, 76px)", color: "#0a0a0a" }}
+              style={{ fontSize: "clamp(46px, 11vw, 76px)", color: "#0a0a0a" }}
             >
               A pseudonymous,<br />
               on-chain protocol for<br />
@@ -303,7 +303,7 @@ const Whitepaper = () => {
               merchant auctions.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
               <button
                 onClick={handleDownload}
                 className="group inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all"
