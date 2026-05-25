@@ -14,6 +14,7 @@ import {
   Sparkles,
   Clock,
   Tag,
+  Copy,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO, StructuredData } from "@/components";
@@ -293,22 +294,20 @@ const UserHero = () => {
         </motion.div>
       </div>
 
-      {/* RIGHT: real app screenshot in an iPhone frame — desktop only */}
+      {/* RIGHT: standing character with phone — no background, floats clean */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.25, ease: EASE }}
-        className="hidden lg:flex relative w-full max-w-[420px] mx-auto items-center justify-center"
+        className="hidden lg:flex relative w-full max-w-[460px] mx-auto items-center justify-center"
       >
-        <div className="relative w-full max-w-[260px]">
-          {/* Ambient warm glow behind the phone */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full opacity-[0.35] blur-3xl"
-            style={{ background: "radial-gradient(ellipse, #cc785c, transparent 70%)" }}
-          />
-          <IPhoneFrame src="/screenshots/app-screen-3.png" />
-        </div>
+        <motion.img
+          src="/illustrations/user-skater-phone.png"
+          alt="A user holding a phone, sending money"
+          className="w-full h-auto"
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        />
       </motion.div>
       </main>
     </section>
@@ -552,6 +551,533 @@ function PhoneScreenImage({ defaultSrc }: { defaultSrc: string }) {
       className="absolute inset-0 w-full h-full object-cover object-top"
       onError={(e) => {
         (e.currentTarget as HTMLImageElement).src = "/home.svg";
+      }}
+    />
+  );
+}
+
+/* ============================================
+   AnimatedAppPhone — loops through Unlock → Wallet → Send → Sent
+   ============================================ */
+const APP_FLOW_STEPS = ["lock", "wallet", "send", "sent"] as const;
+type AppFlowStep = typeof APP_FLOW_STEPS[number];
+
+function AnimatedAppPhone() {
+  const [step, setStep] = useState<AppFlowStep>("lock");
+  useEffect(() => {
+    const durations: Record<AppFlowStep, number> = {
+      lock: 2400,
+      wallet: 2600,
+      send: 2800,
+      sent: 2200,
+    };
+    const t = setTimeout(() => {
+      const i = APP_FLOW_STEPS.indexOf(step);
+      setStep(APP_FLOW_STEPS[(i + 1) % APP_FLOW_STEPS.length]);
+    }, durations[step]);
+    return () => clearTimeout(t);
+  }, [step]);
+
+  return (
+    <div
+      className="relative mx-auto"
+      style={{
+        aspectRatio: "9/19.5",
+        width: "100%",
+        padding: "10px",
+        background: "linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)",
+        borderRadius: 50,
+        border: "1px solid rgba(255,255,255,0.06)",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.04) inset, 0 60px 140px -40px rgba(0,0,0,0.7), 0 24px 60px -16px rgba(204,120,92,0.35)",
+      }}
+    >
+      <span aria-hidden className="absolute -left-[2px] top-[18%] h-7 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[28%] h-12 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[42%] h-12 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -right-[2px] top-[32%] h-16 w-[3px] rounded-l bg-[#222]" />
+      <div
+        className="relative w-full h-full overflow-hidden"
+        style={{ borderRadius: 40, background: "#0a0a0a" }}
+      >
+        {/* Dynamic Island */}
+        <div
+          aria-hidden
+          className="absolute left-1/2 -translate-x-1/2 z-20"
+          style={{
+            top: 9, width: 86, height: 24, borderRadius: 999,
+            background: "#000", border: "1px solid #1a1a1a",
+          }}
+        />
+        <AnimatePresence mode="wait">
+          {step === "lock" && <LockScreen key="lock" />}
+          {step === "wallet" && <WalletScreen key="wallet" />}
+          {step === "send" && <SendScreen key="send" />}
+          {step === "sent" && <SentScreen key="sent" />}
+        </AnimatePresence>
+
+        {/* Tap indicator on the primary action of each step */}
+        <TapIndicator step={step} />
+      </div>
+    </div>
+  );
+}
+
+const SCREEN_BG = "linear-gradient(180deg, #111114 0%, #0a0a0a 100%)";
+
+function ScreenWrap({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="absolute inset-0 flex flex-col text-white"
+      style={{ background: SCREEN_BG, paddingTop: 44 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function LockScreen() {
+  // Animate PIN dots filling 0→6 across the screen's lifetime
+  const filled = [0, 1, 2, 3, 4];
+  return (
+    <ScreenWrap>
+      <div className="flex-1 flex flex-col items-center justify-center px-5 text-center">
+        <div
+          className="w-9 h-9 rounded-xl flex items-center justify-center mb-4"
+          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+        >
+          <Lock className="w-4 h-4 text-white" strokeWidth={2.2} />
+        </div>
+        <div
+          className="text-[11px] font-bold tracking-[0.18em] text-white/85 mb-1.5"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          UNLOCK WALLET
+        </div>
+        <div className="text-[9px] text-white/35 mb-6 tracking-[0.18em]" style={{ fontFamily: "ui-monospace,monospace" }}>
+          ENTER 6-DIGIT PIN
+        </div>
+        {/* PIN dots */}
+        <div className="flex gap-2 mb-7">
+          {[0, 1, 2, 3, 4, 5].map((i) => {
+            const isFilled = filled.includes(i);
+            return (
+              <motion.div
+                key={i}
+                initial={{ scale: 0.7, opacity: 0.3 }}
+                animate={{
+                  scale: isFilled ? 1 : 0.85,
+                  opacity: 1,
+                }}
+                transition={{ duration: 0.25, delay: i * 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className="w-3 h-3 rounded-full"
+                style={
+                  isFilled
+                    ? { background: "#cc785c", boxShadow: "0 0 8px rgba(204,120,92,0.7)" }
+                    : { background: "transparent", border: "1px solid rgba(255,255,255,0.2)" }
+                }
+              />
+            );
+          })}
+        </div>
+        <button
+          className="w-full h-10 rounded-xl text-[12px] font-semibold text-white"
+          style={{
+            background: "linear-gradient(180deg, #cc785c 0%, #b66848 100%)",
+            boxShadow: "0 10px 22px -10px rgba(204,120,92,0.7)",
+          }}
+        >
+          Unlock
+        </button>
+      </div>
+      <div className="pb-4 text-center text-[8.5px] tracking-[0.22em] text-white/25" style={{ fontFamily: "ui-monospace,monospace" }}>
+        EMBEDDED · NON-CUSTODIAL
+      </div>
+    </ScreenWrap>
+  );
+}
+
+function WalletScreen() {
+  return (
+    <ScreenWrap>
+      {/* Balance card — matches real wallet exactly */}
+      <div
+        className="mx-3 mt-2 rounded-2xl p-4 text-center"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        {/* Status row — centered */}
+        <div className="flex items-center justify-center gap-1.5 mb-3">
+          <motion.span
+            animate={{ opacity: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: "#22c55e", boxShadow: "0 0 6px rgba(34,197,94,0.6)" }}
+          />
+          <span
+            className="text-[9px] tracking-[0.18em] font-medium"
+            style={{ color: "#4ade80", fontFamily: "ui-monospace,monospace" }}
+          >
+            CONNECTED
+          </span>
+        </div>
+
+        {/* USDT label */}
+        <div
+          className="text-[9px] text-white/30 mb-1 tracking-[0.18em]"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          USDT BALANCE
+        </div>
+        {/* Big balance */}
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="font-bold text-white tabular-nums leading-none mb-1"
+          style={{ fontFamily: "ui-monospace,monospace", fontSize: 28, letterSpacing: "-0.02em" }}
+        >
+          92.40
+        </motion.div>
+        <div className="text-[10px] text-white/30" style={{ fontFamily: "ui-monospace,monospace" }}>
+          USDT · Mainnet
+        </div>
+
+        {/* Divider with SOL + Network */}
+        <div
+          className="mt-3 pt-2.5 flex items-center justify-center gap-4"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
+        >
+          <div className="text-center">
+            <div className="text-[8.5px] text-white/30 tracking-[0.18em]" style={{ fontFamily: "ui-monospace,monospace" }}>
+              SOL
+            </div>
+            <div
+              className="text-[11px] font-bold text-white/70 tabular-nums"
+              style={{ fontFamily: "ui-monospace,monospace" }}
+            >
+              0.0240
+            </div>
+          </div>
+          <div className="w-px h-4" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="text-center">
+            <div className="text-[8.5px] text-white/30 tracking-[0.18em]" style={{ fontFamily: "ui-monospace,monospace" }}>
+              NETWORK
+            </div>
+            <div
+              className="text-[11px] font-medium"
+              style={{ color: "#34d399", fontFamily: "ui-monospace,monospace" }}
+            >
+              Mainnet
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Address card */}
+      <div
+        className="mx-3 mt-2 rounded-xl px-3 py-2.5 flex items-center justify-between"
+        style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        <div className="min-w-0">
+          <div
+            className="text-[8.5px] text-white/30 tracking-[0.18em]"
+            style={{ fontFamily: "ui-monospace,monospace" }}
+          >
+            WALLET ADDRESS
+          </div>
+          <div
+            className="text-[11px] text-white/80 mt-0.5 truncate"
+            style={{ fontFamily: "ui-monospace,monospace" }}
+          >
+            9Hx...5b81
+          </div>
+        </div>
+        <Copy className="w-3.5 h-3.5 text-white/30" />
+      </div>
+
+      {/* Action buttons — Send/Refresh/Export */}
+      <div className="px-3 mt-2 grid grid-cols-3 gap-1.5">
+        <div
+          className="py-2.5 rounded-xl flex flex-col items-center gap-1"
+          style={{
+            background: "rgba(204,120,92,0.10)",
+            border: "1px solid rgba(204,120,92,0.20)",
+          }}
+        >
+          <ArrowRight className="w-4 h-4" style={{ color: "#cc785c" }} strokeWidth={2.2} />
+          <span
+            className="text-[9px] font-medium"
+            style={{ color: "rgba(204,120,92,0.85)", fontFamily: "ui-monospace,monospace" }}
+          >
+            Send
+          </span>
+        </div>
+        <div
+          className="py-2.5 rounded-xl flex flex-col items-center gap-1"
+          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+        >
+          <Activity className="w-4 h-4" style={{ color: "#cc785c" }} strokeWidth={2.2} />
+          <span className="text-[9px] text-white/50" style={{ fontFamily: "ui-monospace,monospace" }}>
+            Refresh
+          </span>
+        </div>
+        <div
+          className="py-2.5 rounded-xl flex flex-col items-center gap-1"
+          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+        >
+          <Eye className="w-4 h-4" style={{ color: "#cc785c" }} strokeWidth={2.2} />
+          <span className="text-[9px] text-white/50" style={{ fontFamily: "ui-monospace,monospace" }}>
+            Export
+          </span>
+        </div>
+      </div>
+      <div className="flex-1" />
+    </ScreenWrap>
+  );
+}
+
+function SendScreen() {
+  return (
+    <ScreenWrap>
+      {/* Modal-style header */}
+      <div className="px-4 pt-2 flex items-center gap-2">
+        <ArrowRight className="w-4 h-4" style={{ color: "#cc785c" }} />
+        <h3
+          className="text-[13px] font-bold text-white"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          Send
+        </h3>
+      </div>
+
+      {/* Token segmented */}
+      <div
+        className="mx-4 mt-3 flex gap-0 p-[3px] rounded-lg"
+        style={{ background: "rgba(255,255,255,0.03)" }}
+      >
+        {["USDT", "SOL"].map((t, i) => (
+          <div
+            key={t}
+            className="flex-1 py-1.5 rounded-md text-center text-[10px] font-medium"
+            style={{
+              fontFamily: "ui-monospace,monospace",
+              background: i === 0 ? "rgba(255,255,255,0.08)" : "transparent",
+              color: i === 0 ? "#fff" : "rgba(255,255,255,0.4)",
+            }}
+          >
+            {t}
+          </div>
+        ))}
+      </div>
+
+      {/* Recipient address */}
+      <div className="px-4 mt-3">
+        <label
+          className="text-[9px] text-white/40 mb-1 block tracking-[0.18em]"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          RECIPIENT ADDRESS
+        </label>
+        <div
+          className="rounded-xl px-3 py-2 flex items-center justify-between"
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+        >
+          <span className="text-[11px] text-white" style={{ fontFamily: "ui-monospace,monospace" }}>
+            7Tx9...3kPq
+          </span>
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.35, duration: 0.3 }}
+            style={{ color: "#22c55e" }}
+          >
+            <CheckCircle2 className="w-3.5 h-3.5" />
+          </motion.span>
+        </div>
+      </div>
+
+      {/* Amount */}
+      <div className="px-4 mt-3">
+        <div className="flex items-center justify-between mb-1">
+          <label
+            className="text-[9px] text-white/40 tracking-[0.18em]"
+            style={{ fontFamily: "ui-monospace,monospace" }}
+          >
+            AMOUNT
+          </label>
+          <span
+            className="text-[9px]"
+            style={{ color: "rgba(204,120,92,0.85)", fontFamily: "ui-monospace,monospace" }}
+          >
+            MAX
+          </span>
+        </div>
+        <div
+          className="rounded-xl px-3 py-2.5"
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-white tabular-nums font-medium"
+            style={{ fontFamily: "ui-monospace,monospace", fontSize: 15 }}
+          >
+            50.00
+          </motion.div>
+        </div>
+        <div
+          className="text-[9px] text-white/30 mt-1"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          Available: 92.40 USDT
+        </div>
+      </div>
+
+      <div className="flex-1" />
+      <div className="px-4 pb-3">
+        <button
+          className="w-full py-2.5 rounded-xl text-[12px] font-bold inline-flex items-center justify-center gap-1.5"
+          style={{
+            background: "#cc785c",
+            color: "#0a0a0a",
+            fontFamily: "ui-monospace,monospace",
+          }}
+        >
+          <ArrowRight className="w-3.5 h-3.5" /> Send USDT
+        </button>
+      </div>
+    </ScreenWrap>
+  );
+}
+
+function SentScreen() {
+  return (
+    <ScreenWrap>
+      <div className="flex-1 flex flex-col items-center justify-center px-5 text-center">
+        {/* Success ring with animated pulse halo */}
+        <div className="relative mb-5">
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: [0.6, 1.6, 2.0], opacity: [0, 0.5, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+            className="absolute inset-0 rounded-full"
+            style={{ border: "1.5px solid rgba(16,185,129,0.6)" }}
+          />
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-14 h-14 rounded-full flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #10b981, #059669)",
+              boxShadow: "0 0 24px rgba(16,185,129,0.4), 0 0 0 8px rgba(16,185,129,0.10)",
+            }}
+          >
+            <motion.svg
+              width="24" height="24" viewBox="0 0 24 24" fill="none"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 0.45, delay: 0.25 }}
+            >
+              <motion.path
+                d="M5 12 L10 17 L19 7"
+                stroke="#fff" strokeWidth="2.4"
+                strokeLinecap="round" strokeLinejoin="round"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </motion.svg>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.4 }}
+          className="text-[9.5px] font-bold tracking-[0.22em] text-white/40 mb-2"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          TRANSFER COMPLETE
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="font-bold text-white tabular-nums leading-none mb-3"
+          style={{ fontFamily: "ui-monospace,monospace", fontSize: 26, letterSpacing: "-0.02em" }}
+        >
+          50.00 USDT
+        </motion.div>
+
+        {/* Recipient pill */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.4 }}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-4"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <span className="text-[9px] text-white/40" style={{ fontFamily: "ui-monospace,monospace" }}>
+            → 7Tx...3kPq
+          </span>
+        </motion.div>
+
+        {/* Solscan link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.85, duration: 0.4 }}
+          className="text-[10px] text-white/50 inline-flex items-center gap-1"
+          style={{ fontFamily: "ui-monospace,monospace" }}
+        >
+          View on Solscan
+          <ArrowRight className="w-2.5 h-2.5 -rotate-45" />
+        </motion.div>
+      </div>
+    </ScreenWrap>
+  );
+}
+
+function TapIndicator({ step }: { step: AppFlowStep }) {
+  // Position the "tap" pulse over each step's primary CTA
+  const map: Record<AppFlowStep, { left: string; top?: string; bottom?: string } | null> = {
+    lock: { left: "50%", bottom: "16%" },
+    wallet: { left: "50%", top: "33%" }, // Send button in middle of action row
+    send: { left: "50%", bottom: "8%" },
+    sent: null,
+  };
+  const pos = map[step];
+  if (!pos) return null;
+  return (
+    <motion.div
+      key={`tap-${step}`}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 1, 1.6], opacity: [0, 0.7, 0] }}
+      transition={{ duration: 1.4, delay: 1.2, ease: "easeOut" }}
+      className="absolute pointer-events-none z-30 rounded-full"
+      style={{
+        left: pos.left,
+        ...(pos.top !== undefined ? { top: pos.top } : {}),
+        ...(pos.bottom !== undefined ? { bottom: pos.bottom } : {}),
+        transform: `translate(-50%, ${pos.bottom !== undefined ? "50%" : "-50%"})`,
+        width: 26,
+        height: 26,
+        background: "rgba(255,255,255,0.55)",
+        boxShadow: "0 0 16px rgba(255,255,255,0.55)",
       }}
     />
   );

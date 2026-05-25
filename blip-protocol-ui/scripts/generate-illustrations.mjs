@@ -136,7 +136,11 @@ const SCENES = [
   },
   {
     file: "app-unlocked-wallet.png",
-    prompt: `A clean editorial scene of an open wallet floating mid-frame on a soft cream surface, a single Claude-orange coin descending into it with a faint arc, a tiny padlock unlocked beside the wallet. Warm light from above, restrained palette, no readable text, generous breathing room.`,
+    prompt: `A clean editorial scene of an open wallet floating mid-frame on a soft cream surface, a single Claude-orange coin descending into it with a faint arc, a tiny padlock unlocked beside the wallet. Warm light from above, restrained padding palette, no readable text, generous breathing room.`,
+  },
+  {
+    file: "user-skater-phone.png",
+    prompt: `A confident, smiling young Gen-Z character standing in a relaxed contrapposto pose, looking down at a phone held in both hands, mid-tap. Casual modern streetwear (cream hoodie + warm rust-orange jacket or coat, comfortable pants, fresh sneakers). Friendly visible face with eyes and a soft smile. The character occupies the full vertical frame with very generous breathing room — no scenery, no boulevard, no palm trees, no sky, no skateboard. The background is a pure flat warm cream #faf8f5 — completely empty, no gradient, no shadow on the floor, just the character floating clean on the cream. One tiny Claude-orange coin glint hovering near the phone screen. Painterly editorial flat illustration in the Uber / Apple / Stripe landing-art lineage. Soft cinematic light from the upper-left, restrained palette of cream + rust orange + warm skin tones. No readable text, no logos, no UI elements on the phone, no neon, no glow, no shadow puddle under the feet.`,
   },
 ];
 
