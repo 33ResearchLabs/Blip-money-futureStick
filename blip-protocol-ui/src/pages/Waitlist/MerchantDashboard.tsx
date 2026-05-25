@@ -1601,20 +1601,14 @@ export default function MerchantDashboard() {
 
             {/* Social Quests (under Hero in left column) */}
             <div id="social-quests">
-              <div className="flex items-center gap-3 mb-3">
-                <div className={`p-1.5 rounded-md ${inputBg} border ${border}`}>
-                  <Layout className={`w-3.5 h-3.5 ${txt}`} />
+              <div className="mb-4">
+                <div className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub} mb-1`}>
+                  Social Quests
                 </div>
-                <div>
-                  <h2
-                    className={`text-sm font-black uppercase tracking-[0.18em] ${txt}`}
-                  >
-                    Social Quests
-                  </h2>
-                  <p className={`text-[11px] ${muted}`}>
-                    Complete quests to earn points and boost your rewards
-                  </p>
-                </div>
+                <h2 className={`text-[18px] font-semibold font-display tracking-tight ${txt}`}>
+                  Earn points by{" "}
+                  <span style={{ color: "#cc785c", fontStyle: "italic" }}>completing quests.</span>
+                </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1643,28 +1637,31 @@ export default function MerchantDashboard() {
                     return (
                       <div
                         key={quest.id}
-                        className={`${surface} border ${border} ${cardShadow} rounded-2xl p-2 flex flex-col ${isDone ? "opacity-70" : ""}`}
+                        className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4 flex flex-col ${isDone ? "opacity-70" : ""}`}
                       >
-                        {/* Top row: icon (left) + reward badge (right) */}
-                        <div className="flex items-start justify-between mb-2">
+                        {/* Top row: icon (left) + subtle reward chip (right) */}
+                        <div className="flex items-start justify-between mb-3">
                           <div
-                            className={`p-2 rounded-md ${inputBg} border ${border}`}
+                            className={`w-9 h-9 rounded-xl ${inputBg} border ${border} flex items-center justify-center`}
                           >
                             <QuestIcon className={`w-4 h-4 ${txt}`} />
                           </div>
-                          <span className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-500 whitespace-nowrap pt-1">
+                          <span
+                            className="text-[11px] font-semibold tracking-tight whitespace-nowrap px-2 py-0.5 rounded-full"
+                            style={{ background: "rgba(204,120,92,0.10)", color: "#cc785c" }}
+                          >
                             {quest.reward}
                           </span>
                         </div>
 
                         {/* Title + description */}
-                        <div className="mb-3">
+                        <div className="mb-3.5">
                           <h3
-                            className={`text-sm font-bold ${txt} mb-0.5 leading-tight`}
+                            className={`text-[14px] font-semibold ${txt} mb-1 tracking-tight leading-tight`}
                           >
                             {quest.title}
                           </h3>
-                          <p className={`text-[11px] ${muted} leading-relaxed`}>
+                          <p className={`text-[12px] ${muted} leading-snug`}>
                             {description[quest.id] ?? ""}
                           </p>
                         </div>
@@ -1688,9 +1685,9 @@ export default function MerchantDashboard() {
                           ) : (
                             <button
                               onClick={() => handleQuestClick(quest.id)}
-                              className={`${accentBg} ${d ? "text-black" : "text-white"} px-6 py-2 rounded-md text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition`}
+                              className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2 rounded-full text-[11px] font-semibold tracking-tight hover:-translate-y-[1px] active:scale-[0.99] transition shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)]`}
                             >
-                              Start
+                              Start →
                             </button>
                           )}
                         </div>
@@ -2031,7 +2028,7 @@ export default function MerchantDashboard() {
                   Your Progress & Steps
                 </span>
               </div>
-              <div className="p-4 space-y-3">
+              <div className="p-5 space-y-4">
                 {progressSteps.map((step, i) => {
                   const isLast = i === progressSteps.length - 1;
                   const isDone = step.status === "done";
@@ -2039,51 +2036,47 @@ export default function MerchantDashboard() {
                   return (
                     <div
                       key={step.id}
-                      className="relative flex items-start gap-3"
+                      className="relative flex items-start gap-3.5"
                     >
+                      {/* Subtle connector line on the left */}
                       {!isLast && (
                         <div
-                          className={`absolute left-[13px] top-7 h-[calc(100%-4px)] w-px ${
-                            isDone ? "bg-[#cc785c]" : d ? "bg-white/10" : "bg-black/10"
+                          className={`absolute left-[10px] top-6 h-[calc(100%+8px)] w-px ${
+                            d ? "bg-white/10" : "bg-black/10"
                           }`}
                         />
                       )}
-                      <div
-                        className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-bold ${
-                          isDone || isActive
-                            ? "bg-[#cc785c] text-white"
-                            : `${inputBg} border ${border} ${sub}`
-                        }`}
-                      >
-                        {step.id}
-                      </div>
-                      <div className="flex-1 min-w-0 pt-0.5">
-                        <p className={`text-[12px] font-bold ${txt}`}>
-                          {step.title}
-                        </p>
-                        <p
-                          className={`text-[10px] ${muted} leading-relaxed`}
-                        >
-                          {step.desc}
-                        </p>
-                      </div>
-                      <div className="shrink-0 pt-1">
+                      {/* Apple-style minimal step marker */}
+                      <div className="shrink-0 pt-0.5">
                         {isDone ? (
-                          <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                          <div className="w-[20px] h-[20px] rounded-full bg-[#1d1d1f] dark:bg-white flex items-center justify-center">
                             <Check
-                              className="w-3 h-3 text-white"
+                              className={`w-[11px] h-[11px] ${d ? "text-black" : "text-white"}`}
                               strokeWidth={3}
                             />
                           </div>
                         ) : isActive ? (
-                          <div className="w-5 h-5 rounded-full bg-[#cc785c] flex items-center justify-center">
-                            <span className="block w-1.5 h-1.5 rounded-full bg-white" />
+                          <div className="relative w-[20px] h-[20px] rounded-full flex items-center justify-center">
+                            <span className="absolute inset-0 rounded-full bg-[#cc785c]/20 animate-ping" />
+                            <span className="relative w-[8px] h-[8px] rounded-full bg-[#cc785c]" />
                           </div>
                         ) : (
-                          <div
-                            className={`w-5 h-5 rounded-full border ${border} ${inputBg}`}
-                          />
+                          <div className={`w-[20px] h-[20px] rounded-full border ${border} flex items-center justify-center`}>
+                            <span className={`text-[10px] font-semibold ${sub}`} style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>
+                              {step.id}
+                            </span>
+                          </div>
                         )}
+                      </div>
+
+                      {/* Title + description */}
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[13px] font-semibold ${txt} tracking-tight`}>
+                          {step.title}
+                        </p>
+                        <p className={`text-[11.5px] ${muted} leading-snug mt-0.5`}>
+                          {step.desc}
+                        </p>
                       </div>
                     </div>
                   );
