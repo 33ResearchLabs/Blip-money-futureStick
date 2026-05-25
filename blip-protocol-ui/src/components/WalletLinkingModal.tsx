@@ -101,7 +101,7 @@ export default function WalletLinkingModal({
             await disconnect();
           } catch {}
           await logout();
-          navigate("/waitlist", { replace: true });
+          window.location.href = "https://app.blip.money/waitlist/user";
         }, 1500);
       }
     } finally {

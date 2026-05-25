@@ -254,7 +254,7 @@ const SendGloballySection = memo(function SendGloballySection() {
             no friction, no waiting.
           </p>
           <Link
-            to="/register"
+            to="https://app.blip.money/waitlist/user"
             className="inline-flex items-center justify-center self-start gap-1.5 px-6 h-12 rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
           >
             Send money <ArrowRight className="w-4 h-4" />

@@ -130,7 +130,7 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
         description="Create your Blip account or sign in to track your waitlist position, bonus points, and referrals."
         canonical={`https://www.blip.money/${mode === "signin" ? "login" : "register"}`}
       />
-      <HreflangTags path={mode === "signin" ? "/login" : "/register"} />
+      <HreflangTags path={mode === "signin" ? "https://app.blip.money/waitlist/login" : "https://app.blip.money/waitlist/user"} />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">

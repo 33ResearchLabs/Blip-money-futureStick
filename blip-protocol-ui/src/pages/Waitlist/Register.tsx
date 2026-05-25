@@ -28,7 +28,7 @@ export default function Register({
 
   const isMerchant = role === "merchant";
   const showStandalone = !isMerchant && !embedded;
-  const loginPath = isMerchant ? "/merchant-login" : "/login";
+  const loginPath = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
 
   const [formData, setFormData] = useState({
     email: "",
@@ -154,7 +154,7 @@ export default function Register({
       // add a role to an account they don't own (or typed the wrong
       // password). Send them to login.
       if (serverCode === "EMAIL_EXISTS_WRONG_PASSWORD" || status === 401) {
-        const loginPath = isMerchant ? "/merchant-login" : "/login";
+        const loginPath = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
         toast.error(
           serverMessage ||
             "Email already registered. Log in to your existing account to add this role.",
@@ -166,7 +166,7 @@ export default function Register({
           },
         );
       } else if (status === 409 || serverCode === "EMAIL_EXISTS") {
-        const loginPath = isMerchant ? "/merchant-login" : "/login";
+        const loginPath = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
         toast.error("Email already registered. Please log in.", {
           action: {
             label: "Log in",
@@ -339,7 +339,7 @@ export default function Register({
           </div>
           {/* Quick role switch — keeps users out of the wrong form */}
           <Link
-            to={isMerchant ? "/register" : "/merchant-register"}
+            to={isMerchant ? "https://app.blip.money/waitlist/user" : "https://app.blip.money/waitlist/merchant"}
             className="text-[10.5px] sm:text-[11px] font-semibold underline underline-offset-4 text-black/55 dark:text-white/55 hover:text-black dark:hover:text-white transition-colors whitespace-nowrap shrink-0"
           >
             Switch to {isMerchant ? "User" : "Merchant"}

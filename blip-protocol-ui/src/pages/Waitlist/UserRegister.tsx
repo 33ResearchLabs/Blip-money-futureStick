@@ -18,7 +18,7 @@ export default function UserRegister() {
         description="Reserve your spot for borderless payments — settled by verified merchants in under 60 seconds. Early users earn bonus points and priority access."
         canonical="https://www.blip.money/waitlist/user"
       />
-      <HreflangTags path="/waitlist/user" />
+      <HreflangTags path="https://app.blip.money/waitlist/user" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">

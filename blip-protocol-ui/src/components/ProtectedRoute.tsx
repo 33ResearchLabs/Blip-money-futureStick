@@ -1,6 +1,20 @@
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+
+// Hop out to the external auth host (app.blip.money) — react-router's
+// <Navigate> only handles internal routes.
+const ExternalRedirect = ({ to }: { to: string }) => {
+  useEffect(() => {
+    window.location.replace(to);
+  }, [to]);
+  return (
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-black dark:text-white animate-spin" />
+    </div>
+  );
+};
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -19,7 +33,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
   const hasUserAccess = effectiveRoles.includes("USER");
   const isSuperAdmin = effectiveRoles.includes("SUPERADMIN");
   const isAdmin = effectiveRoles.includes("ADMIN");
-  const loginRedirect = requiredRole === "merchant" ? "/merchant-waitlist" : "/waitlist";
+  const loginRedirect = requiredRole === "merchant" ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/user";
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -37,12 +51,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
 
   // Check if user is logged in
   if (!isAuthenticated || !user) {
-    return <Navigate to={loginRedirect} replace />;
+    return <ExternalRedirect to={loginRedirect} />;
   }
 
   // Check if email is verified
   if (!user.emailVerified) {
-    return <Navigate to={loginRedirect} replace state={{ email: user.email }} />;
+    return <ExternalRedirect to={loginRedirect} />;
   }
 
   // SUPERADMIN and ADMIN can access any dashboard

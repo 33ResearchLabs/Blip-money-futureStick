@@ -16,7 +16,7 @@ export default function MerchantRegister() {
         description="Settle orders, set your spread, and earn margin on every trade. Founding merchants receive priority routing, reduced fees, and early dashboard access."
         canonical="https://www.blip.money/merchant-register"
       />
-      <HreflangTags path="/merchant-register" />
+      <HreflangTags path="https://app.blip.money/waitlist/merchant" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">
@@ -113,7 +113,7 @@ export default function MerchantRegister() {
 
               <div className="mt-7">
                 <CrossSellCard
-                  to="/register"
+                  to="https://app.blip.money/waitlist/user"
                   stat="5%"
                   statLabel="Cashback"
                   eyebrow="Sign up as a User"

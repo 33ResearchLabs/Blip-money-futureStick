@@ -1364,7 +1364,7 @@ export const HowItWorksPage = () => {
         }
         description="Join the waitlist for early access, or explore the live order book."
         primaryButtonText="Join Waitlist"
-        primaryButtonLink="/waitlist/user"
+        primaryButtonLink="https://app.blip.money/waitlist/user"
         secondaryButtonText="See the live market"
         secondaryButtonLink="/market"
       />

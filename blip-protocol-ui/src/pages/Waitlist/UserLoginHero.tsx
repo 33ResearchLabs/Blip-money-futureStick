@@ -17,7 +17,7 @@ export default function UserLoginHero() {
         description="Sign in to your Blip account to access your waitlist position, bonus points, and early access perks."
         canonical="https://www.blip.money/login"
       />
-      <HreflangTags path="/login" />
+      <HreflangTags path="https://app.blip.money/waitlist/login" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">

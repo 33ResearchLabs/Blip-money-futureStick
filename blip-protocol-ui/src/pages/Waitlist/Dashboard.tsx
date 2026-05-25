@@ -948,7 +948,7 @@ export default function BlipDashboard() {
   const handleLogout = async () => {
     await disconnect();
     await logout();
-    navigate("/waitlist");
+    window.location.href = "https://app.blip.money/waitlist/user";
   };
 
   const showToast = (message, type = "success") => {

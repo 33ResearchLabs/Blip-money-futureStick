@@ -133,7 +133,7 @@ export default function VerifyEmail() {
           </div>
 
           <Link
-            to="/waitlist"
+            to="https://app.blip.money/waitlist/user"
             className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Login
@@ -162,7 +162,7 @@ export default function VerifyEmail() {
           account.
         </p>
         <button
-          onClick={() => navigate(userRole === "MERCHANT" ? "/merchant-login" : "/login")}
+          onClick={() => navigate(userRole === "MERCHANT" ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login")}
           className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
         >
           Go to {userRole === "MERCHANT" ? "Merchant" : ""} Login

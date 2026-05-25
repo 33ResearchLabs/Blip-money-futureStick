@@ -987,7 +987,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   </motion.span>
                 </motion.div>
                 <a
-                  href="/waitlist/merchant"
+                  href="https://app.blip.money/waitlist/merchant"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setSettledCelebration(null)}
@@ -1001,7 +1001,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
               {/* ── CTA ── */}
               <div className="px-5 pt-3 pb-4 bg-white text-center">
                 <a
-                  href="/waitlist/merchant"
+                  href="https://app.blip.money/waitlist/merchant"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setSettledCelebration(null)}

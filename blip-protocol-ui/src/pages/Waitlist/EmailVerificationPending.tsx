@@ -26,7 +26,7 @@ export default function EmailVerificationPending() {
   });
 
   const isMerchant = role === "MERCHANT" || role === "merchant";
-  const loginPath = isMerchant ? "/merchant-login" : "/login";
+  const loginPath = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
 
   const [isResending, setIsResending] = useState(false);
   const [resent, setResent] = useState(false);

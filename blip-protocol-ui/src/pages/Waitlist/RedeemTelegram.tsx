@@ -229,8 +229,8 @@ const RedeemTelegram: React.FC = () => {
   // NOT LOGGED IN — show register/login options
   if (!isAuthenticated || !user) {
     const isMerchant = redeemRole === "merchant";
-    const registerUrl = isMerchant ? "/merchant-register" : "/register";
-    const loginUrl = isMerchant ? "/merchant-login" : "/login";
+    const registerUrl = isMerchant ? "https://app.blip.money/waitlist/merchant" : "https://app.blip.money/waitlist/user";
+    const loginUrl = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
     const label = isMerchant ? "Merchant Account" : "Blip Points";
 
     return (

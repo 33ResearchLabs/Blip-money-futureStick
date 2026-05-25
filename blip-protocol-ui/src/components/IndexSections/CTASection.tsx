@@ -136,7 +136,7 @@ const CTASection = () => {
           className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
           <a
-            href="/waitlist/user"
+            href="https://app.blip.money/waitlist/user"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => sounds.click()}

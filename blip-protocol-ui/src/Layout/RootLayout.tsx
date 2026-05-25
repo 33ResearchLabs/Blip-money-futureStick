@@ -30,7 +30,7 @@ const StickyJoinWaitlist = () => {
       }}
     >
       <Link
-        to="/waitlist"
+        to="https://app.blip.money/waitlist/user"
         className="pointer-events-auto group inline-flex w-full items-center justify-center gap-2 h-14 rounded-full text-[17px] font-bold tracking-tight transition-transform active:scale-[0.98]"
         style={{
           background: "#cc785c",

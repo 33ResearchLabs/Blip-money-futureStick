@@ -1190,7 +1190,7 @@ const CTASection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           {/* <Link
-            to="/waitlist"
+            to="https://app.blip.money/waitlist/user"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
@@ -1198,7 +1198,7 @@ const CTASection = () => {
             Start Using Blip
             <ArrowRight className="w-4 h-4" />
           </Link> */}
-          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Start Using Blip</CTAButton>
+          <CTAButton to="https://app.blip.money/waitlist/user" className="w-[220px] h-[48px]">Start Using Blip</CTAButton>
         </motion.div>
 
         {/* Cross-links */}

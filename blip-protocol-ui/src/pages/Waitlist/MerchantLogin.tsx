@@ -45,7 +45,7 @@ export const MerchantLogin = ({ initialView: _initialView }: AirdropLoginProps =
         description="Sign up for the Blip Money waitlist and get early access to fast, secure, and borderless crypto payments. Earn 2000 bonus points."
         canonical="https://www.blip.money/waitlist"
       />
-      <HreflangTags path="/waitlist" />
+      <HreflangTags path="https://app.blip.money/waitlist/user" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden mt-8">
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-6 pb-24">

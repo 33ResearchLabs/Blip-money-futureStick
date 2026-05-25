@@ -111,7 +111,7 @@ export function MerchantBenefitsGrid() {
 
             <div className="mt-4 flex items-center justify-between gap-2">
               <Link
-                to="/merchant-waitlist"
+                to="https://app.blip.money/waitlist/merchant-login"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11.5px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform whitespace-nowrap"
                 style={{ background: "#fff", color: "#0a0a0a" }}
               >

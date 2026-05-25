@@ -416,9 +416,9 @@ const Market = () => {
         }
         description="Join the waitlist. Get early access when your corridor goes live."
         primaryButtonText="Join as user"
-        primaryButtonLink="/waitlist/user"
+        primaryButtonLink="https://app.blip.money/waitlist/user"
         secondaryButtonText="Become a merchant"
-        secondaryButtonLink="/waitlist/merchant"
+        secondaryButtonLink="https://app.blip.money/waitlist/merchant"
       />
     </>
   );

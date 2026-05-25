@@ -12,7 +12,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
   const { login, isAuthenticated, user } = useAuth();
 
   const isMerchant = role === "merchant";
-  const registerPath = isMerchant ? "/merchant-register" : "/register";
+  const registerPath = isMerchant ? "https://app.blip.money/waitlist/merchant" : "https://app.blip.money/waitlist/user";
 
   const extractRoles = (candidate: any): string[] => {
     const list: string[] = Array.isArray(candidate?.roles) && candidate.roles.length > 0
@@ -63,13 +63,13 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         "This account isn't registered as a merchant. Sign up as a merchant with the same email and password — we'll add merchant access.",
         { duration: 6000 },
       );
-      navigate("/merchant-register", { replace: true });
+      window.location.href = "https://app.blip.money/waitlist/merchant";
     } else {
       toast.error(
         "This account doesn't have user access yet. Sign up as a user with the same email and password to upgrade.",
         { duration: 6000 },
       );
-      navigate("/register", { replace: true });
+      window.location.href = "https://app.blip.money/waitlist/user";
     }
   };
 

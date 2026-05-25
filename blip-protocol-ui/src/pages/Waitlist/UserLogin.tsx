@@ -92,7 +92,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
         description="Sign up for the Blip Money waitlist and get early access to fast, secure, and borderless crypto payments. Earn 2000 bonus points."
         canonical="https://www.blip.money/waitlist"
       />
-      <HreflangTags path="/waitlist" />
+      <HreflangTags path="https://app.blip.money/waitlist/user" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
         {/* Background */}
@@ -163,14 +163,14 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                     className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
                   >
                     {/* <button
-                      onClick={() => navigate("/join-waitlist")}
+                      onClick={() => window.location.href = "https://app.blip.money/waitlist/user"}
                       className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
                     >
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button> */}
                     <CTAButton
-                      to="/join-waitlist"
+                      to="https://app.blip.money/waitlist/user"
                       className=" w-[225px]  h-[48px]"
                     >
                       Join Waitlist{" "}

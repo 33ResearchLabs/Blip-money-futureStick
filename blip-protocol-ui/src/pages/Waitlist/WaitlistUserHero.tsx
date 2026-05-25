@@ -18,7 +18,7 @@ export default function WaitlistUserHero() {
         description="Create your Blip account, earn 5,000 BLIP points, and unlock early access the moment the app opens."
         canonical="https://www.blip.money/waitlist/user"
       />
-      <HreflangTags path="/waitlist/user" />
+      <HreflangTags path="https://app.blip.money/waitlist/user" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black flex items-center justify-center px-4 py-16">
         <motion.div

@@ -325,7 +325,7 @@ export default function MerchantDashboard() {
       return;
     }
     if (!isLoading && !isAuthenticated) {
-      navigate("/merchant-waitlist", { replace: true });
+      window.location.href = "https://app.blip.money/waitlist/merchant-login";
     }
   }, [isAuthenticated, isLoading, navigate]);
 
@@ -614,7 +614,7 @@ export default function MerchantDashboard() {
   const handleLogout = async () => {
     setShowLogoutConfirm(false);
     await logout();
-    navigate("/merchant-waitlist");
+    window.location.href = "https://app.blip.money/waitlist/merchant-login";
   };
 
   const handleTwitterSuccess = (points: number) => {
@@ -1741,7 +1741,7 @@ export default function MerchantDashboard() {
               <button
                 onClick={() =>
                   window.open(
-                    "/waitlist/merchant",
+                    "https://app.blip.money/waitlist/merchant",
                     "_blank",
                   )
                 }

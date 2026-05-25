@@ -2215,7 +2215,7 @@ const CinematicHero = () => {
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </button>
             <Link
-              to="/register"
+              to="https://app.blip.money/waitlist/user"
               className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-6 rounded-full text-[17px] sm:text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
               style={{
                 background: "rgba(204,120,92,0.10)",
@@ -2748,7 +2748,7 @@ function MerchantCardCarousel() {
               {/* CTA + footnote */}
               <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
                 <Link
-                  to="/register"
+                  to="https://app.blip.money/waitlist/user"
                   className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform whitespace-nowrap flex-shrink-0"
                   style={{
                     background: "#fff",

@@ -603,7 +603,7 @@ const RateFinder = () => {
                   </div>
                 </div>
                 <a
-                  href="/waitlist/user"
+                  href="https://app.blip.money/waitlist/user"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0 w-full sm:w-auto"
@@ -664,7 +664,7 @@ const RateFinder = () => {
                   </div>
                 </div>
                 <a
-                  href="/waitlist/user"
+                  href="https://app.blip.money/waitlist/user"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[12px] font-semibold hover:opacity-90 transition-opacity sm:ml-2"
@@ -675,7 +675,7 @@ const RateFinder = () => {
               </div>
               {/* Mobile-only Get rate button — full width below the rates */}
               <a
-                href="/waitlist/user"
+                href="https://app.blip.money/waitlist/user"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="sm:hidden inline-flex items-center justify-center gap-1 mt-1 w-full px-3 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black text-[13px] font-semibold"
@@ -951,7 +951,7 @@ const ComparisonSection = () => {
               One protocol. Every venue beat on the row that matters: the rate
               you actually pay.
             </p>
-            <CTAButton to="/waitlist/user">Join Waitlist</CTAButton>
+            <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
           </div>
       </motion.div>
     </section>

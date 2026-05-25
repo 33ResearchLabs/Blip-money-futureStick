@@ -199,7 +199,7 @@ const Dashboard = () => {
         title: "Logged out",
         description: "You have been successfully logged out.",
       });
-      navigate("/waitlist");
+      window.location.href = "https://app.blip.money/waitlist/user";
     } catch (error) {
       console.error("Logout error:", error);
       toast({

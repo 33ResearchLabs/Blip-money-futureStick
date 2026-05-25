@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function ForgotPassword() {
   const [searchParams] = useSearchParams();
   const isMerchant = searchParams.get("role") === "merchant";
-  const loginPath = isMerchant ? "/merchant-login" : "/login";
+  const loginPath = isMerchant ? "https://app.blip.money/waitlist/merchant-login" : "https://app.blip.money/waitlist/login";
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);

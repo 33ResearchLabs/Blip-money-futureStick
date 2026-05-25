@@ -31,7 +31,7 @@ export default function EmailVerified() {
           setCountdown((prev) => {
             if (prev <= 1) {
               clearInterval(interval);
-              navigate("/waitlist");
+              window.location.href = "https://app.blip.money/waitlist/user";
               return 0;
             }
             return prev - 1;
@@ -97,7 +97,7 @@ export default function EmailVerified() {
 
             {/* Manual Link */}
             <Link
-              to="/waitlist"
+              to="https://app.blip.money/waitlist/user"
               className="inline-block w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Continue to Login
@@ -133,13 +133,13 @@ export default function EmailVerified() {
             {/* Action Buttons */}
             <div className="space-y-3">
               <Link
-                to="/waitlist"
+                to="https://app.blip.money/waitlist/user"
                 className="block w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
               >
                 Go to Login
               </Link>
               <Link
-                to="/register"
+                to="https://app.blip.money/waitlist/user"
                 className="block w-full py-3 border border-black/20 dark:border-white/20 text-black dark:text-white font-medium rounded-sm hover:bg-black/5 dark:hover:bg-white/5 transition-all"
               >
                 Register Again

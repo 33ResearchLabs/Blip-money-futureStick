@@ -16,7 +16,7 @@ export default function MerchantLoginHero() {
         description="Sign back in to your Blip merchant account — check live orders, settlements, and earnings."
         canonical="https://www.blip.money/merchant-login"
       />
-      <HreflangTags path="/merchant-login" />
+      <HreflangTags path="https://app.blip.money/waitlist/merchant-login" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">
@@ -88,7 +88,7 @@ export default function MerchantLoginHero() {
 
               <div className="mt-7">
                 <CrossSellCard
-                  to="/login"
+                  to="https://app.blip.money/waitlist/login"
                   stat="5%"
                   statLabel="Cashback"
                   eyebrow="Sign in as a User"

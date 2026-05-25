@@ -107,7 +107,7 @@ const BestRatesBlackSection = () => {
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <Link
-              to="/register"
+              to="https://app.blip.money/waitlist/user"
               className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full border border-white/20 text-white text-[14.5px] font-semibold tracking-tight hover:bg-white/[0.06] transition-colors"
             >
               <EditableText id="user.bestrates.cta.secondary" default="Join waitlist" as="span" />
@@ -271,7 +271,7 @@ const UserHero = () => {
           className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-2 mt-2 w-full"
         >
           {/* <a
-            href="/register"
+            href="https://app.blip.money/waitlist/user"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-11 sm:h-11 lg:h-11 px-5 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[14px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
@@ -1565,7 +1565,7 @@ const User = () => {
         }
         description="Join the waitlist. Early users get priority access and bonus rewards."
         primaryButtonText="Join waitlist"
-        primaryButtonLink="/register"
+        primaryButtonLink="https://app.blip.money/waitlist/user"
         secondaryButtonText="Learn more"
         secondaryButtonLink="/how-it-works"
       />

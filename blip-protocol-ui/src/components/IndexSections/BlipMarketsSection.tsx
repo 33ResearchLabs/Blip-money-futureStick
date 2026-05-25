@@ -141,7 +141,7 @@ function WaitlistPopup({
               </div>
 
               <a
-                href="/waitlist/merchant"
+                href="https://app.blip.money/waitlist/merchant"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
@@ -424,14 +424,14 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">
           {/* <Link
-            to="/waitlist/user"
+            to="https://app.blip.money/waitlist/user"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
           >
             <EditableText id="home.markets.cta.primary" default="Join Waitlist" as="span" />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link> */}
           <a
-            href="/merchant-waitlist"
+            href="https://app.blip.money/waitlist/merchant-login"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"

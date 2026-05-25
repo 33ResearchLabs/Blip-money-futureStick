@@ -378,7 +378,7 @@ export default function SuperAdminDashboard() {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/waitlist");
+    window.location.href = "https://app.blip.money/waitlist/user";
   };
 
   const handleSearch = () => {

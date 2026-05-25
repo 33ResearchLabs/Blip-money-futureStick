@@ -136,7 +136,7 @@ export function MerchantCardsImageCarousel() {
             </div>
             <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
               <Link
-                to="/merchant-waitlist"
+                to="https://app.blip.money/waitlist/merchant-login"
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight whitespace-nowrap"
                 style={{ background: "#0a0a0a", color: "#fff" }}
               >

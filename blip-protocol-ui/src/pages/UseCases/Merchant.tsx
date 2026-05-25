@@ -1060,7 +1060,7 @@ const Merchant = () => {
         }
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
-        primaryButtonLink="/merchant-waitlist"
+        primaryButtonLink="https://app.blip.money/waitlist/merchant-login"
       />
     </>
   );

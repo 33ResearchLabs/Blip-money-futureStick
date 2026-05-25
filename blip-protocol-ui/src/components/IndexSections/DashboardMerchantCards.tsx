@@ -128,7 +128,7 @@ function DashboardCard({ card, index }: { card: DashboardCardData; index: number
           {card.titleTail && <span>{card.titleTail}</span>}
         </div>
         <Link
-          to="/merchant-waitlist"
+          to="https://app.blip.money/waitlist/merchant-login"
           className="inline-flex items-center gap-1.5 px-4 h-9 rounded-full text-[12.5px] font-semibold tracking-tight"
           style={{ background: "#0a0a0a", color: "#fff" }}
         >

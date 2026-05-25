@@ -159,7 +159,7 @@ const LiquidityLayer = () => {
           className="text-center mt-10"
         >
           <motion.a
-            href="/register"
+            href="https://app.blip.money/waitlist/user"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold"
             style={{ background: "#1d1d1f", color: "#fff" }}
             whileHover={{ scale: 1.03 }}

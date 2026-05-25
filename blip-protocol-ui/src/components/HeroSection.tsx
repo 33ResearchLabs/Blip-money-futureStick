@@ -244,7 +244,7 @@ export const HeroSection = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <CTAButton to="/join-waitlist" variant="primary">
+            <CTAButton to="https://app.blip.money/waitlist/user" variant="primary">
               Get Early Access
             </CTAButton>
             <CTAButton to="/how-it-works" variant="secondary" icon={Play}>

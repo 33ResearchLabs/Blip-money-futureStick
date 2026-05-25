@@ -388,7 +388,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-stretch w-full sm:w-auto"
           >
             <CTAButton
-              to="/waitlist"
+              to="https://app.blip.money/waitlist/user"
               className="w-[220px]     h-[48px] flex items-center justify-center"
             >
               Start Earning
@@ -1029,7 +1029,7 @@ const CTASection = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch w-full sm:w-auto">
             <CTAButton
-              to="/waitlist"
+              to="https://app.blip.money/waitlist/user"
               className="w-[220px]  h-[48px] flex items-center justify-center"
             >
               Join Waitlist
