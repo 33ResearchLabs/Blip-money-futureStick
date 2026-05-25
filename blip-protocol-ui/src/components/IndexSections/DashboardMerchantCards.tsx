@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -126,13 +127,14 @@ function DashboardCard({ card, index }: { card: DashboardCardData; index: number
           </span>
           {card.titleTail && <span>{card.titleTail}</span>}
         </div>
-        <button
+        <Link
+          to="/merchant-waitlist"
           className="inline-flex items-center gap-1.5 px-4 h-9 rounded-full text-[12.5px] font-semibold tracking-tight"
           style={{ background: "#0a0a0a", color: "#fff" }}
         >
           {card.cta}
           <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
-        </button>
+        </Link>
       </div>
     </motion.div>
   );

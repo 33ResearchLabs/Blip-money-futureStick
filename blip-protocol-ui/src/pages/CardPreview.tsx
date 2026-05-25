@@ -1202,10 +1202,14 @@ function CardFooter({ card, dark }: { card: { titlePre: string; titleAccent: str
         <span style={{ fontStyle: "italic", fontWeight: 500, fontFamily: "ui-serif, Georgia, serif", color: dark ? APPLE_ACCENT : "#0a0a0a" }}>{card.titleAccent}</span>
         {card.titleTail && <span>{card.titleTail}</span>}
       </div>
-      <button className="inline-flex items-center gap-1.5 px-4 h-9 rounded-full text-[12.5px] font-semibold tracking-tight" style={{ background: dark ? "#fff" : "#0a0a0a", color: dark ? "#0a0a0a" : "#fff" }}>
+      <Link
+        to="/merchant-waitlist"
+        className="inline-flex items-center gap-1.5 px-4 h-9 rounded-full text-[12.5px] font-semibold tracking-tight"
+        style={{ background: dark ? "#fff" : "#0a0a0a", color: dark ? "#0a0a0a" : "#fff" }}
+      >
         {card.cta}
         <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
-      </button>
+      </Link>
     </div>
   );
 }
