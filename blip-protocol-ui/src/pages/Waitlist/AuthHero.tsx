@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import Login from "./Login";
@@ -16,11 +17,25 @@ interface Props {
 }
 
 /* Unified auth screen.
-   ONE page handles user + merchant, sign-in + sign-up via two toggles.
-   Replaces the previous 4 dedicated hero pages (User/Merchant × Login/Register). */
-export default function AuthHero({ initialRole = "user", initialMode = "signin" }: Props) {
-  const [role, setRole] = useState<Role>(initialRole);
+   Defaults to MERCHANT signup. Share-links can override the role via
+   `?role=user` or `?role=merchant` (e.g. /waitlist?role=user). */
+export default function AuthHero({ initialRole, initialMode = "signup" }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlRole = searchParams.get("role");
+  const resolvedInitialRole: Role =
+    initialRole ?? (urlRole === "user" || urlRole === "merchant" ? urlRole : "merchant");
+  const [role, setRole] = useState<Role>(resolvedInitialRole);
   const [mode, setMode] = useState<Mode>(initialMode);
+
+  // Keep the URL in sync when the user toggles role — makes /waitlist?role=user
+  // shareable and reflects the current view in the browser bar.
+  useEffect(() => {
+    const next = new URLSearchParams(searchParams);
+    if (next.get("role") !== role) {
+      next.set("role", role);
+      setSearchParams(next, { replace: true });
+    }
+  }, [role, searchParams, setSearchParams]);
 
   // Copy per role
   const COPY = {
