@@ -1159,53 +1159,48 @@ export default function MerchantDashboard() {
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
         {/* ── Top row: Refer Friends | Referral Code | Real-Time Activity ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 items-stretch">
-          {/* Card 1: Refer Friends — single column, image on top, content below */}
+          {/* Card 1: Refer Friends — 2-col, text left + dark-stage hero right */}
           <div
-            className={`lg:col-span-6 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden relative flex flex-col`}
+            className={`lg:col-span-6 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden relative`}
           >
-            {/* Small centered hero illustration (~25% of previous footprint) */}
-            <div className="relative w-full flex items-center justify-center pt-6 pb-1">
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: `radial-gradient(circle at center, ${d ? "rgba(204,120,92,0.14)" : "rgba(204,120,92,0.08)"} 0%, transparent 55%)`,
-                }}
-              />
-              <img
-                src="/illustrations/refer-friends-hero.png?v=4"
-                alt="Refer friends and earn rewards"
-                className="relative w-[140px] h-[140px] object-contain"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] h-full">
+              {/* Left: heading + description + CTAs */}
+              <div className="p-6 md:p-7 flex flex-col justify-center">
+                <h2 className="text-[28px] md:text-[34px] font-semibold font-display leading-[1.05] tracking-tight mb-3">
+                  <span className={txt}>Refer Friends.</span>
+                  <br />
+                  <span className="text-[#cc785c]">Earn More.</span>
+                </h2>
+                <p className={`text-[13.5px] ${muted} mb-5 max-w-md leading-relaxed`}>
+                  Invite your friends to Blip Money and earn{" "}
+                  <span className={`font-bold ${txt}`}>50 pts</span> for each
+                  successful referral. There's no limit to how much you can earn.
+                </p>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    onClick={() => setShowReferralModal(true)}
+                    className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    Share Your Code
+                  </button>
+                  <button
+                    onClick={() => setShowHowItWorksModal(true)}
+                    className={`${inputBg} border ${border} ${txt} px-6 py-2.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                  >
+                    How It Works
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
-            {/* Text + CTAs below */}
-            <div className="p-5 md:p-7 flex flex-col items-center text-center">
-              <h2 className="text-[28px] md:text-[34px] font-semibold font-display leading-tight tracking-tight mb-2">
-                <span className={txt}>Refer Friends.</span>{" "}
-                <span className="text-[#cc785c]">Earn More.</span>
-              </h2>
-              <p
-                className={`text-[13px] ${muted} mb-5 max-w-md leading-relaxed`}
-              >
-                Invite your friends to Blip Money and earn{" "}
-                <span className={`font-bold ${txt}`}>50 pts</span> for each
-                successful referral. There's no limit to how much you can earn.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-2.5">
-                <button
-                  onClick={() => setShowReferralModal(true)}
-                  className={`border border-[#cc785c]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
-                >
-                  <Share2 className="w-3.5 h-3.5" />
-                  Share Your Code
-                </button>
-                <button
-                  onClick={() => setShowHowItWorksModal(true)}
-                  className={`${inputBg} border ${border} ${txt} px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
-                >
-                  How It Works
-                  <Info className="w-3.5 h-3.5" />
-                </button>
+              {/* Right: dark-stage 3D hero illustration */}
+              <div className="hidden md:block relative overflow-hidden bg-[#0a0a0a]">
+                <img
+                  src="/images/merchant-dashboard-hero.jpg"
+                  alt="Refer friends and earn rewards"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
