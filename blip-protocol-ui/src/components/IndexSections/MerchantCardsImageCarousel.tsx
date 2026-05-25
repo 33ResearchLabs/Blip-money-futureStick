@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -134,12 +135,13 @@ export function MerchantCardsImageCarousel() {
               {c.titleTail && <span>{c.titleTail}</span>}
             </div>
             <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
-              <button
+              <Link
+                to="/merchant-waitlist"
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight whitespace-nowrap"
                 style={{ background: "#0a0a0a", color: "#fff" }}
               >
                 {c.cta} →
-              </button>
+              </Link>
               <span
                 className="text-[10px] tracking-tight leading-tight"
                 style={{ color: "rgba(0,0,0,0.45)" }}

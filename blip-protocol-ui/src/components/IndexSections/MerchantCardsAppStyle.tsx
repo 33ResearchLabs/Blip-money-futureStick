@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, Sparkles, Home, Users, Rocket, Tag } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -128,13 +129,14 @@ function FeatureCard({ card, index }: { card: Card; index: number }) {
           {card.titleTail && <span>{card.titleTail}</span>}
         </div>
         <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
-          <button
+          <Link
+            to="/merchant-waitlist"
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight whitespace-nowrap"
             style={{ background: "#fff", color: "#0a0a0a" }}
           >
             {card.cta}
             <ArrowUpRight className="w-3 h-3" strokeWidth={2.5} />
-          </button>
+          </Link>
           <span className="text-[10px] tracking-tight leading-tight" style={{ color: "rgba(255,255,255,0.4)" }}>
             {card.footnote}
           </span>
