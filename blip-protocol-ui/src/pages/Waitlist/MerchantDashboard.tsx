@@ -1306,63 +1306,65 @@ export default function MerchantDashboard() {
             id="dash-activity"
             className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden flex flex-col`}
           >
-            <div
-              className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
-            >
-              <span
-                className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
-              >
+            {/* Header */}
+            <div className={`px-5 py-3 border-b ${divider} flex items-center justify-between`}>
+              <span className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}>
                 Real-Time Activity
               </span>
-              <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-500">
+              <span className={`inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-tight ${sub}`}>
                 <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#cc785c]/60 animate-ping" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#cc785c]" />
                 </span>
-                LIVE
+                Live
               </span>
             </div>
-            <div className="px-1.5 py-1 max-h-[320px] overflow-y-auto flex-1">
+
+            {/* Activity rows */}
+            <div className="py-1 max-h-[320px] overflow-y-auto flex-1">
               {recentActivity.map((a) => {
                 const Icon = a.icon;
                 return (
                   <div
                     key={a.id}
-                    className={`flex items-center justify-between px-2.5 py-2 rounded-lg ${hov}`}
+                    className={`flex items-center justify-between px-5 py-2.5 ${hov} transition`}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="flex items-center gap-3 min-w-0">
                       <div
-                        className={`w-7 h-7 rounded-full ${a.bg} flex items-center justify-center shrink-0`}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${inputBg} border ${border}`}
                       >
-                        <Icon className={`w-3.5 h-3.5 ${a.color}`} />
+                        <Icon className={`w-[15px] h-[15px] ${muted}`} strokeWidth={2} />
                       </div>
                       <div className="min-w-0">
-                        <p
-                          className={`text-[11px] font-semibold ${txt} truncate`}
-                        >
+                        <p className={`text-[13px] font-semibold ${txt} truncate tracking-tight`}>
                           {a.name}
                         </p>
-                        <p className={`text-[10px] ${muted} truncate`}>
+                        <p className={`text-[11.5px] ${muted} truncate leading-snug`}>
                           {a.action}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right shrink-0 ml-2">
+                    <div className="text-right shrink-0 ml-3 flex flex-col items-end gap-0.5">
                       {a.points !== null && (
-                        <p className="text-[11px] font-bold text-emerald-500 leading-tight">
+                        <span
+                          className="text-[11px] font-semibold tracking-tight px-2 py-0.5 rounded-full"
+                          style={{ background: "rgba(204,120,92,0.10)", color: "#cc785c" }}
+                        >
                           +{a.points} pts
-                        </p>
+                        </span>
                       )}
-                      <p className={`text-[9px] ${sub} leading-tight mt-0.5`}>
+                      <span className={`text-[10.5px] ${sub} leading-tight tabular-nums`}>
                         {a.time}
-                      </p>
+                      </span>
                     </div>
                   </div>
                 );
               })}
             </div>
+
+            {/* Footer link */}
             <button
-              className={`w-full px-4 py-2.5 border-t ${divider} flex items-center justify-between text-[11px] font-bold ${muted} hover:${txt} transition-colors`}
+              className={`w-full px-5 py-3 border-t ${divider} flex items-center justify-between text-[12px] font-semibold ${txt} hover:opacity-70 transition`}
             >
               View all activity
               <ArrowRight className="w-3.5 h-3.5" />
