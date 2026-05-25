@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import Login from "./Login";
+import CrossSellCard from "@/components/auth/CrossSellCard";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -109,6 +110,16 @@ export default function MerchantLoginHero() {
               >
                 1,284 merchants live on the network
               </p>
+
+              <div className="mt-7">
+                <CrossSellCard
+                  to="/login"
+                  stat="5%"
+                  statLabel="Cashback"
+                  eyebrow="Sign in as a User"
+                  title="Earn up to 5% cashback on every transaction"
+                />
+              </div>
             </motion.div>
 
             <motion.div
