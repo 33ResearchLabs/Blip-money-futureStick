@@ -64,7 +64,7 @@ export const SwipeHint = ({ className = "" }: { className?: string }) => {
   };
 
   const buttonClass =
-    "pointer-events-auto w-10 h-10 rounded-full bg-white/90 dark:bg-black/55 backdrop-blur-md flex items-center justify-center text-black/70 dark:text-white/85 shadow-[0_2px_12px_rgba(0,0,0,0.18)] active:scale-95 transition disabled:pointer-events-none";
+    "pointer-events-auto w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 dark:bg-black/55 backdrop-blur-md flex items-center justify-center text-black/70 dark:text-white/85 shadow-[0_2px_12px_rgba(0,0,0,0.18)] active:scale-95 transition disabled:pointer-events-none";
 
   return (
     <div
@@ -74,7 +74,7 @@ export const SwipeHint = ({ className = "" }: { className?: string }) => {
       {/* Left chevron */}
       <div
         aria-hidden={atStart}
-        className={`absolute inset-y-0 left-2 flex items-center transition-opacity duration-300 ${atStart ? "opacity-0" : "opacity-100"}`}
+        className={`absolute inset-y-0 left-1 sm:left-2 flex items-center transition-opacity duration-300 ${atStart ? "opacity-0" : "opacity-100"}`}
       >
         <button
           type="button"
@@ -103,7 +103,7 @@ export const SwipeHint = ({ className = "" }: { className?: string }) => {
       {/* Right chevron */}
       <div
         aria-hidden={atEnd}
-        className={`absolute inset-y-0 right-2 flex items-center transition-opacity duration-300 ${atEnd ? "opacity-0" : "opacity-100"}`}
+        className={`absolute inset-y-0 right-1 sm:right-2 flex items-center transition-opacity duration-300 ${atEnd ? "opacity-0" : "opacity-100"}`}
       >
         <button
           type="button"

@@ -323,24 +323,24 @@ export default function Register({
 
         {/* Role chip — makes it visually obvious whether this form is for
             a User or Merchant signup, regardless of which route mounted it. */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between gap-2 mb-3 flex-wrap sm:flex-nowrap">
           <div
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.18em]"
+            className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[9px] sm:text-[10.5px] font-semibold uppercase tracking-[0.08em] sm:tracking-[0.18em] whitespace-nowrap shrink-0"
             style={{
               background: "rgba(204,120,92,0.10)",
               color: "#cc785c",
             }}
           >
             <span
-              className="w-1.5 h-1.5 rounded-full"
+              className="w-1.5 h-1.5 rounded-full shrink-0"
               style={{ background: "#cc785c" }}
             />
-            Joining as {isMerchant ? "a Merchant" : "a User"}
+            Joining as {isMerchant ? "Merchant" : "User"}
           </div>
           {/* Quick role switch — keeps users out of the wrong form */}
           <Link
             to={isMerchant ? "/register" : "/merchant-register"}
-            className="text-[11px] font-semibold underline underline-offset-4 text-black/55 dark:text-white/55 hover:text-black dark:hover:text-white transition-colors"
+            className="text-[10.5px] sm:text-[11px] font-semibold underline underline-offset-4 text-black/55 dark:text-white/55 hover:text-black dark:hover:text-white transition-colors whitespace-nowrap shrink-0"
           >
             Switch to {isMerchant ? "User" : "Merchant"}
           </Link>

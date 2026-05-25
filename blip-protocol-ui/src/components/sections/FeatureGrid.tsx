@@ -173,7 +173,7 @@ export const FeatureGrid = ({
         {/* Horizontal snap-scroll on every breakpoint */}
         <div className="relative">
         <div
-          className="flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-12 sm:px-0 scroll-pl-12 sm:scroll-pl-0 scroll-pr-12 sm:scroll-pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {features.map((feature, index) => (
             <div

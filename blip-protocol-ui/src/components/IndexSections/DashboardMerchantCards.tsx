@@ -42,7 +42,7 @@ const CARDS: DashboardCardData[] = [
     refTag: "#R-1842",
     widget: "referral-pair",
     titlePre: "Bring a friend.",
-    titleAccent: "You both get $20.",
+    titleAccent: "You both get upto $20.",
     cta: "Share invite",
   },
   {

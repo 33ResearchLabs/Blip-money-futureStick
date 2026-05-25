@@ -2653,7 +2653,7 @@ function MerchantCardCarousel() {
     {
       label: "BRING A FRIEND",
       titlePre: "Bring a friend.",
-      titleAccent: "You both get $20.",
+      titleAccent: "You both get upto $20.",
       titleAccentItalic: true,
       titleAccentColor: "#6ee0c5",
       cta: "Share invite",

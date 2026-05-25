@@ -399,13 +399,13 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           {KPIS.map((k, i) => (
             <div
               key={k.label}
-              className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-3 md:p-6 backdrop-blur-sm"
+              className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-2.5 md:p-6 backdrop-blur-sm min-w-0 overflow-hidden"
             >
-              <div className="text-[8.5px] md:text-[10px] tracking-[0.22em] md:tracking-[0.28em] uppercase text-white/45 font-semibold mb-1.5 md:mb-3 truncate">
+              <div className="text-[8px] md:text-[10px] tracking-[0.12em] md:tracking-[0.28em] uppercase text-white/45 font-semibold mb-1 md:mb-3 whitespace-nowrap">
                 {k.label}
               </div>
-              <div className="flex items-baseline gap-1 md:gap-2">
-                <span className="text-[18px] md:text-[40px] font-semibold tracking-[-0.025em] tabular-nums text-white leading-none">
+              <div className="flex flex-col items-start gap-0.5 md:flex-row md:items-baseline md:gap-2 min-w-0">
+                <span className="text-[15px] md:text-[40px] font-semibold tracking-[-0.025em] tabular-nums text-white leading-none truncate max-w-full">
                   {k.value}
                 </span>
                 <span className="text-[9px] md:text-[12px] font-mono text-[#cc785c]">

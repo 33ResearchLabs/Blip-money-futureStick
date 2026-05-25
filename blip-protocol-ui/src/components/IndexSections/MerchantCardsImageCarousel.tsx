@@ -31,7 +31,7 @@ const MERCHANT_CARDS = [
     label: "BRING A FRIEND",
     accent: "#ff8c6b",
     titlePre: "Bring a friend.",
-    titleAccent: "You both get $20.",
+    titleAccent: "You both get upto $20.",
     titleTail: "",
     cta: "Share invite",
     footnote: "Paid when they trade $100+",

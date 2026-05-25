@@ -78,7 +78,7 @@ const BanklessSection = () => {
         {/* ── Three Feature Cards ──
             Mobile: horizontal snap-scroll (cards peek at edges).
             md+ : 3-column grid. */}
-        <div className="relative mt-20 sm:mt-24">
+        <div className="relative mt-4 sm:mt-24">
           <div
             className="flex md:grid md:grid-cols-3 gap-4 md:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >

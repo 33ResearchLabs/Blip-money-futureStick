@@ -1069,7 +1069,7 @@ export function CardHeroGrid() {
 const MC_PAINTED = [
   { img: "zero-fees-card.png", label: "ZERO FEES THIS WEEK", accent: "#6ee0c5", titlePre: "Don't miss out on", titleAccent: "0% fees", titleTail: " this week.", cta: "Send money", footnote: "Auto-applied at checkout" },
   { img: "first-transfers-card.png", label: "FIRST TRANSFERS · FEE-FREE", accent: "#ffd45a", titlePre: "Your first 3 transfers", titleAccent: "home — fee-free.", titleTail: "", cta: "Send home", footnote: "USD → INR live rate" },
-  { img: "bring-friend-card.png", label: "BRING A FRIEND", accent: "#ff8c6b", titlePre: "Bring a friend.", titleAccent: "You both get $20.", titleTail: "", cta: "Share invite", footnote: "Paid when they trade $100+" },
+  { img: "bring-friend-card.png", label: "BRING A FRIEND", accent: "#ff8c6b", titlePre: "Bring a friend.", titleAccent: "You both get upto $20.", titleTail: "", cta: "Share invite", footnote: "Paid when they trade $100+" },
   { img: "boost-trades-card.png", label: "BOOST ON YOUR NEXT 5 TRADES", accent: "#9ad1ff", titlePre: "Stack a", titleAccent: "+15% boost", titleTail: " on your next 5 trades.", cta: "Activate boost", footnote: "Avg user banked $48 last week" },
 ] as const;
 export function MerchantCarouselPainted() {
@@ -1158,7 +1158,7 @@ const APPLE_ACCENT = "#cc785c";
 const APPLE_CARDS = [
   { key: "fees", label: "FEE WAIVER · LIVE", refTag: "WEEK 21", hero: "wallet-pass" as const, titlePre: "Don't miss out on", titleAccent: "0% fees", titleTail: " this week.", cta: "Send" },
   { key: "route", label: "TRANSFER ROUTE", refTag: "USD → INR", hero: "pay-sheet" as const, titlePre: "Your first 3 transfers", titleAccent: "home — fee-free.", cta: "Send home" },
-  { key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", hero: "messages-cash" as const, titlePre: "Bring a friend.", titleAccent: "You both get $20.", cta: "Share invite" },
+  { key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", hero: "messages-cash" as const, titlePre: "Bring a friend.", titleAccent: "You both get upto $20.", cta: "Share invite" },
   { key: "boost", label: "LEADERBOARD", refTag: "RANK 3", hero: "activity-ring" as const, titlePre: "Stack a", titleAccent: "+15% boost", titleTail: " on your next 5.", cta: "Activate" },
 ];
 export function DashboardAppleCards() {
@@ -1358,7 +1358,7 @@ function ActivityRingHero({ accent }: { accent: string }) {
 const CLEAR_CARDS = [
   { key: "fees", label: "FEE WAIVER · LIVE", refTag: "WEEK 21", hero: "fees" as const, titlePre: "Don't miss out on", titleAccent: "0% fees", titleTail: " this week.", cta: "Send" },
   { key: "route", label: "TRANSFER ROUTE", refTag: "USD → INR", hero: "route" as const, titlePre: "Your first 3 transfers", titleAccent: "home — fee-free.", cta: "Send home" },
-  { key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", hero: "friend" as const, titlePre: "Bring a friend.", titleAccent: "You both get $20.", cta: "Share invite" },
+  { key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", hero: "friend" as const, titlePre: "Bring a friend.", titleAccent: "You both get upto $20.", cta: "Share invite" },
   { key: "boost", label: "LEADERBOARD", refTag: "RANK 3", hero: "boost" as const, titlePre: "Stack a", titleAccent: "+15% boost", titleTail: " on your next 5.", cta: "Activate" },
 ];
 const NAMES_W = ["Alex Wei", "Priya R.", "You + Kai", "Jules S."];

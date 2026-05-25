@@ -36,7 +36,7 @@ const CARDS: CardData[] = [
   },
   {
     key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", accent: ACCENT,
-    hero: "friend", titlePre: "Bring a friend.", titleAccent: "You both get $20.",
+    hero: "friend", titlePre: "Bring a friend.", titleAccent: "You both get upto $20.",
     cta: "Share invite",
   },
   {
