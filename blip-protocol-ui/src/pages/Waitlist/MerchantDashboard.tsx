@@ -1163,18 +1163,18 @@ export default function MerchantDashboard() {
           >
             <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] h-full">
               {/* Left: heading + description + CTAs */}
-              <div className="p-5 md:p-7 flex flex-col justify-between gap-5">
-                <h2 className="text-[26px] md:text-[31px] font-semibold font-display leading-[1.05] tracking-tight mb-2">
+              <div className="p-6 md:p-8 flex flex-col items-center justify-center text-center gap-5">
+                <h2 className="text-[26px] md:text-[31px] font-semibold font-display leading-[1.15] tracking-tight">
                   <span className={txt}>Refer Friends.</span>
                   <br />
                   <span className="text-[#cc785c]">Earn More.</span>
                 </h2>
-                <p className={`text-[13px] ${muted} mb-4 max-w-md leading-snug`}>
+                <p className={`text-[13.5px] ${muted} max-w-md leading-[1.7]`}>
                   Invite your friends to Blip Money and earn{" "}
                   <span className={`font-bold ${txt}`}>50 pts</span> for each
                   successful referral. There's no limit to how much you can earn.
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => setShowReferralModal(true)}
                     className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2 rounded-lg text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
