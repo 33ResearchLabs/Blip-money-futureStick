@@ -239,7 +239,7 @@ function TiltDashboard({ children }: { children: React.ReactNode }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
-      className="relative rounded-[28px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-3 md:p-4 overflow-hidden shadow-[0_60px_140px_-40px_rgba(204,120,92,0.35),0_30px_80px_-30px_rgba(0,0,0,0.6),0_1px_0_rgba(255,255,255,0.06)_inset]"
+      className="relative rounded-[28px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-3 md:p-4 overflow-hidden"
     >
       <div
         aria-hidden
@@ -355,17 +355,15 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">
-          <a
-            href="/waitlist/merchant"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/waitlist/user"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
           >
             <EditableText id="home.markets.cta.primary" default="Join Waitlist" as="span" />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </a>
+          </Link>
           <Link
-            to="/blip-market"
+            to="/market"
             className="group inline-flex items-center gap-1.5 h-[48px] px-4 text-white/75 text-[14px] font-medium tracking-tight hover:text-white transition-colors"
           >
             <EditableText id="home.markets.cta.secondary" default="Explore Blip Market" as="span" />

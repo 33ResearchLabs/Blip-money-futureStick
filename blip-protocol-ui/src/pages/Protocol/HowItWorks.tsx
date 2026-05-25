@@ -1,861 +1,390 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useInView,
-  scale,
-} from "framer-motion";
-import {
-  Shield,
-  Zap,
+  Smartphone,
+  Gavel,
   Lock,
-  Wallet,
-  Users,
-  Globe,
-  ArrowRight,
   CheckCircle2,
-  ChevronDown,
+  ArrowRight,
+  Zap,
+  ShieldCheck,
+  Eye,
+  type LucideIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
-import { sounds } from "@/lib/sounds";
-import { MagneticWrapper } from "@/components/MagneticButton";
-import { CTAButton } from "@/components/Navbar";
-import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+import {
+  MerchantDashboardBody,
+  useMerchantDashboardState,
+} from "@/components/IndexSections/LiveMerchantDashboard";
 
-/* ============================================
-   AWARD-WINNING HOW IT WORKS PAGE
-   Cinematic scroll animations with storytelling
-   ============================================ */
+const ACCENT = "#cc785c";
+const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-
-/* ============================================
-   SECTION 1: CINEMATIC HERO
-   ============================================ */
-
-const HeroSection = () => {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 200]),
-    smoothConfig,
-  );
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-
+/* ────────────────────────────────────────────────────────────
+   iPhone frame (self-contained; matches the one used on /user)
+   ────────────────────────────────────────────────────────────*/
+function PhoneFrame({ src, alt = "" }: { src: string; alt?: string }) {
   return (
-    <motion.section ref={ref} className="relative " style={{ opacity }}>
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        {/* Background with parallax */}
-        <motion.div
-          className="absolute inset-0 z-0 hidden dark:block"
-          style={{ y, scale }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop"
-            alt="Blockchain technology"
-            className="w-full h-full object-cover brightness-[0.25] contrast-[0.9]"
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
-        </motion.div>
-
-        {/* Grid overlay */}
-        <div className="absolute inset-0 z-[1] opacity-[0.03]">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, white 1px, transparent 1px),
-                linear-gradient(to bottom, white 1px, transparent 1px)
-              `,
-              backgroundSize: "80px 80px",
-            }}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 -top-20 sm:top-0 text-center px-6 max-w-5xl mx-auto py-10">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 
-backdrop-blur-sm 
-bg-black/5 dark:bg-white/10 
-border border-black/10 dark:border-white/20"
-          >
-            <span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/90 font-semibold">
-              How Blip Works
-            </span>
-          </motion.div>
-
-          {/* Headlines */}
-          <div className="o mb-6 ">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{
-                duration: 1.2,
-                delay: 0.3,
-                ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
-              }}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
-            >
-              <span className="block">Value. Settled.</span>
-
-              <span className="inline-block  mt-1  px-3 py-0.5 rounded-md">
-                Privately.
-              </span>
-            </motion.h1>
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-2xl mx-auto leading-relaxed font-medium"
-          >
-            The on-chain protocol for instant, secure, and KYC-free global value
-            transfer.
-          </motion.p>
-
-          {/* Scroll indicator */}
-          {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-          >
-            <span className="text-[11px] text-black/60 dark:text-white/75 uppercase tracking-[0.3em] font-semibold">
-              Explore
-            </span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/75 " />
-            </motion.div>
-          </motion.div> */}
-
-          <CTAButton
-              
-              to="/whitepaper"
-              className="w-[220px] h-[48px] mt-8"
-            >
-              {" "}
-              Read Whitepaper{" "}
-            </CTAButton>
-        </div>
-      </div>
-    </motion.section>
-  );
-};
-
-/* ============================================
-   SECTION 2: KEY CONCEPTS
-   ============================================ */
-
-const KeyConceptsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const concepts = [
-    {
-      icon: Lock,
-      title: "Non-Custodial Escrow",
-      desc: "Funds are secured by code, not intermediaries.",
-      image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      icon: Zap,
-      title: "Zero Intermediaries",
-      desc: "Direct settlement between wallet and merchant.",
-      image: "/images/image.png",
-    },
-    {
-      icon: Shield,
-      title: "Privacy-First Design",
-      desc: "Wallet-based access with zero KYC required.",
-      image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&auto=format&fit=crop&q=80",
-    },
-  ];
-
-  return (
-    <section
-      ref={ref}
-      className="relative md:py-32 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+    <div
+      className="relative mx-auto"
+      style={{
+        aspectRatio: "9/19.5",
+        width: "100%",
+        maxWidth: 280,
+        padding: "10px",
+        background: "linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)",
+        borderRadius: 50,
+        border: "1px solid rgba(255,255,255,0.06)",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.04) inset, 0 60px 140px -40px rgba(0,0,0,0.7), 0 24px 60px -16px rgba(204,120,92,0.25)",
+      }}
     >
-      {/* Background glow */}
-      {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" /> */}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="text-center mb-24"
-        >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
-            BLIP CORE PRINCIPLES
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
-            Built for Secure
-            <br />
-            <span className="inline-block mt-1 px-3 py-0.5 rounded-md">
-              Digital Value
-            </span>
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto font-medium leading-relaxed">
-            A secure foundation for private and trustless digital payments.
-          </p>
-        </motion.div>
-        <div className="relative">
-        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {concepts.map((concept, i) => (
-            <motion.div
-              key={concept.title}
-              initial={{ opacity: 0, y: 60 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: i * 0.15,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="snap-start shrink-0 w-[85%] md:w-auto group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-white/40  hover:border-black/20 dark:hover:border-white/20 dark:hover:scale-105 duration-500 transition-colors"
-              style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                // border: "1px solid rgba(255, 255, 255, 0.05)",
-              }}
-              onMouseEnter={() => sounds.hover()}
-            >
-              {/* Background image */}
-              <img
-                src={concept.image}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover opacity-[0.25] dark:opacity-[0.35] group-hover:opacity-[0.35] dark:group-hover:opacity-[0.45] transition-opacity duration-500 pointer-events-none"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] dark:from-black via-[#FAF8F5]/60 dark:via-black/50 to-[#FAF8F5]/20 dark:to-black/20 pointer-events-none" />
-              {/* Hover gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 " />
-
-              <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-black/70 dark:text-white/90 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
-                </div>
-                <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
-                  {concept.title}
-                </h3>
-                <p className="text-sm font-medium text-black/50 dark:text-white/75">
-                  {concept.desc}
-                </p>
-              </div>
-
-              {/* Bottom accent line */}
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ffffff] to-transparent group-hover:opacity-0"
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
-              />
-            </motion.div>
-          ))}
-        </div>
-        <SwipeHint />
-        </div>
-      </div>
-    </section>
-  );
-};
-
-/* ============================================
-   SECTION 3: CORE PROTOCOL
-   ============================================ */
-
-const CoreProtocolSection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const pillars = [
-    {
-      icon: Lock,
-      title: "Escrow PDA",
-      desc: "Funds secured by immutable smart contract.",
-    },
-    {
-      icon: Users,
-      title: "Merchant Staking",
-      desc: "Collateral locked for secure execution.",
-    },
-    {
-      icon: Globe,
-      title: "DAO Governance",
-      desc: "Decentralized arbitration for disputes.",
-    },
-    {
-      icon: Wallet,
-      title: "Wallet-Only",
-      desc: "Zero KYC, financial privacy preserved.",
-    },
-  ];
-
-  return (
-    <section
-      ref={ref}
-      className="relative md:py-40 py-12 bg-black dark:bg-white overflow-hidden"
-    >
-      {/* Background text */}
-      {/* <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] dark:text-black/[0.015] select-none pointer-events-none"
-        style={{
-          x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
-        }}
+      <span aria-hidden className="absolute -left-[2px] top-[18%] h-7 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[28%] h-12 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[42%] h-12 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -right-[2px] top-[32%] h-16 w-[3px] rounded-l bg-[#222]" />
+      <div
+        className="relative w-full h-full overflow-hidden bg-black"
+        style={{ borderRadius: 40 }}
       >
-        TRUST REDEFINED • TRUST REDEFINED • TRUST REDEFINED •
-      </motion.div> */}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="text-center mb-24"
-        >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-white/70 dark:text-black/80 mb-6 block font-semibold">
-            The Protocol
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-white dark:text-black tracking-tight leading-[1.1]">
-            Trust
-            <br />
-            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Redefined.</span>
-          </h2>
-        </motion.div>
-
-        {/* Pillars grid */}
-        <div className="relative">
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {pillars.map((pillar, i) => (
-            <motion.div
-              key={pillar.title}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border border-white/[0.06] dark:border-black/[0.08] bg-white/[0.02] dark:bg-black/[0.02] hover:border-white/20 dark:hover:border-black/20 duration-500 transition-colors"
-              onMouseEnter={() => sounds.hover()}
-            >
-              {/* Step number */}
-              <span className="absolute top-4 right-4 text-4xl font-bold text-white/20 dark:text-black/[0.06] select-none">
-                0{i + 1}
-              </span>
-
-              <div className="w-16 h-16 rounded-2xl bg-white/5 dark:bg-black/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 dark:group-hover:bg-black/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-white/80 dark:text-black/70 group-hover:text-white dark:group-hover:text-black" />
-              </div>
-              <h3 className="text-lg font-semibold text-white/90 dark:text-black/80 mb-3">
-                {pillar.title}
-              </h3>
-              <p className="text-sm font-medium text-white/65 dark:text-black/55">
-                {pillar.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-        <SwipeHint />
-        </div>
-      </div>
-    </section>
-  );
-};
-
-/* ============================================
-   SECTION 4: TRANSACTION FLOW
-   ============================================ */
-
-const TransactionFlowSection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const steps = [
-    {
-      num: "01",
-      title: "Initiation & Lock",
-      content: "User defines order parameters and executes FUND_ESCROW.",
-      result: "Funds secured in immutable Escrow PDA.",
-    },
-    {
-      num: "02",
-      title: "Commitment & Stake",
-      content: "Merchant accepts and locks proportional collateral.",
-      result: "Escrow moves to IN_PROGRESS state.",
-    },
-    {
-      num: "03",
-      title: "Off-Chain Payout",
-      content: "Merchant executes fiat payout to recipient.",
-      result: "Value delivered, ready for verification.",
-    },
-    {
-      num: "04",
-      title: "Verification & Release",
-      content: "User confirms receipt, escrow executes RELEASE_FUNDS.",
-      result: "Crypto sent, stake returned, COMPLETED.",
-    },
-    {
-      num: "05",
-      title: "Finality or Arbitration",
-      content: "Disputes reviewed by DAO, final resolution voted.",
-      result: "COMPLETED, RESOLVED, or SLASHED.",
-    },
-  ];
-
-  const lineProgress = useSpring(
-    useTransform(scrollYProgress, [0.1, 0.8], [0, 100]),
-    smoothConfig,
-  );
-
-  return (
-    <section
-      ref={ref}
-      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
-    >
-      {/* Background image with parallax */}
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-          className="w-full h-[120%] -mt-[10%]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2874&auto=format&fit=crop"
-            alt="Technology"
-            className="w-full h-full object-cover opacity-10"
-          />
-        </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5] dark:from-black dark:via-black/95 dark:to-black" />
-      </div>
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="text-center mb-24"
-        >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
-            Transaction Flow
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
-            Atomic.
-            <br />
-            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">
-              Guaranteed.
-            </span>
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto font-medium leading-relaxed">
-            Every transaction executes atomically, guaranteed by on-chain escrow
-            state transitions.
-          </p>
-        </motion.div>
-
-        {/* Timeline */}
-        <div className="relative">
-          {/* Progress line */}
-          <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-black/10 dark:bg-white/10">
-            <motion.div
-              className="w-full bg-gradient-to-b from-[#ffffff] to-[#ffffff]/30"
-              style={{ height: lineProgress.get() + "%" }}
-            />
-          </div>
-
-          {/* Steps */}
-          <div className="space-y-8">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="relative pl-16"
-              >
-                {/* Number circle */}
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-[#FAF8F5] dark:bg-black border-2 border-black/50 dark:border-white/70 flex items-center justify-center">
-                  <span className="text-sm font-mono text-black/60 dark:text-white/80">
-                    {step.num}
-                  </span>
-                </div>
-
-                {/* Content card */}
-                <div
-                  className="p-8 rounded-2xl"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "1px solid rgba(255, 255, 255, 0.05)",
-                  }}
-                >
-                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm font-medium text-black/60 dark:text-white/75 mb-4">
-                    {step.content}
-                  </p>
-                  <div className="flex items-center gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-black/50 dark:text-white/75" />
-                    <span className="text-black/50 dark:text-white/75 font-medium">
-                      Result: {step.result}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-/* ============================================
-   SECTION 5: SECURITY MODEL
-   ============================================ */
-
-const SecuritySection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const y1 = useSpring(
-    useTransform(scrollYProgress, [0, 1], [100, -100]),
-    smoothConfig,
-  );
-  const y2 = useSpring(
-    useTransform(scrollYProgress, [0, 1], [50, -50]),
-    smoothConfig,
-  );
-
-  const securityPillars = [
-    {
-      title: "Economic Enforcement",
-      desc: "Security enforced by economic incentives. Merchant stake at risk if delivery fails.",
-    },
-    {
-      title: "Immutable Code",
-      desc: "No admin keys control funds. Non-upgradable contracts ensure finality.",
-    },
-    {
-      title: "DAO Arbiter",
-      desc: "Decentralized control prevents single-party failure during disputes.",
-    },
-  ];
-
-  const metrics = [
-    { value: "~500ms", label: "Escrow Lock" },
-    { value: "< 1s", label: "Proof Verification" },
-    { value: "Instant", label: "On-chain Finality" },
-  ];
-
-  return (
-    <section
-      ref={ref}
-      className="force-light relative md:py-40 py-12 bg-[#FAF8F5] overflow-hidden"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          {/* Left: Image with parallax */}
-          <motion.div
-            className="relative aspect-square rounded-3xl overflow-hidden"
-            style={{ y: y1 }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2940&auto=format&fit=crop"
-              alt="Security"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-            {/* Floating metrics */}
-            <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-4">
-              {metrics.map((metric, i) => (
-                <motion.div
-                  key={metric.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                  className="text-center px-2 p-4 sm:p-4 rounded-xl backdrop-blur-xl"
-                  style={{
-                    background: "rgba(0, 0, 0, 0.5)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                  }}
-                >
-                  <div className="text-xs sm:text-2xl font-semibold text-[#ffffff]">
-                    {metric.value}
-                  </div>
-                  <div className="text-[9px] sm:text-xs text-[rgba(255,255,255,0.9)] uppercase tracking-tight">
-                    {metric.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right: Content */}
-          <motion.div style={{ y: y2 }}>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="mb-12"
-            >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 mb-6 block font-semibold">
-                Security Model
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black tracking-tight leading-[1.1] mb-6">
-                Cryptographic
-                <br />
-                <span className="inline-block mt-1 px-3 py-0.5 rounded-md">
-                  Security.
-                </span>
-              </h2>
-            </motion.div>
-
-            <div className="space-y-6">
-              {securityPillars.map((pillar, i) => (
-                <motion.div
-                  key={pillar.title}
-                  initial={{ opacity: 0, x: 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-black/[0.02]"
-                  onMouseEnter={() => sounds.hover()}
-                >
-                  <h3 className="text-lg font-semibold text-black/70 mb-2 group-hover:text-black transition-colors">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-sm font-medium text-black/50">
-                    {pillar.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-/* ============================================
-   SECTION 6: ORDER TYPES
-   ============================================ */
-
-const OrderTypesSection = () => {
-  const orderTypes = [
-    {
-      title: "Crypto → Cash",
-      desc: "Convert digital assets to physical currency anywhere, secured by staked merchant commitment.",
-      image:
-        "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2942&auto=format&fit=crop",
-    },
-    {
-      title: "Crypto → Bank",
-      desc: "Settle high-value transactions directly into any bank account, bypassing identity requirements.",
-      image:
-        "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?q=80&w=2940&auto=format&fit=crop",
-    },
-    {
-      title: "Crypto → Crypto",
-      desc: "Swap assets across chains using the same escrow security, without CEX infrastructure.",
-      image:
-        "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2787&auto=format&fit=crop",
-    },
-  ];
-
-  return (
-    <section className="force-light relative md:py-40 py-12 bg-[#FAF8F5]">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="text-center mb-20"
-        >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 mb-6 block font-semibold">
-            Order Types
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black tracking-tight leading-[1.1]">
-            Multiple
-            <br />
-            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">
-              Destinations.
-            </span>
-          </h2>
-        </motion.div>
-
-        {/* Cards */}
-        <div className="relative">
-        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {orderTypes.map((type, i) => (
-            <motion.div
-              key={type.title}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="snap-start shrink-0 w-[85%] md:w-auto group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer"
-              onMouseEnter={() => sounds.hover()}
-            >
-              {/* Image */}
-              <motion.img
-                src={type.image}
-                alt={type.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
-
-              {/* Content */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-semibold text-[#ffffff] mb-3 drop-shadow-md">
-                  {type.title}
-                </h3>
-                <p className="text-sm text-[rgba(255,255,255,0.9)] leading-relaxed drop-shadow">
-                  {type.desc}
-                </p>
-              </div>
-
-              {/* Hover border */}
-              <div className="absolute inset-0 rounded-3xl border border-white/0 group-hover:border-[#ffffff]/30 transition-all duration-500" />
-            </motion.div>
-          ))}
-        </div>
-        <SwipeHint />
-        </div>
-      </div>
-    </section>
-  );
-};
-
-/* ============================================
-   SECTION 7: FINAL CTA
-   ============================================ */
-
-const CTASection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const scale = useSpring(
-    useTransform(scrollYProgress, [0, 0.5], [0.8, 1]),
-    smoothConfig,
-  );
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-
-  return (
-    <section
-      ref={ref}
-      className="relative md:min-h-screen flex items-center justify-center md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
-    >
-      {/* Background glow */}
-      {/* <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ scale, opacity }}
-      >
-        <div className="w-[600px] h-[600px] rounded-full bg-white/10 blur-[150px]" />
-      </motion.div> */}
-
-      {/* Grid overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
+        <img
+          src={src}
+          alt={alt}
+          className="absolute inset-0 w-full h-full object-cover object-top"
+          onError={(e) => ((e.currentTarget as HTMLImageElement).src = "/home.svg")}
+        />
         <div
-          className="w-full h-full"
+          aria-hidden
+          className="absolute left-1/2 -translate-x-1/2"
           style={{
-            backgroundImage: `
-              linear-gradient(to right, white 1px, transparent 1px),
-              linear-gradient(to bottom, white 1px, transparent 1px)
-            `,
-            backgroundSize: "80px 80px",
+            top: 9,
+            width: 86,
+            height: 24,
+            borderRadius: 999,
+            background: "#0a0a0a",
+            border: "1px solid #1a1a1a",
           }}
         />
       </div>
-
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
-            Code over
-            <br />
-            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Trust.</span>
-          </h2>
-
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
-            The certainty of code replacing the necessity of trust. Start your
-            journey with Blip today.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
-            {/* CTA */}
-
-            {/* <CTAButton
-              to="/waitlist"
-              className="w-[220px]  h-[48px] border flex items-center justify-center"
-            >
-              Get Started
-            </CTAButton> */}
-
-            <CTAButton
-              
-              to="/whitepaper"
-              className="w-[220px] h-[48px]"
-            >
-              {" "}
-              Read Whitepaper{" "}
-            </CTAButton>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+    </div>
   );
-};
+}
 
-/* ============================================
-   MAIN PAGE COMPONENT
-   ============================================ */
+/* ────────────────────────────────────────────────────────────
+   Step block — alternating layout
+   ────────────────────────────────────────────────────────────*/
+function Step({
+  number,
+  icon: Icon,
+  eyebrow,
+  title,
+  body,
+  visual,
+  reverse = false,
+}: {
+  number: string;
+  icon: LucideIcon;
+  eyebrow: string;
+  title: React.ReactNode;
+  body: string;
+  visual: React.ReactNode;
+  reverse?: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-15%" }}
+      transition={{ duration: 0.9, ease: EASE }}
+      className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
+        reverse ? "lg:[&>:first-child]:order-2" : ""
+      }`}
+    >
+      {/* Copy column */}
+      <div>
+        <div
+          className="inline-flex items-center gap-2 mb-5"
+          style={{ fontFamily: MONO }}
+        >
+          <span
+            className="text-[11px] font-bold tracking-[0.22em] px-2 py-1 rounded"
+            style={{
+              color: ACCENT,
+              background: `${ACCENT}1a`,
+              border: `1px solid ${ACCENT}44`,
+            }}
+          >
+            STEP {number}
+          </span>
+          <span className="text-[10.5px] font-bold tracking-[0.22em] text-white/45">
+            · {eyebrow}
+          </span>
+        </div>
 
+        <div className="flex items-start gap-4 mb-5">
+          <div
+            className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+            style={{
+              background: `${ACCENT}18`,
+              border: `1px solid ${ACCENT}44`,
+            }}
+          >
+            <Icon className="w-5 h-5" style={{ color: ACCENT }} strokeWidth={2} />
+          </div>
+          <h3
+            className="font-semibold text-white tracking-[-0.025em] leading-[1.08] flex-1"
+            style={{ fontSize: "clamp(26px, 3.4vw, 38px)" }}
+          >
+            {title}
+          </h3>
+        </div>
+
+        <p
+          className="text-[15px] sm:text-[16px] leading-[1.6] text-white/65 max-w-[520px]"
+        >
+          {body}
+        </p>
+      </div>
+
+      {/* Visual column */}
+      <div className="relative">{visual}</div>
+    </motion.div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Feature card (bottom strip)
+   ────────────────────────────────────────────────────────────*/
+function FeatureCard({
+  icon: Icon,
+  title,
+  body,
+  index,
+}: {
+  icon: LucideIcon;
+  title: string;
+  body: string;
+  index: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.55, delay: index * 0.06, ease: EASE }}
+      whileHover={{ y: -4 }}
+      className="relative p-6 rounded-[20px]"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)",
+        border: "1px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+        style={{ background: `${ACCENT}18`, border: `1px solid ${ACCENT}44` }}
+      >
+        <Icon className="w-5 h-5" style={{ color: ACCENT }} strokeWidth={2} />
+      </div>
+      <h4 className="text-[16px] font-semibold text-white mb-1.5 tracking-[-0.01em]">
+        {title}
+      </h4>
+      <p className="text-[13px] leading-[1.55] text-white/55">{body}</p>
+    </motion.div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Dashboard card visual — wraps live MerchantDashboardBody
+   ────────────────────────────────────────────────────────────*/
+function DashCard() {
+  const state = useMerchantDashboardState();
+  return (
+    <div
+      className="relative rounded-[20px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-2 sm:p-3 overflow-hidden"
+      style={{
+        boxShadow:
+          "0 60px 140px -40px rgba(204,120,92,0.30), 0 30px 80px -30px rgba(0,0,0,0.6)",
+        maxHeight: 480,
+      }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
+        }}
+      />
+      <div className="overflow-hidden" style={{ maxHeight: 460 }}>
+        <div style={{ transform: "scale(0.72)", transformOrigin: "top left", width: "139%" }}>
+          <MerchantDashboardBody state={state} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Escrow diagram visual — pure SVG, no asset deps
+   ────────────────────────────────────────────────────────────*/
+function EscrowVisual() {
+  return (
+    <div
+      className="relative rounded-[24px] aspect-[5/4] p-6 sm:p-8 overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(204,120,92,0.18) 0%, transparent 70%), linear-gradient(180deg, #0e0e10 0%, #050505 100%)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        boxShadow: "0 30px 80px -30px rgba(0,0,0,0.6)",
+      }}
+    >
+      <div className="absolute inset-0 flex items-center justify-around p-8">
+        {/* User node */}
+        <div className="flex flex-col items-center gap-2">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center text-white text-[18px] font-bold"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              fontFamily: MONO,
+            }}
+          >
+            U
+          </div>
+          <span className="text-[10px] font-bold tracking-[0.18em] text-white/45" style={{ fontFamily: MONO }}>
+            USER
+          </span>
+        </div>
+
+        {/* Escrow center */}
+        <div className="flex flex-col items-center gap-2 relative">
+          <motion.div
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-20 h-20 rounded-2xl flex items-center justify-center relative"
+            style={{
+              background: `linear-gradient(135deg, ${ACCENT}, #b66848)`,
+              boxShadow: `0 14px 36px -10px ${ACCENT}99, inset 0 1px 0 rgba(255,255,255,0.25)`,
+            }}
+          >
+            <Lock className="w-8 h-8 text-white" strokeWidth={2.2} />
+          </motion.div>
+          <span className="text-[10px] font-bold tracking-[0.18em]" style={{ color: ACCENT, fontFamily: MONO }}>
+            ESCROW · PDA
+          </span>
+          <span className="text-[9px] text-white/40" style={{ fontFamily: MONO }}>
+            on-chain
+          </span>
+        </div>
+
+        {/* Merchant node */}
+        <div className="flex flex-col items-center gap-2">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center text-white text-[18px] font-bold"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              fontFamily: MONO,
+            }}
+          >
+            M
+          </div>
+          <span className="text-[10px] font-bold tracking-[0.18em] text-white/45" style={{ fontFamily: MONO }}>
+            MERCHANT
+          </span>
+        </div>
+      </div>
+
+      {/* Connector lines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: "visible" }}>
+        <motion.line
+          x1="22%" y1="50%" x2="42%" y2="50%"
+          stroke={ACCENT} strokeWidth="1.5" strokeDasharray="4 4"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE }}
+        />
+        <motion.line
+          x1="58%" y1="50%" x2="78%" y2="50%"
+          stroke={ACCENT} strokeWidth="1.5" strokeDasharray="4 4"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3, ease: EASE }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Settlement visual — clean settle confirmation card
+   ────────────────────────────────────────────────────────────*/
+function SettleVisual() {
+  return (
+    <div
+      className="relative rounded-[24px] aspect-[5/4] p-8 overflow-hidden flex items-center justify-center"
+      style={{
+        background:
+          "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(204,120,92,0.15) 0%, transparent 70%), linear-gradient(180deg, #0e0e10 0%, #050505 100%)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        boxShadow: "0 30px 80px -30px rgba(0,0,0,0.6)",
+      }}
+    >
+      <motion.div
+        initial={{ scale: 0.92, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: EASE }}
+        className="relative rounded-[18px] p-5 sm:p-6 bg-white text-black w-full max-w-[300px]"
+        style={{
+          boxShadow:
+            "0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 80px -30px rgba(0,0,0,0.4)",
+        }}
+      >
+        <div className="flex items-center gap-2 mb-3" style={{ fontFamily: MONO }}>
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }}
+          />
+          <span className="text-[9.5px] font-bold tracking-[0.22em]" style={{ color: ACCENT }}>
+            TX · SETTLED
+          </span>
+        </div>
+        <div className="flex items-baseline gap-2 mb-1">
+          <span
+            className="font-bold text-black leading-none"
+            style={{ fontFamily: "ui-serif, Georgia, serif", fontSize: 38, letterSpacing: "-0.04em" }}
+          >
+            +$1,250
+          </span>
+          <span className="text-[10px] font-bold text-black/40" style={{ fontFamily: MONO }}>
+            USD
+          </span>
+        </div>
+        <div className="text-[11px] text-black/50" style={{ fontFamily: MONO }}>
+          ₹104,062 INR · 0.42s
+        </div>
+        <div
+          className="mt-4 pt-3 border-t border-black/[0.08] flex items-center justify-between text-[10px]"
+          style={{ fontFamily: MONO, color: "rgba(0,0,0,0.5)" }}
+        >
+          <span>FEE</span>
+          <span style={{ color: ACCENT, fontWeight: 700 }}>$0.00 · 0%</span>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   Main page
+   ────────────────────────────────────────────────────────────*/
 export const HowItWorksPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -864,20 +393,305 @@ export const HowItWorksPage = () => {
   return (
     <>
       <SEO
-        title="How Blip Money Works | Simple Crypto Payment Flow"
-        description="Learn how Blip Money enables seamless crypto payments through a simple, transparent, and secure settlement process."
+        title="How Blip Works | Live Merchant Auctions, On-Chain Escrow"
+        description="Blip is a live order book for cross-border value. Merchants compete in sealed-bid auctions, funds settle through non-custodial escrow on Solana. Here's how."
         canonical="https://www.blip.money/how-it-works"
       />
       <HreflangTags path="/how-it-works" />
 
-      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
-        <HeroSection />
-        <KeyConceptsSection />
-        <CoreProtocolSection />
-        <TransactionFlowSection />
-        <SecuritySection />
-        <OrderTypesSection />
-        <CTASection />
+      <div className="min-h-screen bg-black text-white mt-20 relative overflow-hidden">
+        {/* Ambient glows */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1200px] h-[700px] rounded-full opacity-[0.12] blur-3xl"
+          style={{ background: `radial-gradient(ellipse, ${ACCENT}, transparent 70%)` }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+            maskImage:
+              "radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 80%)",
+          }}
+        />
+
+        {/* ── HERO ───────────────────────────────────────── */}
+        <div className="relative pt-10 sm:pt-20 pb-16 sm:pb-24 px-5 sm:px-6">
+          <div className="max-w-[1180px] mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-7"
+              style={{
+                background: `${ACCENT}14`,
+                border: `1px solid ${ACCENT}44`,
+              }}
+            >
+              <motion.span
+                animate={{ opacity: [1, 0.35, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }}
+              />
+              <span
+                className="text-[10.5px] font-bold tracking-[0.22em]"
+                style={{ color: ACCENT, fontFamily: MONO }}
+              >
+                PROTOCOL OVERVIEW
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
+              className="font-semibold tracking-[-0.035em] leading-[1.04] mb-6 max-w-[920px] mx-auto px-2"
+              style={{ fontSize: "clamp(32px, 6.5vw, 80px)" }}
+            >
+              How Blip works,{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  fontWeight: 500,
+                  fontFamily: "ui-serif, Georgia, serif",
+                  color: ACCENT,
+                }}
+              >
+                in 4 steps.
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.12, ease: EASE }}
+              className="max-w-[620px] mx-auto text-[14.5px] sm:text-[16px] leading-[1.6] text-white/60 mb-2 px-2"
+            >
+              You initiate a trade. Verified merchants compete in a sealed-bid
+              auction. The winning bid locks funds in on-chain escrow.
+              Settlement releases automatically.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
+              className="text-[11px] font-bold tracking-[0.22em] text-white/35 mt-3"
+              style={{ fontFamily: MONO }}
+            >
+              ~ 60 SECONDS · 0% FEES · NON-CUSTODIAL
+            </motion.p>
+          </div>
+        </div>
+
+        {/* ── STEPS ──────────────────────────────────────── */}
+        <div className="relative px-5 sm:px-6">
+          <div className="max-w-[1180px] mx-auto space-y-24 sm:space-y-36">
+            <Step
+              number="01"
+              icon={Smartphone}
+              eyebrow="OPEN THE APP"
+              title={
+                <>
+                  You set the amount.{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily: "ui-serif, Georgia, serif",
+                      color: ACCENT,
+                    }}
+                  >
+                    That's it.
+                  </span>
+                </>
+              }
+              body="Pick a currency pair. Type an amount. Hit send. No banking forms, no SWIFT codes, no waiting for business hours. Your request enters a live order book the moment you tap go."
+              visual={<PhoneFrame src="/screenshots/app-screen-3.png" alt="Blip app wallet" />}
+            />
+
+            <Step
+              reverse
+              number="02"
+              icon={Gavel}
+              eyebrow="MERCHANTS COMPETE"
+              title={
+                <>
+                  A live auction{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily: "ui-serif, Georgia, serif",
+                      color: ACCENT,
+                    }}
+                  >
+                    runs in milliseconds.
+                  </span>
+                </>
+              }
+              body="Verified merchants see your request and bid against each other in a sealed-bid, second-price auction. The most competitive merchant wins — and you always pay the second-best price, not the winner's. The market enforces the best rate, not us."
+              visual={<DashCard />}
+            />
+
+            <Step
+              number="03"
+              icon={Lock}
+              eyebrow="ON-CHAIN ESCROW"
+              title={
+                <>
+                  Funds lock in a{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily: "ui-serif, Georgia, serif",
+                      color: ACCENT,
+                    }}
+                  >
+                    smart contract.
+                  </span>
+                </>
+              }
+              body="Once a merchant wins, your funds move into a Program Derived Address (PDA) on Solana. No human, no exchange, no custodian holds them — only the protocol's smart contract logic. The merchant has posted a bond that gets slashed if they don't deliver."
+              visual={<EscrowVisual />}
+            />
+
+            <Step
+              reverse
+              number="04"
+              icon={CheckCircle2}
+              eyebrow="SETTLEMENT"
+              title={
+                <>
+                  Money lands.{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily: "ui-serif, Georgia, serif",
+                      color: ACCENT,
+                    }}
+                  >
+                    Escrow releases.
+                  </span>
+                </>
+              }
+              body="When the merchant confirms fiat delivery, the smart contract releases escrow automatically. Every step is signed, recorded, and auditable on-chain. No chargebacks. No frozen accounts. No middleman to call."
+              visual={<SettleVisual />}
+            />
+          </div>
+        </div>
+
+        {/* ── WHY IT WORKS ───────────────────────────────── */}
+        <div className="relative px-5 sm:px-6 mt-24 sm:mt-36">
+          <div className="max-w-[1180px] mx-auto">
+            <div className="text-center mb-10 sm:mb-14 max-w-[680px] mx-auto">
+              <div
+                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.22em] mb-4"
+                style={{ color: ACCENT, fontFamily: MONO }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT }} />
+                WHY THIS DESIGN
+              </div>
+              <h2
+                className="font-semibold tracking-[-0.028em] leading-[1.1] text-white px-2"
+                style={{ fontSize: "clamp(24px, 4vw, 44px)" }}
+              >
+                Built so the protocol{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    fontWeight: 500,
+                    fontFamily: "ui-serif, Georgia, serif",
+                    color: ACCENT,
+                  }}
+                >
+                  cannot lie.
+                </span>
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {[
+                {
+                  icon: Zap,
+                  title: "Sub-second settlement",
+                  body:
+                    "Solana's high throughput means escrow lock and release happen in seconds, not minutes.",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Merchant bonds",
+                  body:
+                    "Every merchant posts collateral. Cheat the protocol, lose the bond — enforced by smart contract, not lawyers.",
+                },
+                {
+                  icon: Eye,
+                  title: "Pseudonymous by design",
+                  body:
+                    "No phone numbers, no KYC for routine transfers. Trust comes from the protocol, not your personal data.",
+                },
+              ].map((f, i) => (
+                <FeatureCard key={f.title} {...f} index={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── CTA ────────────────────────────────────────── */}
+        <div className="relative px-5 sm:px-6 mt-24 sm:mt-36 pb-20 sm:pb-32">
+          <div className="max-w-[820px] mx-auto text-center">
+            <h2
+              className="font-semibold tracking-[-0.028em] leading-[1.1] text-white mb-5 sm:mb-6 px-2"
+              style={{ fontSize: "clamp(24px, 4.2vw, 48px)" }}
+            >
+              Ready to{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  fontWeight: 500,
+                  fontFamily: "ui-serif, Georgia, serif",
+                  color: ACCENT,
+                }}
+              >
+                try it?
+              </span>
+            </h2>
+            <p className="text-[15px] sm:text-[15.5px] text-white/55 leading-[1.6] mb-8 sm:mb-9 max-w-[520px] mx-auto">
+              Join the waitlist for early access, or explore the live order
+              book.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+              <Link
+                to="/waitlist/user"
+                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] w-full sm:w-auto"
+                style={{
+                  background: "#fff",
+                  color: "#0a0a0a",
+                  boxShadow: "0 14px 36px -10px rgba(255,255,255,0.25)",
+                }}
+              >
+                Join Waitlist
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/market"
+                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors w-full sm:w-auto"
+                style={{
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.85)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                }}
+              >
+                See the live market
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

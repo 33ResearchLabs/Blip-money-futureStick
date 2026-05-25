@@ -122,12 +122,12 @@ const Whitepaper = () => {
           color: #0a0a0a !important;
         }
         .prose-tech h2 {
-          font-size: 30px;
-          line-height: 1.12;
+          font-size: clamp(22px, 4vw, 30px);
+          line-height: 1.15;
           letter-spacing: -0.028em;
           font-weight: 600;
-          margin-bottom: 24px;
-          padding-bottom: 16px;
+          margin-bottom: 20px;
+          padding-bottom: 14px;
           border-bottom: 1px solid rgba(0,0,0,0.10);
         }
         .prose-tech h3, .prose-tech h3 * {
@@ -234,7 +234,7 @@ const Whitepaper = () => {
         />
 
         {/* ── HERO ───────────────────────────────────────────────── */}
-        <div className="relative pt-24 pb-20 px-6">
+        <div className="relative pt-12 sm:pt-24 pb-12 sm:pb-20 px-5 sm:px-6">
           <div className="max-w-6xl mx-auto">
             {/* Doc metadata bar */}
             <div
@@ -284,7 +284,7 @@ const Whitepaper = () => {
 
             <h1
               className="font-semibold tracking-[-0.035em] leading-[1.02] mb-6"
-              style={{ fontSize: "clamp(38px, 6.4vw, 76px)", color: "#0a0a0a" }}
+              style={{ fontSize: "clamp(30px, 6.4vw, 76px)", color: "#0a0a0a" }}
             >
               A pseudonymous,<br />
               on-chain protocol for<br />
@@ -294,7 +294,7 @@ const Whitepaper = () => {
             </h1>
 
             <p
-              className="max-w-[640px] text-[16px] leading-[1.65] mb-10"
+              className="max-w-[640px] text-[14.5px] sm:text-[16px] leading-[1.6] mb-8 sm:mb-10"
               style={{ color: "rgba(0,0,0,0.65)" }}
             >
               Blip.money is a trust-minimized cross-border settlement protocol
@@ -337,7 +337,7 @@ const Whitepaper = () => {
 
         {/* ── CONTENT + SIDEBAR ──────────────────────────────────── */}
         <div className="relative">
-          <div className="max-w-6xl mx-auto px-6 pb-24">
+          <div className="max-w-6xl mx-auto px-5 sm:px-6 pb-16 sm:pb-24">
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
               {/* Sidebar */}
               <aside className="lg:w-64 flex-shrink-0">

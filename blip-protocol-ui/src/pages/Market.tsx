@@ -224,7 +224,7 @@ const Market = () => {
         />
 
         {/* ── HERO ───────────────────────────────────────────── */}
-        <div className="relative pt-20 pb-12 px-6">
+        <div className="relative pt-10 sm:pt-20 pb-8 sm:pb-12 px-5 sm:px-6">
           <div className="max-w-[1280px] mx-auto text-center">
             {/* Status chip */}
             <motion.div
@@ -256,8 +256,8 @@ const Market = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
-              className="font-semibold tracking-[-0.035em] leading-[1.04] mb-6 max-w-[1000px] mx-auto"
-              style={{ fontSize: "clamp(40px, 6.5vw, 80px)" }}
+              className="font-semibold tracking-[-0.035em] leading-[1.04] mb-5 sm:mb-6 max-w-[1000px] mx-auto px-2"
+              style={{ fontSize: "clamp(32px, 6.5vw, 80px)" }}
             >
               Trade in{" "}
               <span
@@ -276,7 +276,7 @@ const Market = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.12, ease: EASE }}
-              className="max-w-[640px] mx-auto text-[16px] leading-[1.6] text-white/60 mb-12"
+              className="max-w-[640px] mx-auto text-[14.5px] sm:text-[16px] leading-[1.6] text-white/60 mb-8 sm:mb-12 px-2"
             >
               An on-chain, sealed-bid auction. Verified merchants compete every
               second. You always trade at the best price the market can offer —
@@ -327,9 +327,9 @@ const Market = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 1.1, ease: EASE }}
-              className="relative rounded-[28px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-3 md:p-4 overflow-hidden"
+              className="relative rounded-[18px] sm:rounded-[28px] bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] p-2 sm:p-3 md:p-4 overflow-hidden"
               style={{
-                boxShadow: `0 60px 140px -40px ${ACCENT}50, 0 30px 80px -30px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.06) inset`,
+                boxShadow: `0 40px 100px -30px ${ACCENT}40, 0 20px 50px -20px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.06) inset`,
               }}
             >
               {/* Top sheen */}
@@ -349,7 +349,7 @@ const Market = () => {
         </div>
 
         {/* ── FEATURES ───────────────────────────────────────── */}
-        <div className="relative px-6 mt-24 md:mt-32">
+        <div className="relative px-5 sm:px-6 mt-16 sm:mt-24 md:mt-32">
           <div className="max-w-[1180px] mx-auto">
             <div className="mb-10 md:mb-14 text-center max-w-[680px] mx-auto">
               <div
@@ -364,7 +364,7 @@ const Market = () => {
               </div>
               <h2
                 className="font-semibold tracking-[-0.028em] leading-[1.1] text-white"
-                style={{ fontSize: "clamp(28px, 4vw, 44px)" }}
+                style={{ fontSize: "clamp(24px, 4vw, 44px)" }}
               >
                 The first cross-border order book that{" "}
                 <span
@@ -395,21 +395,21 @@ const Market = () => {
         </div>
 
         {/* ── CTA ────────────────────────────────────────────── */}
-        <div className="relative px-6 mt-24 md:mt-32 pb-32">
+        <div className="relative px-5 sm:px-6 mt-16 sm:mt-24 md:mt-32 pb-20 sm:pb-32">
           <div className="max-w-[820px] mx-auto text-center">
             <h2
-              className="font-semibold tracking-[-0.028em] leading-[1.1] text-white mb-6"
-              style={{ fontSize: "clamp(28px, 4.2vw, 48px)" }}
+              className="font-semibold tracking-[-0.028em] leading-[1.1] text-white mb-5 sm:mb-6 px-2"
+              style={{ fontSize: "clamp(24px, 4.2vw, 48px)" }}
             >
               Start trading the live book.
             </h2>
             <p className="text-[15.5px] text-white/55 leading-[1.6] mb-9 max-w-[520px] mx-auto">
               Join the waitlist. Get early access when your corridor goes live.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
               <a
                 href="/waitlist/user"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
+                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] w-full sm:w-auto"
                 style={{
                   background: "#fff",
                   color: "#0a0a0a",
@@ -420,7 +420,7 @@ const Market = () => {
               </a>
               <a
                 href="/waitlist/merchant"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors"
+                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors w-full sm:w-auto"
                 style={{
                   background: "transparent",
                   color: "rgba(255,255,255,0.85)",

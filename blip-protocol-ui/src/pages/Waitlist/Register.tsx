@@ -600,10 +600,8 @@ export default function Register({
             />
           </div>
 
-          {/* reCAPTCHA — only render if site key is real AND the user has
-              focused the email input (defer Google iframe load until needed). */}
-          {captchaArmed &&
-            import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
+          {/* reCAPTCHA — render whenever a real site key is present. */}
+          {import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
             import.meta.env.VITE_RECAPTCHA_SITE_KEY !==
               "your_recaptcha_site_key" && (
               <div className="flex justify-center opacity-90 hover:opacity-100 transition-opacity">

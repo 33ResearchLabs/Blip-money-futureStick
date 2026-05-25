@@ -20,6 +20,21 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Stale dynamic-import chunk after a deploy: auto-reload once instead
+    // of showing the error UI. Guarded by sessionStorage so we never loop.
+    const msg = String(error?.message ?? "");
+    const isChunkError =
+      /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Loading chunk [\w-]+ failed/i.test(
+        msg,
+      );
+    if (isChunkError) {
+      const FLAG = "blip:chunk-reload";
+      if (!sessionStorage.getItem(FLAG)) {
+        sessionStorage.setItem(FLAG, "1");
+        window.location.reload();
+        return;
+      }
+    }
     console.error("ErrorBoundary caught:", error);
     console.error("Component stack:", errorInfo.componentStack);
     this.setState({ stack: errorInfo.componentStack || "" });
