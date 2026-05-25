@@ -81,7 +81,7 @@ const MainLayout = () => {
       <Outlet />
       <ScrollToBottomButton />
       <Footer />
-      {/* <StickyJoinWaitlist /> */}
+      <StickyJoinWaitlist />
     </NotificationBannerProvider>
   );
 };
