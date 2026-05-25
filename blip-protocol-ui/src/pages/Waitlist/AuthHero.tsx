@@ -238,28 +238,31 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                 {role === "merchant" ? "1,284 merchants on the network" : "424 already in line"}
               </p>
 
-              {/* Apple-callout cross-sell — nudge to the other role.
-                  Subtle warm gradient + thin border, no shouty CTA. */}
+              {/* Apple-callout cross-sell — neutral ink palette, no orange.
+                  Soft ink-tinted surface, thin hairline border, restrained. */}
               <div
                 className="mt-7 max-w-[440px] mx-auto lg:mx-0 rounded-2xl p-4 flex items-center gap-3.5"
                 style={{
                   background:
-                    "linear-gradient(135deg, rgba(204,120,92,0.10) 0%, rgba(255,243,235,0.6) 100%)",
-                  border: "1px solid rgba(204,120,92,0.18)",
-                  boxShadow: "0 8px 24px -16px rgba(204,120,92,0.30)",
+                    "linear-gradient(135deg, rgba(29,29,31,0.05) 0%, rgba(245,245,247,0.6) 100%)",
+                  border: "1px solid rgba(29,29,31,0.10)",
+                  boxShadow: "0 8px 24px -16px rgba(0,0,0,0.18)",
                 }}
               >
                 <div
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
                   style={{
-                    background: "linear-gradient(135deg, #cc785c 0%, #b35a3b 100%)",
-                    boxShadow: "0 6px 14px -6px rgba(204,120,92,0.6)",
+                    background: "linear-gradient(135deg, #1d1d1f 0%, #3a3a3c 100%)",
+                    boxShadow: "0 6px 14px -6px rgba(0,0,0,0.30)",
                   }}
                 >
                   <span className="text-[14px] font-bold tracking-tight">10%</span>
                 </div>
                 <div className="flex-1 min-w-0 text-left">
-                  <div className="text-[10.5px] font-semibold tracking-[0.18em] uppercase" style={{ color: "#cc785c" }}>
+                  <div
+                    className="text-[10.5px] font-semibold tracking-[0.18em] uppercase"
+                    style={{ color: "#6e6e73" }}
+                  >
                     {role === "user" ? "Earn on every trade" : "Send money too"}
                   </div>
                   <p
