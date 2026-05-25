@@ -136,6 +136,23 @@ const Rates = lazy(() => import("./pages/Rates"));
 const PseoCorridor = lazy(() => import("./pages/Markets/PseoCorridor"));
 import { getAllPseoSlugs } from "./data/pseoCorridors";
 
+// Gates the preview route until useAuth() finishes loading. Mirrors
+// ProtectedRoute's behavior so the MerchantDashboard's `if (isLoading) return`
+// early-exit never flips mid-life, which would otherwise blow up the
+// component's hook order.
+import { useAuth } from "@/contexts/AuthContext";
+const MerchantDashboardPreviewGate = () => {
+  const { isLoading } = useAuth();
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-black/15 border-t-black rounded-full animate-spin" />
+      </div>
+    );
+  }
+  return <MerchantDashboard />;
+};
+
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
   const [searchParams] = useSearchParams();
@@ -362,9 +379,18 @@ const App = () => (
                     }
                   />
                   {/* Unprotected preview — lets the team visually QA the
-                      merchant dashboard without logging in. Do NOT link to it
-                      from public nav. Remove before going to production. */}
-                  <Route path="/merchant-dashboard-preview" element={<MerchantDashboard />} />
+                      merchant dashboard without logging in. Wrapped in
+                      MerchantDashboardPreviewGate which waits for the auth
+                      context to finish loading before mounting the dashboard,
+                      so its `if (isLoading) return …` early-exit (which sits
+                      above several useState/useRef hooks) doesn't trigger the
+                      "Rendered more hooks than during the previous render"
+                      rules-of-hooks violation. Do NOT link to it from public
+                      nav. Remove before going to production. */}
+                  <Route
+                    path="/merchant-dashboard-preview"
+                    element={<MerchantDashboardPreviewGate />}
+                  />
 
                   <Route
                     path="/superadmin"
