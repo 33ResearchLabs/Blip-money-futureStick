@@ -728,8 +728,8 @@ export default function MerchantDashboard() {
       points: 50,
       time: "2 min ago",
       icon: Store,
-      bg: "bg-[#ff6b35]/10",
-      color: "text-[#ff6b35]",
+      bg: "bg-[#cc785c]/10",
+      color: "text-[#cc785c]",
     },
   ];
 
@@ -823,7 +823,9 @@ export default function MerchantDashboard() {
   // ── Theme tokens ─────────────────────────────────────────────────────────────
   const bg = d ? "bg-black" : "bg-[#FAF8F5]";
   const surface = d ? "bg-[#0f0f0f]" : "bg-white";
-  const border = d ? "border-white/[0.06]" : "border-black/[0.08]";
+  const border = d ? "border-white/[0.06]" : "border-black/[0.06]";
+  // Apple-style soft layered shadow on white cards (no-op in dark mode)
+  const cardShadow = d ? "" : "shadow-[0_24px_60px_-30px_rgba(0,0,0,0.10),0_8px_24px_-16px_rgba(0,0,0,0.06)]";
   const txt = d ? "text-white" : "text-black";
   const muted = d ? "text-white/60" : "text-black/60";
   const sub = d ? "text-white/40" : "text-black/40";
@@ -959,7 +961,7 @@ export default function MerchantDashboard() {
 
               {open && (
                 <div
-                  className={`absolute right-0 mt-2 w-60 ${surface} border ${border} rounded-xl shadow-xl overflow-hidden z-50`}
+                  className={`absolute right-0 mt-2 w-60 ${surface} border ${border} ${cardShadow} rounded-2xl shadow-xl overflow-hidden z-50`}
                 >
                   <div
                     className={`px-4 py-3 border-b ${divider} flex items-center gap-3`}
@@ -1159,18 +1161,18 @@ export default function MerchantDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 items-stretch">
           {/* Card 1: Refer Friends — single column, image on top, content below */}
           <div
-            className={`lg:col-span-6 ${surface} border ${border} rounded-xl overflow-hidden relative flex flex-col`}
+            className={`lg:col-span-6 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden relative flex flex-col`}
           >
             {/* Small centered hero illustration (~25% of previous footprint) */}
             <div className="relative w-full flex items-center justify-center pt-6 pb-1">
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(circle at center, ${d ? "rgba(255,107,53,0.14)" : "rgba(255,107,53,0.08)"} 0%, transparent 55%)`,
+                  background: `radial-gradient(circle at center, ${d ? "rgba(204,120,92,0.14)" : "rgba(204,120,92,0.08)"} 0%, transparent 55%)`,
                 }}
               />
               <img
-                src="/illustrations/refer-friends-hero.png?v=3"
+                src="/illustrations/refer-friends-hero.png?v=4"
                 alt="Refer friends and earn rewards"
                 className="relative w-[140px] h-[140px] object-contain"
               />
@@ -1178,9 +1180,9 @@ export default function MerchantDashboard() {
 
             {/* Text + CTAs below */}
             <div className="p-5 md:p-7 flex flex-col items-center text-center">
-              <h2 className="text-3xl md:text-[34px] font-black font-display leading-tight tracking-tight mb-2">
+              <h2 className="text-[28px] md:text-[34px] font-semibold font-display leading-tight tracking-tight mb-2">
                 <span className={txt}>Refer Friends.</span>{" "}
-                <span className="text-[#ff6b35]">Earn More.</span>
+                <span className="text-[#cc785c]">Earn More.</span>
               </h2>
               <p
                 className={`text-[13px] ${muted} mb-5 max-w-md leading-relaxed`}
@@ -1192,7 +1194,7 @@ export default function MerchantDashboard() {
               <div className="flex flex-wrap items-center justify-center gap-2.5">
                 <button
                   onClick={() => setShowReferralModal(true)}
-                  className={`border border-[#ff6b35]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
+                  className={`border border-[#cc785c]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
                 >
                   <Share2 className="w-3.5 h-3.5" />
                   Share Your Code
@@ -1210,7 +1212,7 @@ export default function MerchantDashboard() {
 
           {/* Card 2: Your Referral Code */}
           <div
-            className={`lg:col-span-3 ${surface} border ${border} rounded-xl p-5 md:p-6 flex flex-col gap-2.5`}
+            className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl p-5 md:p-6 flex flex-col gap-2.5`}
           >
               <span
                 className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
@@ -1218,20 +1220,20 @@ export default function MerchantDashboard() {
                 Your Referral Code
               </span>
               <div
-                className={`flex items-center justify-between ${inputBg} border border-[#ff6b35]/40 rounded-md px-4 py-3`}
+                className={`flex items-center justify-between ${inputBg} border border-[#cc785c]/40 rounded-md px-4 py-3`}
               >
                 <span
-                  className={`text-base md:text-lg font-black font-display ${txt} tracking-[0.12em]`}
+                  className={`text-base md:text-lg font-semibold font-display ${txt} tracking-[0.12em]`}
                 >
                   {referralCode || "—"}
                 </span>
                 <button
                   onClick={() => handleCopy(referralCode, "Referral code")}
-                  className="p-1.5 rounded-md bg-[#ff6b35]/10 hover:bg-[#ff6b35]/20 transition"
+                  className="p-1.5 rounded-md bg-[#cc785c]/10 hover:bg-[#cc785c]/20 transition"
                   aria-label="Copy referral code"
                   title="Copy code"
                 >
-                  <Copy className="w-3.5 h-3.5 text-[#ff6b35]" />
+                  <Copy className="w-3.5 h-3.5 text-[#cc785c]" />
                 </button>
               </div>
               <p className={`text-[11px] ${muted} leading-relaxed`}>
@@ -1301,7 +1303,7 @@ export default function MerchantDashboard() {
 
           {/* Card 3: Real-Time Activity */}
           <div
-            className={`lg:col-span-3 ${surface} border ${border} rounded-xl overflow-hidden flex flex-col`}
+            className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden flex flex-col`}
           >
             <div
               className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
@@ -1375,7 +1377,7 @@ export default function MerchantDashboard() {
           <div className="lg:col-span-7 flex flex-col gap-3">
             {/* Hero card — natural height */}
             {/* <div
-              className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl p-5 md:p-6 relative overflow-hidden`}
             >
               
               <div
@@ -1391,10 +1393,10 @@ export default function MerchantDashboard() {
               />
               <div className="relative z-10">
                 <h1
-                  className={`text-3xl sm:text-4xl md:text-[44px] font-black font-display mb-2 tracking-tight leading-tight`}
+                  className={`text-3xl sm:text-4xl md:text-[44px] font-semibold font-display mb-2 tracking-tight leading-tight`}
                 >
                   <span className={txt}>Refer Friends. </span>
-                  <span className="text-[#ff6b35]">Earn More.</span>
+                  <span className="text-[#cc785c]">Earn More.</span>
                 </h1>
                 <p className={`text-sm ${muted} mb-5 max-w-md leading-relaxed`}>
                   Earn{" "}
@@ -1411,7 +1413,7 @@ export default function MerchantDashboard() {
                   >
                     <TrendingUp className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
-                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                      <p className={`text-2xl font-semibold font-display ${txt} leading-none mb-0.5`}>
                         {blipPoints.toLocaleString()}{" "}
                         <span className="text-xs font-bold">pts</span>
                       </p>
@@ -1426,7 +1428,7 @@ export default function MerchantDashboard() {
                   <div className="flex items-start gap-3">
                     <UserPlus className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
-                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                      <p className={`text-2xl font-semibold font-display ${txt} leading-none mb-0.5`}>
                         {referralCount}
                       </p>
                       <p className={`text-[11px] font-bold ${txt}`}>
@@ -1440,7 +1442,7 @@ export default function MerchantDashboard() {
                   <div className="flex items-start gap-3">
                     <Award className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
-                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                      <p className={`text-2xl font-semibold font-display ${txt} leading-none mb-0.5`}>
                         {(referralCount * 1000).toLocaleString()}{" "}
                         <span className="text-xs font-bold">BLIP</span>
                       </p>
@@ -1468,7 +1470,7 @@ export default function MerchantDashboard() {
 
             {/* ── Merchant Onboarding CTA ─────────────────────────────────────── */}
             <div
-              className={`${surface} border border-[#ff6b35]/40 rounded-xl p-4 mb-3 shadow-[0_0_24px_rgba(255,107,53,0.12)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
+              className={`${surface} border border-[#cc785c]/40 rounded-xl p-4 mb-3 shadow-[0_0_24px_rgba(204,120,92,0.12)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <div
@@ -1495,7 +1497,7 @@ export default function MerchantDashboard() {
                 href="https://forms.gle/UyfhpcMdq8BSTQSZA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#ff6b35]/50`}
+                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#cc785c]/50`}
               >
                 Submit Google Form
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -1504,10 +1506,10 @@ export default function MerchantDashboard() {
 
             {/* ── Your Referral Stats ───────────────────────────────────────────── */}
             <div
-              className={`${surface} border ${border} rounded-xl p-4 md:p-5 mb-3`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4 md:p-5 mb-3`}
             >
               <div className="flex items-center gap-2 mb-3">
-                <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
+                <div className={`w-1.5 h-1.5 rounded-full bg-[#cc785c]`} />
                 <span
                   className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
                 >
@@ -1526,7 +1528,7 @@ export default function MerchantDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-semibold font-display ${txt} leading-tight`}
                     >
                       {referralCount}
                     </p>
@@ -1546,7 +1548,7 @@ export default function MerchantDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-semibold font-display ${txt} leading-tight`}
                     >
                       {referralCount}
                     </p>
@@ -1566,7 +1568,7 @@ export default function MerchantDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-semibold font-display ${txt} leading-tight`}
                     >
                       {(referralCount * 50).toLocaleString()}{" "}
                       <span className="text-xs font-bold">pts</span>
@@ -1587,7 +1589,7 @@ export default function MerchantDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-semibold font-display ${txt} leading-tight`}
                     >
                       0 <span className="text-xs font-bold">pts</span>
                     </p>
@@ -1646,7 +1648,7 @@ export default function MerchantDashboard() {
                     return (
                       <div
                         key={quest.id}
-                        className={`${surface} border ${border} rounded-xl p-2 flex flex-col ${isDone ? "opacity-70" : ""}`}
+                        className={`${surface} border ${border} ${cardShadow} rounded-2xl p-2 flex flex-col ${isDone ? "opacity-70" : ""}`}
                       >
                         {/* Top row: icon (left) + reward badge (right) */}
                         <div className="flex items-start justify-between mb-2">
@@ -1758,7 +1760,7 @@ export default function MerchantDashboard() {
 
             {/* Invite Friends — pinned to bottom of left column so it aligns with Leaderboard */}
             {/* <div
-              className={`${surface} border ${border} rounded-xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
             >
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-full ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
@@ -1782,7 +1784,7 @@ export default function MerchantDashboard() {
                     Your Referrals
                   </p>
                   <p
-                    className={`text-lg font-black font-display ${txt} leading-tight`}
+                    className={`text-lg font-semibold font-display ${txt} leading-tight`}
                   >
                     {referralCount}
                   </p>
@@ -1813,7 +1815,7 @@ export default function MerchantDashboard() {
                   setShowReferralModal(true);
                 }
               }}
-              className={`${surface} border ${border} rounded-xl p-4 cursor-pointer ${hov} hover:border-black/20 dark:hover:border-white/20 transition-all`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4 cursor-pointer ${hov} hover:border-black/20 dark:hover:border-white/20 transition-all`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <div
@@ -1829,7 +1831,7 @@ export default function MerchantDashboard() {
                 className={`flex items-center justify-between mb-2 ${inputBg} border ${border} rounded-md px-3 py-2.5`}
               >
                 <span
-                  className={`text-base font-black font-display ${txt} tracking-[0.08em]`}
+                  className={`text-base font-semibold font-display ${txt} tracking-[0.08em]`}
                 >
                   {referralCode || "—"}
                 </span>
@@ -1865,7 +1867,7 @@ export default function MerchantDashboard() {
             </div> */}
 
             {/* Your Progress */}
-            <div className={`${surface} border ${border} rounded-xl p-4`}>
+            <div className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4`}>
               <div
                 className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub} mb-1`}
               >
@@ -1894,7 +1896,7 @@ export default function MerchantDashboard() {
                   </ResponsiveContainer>
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
                     <p
-                      className={`text-xl font-black font-display ${txt} leading-none`}
+                      className={`text-xl font-semibold font-display ${txt} leading-none`}
                     >
                       {blipPoints.toLocaleString()}
                     </p>
@@ -1949,7 +1951,7 @@ export default function MerchantDashboard() {
 
             {/* Leaderboard (in sub-col A under Progress) */}
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0`}
             >
               <div
                 className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
@@ -2010,7 +2012,7 @@ export default function MerchantDashboard() {
                         )}
                       </div>
                       <span
-                        className={`text-[11px] font-black font-display ${txt} shrink-0`}
+                        className={`text-[11px] font-semibold font-display ${txt} shrink-0`}
                       >
                         {item.allocation.toLocaleString()} pts
                       </span>
@@ -2025,7 +2027,7 @@ export default function MerchantDashboard() {
 
             {/* Your Progress & Steps */}
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0`}
             >
               <div className={`px-4 py-2.5 border-b ${divider}`}>
                 <span
@@ -2047,14 +2049,14 @@ export default function MerchantDashboard() {
                       {!isLast && (
                         <div
                           className={`absolute left-[13px] top-7 h-[calc(100%-4px)] w-px ${
-                            isDone ? "bg-[#ff6b35]" : d ? "bg-white/10" : "bg-black/10"
+                            isDone ? "bg-[#cc785c]" : d ? "bg-white/10" : "bg-black/10"
                           }`}
                         />
                       )}
                       <div
                         className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-bold ${
                           isDone || isActive
-                            ? "bg-[#ff6b35] text-white"
+                            ? "bg-[#cc785c] text-white"
                             : `${inputBg} border ${border} ${sub}`
                         }`}
                       >
@@ -2079,7 +2081,7 @@ export default function MerchantDashboard() {
                             />
                           </div>
                         ) : isActive ? (
-                          <div className="w-5 h-5 rounded-full bg-[#ff6b35] flex items-center justify-center">
+                          <div className="w-5 h-5 rounded-full bg-[#cc785c] flex items-center justify-center">
                             <span className="block w-1.5 h-1.5 rounded-full bg-white" />
                           </div>
                         ) : (
@@ -2219,7 +2221,7 @@ export default function MerchantDashboard() {
               className={`px-6 py-4 border-b ${divider} flex items-center justify-between`}
             >
               <div className="flex items-center gap-2">
-                <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
+                <div className={`w-1.5 h-1.5 rounded-full bg-[#cc785c]`} />
                 <span
                   className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
                 >
@@ -2240,8 +2242,8 @@ export default function MerchantDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-4 md:gap-2 items-start">
                 {/* Step 1 */}
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center mb-3">
-                    <UserPlus className="w-6 h-6 text-[#ff6b35]" />
+                  <div className="w-14 h-14 rounded-full bg-[#cc785c]/15 border border-[#cc785c]/30 flex items-center justify-center mb-3">
+                    <UserPlus className="w-6 h-6 text-[#cc785c]" />
                   </div>
                   <h3 className={`text-sm font-bold ${txt} mb-1`}>
                     1. Share Your Code
@@ -2319,9 +2321,9 @@ export default function MerchantDashboard() {
               </div>
 
               {/* Callout */}
-              <div className="mt-7 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/30">
-                <Zap className="w-4 h-4 text-[#ff6b35] shrink-0" />
-                <span className="text-[12px] font-semibold text-[#ff6b35]">
+              <div className="mt-7 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-[#cc785c]/10 border border-[#cc785c]/30">
+                <Zap className="w-4 h-4 text-[#cc785c] shrink-0" />
+                <span className="text-[12px] font-semibold text-[#cc785c]">
                   The more friends you invite, the more points you earn!
                 </span>
               </div>
@@ -3247,7 +3249,7 @@ export default function MerchantDashboard() {
         <div className="fixed bottom-4 left-4 z-50">
           <button
             onClick={() => setShowP2PBanner(true)}
-            className={`${surface} border ${border} rounded-xl shadow-xl p-3 flex items-center gap-2 ${hov} transition-all`}
+            className={`${surface} border ${border} ${cardShadow} rounded-2xl shadow-xl p-3 flex items-center gap-2 ${hov} transition-all`}
           >
             <Rocket className={`w-4 h-4 ${txt}`} />
             <span className={`text-[10px] font-bold ${txt}`}>P2P Beta</span>
