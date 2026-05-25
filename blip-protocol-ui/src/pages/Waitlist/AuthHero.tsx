@@ -205,8 +205,34 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                 ))}
               </ul>
 
+              {/* Signup bonus pill — moved here from inside the form */}
+              {mode === "signup" && (
+                <div
+                  className="mt-7 inline-flex items-center gap-3 rounded-2xl px-4 py-3 max-w-[440px]"
+                  style={{
+                    background: "rgba(29,29,31,0.04)",
+                    border: "1px solid rgba(29,29,31,0.08)",
+                  }}
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#1d1d1f]">
+                    <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  </div>
+                  <div className="leading-snug text-left">
+                    <div className="text-[13.5px] font-bold tracking-tight" style={{ color: "#1d1d1f" }}>
+                      {role === "merchant" ? "+10,000 BLIP points" : "+5,000 BLIP points"}{" "}
+                      <span className="font-medium" style={{ color: "#3a3a3c" }}>
+                        on signup
+                      </span>
+                    </div>
+                    <div className="text-[11px] mt-0.5" style={{ color: "#6e6e73" }}>
+                      Auto-credited after email verification
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <p
-                className="mt-9 text-[11px] tracking-[0.18em] uppercase font-semibold"
+                className="mt-7 text-[11px] tracking-[0.18em] uppercase font-semibold"
                 style={{ color: "#3a3a3c" }}
               >
                 {role === "merchant" ? "1,284 merchants on the network" : "424 already in line"}
@@ -249,21 +275,8 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                   })}
                 </div>
 
-                {/* Card heading + visible role chip */}
+                {/* Card heading */}
                 <div className="mb-5">
-                  <div
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-2.5 text-[10.5px] font-semibold uppercase tracking-[0.18em]"
-                    style={{
-                      background: "rgba(204,120,92,0.10)",
-                      color: "#cc785c",
-                    }}
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: "#cc785c" }}
-                    />
-                    Joining as {role === "merchant" ? "a Merchant" : "a User"}
-                  </div>
                   <h2
                     className="font-display"
                     style={{

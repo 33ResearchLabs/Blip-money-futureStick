@@ -346,23 +346,8 @@ export default function Register({
           </Link>
         </div>
 
-        {/* Bonus pill — neutral, no accent */}
-        <div className="flex items-center gap-3 rounded-xl px-4 py-2.5 mb-3 bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.06] dark:border-white/[0.08]">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black dark:bg-white">
-            <Gift className="h-4 w-4 text-white dark:text-black" />
-          </div>
-          <div className="leading-snug">
-            <div className="text-[13.5px] font-bold text-black dark:text-white tracking-tight">
-              +5,000 BLIP points{" "}
-              <span className="font-medium text-[#1d1d1f] dark:text-white/85">
-                on signup
-              </span>
-            </div>
-            <div className="text-[11px] text-[#3a3a3c] dark:text-white/60 mt-0.5">
-              Auto-credited after email verification
-            </div>
-          </div>
-        </div>
+        {/* Bonus pill removed — the bonus info lives in the host page's
+            editorial column now (see AuthHero.tsx). */}
 
         {/* Apple segmented control */}
         <div className="mb-4 grid grid-cols-2 p-[3px] rounded-full bg-[#EFEFF2] dark:bg-white/[0.06]">
