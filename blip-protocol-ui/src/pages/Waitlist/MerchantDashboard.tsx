@@ -1862,88 +1862,127 @@ export default function MerchantDashboard() {
               </button>
             </div> */}
 
-            {/* Your Progress */}
-            <div id="dash-progress" className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4`}>
-              <div
-                className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub} mb-1`}
-              >
-                Your Progress
-              </div>
-              <div className="flex flex-col items-center pt-1 pb-1">
-                <div className="relative w-36 h-20">
-                  <ResponsiveContainer width="100%" height={76}>
-                    <PieChart>
-                      <Pie
-                        data={gaugeFilled}
-                        cx="50%"
-                        cy="100%"
-                        startAngle={180}
-                        endAngle={0}
-                        innerRadius={52}
-                        outerRadius={66}
-                        dataKey="value"
-                        stroke="none"
-                      >
-                        {gaugeFilled.map((e, i) => (
-                          <Cell key={i} fill={e.color} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
-                    <p
-                      className={`text-xl font-semibold font-display ${txt} leading-none`}
-                    >
-                      {blipPoints.toLocaleString()}
-                    </p>
-                    <p
-                      className={`text-[9px] font-bold uppercase tracking-[0.16em] ${sub} mt-0.5`}
-                    >
-                      Total Points
-                    </p>
+            {/* Your Progress — Apple-style minimal ring + milestone list */}
+            {(() => {
+              const milestones = [100, 250, 500, 1000, 2500];
+              const next =
+                milestones.find((m) => m > blipPoints) ?? milestones[milestones.length - 1];
+              const prev = [0, ...milestones].filter((m) => m <= blipPoints).pop() ?? 0;
+              const span = Math.max(1, next - prev);
+              const progress = Math.min(1, Math.max(0, (blipPoints - prev) / span));
+              // half-circle arc geometry
+              const R = 58;
+              const CIRC = Math.PI * R;
+              const ACCENT = "#cc785c";
+              const TRACK = d ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+              return (
+                <div
+                  id="dash-progress"
+                  className={`${surface} border ${border} ${cardShadow} rounded-2xl p-5`}
+                >
+                  <div
+                    className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub} mb-4`}
+                  >
+                    Your Progress
                   </div>
-                </div>
-                {(() => {
-                  const milestones = [100, 250, 500, 1000, 2500];
-                  const next =
-                    milestones.find((m) => m > blipPoints) ??
-                    milestones[milestones.length - 1];
-                  return (
-                    <p className={`text-[10px] ${muted} mt-2`}>
-                      Next Milestone:{" "}
-                      <span className={`font-bold ${txt}`}>
+
+                  {/* Half-circle progress gauge */}
+                  <div className="flex flex-col items-center mb-5">
+                    <div className="relative w-[180px] h-[100px]">
+                      <svg
+                        viewBox="0 0 140 80"
+                        className="w-full h-full overflow-visible"
+                        aria-hidden
+                      >
+                        {/* Track */}
+                        <path
+                          d="M 12 72 A 58 58 0 0 1 128 72"
+                          fill="none"
+                          stroke={TRACK}
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                        />
+                        {/* Progress fill */}
+                        <path
+                          d="M 12 72 A 58 58 0 0 1 128 72"
+                          fill="none"
+                          stroke={ACCENT}
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeDasharray={`${progress * CIRC} ${CIRC}`}
+                          style={{ transition: "stroke-dasharray 700ms cubic-bezier(0.16,1,0.3,1)" }}
+                        />
+                      </svg>
+                      <div className="absolute inset-x-0 bottom-1 flex flex-col items-center">
+                        <p
+                          className={`font-display ${txt} tabular-nums leading-none`}
+                          style={{
+                            fontSize: "30px",
+                            fontWeight: 600,
+                            letterSpacing: "-0.03em",
+                          }}
+                        >
+                          {blipPoints.toLocaleString()}
+                        </p>
+                        <p
+                          className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${sub} mt-1`}
+                        >
+                          Total Points
+                        </p>
+                      </div>
+                    </div>
+                    <p className={`text-[11.5px] ${muted} mt-2`}>
+                      Next milestone:{" "}
+                      <span className="font-semibold" style={{ color: ACCENT }}>
                         {next.toLocaleString()} pts
                       </span>
                     </p>
-                  );
-                })()}
-              </div>
-              <div className={`pt-2 border-t ${divider} space-y-0.5`}>
-                {[100, 250, 500, 1000, 2500].map((m) => {
-                  const achieved = blipPoints >= m;
-                  return (
-                    <div
-                      key={m}
-                      className="flex items-center justify-between py-0.5"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Plus className={`w-3 h-3 ${achieved ? txt : sub}`} />
-                        <span
-                          className={`text-[11px] ${achieved ? txt : muted} font-medium`}
+                  </div>
+
+                  {/* Milestone list */}
+                  <div className={`pt-3 border-t ${divider} space-y-2.5`}>
+                    {milestones.map((m) => {
+                      const achieved = blipPoints >= m;
+                      const isNext = m === next && !achieved;
+                      return (
+                        <div
+                          key={m}
+                          className="flex items-center justify-between"
                         >
-                          {m.toLocaleString()} pts
-                        </span>
-                      </div>
-                      {achieved ? (
-                        <Check className={`w-3.5 h-3.5 ${txt}`} />
-                      ) : (
-                        <Lock className={`w-3 h-3 ${sub}`} />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                          <div className="flex items-center gap-3">
+                            {/* Dot indicator */}
+                            <span
+                              className={`inline-block w-[7px] h-[7px] rounded-full`}
+                              style={{
+                                background: achieved
+                                  ? ACCENT
+                                  : isNext
+                                    ? "transparent"
+                                    : d
+                                      ? "rgba(255,255,255,0.12)"
+                                      : "rgba(0,0,0,0.10)",
+                                border: isNext ? `1.5px solid ${ACCENT}` : "none",
+                              }}
+                            />
+                            <span
+                              className={`text-[12.5px] font-semibold ${achieved ? txt : muted} tabular-nums tracking-tight`}
+                            >
+                              {m.toLocaleString()} pts
+                            </span>
+                          </div>
+                          {achieved && (
+                            <Check
+                              className={`w-3.5 h-3.5 ${txt}`}
+                              strokeWidth={2.5}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Leaderboard (in sub-col A under Progress) */}
             <div
