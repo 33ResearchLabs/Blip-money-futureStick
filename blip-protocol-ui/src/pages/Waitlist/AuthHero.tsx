@@ -296,6 +296,51 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                   )}
                 </motion.div>
               </div>
+
+              {/* Small in-card ad — shown on BOTH user + merchant sides.
+                  Nudges users to the merchant/LP earnings track, and merchants
+                  to the consumer sender flow. CTA flips the role toggle in
+                  place (no navigation) so the form swaps live. */}
+              <div
+                className="mt-4 rounded-2xl p-3.5 flex items-center justify-between gap-3"
+                style={{
+                  background: "rgba(204,120,92,0.08)",
+                  border: "1px solid rgba(204,120,92,0.20)",
+                }}
+              >
+                <p className="text-[12px] leading-snug" style={{ color: "#1d1d1f" }}>
+                  {role === "user" ? (
+                    <>
+                      <span className="font-semibold">Want to earn?</span>{" "}
+                      <span style={{ color: "#3a3a3c" }}>
+                        Join as a merchant / LP and earn up to{" "}
+                      </span>
+                      <span className="font-semibold" style={{ color: "#cc785c" }}>
+                        10% on every transaction.
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-semibold">Sending money instead?</span>{" "}
+                      <span style={{ color: "#3a3a3c" }}>
+                        Sign up as a user — borderless transfers settled in under 60 seconds.
+                      </span>
+                    </>
+                  )}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setRole(role === "user" ? "merchant" : "user")}
+                  className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
+                  style={{
+                    background: "#cc785c",
+                    color: "#ffffff",
+                    boxShadow: "0 6px 18px -8px rgba(204,120,92,0.55)",
+                  }}
+                >
+                  Switch
+                </button>
+              </div>
             </motion.div>
           </div>
         </main>
