@@ -1161,9 +1161,9 @@ export default function MerchantDashboard() {
           <div
             className={`lg:col-span-6 ${surface} border ${border} ${cardShadow} rounded-2xl overflow-hidden relative`}
           >
-            <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] h-full">
+            <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] md:min-h-[320px]">
               {/* Left: heading + description + CTAs */}
-              <div className="p-5 md:p-7 flex flex-col justify-between gap-5">
+              <div className="p-5 md:p-8 flex flex-col justify-between">
                 <h2 className="text-[26px] md:text-[31px] font-semibold font-display leading-[1.05] tracking-tight mb-2">
                   <span className={txt}>Refer Friends.</span>
                   <br />
