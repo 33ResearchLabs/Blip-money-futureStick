@@ -5,19 +5,18 @@ import {
   Gavel,
   Lock,
   CheckCircle2,
-  ArrowRight,
   Zap,
   ShieldCheck,
   Eye,
   type LucideIcon,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "@/components/IndexSections/LiveMerchantDashboard";
+import { CTASection } from "@/components/sections/CTASection";
 
 const ACCENT = "#cc785c";
 const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
@@ -31,38 +30,74 @@ function PhoneFrame({ src, alt = "" }: { src: string; alt?: string }) {
     <div
       className="relative mx-auto"
       style={{
-        aspectRatio: "9/19.5",
+        aspectRatio: "9/16",
         width: "100%",
-        maxWidth: 280,
+        maxWidth: 240,
         padding: "10px",
         background: "linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)",
-        borderRadius: 50,
+        borderRadius: 44,
         border: "1px solid rgba(255,255,255,0.06)",
         boxShadow:
           "0 0 0 1px rgba(255,255,255,0.04) inset, 0 60px 140px -40px rgba(0,0,0,0.7), 0 24px 60px -16px rgba(204,120,92,0.25)",
       }}
     >
-      <span aria-hidden className="absolute -left-[2px] top-[18%] h-7 w-[3px] rounded-r bg-[#222]" />
-      <span aria-hidden className="absolute -left-[2px] top-[28%] h-12 w-[3px] rounded-r bg-[#222]" />
-      <span aria-hidden className="absolute -left-[2px] top-[42%] h-12 w-[3px] rounded-r bg-[#222]" />
-      <span aria-hidden className="absolute -right-[2px] top-[32%] h-16 w-[3px] rounded-l bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[18%] h-6 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[28%] h-10 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -left-[2px] top-[42%] h-10 w-[3px] rounded-r bg-[#222]" />
+      <span aria-hidden className="absolute -right-[2px] top-[32%] h-14 w-[3px] rounded-l bg-[#222]" />
       <div
-        className="relative w-full h-full overflow-hidden bg-black"
-        style={{ borderRadius: 40 }}
+        className="relative w-full h-full overflow-hidden bg-white"
+        style={{ borderRadius: 36 }}
       >
-        <img
-          src={src}
-          alt={alt}
-          className="absolute inset-0 w-full h-full object-cover object-top"
-          onError={(e) => ((e.currentTarget as HTMLImageElement).src = "/home.svg")}
-        />
+        {/* Black/dark section — top 75% of phone screen */}
+        <div
+          className="absolute inset-x-0 top-0 overflow-hidden bg-black"
+          style={{ height: "75%" }}
+        >
+          <img
+            src={src}
+            alt={alt}
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            onError={(e) => ((e.currentTarget as HTMLImageElement).src = "/home.svg")}
+          />
+        </div>
+        {/* Transactions section — bottom 25% of phone screen (3 rows) */}
+        <div
+          className="absolute inset-x-0 bottom-0 overflow-hidden bg-white px-3 py-2"
+          style={{ height: "25%" }}
+        >
+          {/* <div className="text-[8.5px] font-semibold text-black mb-1.5">Transactions</div> */}
+          <div className="space-y-1.5">
+            {[
+              { i: "R", t: "Buy USDT",  s: "Rahul S. · 23 May 2026", a: "-₹10,242.5", u: "120.50 USDT", neg: true },
+              { i: "P", t: "Sell USDT", s: "Priya M. · 22 May 2026", a: "+₹4,250",    u: "50.00 USDT",  neg: false },
+              { i: "A", t: "Buy USDT",  s: "Aman K. · 21 May 2026",  a: "-₹6,396.25", u: "75.25 USDT",  neg: true },
+            ].map((tx) => (
+              <div key={tx.i + tx.s} className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded-full bg-black/[0.06] flex items-center justify-center text-[7.5px] font-semibold text-black/70 shrink-0">
+                  {tx.i}
+                </div>
+                <div className="flex-1 min-w-0 leading-[1.15]">
+                  <div className="text-[8px] font-semibold text-black truncate">{tx.t}</div>
+                  <div className="text-[6.5px] text-black/45 truncate">{tx.s}</div>
+                </div>
+                <div className="text-right leading-[1.15] shrink-0">
+                  <div className={`text-[8px] font-semibold ${tx.neg ? "text-red-500" : "text-emerald-500"}`}>
+                    {tx.a}
+                  </div>
+                  <div className="text-[6.5px] text-black/45">{tx.u}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div
           aria-hidden
           className="absolute left-1/2 -translate-x-1/2"
           style={{
             top: 9,
-            width: 86,
-            height: 24,
+            width: 78,
+            height: 22,
             borderRadius: 999,
             background: "#0a0a0a",
             border: "1px solid #1a1a1a",
@@ -264,7 +299,7 @@ function EscrowVisual() {
         </div>
 
         {/* Escrow center */}
-        <div className="flex flex-col items-center gap-2 relative">
+        <div className="flex flex-col items-center gap-2 relative ">
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
@@ -302,10 +337,10 @@ function EscrowVisual() {
         </div>
       </div>
 
-      {/* Connector lines */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: "visible" }}>
+      {/* Connector lines — start/end outside the U and M circles so they don't overlap */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden" >
         <motion.line
-          x1="22%" y1="50%" x2="42%" y2="50%"
+          x1="30%" y1="50%" x2="42%" y2="50%"
           stroke={ACCENT} strokeWidth="1.5" strokeDasharray="4 4"
           initial={{ pathLength: 0 }}
           whileInView={{ pathLength: 1 }}
@@ -313,7 +348,7 @@ function EscrowVisual() {
           transition={{ duration: 1, ease: EASE }}
         />
         <motion.line
-          x1="58%" y1="50%" x2="78%" y2="50%"
+          x1="58%" y1="50%" x2="70%" y2="50%"
           stroke={ACCENT} strokeWidth="1.5" strokeDasharray="4 4"
           initial={{ pathLength: 0 }}
           whileInView={{ pathLength: 1 }}
@@ -837,57 +872,31 @@ export const HowItWorksPage = () => {
           </div>
         </section>
 
-        {/* ── CTA ────────────────────────────────────────── */}
-        <div className="relative px-5 sm:px-6 mt-24 sm:mt-36 pb-20 sm:pb-32">
-          <div className="max-w-[820px] mx-auto text-center">
-            <h2
-              className="font-semibold tracking-[-0.028em] leading-[1.1] text-black mb-5 sm:mb-6 px-2"
-              style={{ fontSize: "clamp(24px, 4.2vw, 48px)" }}
-            >
-              Ready to{" "}
-              <span
-                style={{
-                  fontStyle: "italic",
-                  fontWeight: 500,
-                  fontFamily: "ui-serif, Georgia, serif",
-                  color: ACCENT,
-                }}
-              >
-                try it?
-              </span>
-            </h2>
-            <p className="text-[15px] sm:text-[15.5px] text-black/60 leading-[1.6] mb-8 sm:mb-9 max-w-[520px] mx-auto">
-              Join the waitlist for early access, or explore the live order
-              book.
-            </p>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-              <Link
-                to="/waitlist/user"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] w-full sm:w-auto"
-                style={{
-                  background: "#0a0a0a",
-                  color: "#fff",
-                  boxShadow: "0 14px 36px -10px rgba(0,0,0,0.35)",
-                }}
-              >
-                Join Waitlist
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/market"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors w-full sm:w-auto"
-                style={{
-                  background: "transparent",
-                  color: "rgba(0,0,0,0.85)",
-                  border: "1px solid rgba(0,0,0,0.18)",
-                }}
-              >
-                See the live market
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* ── CTA ────────────────────────────────────────── */}
+      <CTASection
+        eyebrow="The next chapter"
+        title={
+          <>
+            Ready to{" "}
+            <span
+              style={{
+                fontStyle: "italic",
+                fontFamily: "ui-serif, Georgia, serif",
+                fontWeight: 500,
+              }}
+            >
+              try it?
+            </span>
+          </>
+        }
+        description="Join the waitlist for early access, or explore the live order book."
+        primaryButtonText="Join Waitlist"
+        primaryButtonLink="/waitlist/user"
+        secondaryButtonText="See the live market"
+        secondaryButtonLink="/market"
+      />
     </>
   );
 };

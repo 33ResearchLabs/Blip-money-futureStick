@@ -1,79 +1,204 @@
-import { useRef, ReactNode } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useMemo, memo, ReactNode } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { sounds } from "@/lib/sounds";
-import { MagneticWrapper } from "@/components/MagneticButton";
-import { CTAButton } from "../Navbar";
 
 /* ============================================
-   CTA SECTION COMPONENT
-   Call-to-action with optional background
+   SHARED CTA SECTION
+   Mirrors the home (Index) CTA visual system so every
+   page closes with the same premium feel.
    ============================================ */
 
 interface CTASectionProps {
+  eyebrow?: string;
   title: ReactNode;
   description?: string;
   primaryButtonText: string;
   primaryButtonLink: string;
   secondaryButtonText?: string;
   secondaryButtonLink?: string;
-  background?: "dark" | "gradient" | "image";
-  backgroundImage?: string;
 }
 
+const isExternal = (link: string) => /^https?:\/\//i.test(link);
+
 export const CTASection = ({
+  eyebrow,
   title,
   description,
   primaryButtonText,
   primaryButtonLink,
   secondaryButtonText,
   secondaryButtonLink,
-  background = "dark",
-  backgroundImage,
 }: CTASectionProps) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.8, 1],
+    [0, 1, 1, 0.8],
+  );
+  const scale = useTransform(scrollYProgress, [0, 0.3], [0.95, 1]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        left: `${10 + ((i * 37 + 13) % 80)}%`,
+        top: `${10 + ((i * 53 + 7) % 80)}%`,
+        duration: 4 + (i % 5) * 0.6,
+        delay: (i % 7) * 0.4,
+      })),
+    [],
+  );
+
+  const primaryClasses =
+    "group min-w-[220px] h-[56px] inline-flex items-center justify-center gap-2 px-7 rounded-full text-[17px] font-bold tracking-tight whitespace-nowrap transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_14px_36px_rgba(0,0,0,0.3)] hover:-translate-y-[1px] dark:bg-white dark:text-black dark:border-white dark:hover:shadow-[0_14px_36px_rgba(255,255,255,0.2)] active:scale-[0.98]";
+
+  const secondaryClasses =
+    "min-w-[220px] h-[56px] inline-flex items-center justify-center px-7 rounded-full text-[17px] font-semibold tracking-tight whitespace-nowrap transition-all duration-300 ease-out text-black border border-black/30 hover:border-black/60 hover:bg-black/5 dark:text-white dark:border-white/30 dark:hover:border-white/60 dark:hover:bg-white/10 active:scale-[0.98]";
+
+  const renderPrimary = () => {
+    const inner = (
+      <>
+        <span>{primaryButtonText}</span>
+        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+      </>
+    );
+    if (isExternal(primaryButtonLink)) {
+      return (
+        <a
+          href={primaryButtonLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => sounds.click()}
+          className={primaryClasses}
+        >
+          {inner}
+        </a>
+      );
+    }
+    return (
+      <Link
+        to={primaryButtonLink}
+        onClick={() => sounds.click()}
+        className={primaryClasses}
+      >
+        {inner}
+      </Link>
+    );
+  };
+
+  const renderSecondary = () => {
+    if (!secondaryButtonText || !secondaryButtonLink) return null;
+    if (isExternal(secondaryButtonLink)) {
+      return (
+        <a
+          href={secondaryButtonLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={secondaryClasses}
+        >
+          {secondaryButtonText}
+        </a>
+      );
+    }
+    return (
+      <Link to={secondaryButtonLink} className={secondaryClasses}>
+        {secondaryButtonText}
+      </Link>
+    );
+  };
 
   return (
-    <section ref={ref} className="relative py-32 md:py-40 overflow-hidden">
-      {/* Background */}
-      {background === "image" && backgroundImage ? (
-        <>
-          <div className="absolute inset-0">
-            <img
-              src={backgroundImage}
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="absolute inset-0 bg-black/70" />
-        </>
-      ) : background === "gradient" ? (
-        <>
-          <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-[0.07]"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(0,0,0,1) 0%, transparent 70%)",
-            }}
-          />
-        </>
-      ) : (
-        <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
-      )}
+    <section
+      ref={containerRef}
+      className="relative py-24 sm:py-32 md:py-48 bg-[#FAF8F5] dark:bg-black/70 overflow-hidden"
+    >
+      {/* Immersive glow background — dark */}
+      <div className="absolute inset-0 hidden dark:block">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)",
+            y: glowY,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 60%)",
+          }}
+        />
+      </div>
+      {/* Light mode subtle glow */}
+      <div className="absolute inset-0 dark:hidden">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,107,53,0.06) 0%, rgba(255,107,53,0.02) 40%, transparent 70%)",
+            y: glowY,
+          }}
+        />
+      </div>
 
-      {/* Border lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
+      {/* Animated particles */}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute w-1 h-1 rounded-full bg-black/60 dark:bg-white/60"
+          style={{ left: p.left, top: p.top }}
+          animate={{
+            y: [0, -40, 0],
+            opacity: [0.1, 0.5, 0.1],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+          }}
+        />
+      ))}
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <motion.div
+        className="relative z-10 max-w-4xl mx-auto px-6 text-center"
+        style={{ opacity, scale }}
+      >
+        {eyebrow && (
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[12px] font-bold uppercase tracking-[0.36em] mb-6"
+            style={{ color: "#cc785c" }}
+          >
+            {eyebrow}
+          </motion.p>
+        )}
+
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display text-center text-black dark:text-white"
+          style={{
+            fontSize: "clamp(2.6rem, 7vw, 4.4rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.05em",
+            lineHeight: 1.02,
+            marginBottom: description ? 24 : 64,
+          }}
         >
           {title}
         </motion.h2>
@@ -81,8 +206,9 @@ export const CTASection = ({
         {description && (
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium leading-relaxed"
           >
             {description}
@@ -91,70 +217,17 @@ export const CTASection = ({
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
-          {/* PRIMARY */}
-          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">
-            {primaryButtonText}
-          </CTAButton>
-
-          {/* SECONDARY */}
-          {/* {secondaryButtonText && secondaryButtonLink && (
-            <MagneticWrapper strength={0.2}>
-              <Link
-        to={secondaryButtonLink}
-        onClick={() => sounds.click()}
-        onMouseEnter={() => sounds.hover()}
-        className="
-          group
-          inline-flex items-center justify-center
-           
-          gap-2 sm:gap-3
-          px-10 py-4
-          min-h-[52px] w-[220px]
-          text-[16px] font-medium
-          rounded-full
-          border border-white/10
-          text-white
-          transition-all duration-500
-          hover:border-white/30 hover:bg-white/5
-        "
-      >
-        {secondaryButtonText}
-        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-      </Link> 
-              <button
-                // to={secondaryButtonLink}
-                className=" w-[225px]  h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
-     
-      
-       text-black dark:border-white
-     "
-              >
-                {secondaryButtonText}
-                
-              </button>
-            </MagneticWrapper>
-          )} */}
-          {secondaryButtonText && secondaryButtonLink && (
-            <Link
-              to={secondaryButtonLink}
-              className=" w-[225px]  px-5 py-2.5 h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
-     
-      
-       text-black dark:border-white
-     "
-            >
-              {secondaryButtonText}
-              {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
-            </Link>
-          )}
+          {renderPrimary()}
+          {renderSecondary()}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
 
-export default CTASection;
+export default memo(CTASection);

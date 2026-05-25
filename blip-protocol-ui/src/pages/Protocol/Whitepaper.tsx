@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download, FileText, GitCommit, Hash, Clock } from "lucide-react";
 import SEO from "@/components/SEO";
 import { HreflangTags } from "@/components/HreflangTags";
@@ -23,25 +23,48 @@ const sections = [
 const Whitepaper = () => {
   const [activeSection, setActiveSection] = useState("");
   const [progress, setProgress] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    contentRef.current?.scrollTo({ top: 0 });
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const total = h.scrollHeight - h.clientHeight;
-      setProgress(total > 0 ? Math.min(1, h.scrollTop / total) : 0);
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const target = isDesktop ? contentRef.current : null;
+
+    const readProgress = () => {
+      if (target) {
+        const total = target.scrollHeight - target.clientHeight;
+        setProgress(total > 0 ? Math.min(1, target.scrollTop / total) : 0);
+      } else {
+        const h = document.documentElement;
+        const total = h.scrollHeight - h.clientHeight;
+        setProgress(total > 0 ? Math.min(1, h.scrollTop / total) : 0);
+      }
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+
+    if (target) {
+      target.addEventListener("scroll", readProgress, { passive: true });
+    } else {
+      window.addEventListener("scroll", readProgress, { passive: true });
+    }
+    readProgress();
+
+    return () => {
+      if (target) {
+        target.removeEventListener("scroll", readProgress);
+      } else {
+        window.removeEventListener("scroll", readProgress);
+      }
+    };
   }, []);
 
   useEffect(() => {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
     const observerOptions = {
-      root: null,
+      root: isDesktop ? contentRef.current : null,
       rootMargin: "-20% 0px -70% 0px",
       threshold: 0,
     };
@@ -217,6 +240,29 @@ const Whitepaper = () => {
         .prose-tech tbody tr:hover { background: rgba(0,0,0,0.02); }
         .prose-tech td:first-child { color: #0a0a0a; font-weight: 600; }
         .prose-tech sub, .prose-tech sup { font-family: ${MONO}; font-size: 0.7em; color: ${ACCENT}; }
+
+        /* Equation / formula block — dark card, high-contrast light text.
+           Overrides the broad .prose-tech color rules above. */
+        .prose-tech .wp-eq {
+          background: linear-gradient(180deg, #111114 0%, #1a1a1d 100%) !important;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          padding: 14px 18px;
+          margin-top: 12px;
+          font-family: ${MONO};
+          color: #f4f4f5 !important;
+          overflow-x: auto;
+          box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 12px 28px -16px rgba(0,0,0,0.5);
+        }
+        .prose-tech .wp-eq, .prose-tech .wp-eq * {
+          color: #f4f4f5 !important;
+        }
+        .prose-tech .wp-eq strong { color: #ffffff !important; font-weight: 600; }
+        .prose-tech .wp-eq em { color: #e5e7eb !important; }
+        .prose-tech .wp-eq sub, .prose-tech .wp-eq sup {
+          color: #ffb38a !important;
+          font-family: ${MONO};
+        }
       `}</style>
 
       <div className="min-h-screen bg-white text-black mt-20 relative overflow-hidden">
@@ -444,8 +490,11 @@ const Whitepaper = () => {
                 </div>
               </aside>
 
-              {/* Main Content */}
-              <div className="flex-1 min-w-0 prose-tech">
+              {/* Main Content — sticky scrollable window on desktop */}
+              <div
+                ref={contentRef}
+                className="flex-1 min-w-0 prose-tech lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-3 [scrollbar-width:thin]"
+              >
                 {/* Abstract */}
                 <section id="abstract" className="mb-16">
                   <h2 className="text-3xl font-bold text-black dark:text-white mb-6">
@@ -815,7 +864,7 @@ const Whitepaper = () => {
                                 Success Increment (ΔR<sub>success</sub>):
                               </strong>{" "}
                               Scales logarithmically with the Order amount,
-                              <div className="bg-gray-100 dark:bg-[#1a1a1a] p-3 rounded-lg mt-2 font-mono text-sm">
+                              <div className="wp-eq text-sm">
                                 ΔR = α<sub>success</sub> · log(Amount)
                               </div>
                             </li>
@@ -824,7 +873,7 @@ const Whitepaper = () => {
                                 Failure Decrement (ΔR<sub>failure</sub>):
                               </strong>{" "}
                               Scales polynomially with the Order amount,
-                              <div className="bg-gray-100 dark:bg-[#1a1a1a] p-3 rounded-lg mt-2 font-mono text-sm">
+                              <div className="wp-eq text-sm">
                                 ΔR = −β<sub>failure</sub> · (Amount)<sup>γ</sup>
                                 ,
                               </div>
@@ -1079,7 +1128,7 @@ const Whitepaper = () => {
                           The score incorporates the Merchant's proposed fee (R
                           <sub>fee,i</sub>), <em>Reputation</em> (R<sub>i</sub>
                           ), and <em>Staked Bond Level</em> (L<sub>i</sub>):
-                          <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 rounded-lg mt-3 font-mono text-base">
+                          <div className="wp-eq text-base">
                             S<sub>i</sub> = 1/R<sub>fee,i</sub> + αR<sub>i</sub>{" "}
                             + βL<sub>i</sub>
                           </div>
@@ -1091,7 +1140,7 @@ const Whitepaper = () => {
                         <li>
                           <strong>Winner Function:</strong> The winning Merchant
                           (M<sub>w</sub>) is the one with the highest score.
-                          <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 rounded-lg mt-3 font-mono text-base">
+                          <div className="wp-eq text-base">
                             M<sub>w</sub> = argmax<sub>i</sub>(S<sub>i</sub>)
                           </div>
                         </li>
@@ -1341,7 +1390,7 @@ const Whitepaper = () => {
                           The maximum Order value allowed for a Merchant's Bond
                           level (O<sub>max</sub>) is set to ensure the penalty
                           outweighs the reward:
-                          <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 rounded-lg mt-3 font-mono text-base">
+                          <div className="wp-eq text-base">
                             O<sub>max</sub> &lt; δB
                           </div>
                           <span className="text-sm mt-2 block">
@@ -1354,7 +1403,7 @@ const Whitepaper = () => {
                           </strong>{" "}
                           Merchant participation is sustained if their expected
                           profit is non-negative:
-                          <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 rounded-lg mt-3 font-mono text-sm overflow-x-auto">
+                          <div className="wp-eq text-sm">
                             E[Π<sub>M</sub>] = p<sub>success</sub> · (R
                             <sub>fee</sub> − C<sub>op</sub>) − p
                             <sub>failure</sub> · (Penalty + C<sub>fail</sub>)

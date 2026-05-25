@@ -125,18 +125,18 @@ const WhyBlipSection = () => {
   ];
 
   return (
-    <section className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-20 lg:py-28">
+    <section className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-6 sm:py-12 lg:py-24">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-8 lg:gap-16 items-center">
           {/* LEFT */}
           <div className="max-w-xl text-center lg:text-left">
-            <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6">
+            <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-2 sm:mb-4 lg:mb-6">
               <EditableText id="merchant.why.title.pre" default="Why Merchants " as="span" />
               <EditableText id="merchant.why.title.accent" default="Choose" as="span" className="text-black/70 dark:text-white/70" />
               <EditableText id="merchant.why.title.post" default=" Blip?" as="span" />
             </h2>
 
-            <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-10">
+            <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-0 sm:mb-4 lg:mb-10">
               <EditableText id="merchant.why.sub" default="Built for speed, control and repeat volume." multiline />
             </p>
           </div>
@@ -1043,19 +1043,24 @@ const Merchant = () => {
       <ScrollFAQ />
 
       <CTASection
+        eyebrow="The next chapter"
         title={
           <>
             Ready to become a Blip{" "}
-            <span className="text-black/80 dark:text-white/50">Merchant?</span>
+            <span
+              style={{
+                fontStyle: "italic",
+                fontFamily: "ui-serif, Georgia, serif",
+                fontWeight: 500,
+              }}
+            >
+              Merchant?
+            </span>
           </>
         }
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/merchant-waitlist"
-        // secondaryButtonText="Join Merchant "
-        secondaryButtonLink="/merchant-waitlist"
-        // secondaryButtonLink="https://t.me/blip_money"
-        // background="gradient"
       />
     </>
   );

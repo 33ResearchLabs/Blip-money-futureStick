@@ -2281,7 +2281,7 @@ const CinematicHero = () => {
             }}
           >
             <EditableText id="home.merchant.title.pre" default="Merchants provide liquidity. " className="text-black" />
-            <EditableText id="home.merchant.title.accent" default="Earn on every order." className="text-black" />
+            <EditableText id="home.merchant.title.accent" default="Earn on every order." className="text-black italic" />
           </h2>
 
           <EditableText

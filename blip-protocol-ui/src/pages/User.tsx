@@ -19,12 +19,12 @@ import {
 import { Link } from "react-router-dom";
 import { SEO, StructuredData } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
-import { CTAButton } from "@/components/Navbar";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 import { EditableText, EditableImage } from "@/components/dashboard/Editable";
 import { useOverride } from "@/hooks/useOverride";
 import SendGloballySection from "@/components/IndexSections/SendGloballySection";
 import BestRatesSection from "@/components/IndexSections/BestRatesSection";
+import { CTASection } from "@/components/sections/CTASection";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -270,18 +270,18 @@ const UserHero = () => {
           transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
           className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-2 mt-2 w-full"
         >
-          <a
-            href="/waitlist/user"
+          {/* <a
+            href="/register"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-11 sm:h-11 lg:h-11 px-5 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[14px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
           >
             <EditableText id="user.hero.cta.primary" default="Join Waitlist" as="span" />
-            <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </a>
+            <ArrowRight className="w-4 h-4 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </a> */}
           <Link
             to="/how-it-works"
-            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-6 lg:px-5 rounded-full text-[17px] sm:text-[14.5px] lg:text-[13.5px] font-bold lg:font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-11 sm:h-11 lg:h-11 px-5 sm:px-6 lg:px-5 rounded-full text-[14px] sm:text-[14.5px] lg:text-[13.5px] font-bold lg:font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
             style={{
               background: "rgba(204,120,92,0.10)",
               color: "#cc785c",
@@ -289,8 +289,9 @@ const UserHero = () => {
             }}
           >
             <EditableText id="user.hero.cta.secondary" default="See how it works" as="span" />
-            <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            <ArrowRight className="w-4 h-4 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
+          
         </motion.div>
       </div>
 
@@ -1105,7 +1106,7 @@ const IPhoneFrame = ({ src }: { src: string }) => (
 
     {/* Inner screen */}
     <div
-      className="relative w-full h-full overflow-hidden bg-black"
+      className="relative w-full h-full overflow-hidden  bg-black"
       style={{ borderRadius: 44 }}
     >
       <PhoneScreenImage defaultSrc={src} />
@@ -1363,7 +1364,7 @@ const AppPreviewSection = () => {
               transition={{ duration: 1.1, delay: 0.1, ease: EASE }}
               className="relative w-[78%] sm:w-full max-w-[280px] sm:max-w-[340px] mx-auto"
             >
-              <IPhoneFrame src="/screenshots/app-screen-3.png" />
+              <IPhoneFrame src="/screenshots/app-screen-3.png"  />
             </motion.div>
 
             {/* RIGHT column — top-right + bottom-right tooltips */}
@@ -1527,47 +1528,6 @@ const UserTrustSection = () => {
 };
 
 /* ============================================
-   6. FINAL CTA
-   ============================================ */
-const UserCTA = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section ref={ref} className="relative py-12 md:py-36 overflow-hidden bg-[#FAF8F5] dark:bg-black">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,107,53,0.08), transparent 70%)",
-        }}
-      />
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1, ease: EASE }}
-        className="relative z-10 max-w-3xl mx-auto px-6 text-center"
-      >
-        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.05] mb-6">
-          <EditableText id="user.cta.title.pre" default="Ready to try " />
-          <EditableText id="user.cta.title.accent" default="Blip?" as="span" className="text-black/60 dark:text-white/40" />
-        </h2>
-        <p className="text-lg text-black/60 dark:text-white/50 mb-10 max-w-xl mx-auto">
-          <EditableText id="user.cta.sub" default="Join the waitlist. Early users get priority access and bonus rewards." multiline />
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>
-          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px]">
-            Learn more
-          </CTAButton>
-        </div>
-      </motion.div>
-    </section>
-  );
-};
-
-/* ============================================
    PAGE
    ============================================ */
 const User = () => {
@@ -1587,7 +1547,28 @@ const User = () => {
       <SendGloballySection />
       <AppPreviewSection />
       <UserTrustSection />
-      <UserCTA />
+      <CTASection
+        eyebrow="The next chapter"
+        title={
+          <>
+            Ready to try{" "}
+            <span
+              style={{
+                fontStyle: "italic",
+                fontFamily: "ui-serif, Georgia, serif",
+                fontWeight: 500,
+              }}
+            >
+              Blip?
+            </span>
+          </>
+        }
+        description="Join the waitlist. Early users get priority access and bonus rewards."
+        primaryButtonText="Join waitlist"
+        primaryButtonLink="/register"
+        secondaryButtonText="Learn more"
+        secondaryButtonLink="/how-it-works"
+      />
     </>
   );
 };

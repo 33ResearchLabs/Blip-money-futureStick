@@ -10,7 +10,13 @@ import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
+function WaitlistPopup({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   return (
     <AnimatePresence>
       {open && (
@@ -20,7 +26,10 @@ function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-6"
-          style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(10px)" }}
+          style={{
+            background: "rgba(0,0,0,0.55)",
+            backdropFilter: "blur(10px)",
+          }}
           onClick={onClose}
         >
           <motion.div
@@ -93,10 +102,13 @@ function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }
 
               <div
                 className="font-display tracking-tight leading-[1.05] text-black"
-                style={{ fontSize: "22px", fontWeight: 600, letterSpacing: "-0.028em" }}
+                style={{
+                  fontSize: "22px",
+                  fontWeight: 600,
+                  letterSpacing: "-0.028em",
+                }}
               >
-                Merchant earned{" "}
-                <span style={{ color: "#cc785c" }}>$30</span>
+                Merchant earned <span style={{ color: "#cc785c" }}>$30</span>
               </div>
               <p className="text-[11.5px] text-black/55 mt-1.5 tracking-tight">
                 on a single trade · 90 seconds ago
@@ -105,15 +117,20 @@ function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }
 
             {/* Compact CTA strip */}
             <div className="px-5 py-4 bg-white border-t border-black/[0.05]">
-              <div className="rounded-xl px-4 py-3 mb-4" style={{ background: "#0a0a0a", color: "#fff" }}>
+              <div
+                className="rounded-xl px-4 py-3 mb-4"
+                style={{ background: "#0a0a0a", color: "#fff" }}
+              >
                 <div className="flex items-center justify-between">
                   <div className="min-w-0">
                     <div className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/45">
                       Provide Liquidity
                     </div>
-                    <div className="font-display tracking-tight mt-0.5" style={{ fontSize: "16px", fontWeight: 600 }}>
-                      Earn up to{" "}
-                      <span style={{ color: "#cc785c" }}>10%</span>{" "}
+                    <div
+                      className="font-display tracking-tight mt-0.5"
+                      style={{ fontSize: "16px", fontWeight: 600 }}
+                    >
+                      Earn up to <span style={{ color: "#cc785c" }}>10%</span>{" "}
                       per trade
                     </div>
                   </div>
@@ -135,7 +152,8 @@ function WaitlistPopup({ open, onClose }: { open: boolean; onClose: () => void }
               </a>
 
               <p className="text-[10.5px] text-black/40 text-center mt-3 leading-relaxed">
-                No guaranteed returns. Earnings depend on volume + competitive spreads.
+                No guaranteed returns. Earnings depend on volume + competitive
+                spreads.
               </p>
             </div>
           </motion.div>
@@ -154,10 +172,38 @@ const KPIS = [
 /* ── Floating profit "windows" — zoomed-in merchant earnings tooltips
       that pulse into view around the section background. ── */
 const PROFITS = [
-  { initial: "A", name: "Ananya M.", pair: "USD → INR", earn: 84.0, pos: "left-[3%] top-[18%]", rotate: -4 },
-  { initial: "K", name: "Karan S.", pair: "EUR → PHP", earn: 57.5, pos: "right-[4%] top-[32%]", rotate: 5 },
-  { initial: "M", name: "Mei L.", pair: "USD → NGN", earn: 190.0, pos: "left-[5%] bottom-[18%]", rotate: -3 },
-  { initial: "R", name: "Rohit P.", pair: "USD → INR", earn: 31.2, pos: "right-[3%] bottom-[28%]", rotate: 6 },
+  {
+    initial: "A",
+    name: "Ananya M.",
+    pair: "USD → INR",
+    earn: 84.0,
+    pos: "left-[3%] top-[18%]",
+    rotate: -4,
+  },
+  {
+    initial: "K",
+    name: "Karan S.",
+    pair: "EUR → PHP",
+    earn: 57.5,
+    pos: "right-[4%] top-[32%]",
+    rotate: 5,
+  },
+  {
+    initial: "M",
+    name: "Mei L.",
+    pair: "USD → NGN",
+    earn: 190.0,
+    pos: "left-[5%] bottom-[18%]",
+    rotate: -3,
+  },
+  {
+    initial: "R",
+    name: "Rohit P.",
+    pair: "USD → INR",
+    earn: 31.2,
+    pos: "right-[3%] bottom-[28%]",
+    rotate: 6,
+  },
 ];
 
 function ProfitTooltipSwarm() {
@@ -212,7 +258,9 @@ function ProfitTooltipSwarm() {
               <div className="text-[12.5px] font-semibold tracking-tight text-black truncate">
                 {p.name}
               </div>
-              <div className="text-[10px] text-black/45 font-mono mt-0.5">{p.pair}</div>
+              <div className="text-[10px] text-black/45 font-mono mt-0.5">
+                {p.pair}
+              </div>
             </div>
             <div className="text-right">
               <div className="text-[9px] font-bold tracking-[0.16em] uppercase text-black/40">
@@ -249,7 +297,9 @@ function TiltDashboard({ children }: { children: React.ReactNode }) {
             "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
         }}
       />
-      <div className="overflow-x-auto">{children}</div>
+      <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {children}
+      </div>
     </motion.div>
   );
 }
@@ -275,7 +325,7 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
     const el = document.getElementById("blip-markets-section");
     if (el) obs.observe(el);
@@ -292,7 +342,9 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
     >
       <div
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[900px] h-[600px] rounded-full opacity-[0.08] blur-3xl"
-        style={{ background: "radial-gradient(circle, #cc785c 0%, transparent 65%)" }}
+        style={{
+          background: "radial-gradient(circle, #cc785c 0%, transparent 65%)",
+        }}
       />
 
       <ProfitTooltipSwarm />
@@ -314,11 +366,25 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
             style={{ color: "#cc785c" }}
           />
           <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-4 md:mb-6">
-            <EditableText id="home.markets.title.line1" default="A live marketplace" as="span" /> <br className="hidden md:block" />
-            <EditableText id="home.markets.title.line2" default="for global settlement." as="span" className="text-white/55" />
+            <EditableText
+              id="home.markets.title.line1"
+              default="A live marketplace"
+              as="span"
+            />{" "}
+            <br className="hidden md:block" />
+            <EditableText
+              id="home.markets.title.line2"
+              default="for global settlement."
+              as="span"
+              className="text-white/55 italic"
+            />
           </h2>
           <p className="text-white/60 text-[0.95rem] md:text-[1.2rem] leading-[1.55] max-w-[620px] mx-auto px-2">
-            <EditableText id="home.markets.sub" default="Watch real money move. Merchants compete. Trades clear in seconds." multiline />
+            <EditableText
+              id="home.markets.sub"
+              default="Watch real money move. Merchants compete. Trades clear in seconds."
+              multiline
+            />
           </p>
         </motion.div>
 
@@ -342,7 +408,9 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
                 <span className="text-[18px] md:text-[40px] font-semibold tracking-[-0.025em] tabular-nums text-white leading-none">
                   {k.value}
                 </span>
-                <span className="text-[9px] md:text-[12px] font-mono text-[#cc785c]">{k.delta}</span>
+                <span className="text-[9px] md:text-[12px] font-mono text-[#cc785c]">
+                  {k.delta}
+                </span>
               </div>
             </div>
           ))}
@@ -355,18 +423,35 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">
-          <Link
+          {/* <Link
             to="/waitlist/user"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
           >
             <EditableText id="home.markets.cta.primary" default="Join Waitlist" as="span" />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
+          </Link> */}
+          <a
+            href="/merchant-waitlist"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
+          >
+            <EditableText
+              id="home.markets.cta.primary"
+              default="Join Waitlist"
+              as="span"
+            />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </a>
           <Link
             to="/market"
             className="group inline-flex items-center gap-1.5 h-[48px] px-4 text-white/75 text-[14px] font-medium tracking-tight hover:text-white transition-colors"
           >
-            <EditableText id="home.markets.cta.secondary" default="Explore Blip Market" as="span" />
+            <EditableText
+              id="home.markets.cta.secondary"
+              default="Explore Blip Market"
+              as="span"
+            />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </div>

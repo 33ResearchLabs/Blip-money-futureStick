@@ -187,9 +187,9 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-black/30 dark:text-white/30">Live auction</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-black/60 dark:text-white/55">Live auction</span>
         </div>
-        <span className="text-[10px] font-mono text-black/20 dark:text-white/20">USDT → AED</span>
+        <span className="text-[10px] font-mono text-black/50 dark:text-white/45">USDT → AED</span>
       </div>
 
       {/* Merchant rows */}
@@ -215,19 +215,19 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold"
                     style={{
-                      background: isBest ? "#1d1d1f" : "rgba(0,0,0,0.05)",
-                      color: isBest ? "#fff" : "rgba(0,0,0,0.3)",
+                      background: isBest ? "#1d1d1f" : "rgba(0,0,0,0.08)",
+                      color: isBest ? "#fff" : "rgba(0,0,0,0.6)",
                     }}
                   >
                     {m.name.slice(0, 2)}
                   </div>
                   <div>
-                    <span className="text-sm font-semibold text-black/80 dark:text-white/80 block leading-tight">{m.name}</span>
-                    <span className="text-[10px] text-black/30 dark:text-white/30">{m.speed} avg</span>
+                    <span className="text-sm font-semibold text-black/90 dark:text-white/85 block leading-tight">{m.name}</span>
+                    <span className="text-[10px] text-black/55 dark:text-white/50">{m.speed} avg</span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#1d1d1f" : "rgba(0,0,0,0.4)" }}>
+                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#1d1d1f" : "rgba(0,0,0,0.7)" }}>
                     {liveRate}
                   </span>
                   {isBest && (
@@ -375,25 +375,25 @@ function ChainVisual({ isInView }: { isInView: boolean }) {
       {/* Block counter */}
       <div className="flex items-center justify-between mb-5 px-1">
         <div>
-          <div className="text-[9px] font-bold uppercase tracking-widest text-black/25 dark:text-white/25 mb-1">Latest block</div>
+          <div className="text-[9px] font-bold uppercase tracking-widest text-black/55 dark:text-white/50 mb-1">Latest block</div>
           <motion.div
             key={blockNum}
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-2xl font-bold font-mono text-black/80 dark:text-white/80"
+            className="text-2xl font-bold font-mono text-black/90 dark:text-white/85"
           >
             #{blockNum.toLocaleString()}
           </motion.div>
         </div>
         <div className="text-right">
-          <div className="text-[9px] font-bold uppercase tracking-widest text-black/25 dark:text-white/25 mb-1">Network</div>
+          <div className="text-[9px] font-bold uppercase tracking-widest text-black/55 dark:text-white/50 mb-1">Network</div>
           <div className="flex items-center gap-1.5">
             <motion.div
               className="w-1.5 h-1.5 rounded-full bg-[#9945FF]"
               animate={{ opacity: [1, 0.4, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
-            <span className="text-sm font-semibold text-black/60 dark:text-white/60">Solana</span>
+            <span className="text-sm font-semibold text-black/80 dark:text-white/75">Solana</span>
           </div>
         </div>
       </div>
@@ -414,20 +414,20 @@ function ChainVisual({ isInView }: { isInView: boolean }) {
           >
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{
-                background: s.status === "confirmed" ? "rgba(0,0,0,0.05)" : "rgba(153,69,255,0.1)",
+                background: s.status === "confirmed" ? "rgba(0,0,0,0.08)" : "rgba(153,69,255,0.14)",
               }}>
                 <span className="text-[10px]">{s.status === "confirmed" ? "✓" : "◆"}</span>
               </div>
               <div>
-                <span className="text-xs font-mono font-medium text-black/60 dark:text-white/60 block leading-tight">{s.tx}</span>
-                <span className="text-[9px] text-black/25 dark:text-white/25">Block #{s.block.toLocaleString()}</span>
+                <span className="text-xs font-mono font-medium text-black/85 dark:text-white/80 block leading-tight">{s.tx}</span>
+                <span className="text-[9px] text-black/55 dark:text-white/50">Block #{s.block.toLocaleString()}</span>
               </div>
             </div>
             <div className="text-right">
               <span className="text-[10px] font-semibold" style={{
-                color: s.status === "confirmed" ? "rgba(0,0,0,0.5)" : "#9945FF",
+                color: s.status === "confirmed" ? "rgba(0,0,0,0.75)" : "#9945FF",
               }}>{s.status}</span>
-              <span className="block text-[9px] font-mono text-black/20 dark:text-white/20">{s.time}</span>
+              <span className="block text-[9px] font-mono text-black/50 dark:text-white/45">{s.time}</span>
             </div>
           </motion.div>
         ))}

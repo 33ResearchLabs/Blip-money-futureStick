@@ -57,7 +57,7 @@ const BanklessSection = () => {
           style={{ marginBottom: 0 }}
         >
           <EditableText id="home.bankless.title.line1" default="Banking," as="span" className="block" />
-          <EditableText id="home.bankless.title.line2" default="without the bank." as="span" className="block text-white/30" />
+          <EditableText id="home.bankless.title.line2" default="without the bank." as="span" className="block text-white/30 italic" />
         </motion.h2>
 
         {/* Subtext */}

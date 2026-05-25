@@ -14,6 +14,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "@/components/IndexSections/LiveMerchantDashboard";
+import { CTASection } from "@/components/sections/CTASection";
 
 const ACCENT = "#cc785c";
 const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
@@ -394,45 +395,31 @@ const Market = () => {
           </div>
         </div>
 
-        {/* ── CTA ────────────────────────────────────────────── */}
-        <div className="relative px-5 sm:px-6 mt-16 sm:mt-24 md:mt-32 pb-20 sm:pb-32">
-          <div className="max-w-[820px] mx-auto text-center">
-            <h2
-              className="font-semibold tracking-[-0.028em] leading-[1.1] text-white mb-5 sm:mb-6 px-2"
-              style={{ fontSize: "clamp(24px, 4.2vw, 48px)" }}
-            >
-              Start trading the live book.
-            </h2>
-            <p className="text-[15.5px] text-white/55 leading-[1.6] mb-9 max-w-[520px] mx-auto">
-              Join the waitlist. Get early access when your corridor goes live.
-            </p>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-              <a
-                href="/waitlist/user"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] w-full sm:w-auto"
-                style={{
-                  background: "#fff",
-                  color: "#0a0a0a",
-                  boxShadow: "0 14px 36px -10px rgba(255,255,255,0.25)",
-                }}
-              >
-                Join as user
-              </a>
-              <a
-                href="/waitlist/merchant"
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-[13px] font-semibold tracking-tight transition-colors w-full sm:w-auto"
-                style={{
-                  background: "transparent",
-                  color: "rgba(255,255,255,0.85)",
-                  border: "1px solid rgba(255,255,255,0.14)",
-                }}
-              >
-                Become a merchant
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* ── CTA ────────────────────────────────────────────── */}
+      <CTASection
+        eyebrow="The next chapter"
+        title={
+          <>
+            Start trading the{" "}
+            <span
+              style={{
+                fontStyle: "italic",
+                fontFamily: "ui-serif, Georgia, serif",
+                fontWeight: 500,
+              }}
+            >
+              live book.
+            </span>
+          </>
+        }
+        description="Join the waitlist. Get early access when your corridor goes live."
+        primaryButtonText="Join as user"
+        primaryButtonLink="/waitlist/user"
+        secondaryButtonText="Become a merchant"
+        secondaryButtonLink="/waitlist/merchant"
+      />
     </>
   );
 };

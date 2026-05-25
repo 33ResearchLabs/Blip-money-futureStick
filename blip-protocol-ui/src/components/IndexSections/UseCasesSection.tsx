@@ -316,7 +316,7 @@ const UseCasesSection = () => {
             className="heading-h2 text-center"
             style={{ color: isDark ? "#fff" : "#1d1d1f", marginBottom: 48 }}
           >
-            <EditableText id="home.usecases.title" default="Built for everyone." />
+            <EditableText id="home.usecases.title" default="Built for everyone." className="italic" />
           </motion.h2>
 
           {/* ── Hero card: Users — full width with image ── */}
