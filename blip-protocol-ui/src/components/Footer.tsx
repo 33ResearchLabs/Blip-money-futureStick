@@ -7,7 +7,7 @@ import { PulseIcon } from "./PulseIcon";
 /* ================= SOCIAL LINKS ================= */
 
 const SOCIAL_LINKS = [
-  { label: "X (Twitter)", href: "https://x.com/blip_money", Icon: FaXTwitter },
+  { label: "Twitter", href: "https://x.com/blip_money", Icon: FaXTwitter },
   { label: "Telegram", href: "https://t.me/blipmoney", Icon: FaTelegramPlane },
   { label: "YouTube", href: "https://www.youtube.com/@BlipMoney", Icon: FaYoutube },
   {

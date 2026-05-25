@@ -173,7 +173,7 @@ export default function XFollowVerificationModal({
                   Step 1: Follow @blip_money
                 </h4>
                 <p className="text-sm text-black/80 dark:text-neutral-300">
-                  Follow our official X (Twitter) account to stay updated on
+                  Follow our official Twitter account to stay updated on
                   protocol announcements, rewards, and governance.
                 </p>
               </div>
@@ -204,7 +204,7 @@ export default function XFollowVerificationModal({
                   Step 2: Confirm Your Follow
                 </h4>
                 <p className="text-sm text-black/80 dark:text-neutral-300 mb-4">
-                  Enter your X (Twitter) username so we can verify you're
+                  Enter your Twitter username so we can verify you're
                   following @blip_money.
                 </p>
 

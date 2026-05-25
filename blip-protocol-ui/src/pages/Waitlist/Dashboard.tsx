@@ -62,7 +62,7 @@ import { airdropApi } from "@/services/Airdrop";
 import { useAutoRefreshLeaderboard } from "@/hooks/useAutoRefreshLeaderboard";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-// X (Twitter) brand logo — lucide doesn't ship one
+// Twitter brand logo — lucide doesn't ship one
 const XBrand = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -637,7 +637,7 @@ const TASKS_DATA = {
     //   3. Share on X (Tweet) 4. Share Referral Link
     {
       id: "s4",
-      title: "Follow on X (Twitter)",
+      title: "Follow on Twitter",
       description: "Follow @blip_money on X to stay updated and earn points.",
       reward: "50",
       status: "active",
@@ -655,7 +655,7 @@ const TASKS_DATA = {
     },
     {
       id: "s2",
-      title: "Share on X (Twitter)",
+      title: "Share on Twitter",
       description: "Post about Blip Money on X with the campaign message to earn points.",
       reward: "100",
       status: "active",

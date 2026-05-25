@@ -115,7 +115,7 @@ const typeColors: Record<string, { bg: string; text: string; border: string }> =
     },
   };
 
-// X (Twitter) brand logo — lucide doesn't ship one
+// Twitter brand logo — lucide doesn't ship one
 const XBrand = ({ className }: { className?: string }) => (
   <svg
     className={className}
@@ -1157,60 +1157,12 @@ export default function MerchantDashboard() {
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
         {/* ── Top row: Refer Friends | Referral Code | Real-Time Activity ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 items-stretch">
-          {/* Card 1: Refer Friends (text + hero image) */}
+          {/* Card 1: Refer Friends — single column, image on top, content below */}
           <div
-            className={`lg:col-span-6 ${surface} border ${border} rounded-xl overflow-hidden relative`}
+            className={`lg:col-span-6 ${surface} border ${border} rounded-xl overflow-hidden relative flex flex-col`}
           >
-            <div
-              className={`grid grid-cols-1 md:grid-cols-[1.2fr,0.8fr] h-full divide-y md:divide-y-0 md:divide-x ${divider}`}
-            >
-            {/* Left: heading + description + CTAs */}
-            <div className="p-5 md:p-7 flex flex-col justify-center relative overflow-hidden">
-              <div
-                className="absolute inset-0 opacity-40 pointer-events-none"
-                style={{
-                  backgroundImage: `radial-gradient(circle, ${d ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)"} 1px, transparent 1px)`,
-                  backgroundSize: "12px 12px",
-                  maskImage: "linear-gradient(to right, black, transparent)",
-                  WebkitMaskImage:
-                    "linear-gradient(to right, black, transparent)",
-                }}
-              />
-              <div className="relative">
-                <h2 className="text-3xl md:text-[34px] font-black font-display leading-tight tracking-tight mb-2">
-                  <span className={txt}>Refer Friends.</span>
-                  <br />
-                  <span className="text-[#ff6b35]">Earn More.</span>
-                </h2>
-                <p
-                  className={`text-[13px] ${muted} mb-5 max-w-sm leading-relaxed`}
-                >
-                  Invite your friends to Blip Money and earn{" "}
-                  <span className={`font-bold ${txt}`}>50 pts</span> for each
-                  successful referral. There's no limit to how much you can
-                  earn!
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-2.5">
-                  <button
-                    onClick={() => setShowReferralModal(true)}
-                    className={`border border-[#ff6b35]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
-                  >
-                    <Share2 className="w-3.5 h-3.5" />
-                    Share Your Code
-                  </button>
-                  <button
-                    onClick={() => setShowHowItWorksModal(true)}
-                    className={`${inputBg} border ${border} ${txt}  px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
-                  >
-                    How It Works
-                    <Info className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Middle: hero illustration */}
-            <div className="hidden lg:flex items-center justify-center p-4 relative overflow-hidden">
+            {/* Hero illustration on top, full width */}
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -1218,12 +1170,41 @@ export default function MerchantDashboard() {
                 }}
               />
               <img
-                src="/illustrations/refer-friends-hero.png"
+                src="/illustrations/refer-friends-hero.png?v=3"
                 alt="Refer friends and earn rewards"
-                className="relative max-h-[220px] w-auto object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
 
+            {/* Text + CTAs below */}
+            <div className="p-5 md:p-7 flex flex-col items-center text-center">
+              <h2 className="text-3xl md:text-[34px] font-black font-display leading-tight tracking-tight mb-2">
+                <span className={txt}>Refer Friends.</span>{" "}
+                <span className="text-[#ff6b35]">Earn More.</span>
+              </h2>
+              <p
+                className={`text-[13px] ${muted} mb-5 max-w-md leading-relaxed`}
+              >
+                Invite your friends to Blip Money and earn{" "}
+                <span className={`font-bold ${txt}`}>50 pts</span> for each
+                successful referral. There's no limit to how much you can earn.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
+                <button
+                  onClick={() => setShowReferralModal(true)}
+                  className={`border border-[#ff6b35]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  Share Your Code
+                </button>
+                <button
+                  onClick={() => setShowHowItWorksModal(true)}
+                  className={`${inputBg} border ${border} ${txt} px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                >
+                  How It Works
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1297,7 +1278,7 @@ export default function MerchantDashboard() {
                   className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
                 >
                   <XBrand className="w-3 h-3" />
-                  <span className="hidden sm:inline">X (Twitter)</span>
+                  <span className="hidden sm:inline">Twitter</span>
                 </a>
                 <a
                   href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent("Join Blip Money with my referral!")}`}

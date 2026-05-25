@@ -149,7 +149,7 @@ export default function TwitterVerificationModal({
 
             <div>
               <h3 className="text-xl font-bold text-black dark:text-white uppercase">
-                Share on X (Twitter)
+                Share on Twitter
               </h3>
               <span className="text-xs text-black/60 dark:text-neutral-500">
                 REWARD: {REWARD_POINTS} PTS
