@@ -33,6 +33,7 @@ const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
 const WaitlistUserHero = lazy(() => import("./pages/Waitlist/WaitlistUserHero"));
 const UserLoginHero = lazy(() => import("./pages/Waitlist/UserLoginHero"));
 const MerchantLoginHero = lazy(() => import("./pages/Waitlist/MerchantLoginHero"));
+const AuthHero = lazy(() => import("./pages/Waitlist/AuthHero"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
 const EmailVerificationPending = lazy(
@@ -348,7 +349,7 @@ const App = () => (
                     {/* Default waitlist entry points show the LOGIN screen; users
                         click "Create one" / "Register as Merchant" to reach the
                         register pages below. */}
-                    <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
+                    <Route path="/waitlist" element={<AuthHero />} />
                     <Route path="/waitlist/user" element={<WaitlistUserHero />} />
                     <Route path="/waitlist/merchant" element={<MerchantRegister />} />
                     <Route path="/merchant-waitlist" element={<MerchantLoginHero />} />

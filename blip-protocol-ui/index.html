@@ -97,7 +97,7 @@
       (function() {
         try {
           var path = window.location.pathname || '/';
-          var lightRoutes = ['/', '', '/rates', '/waitlist/user', '/waitlist/merchant', '/join-waitlist', '/login', '/register', '/merchant-login', '/merchant-register', '/merchant-waitlist', '/dashboard', '/merchant-dashboard', '/merchant-dashboard-preview'];
+          var lightRoutes = ['/', '', '/rates', '/waitlist', '/waitlist/user', '/waitlist/merchant', '/join-waitlist', '/login', '/register', '/merchant-login', '/merchant-register', '/merchant-waitlist', '/dashboard', '/merchant-dashboard', '/merchant-dashboard-preview'];
           var routeDefault = lightRoutes.indexOf(path) !== -1 ? 'light' : 'dark';
           if (routeDefault === 'dark') {
             document.documentElement.classList.add('dark');
