@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
@@ -237,6 +237,65 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
               >
                 {role === "merchant" ? "1,284 merchants on the network" : "424 already in line"}
               </p>
+
+              {/* Apple-callout cross-sell — nudge to the other role.
+                  Subtle warm gradient + thin border, no shouty CTA. */}
+              <div
+                className="mt-7 max-w-[440px] mx-auto lg:mx-0 rounded-2xl p-4 flex items-center gap-3.5"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(204,120,92,0.10) 0%, rgba(255,243,235,0.6) 100%)",
+                  border: "1px solid rgba(204,120,92,0.18)",
+                  boxShadow: "0 8px 24px -16px rgba(204,120,92,0.30)",
+                }}
+              >
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+                  style={{
+                    background: "linear-gradient(135deg, #cc785c 0%, #b35a3b 100%)",
+                    boxShadow: "0 6px 14px -6px rgba(204,120,92,0.6)",
+                  }}
+                >
+                  <span className="text-[14px] font-bold tracking-tight">10%</span>
+                </div>
+                <div className="flex-1 min-w-0 text-left">
+                  <div className="text-[10.5px] font-semibold tracking-[0.18em] uppercase" style={{ color: "#cc785c" }}>
+                    {role === "user" ? "Earn on every trade" : "Send money too"}
+                  </div>
+                  <p
+                    className="text-[12.5px] leading-snug mt-0.5"
+                    style={{ color: "#1d1d1f" }}
+                  >
+                    {role === "user" ? (
+                      <>
+                        Join as a{" "}
+                        <span className="font-semibold">merchant / LP</span>{" "}
+                        and earn up to{" "}
+                        <span className="font-semibold">10%</span> on every transaction.
+                      </>
+                    ) : (
+                      <>
+                        Need to send money?{" "}
+                        <span className="font-semibold">Sign up as a user</span>{" "}
+                        — borderless transfers in under 60 seconds.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRole(role === "user" ? "merchant" : "user")}
+                  className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full transition-transform hover:-translate-y-[1px]"
+                  style={{
+                    background: "#1d1d1f",
+                    color: "#ffffff",
+                    boxShadow: "0 4px 12px -4px rgba(0,0,0,0.30)",
+                  }}
+                  aria-label={role === "user" ? "Switch to merchant" : "Switch to user"}
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </motion.div>
 
             {/* ── RIGHT — auth card with toggles ────────────────────── */}
@@ -308,51 +367,6 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                     <Register role={role} embedded />
                   )}
                 </motion.div>
-              </div>
-
-              {/* Small in-card ad — shown on BOTH user + merchant sides.
-                  Nudges users to the merchant/LP earnings track, and merchants
-                  to the consumer sender flow. CTA flips the role toggle in
-                  place (no navigation) so the form swaps live. */}
-              <div
-                className="mt-4 rounded-2xl p-3.5 flex items-center justify-between gap-3"
-                style={{
-                  background: "rgba(204,120,92,0.08)",
-                  border: "1px solid rgba(204,120,92,0.20)",
-                }}
-              >
-                <p className="text-[12px] leading-snug" style={{ color: "#1d1d1f" }}>
-                  {role === "user" ? (
-                    <>
-                      <span className="font-semibold">Want to earn?</span>{" "}
-                      <span style={{ color: "#3a3a3c" }}>
-                        Join as a merchant / LP and earn up to{" "}
-                      </span>
-                      <span className="font-semibold" style={{ color: "#cc785c" }}>
-                        10% on every transaction.
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="font-semibold">Sending money instead?</span>{" "}
-                      <span style={{ color: "#3a3a3c" }}>
-                        Sign up as a user — borderless transfers settled in under 60 seconds.
-                      </span>
-                    </>
-                  )}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setRole(role === "user" ? "merchant" : "user")}
-                  className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
-                  style={{
-                    background: "#cc785c",
-                    color: "#ffffff",
-                    boxShadow: "0 6px 18px -8px rgba(204,120,92,0.55)",
-                  }}
-                >
-                  Switch
-                </button>
               </div>
             </motion.div>
           </div>
