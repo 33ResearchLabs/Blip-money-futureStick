@@ -124,6 +124,11 @@ const SCENES = [
     file: "join-waitlist-avatar.png",
     prompt: `A close-up 1:1 square portrait of a single friendly confident character, head and shoulders centered, looking slightly off-camera with a soft warm smile and quiet anticipation. Soft cinematic golden-hour light from the upper-left rim-lighting their hair and jaw. A single small luminous circular token (no readable text) floats gently near their shoulder. Cream and warm Claude-orange palette with a soft ink silhouette, painterly editorial flat illustration in the Uber / Apple / Stripe landing-art lineage. Generous breathing room around the head, ~15% margin all sides so the face stays clear when cropped to a circle avatar. No banks, no logos, no readable text, no neon.`,
   },
+  // Refer-friends hero — merchant dashboard "Refer Friends. Earn More." card
+  {
+    file: "refer-friends-hero.png",
+    prompt: `A premium painted editorial illustration, 1:1 square, of two friendly characters celebrating a successful referral. They stand side by side at a sunlit table, smiling, with one holding up a warm-glowing token (no readable text) toward the other. A small soft orange spark trail connects the two of them. Warm cream backdrop with a soft Claude-orange #cc785c rim-light, painterly brushwork in the Uber / Apple / Stripe landing-art lineage. Generous breathing room (~12%), one ambient sparkle above the token. Visible friendly faces, eyes and soft smiles. No banks, no logos, no readable text, no neon, no glow, no photoreal textures. Calm, premium, hopeful.`,
+  },
   // App-icon-style tile for /join-waitlist — premium mini-card, single focal
   {
     file: "join-waitlist-icon.png",

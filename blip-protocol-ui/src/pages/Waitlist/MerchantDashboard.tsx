@@ -930,47 +930,10 @@ export default function MerchantDashboard() {
             </nav>
           </div>
 
-          {/* Right: status pills + actions */}
+          {/* Right: minimal actions (Protocol Balance + Wallet pills removed
+              per request — wallet linking still accessible via Account modal
+              and points balance lives prominently in the dashboard body). */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Protocol Balance pill */}
-            <div
-              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5`}
-            >
-              <div>
-                <div
-                  className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}
-                >
-                  Protocol Balance
-                </div>
-                <div className={`text-[11px] font-bold ${txt} leading-none`}>
-                  {blipPoints.toLocaleString()} pts
-                </div>
-              </div>
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            </div>
-
-            {/* Wallet status pill */}
-            <button
-              onClick={() => setShowWalletLinkingModal(true)}
-              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5 ${hov} transition-all`}
-            >
-              <div className="text-left">
-                <div
-                  className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}
-                >
-                  Wallet
-                </div>
-                <div className={`text-[11px] font-bold ${txt} leading-none`}>
-                  {user?.wallet_address
-                    ? `${user.wallet_address.slice(0, 4)}…${user.wallet_address.slice(-4)}`
-                    : "Not Connected"}
-                </div>
-              </div>
-              <div
-                className={`w-1.5 h-1.5 rounded-full ${user?.wallet_address ? "bg-emerald-500" : "bg-red-500"}`}
-              />
-            </button>
-
             {/* Theme toggle */}
             <button
               onClick={() => setTheme(d ? "light" : "dark")}
@@ -1255,7 +1218,7 @@ export default function MerchantDashboard() {
                 }}
               />
               <img
-                src="/images/merchant-dashboard-hero.jpg"
+                src="/illustrations/refer-friends-hero.png"
                 alt="Refer friends and earn rewards"
                 className="relative max-h-[220px] w-auto object-contain"
               />
