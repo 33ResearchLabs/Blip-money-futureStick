@@ -220,7 +220,7 @@ const App = () => (
                         </FirebaseActionHandler>
                       }
                     />
-                    <Route path="/register" element={<UserRegister />} />
+                    {/* /register handled below — redirects to /signup?role=user */}
                     <Route
                       path="/email-verification-pending"
                       element={<EmailVerificationPending />}
@@ -346,19 +346,22 @@ const App = () => (
 
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
-                    {/* Default waitlist entry points show the LOGIN screen; users
-                        click "Create one" / "Register as Merchant" to reach the
-                        register pages below. */}
-                    <Route path="/waitlist" element={<AuthHero />} />
-                    <Route path="/waitlist/user" element={<WaitlistUserHero />} />
-                    <Route path="/waitlist/merchant" element={<MerchantRegister />} />
-                    <Route path="/merchant-waitlist" element={<MerchantLoginHero />} />
-                    {/* Explicit register routes */}
-                    <Route path="/join-waitlist" element={<UserRegister />} />
-                    <Route path="/merchant-register" element={<MerchantRegister />} />
-                    {/* Explicit login routes (aliases of the waitlist defaults) */}
-                    <Route path="/login" element={<UserLoginHero />} />
-                    <Route path="/merchant-login" element={<MerchantLoginHero />} />
+                    {/* Auth is consolidated to TWO routes — /signup and /signin.
+                        Each handles both User + Merchant via the role toggle in
+                        AuthHero. All legacy URLs 302-redirect with ?role= preserved. */}
+                    <Route path="/signup" element={<AuthHero initialMode="signup" />} />
+                    <Route path="/signin" element={<AuthHero initialMode="signin" />} />
+
+                    {/* Legacy aliases — redirect to /signup or /signin with role param */}
+                    <Route path="/waitlist" element={<Navigate to="/signup" replace />} />
+                    <Route path="/waitlist/user" element={<Navigate to="/signup?role=user" replace />} />
+                    <Route path="/waitlist/merchant" element={<Navigate to="/signup?role=merchant" replace />} />
+                    <Route path="/merchant-waitlist" element={<Navigate to="/signin?role=merchant" replace />} />
+                    <Route path="/join-waitlist" element={<Navigate to="/signup?role=user" replace />} />
+                    <Route path="/register" element={<Navigate to="/signup?role=user" replace />} />
+                    <Route path="/merchant-register" element={<Navigate to="/signup?role=merchant" replace />} />
+                    <Route path="/login" element={<Navigate to="/signin?role=user" replace />} />
+                    <Route path="/merchant-login" element={<Navigate to="/signin?role=merchant" replace />} />
                   </Route>
 
                   {/* PROTECTED DASHBOARD (NO LAYOUT) */}

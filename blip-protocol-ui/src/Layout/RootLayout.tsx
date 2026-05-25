@@ -53,6 +53,9 @@ const StickyJoinWaitlist = () => {
  */
 const LIGHT_ROUTES = new Set<string>([
   "/", "", "/rates",
+  "/signup", "/signin",
+  // Legacy auth URLs redirect to /signup or /signin, but listing them
+  // ensures they paint light during the brief render before navigation.
   "/waitlist", "/waitlist/user", "/waitlist/merchant", "/join-waitlist",
   "/login", "/register", "/merchant-login", "/merchant-register",
   "/merchant-waitlist",
