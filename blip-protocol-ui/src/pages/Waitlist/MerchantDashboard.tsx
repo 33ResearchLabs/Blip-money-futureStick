@@ -915,7 +915,7 @@ export default function MerchantDashboard() {
     >
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
       <header
-        className={`${surface} border-b ${border} sticky top-0 z-50 transition-colors duration-300`}
+        className="dark bg-black text-white border-b border-white/[0.06] sticky top-0 z-50"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           {/* Left: Logo + nav */}
@@ -924,12 +924,9 @@ export default function MerchantDashboard() {
             <nav className="hidden md:flex items-center gap-1 text-[13px] font-semibold">
               <button
                 onClick={() => navigate("/merchant-dashboard")}
-                className={`relative px-3 py-1.5 ${txt} font-bold`}
+                className="relative px-3 py-1.5 text-white font-semibold"
               >
                 Dashboard
-                {/* <span
-                  className={`absolute left-2 right-2 -bottom-[22px] h-[2px] ${d ? "bg-white" : "bg-black"}`}
-                /> */}
               </button>
             </nav>
           </div>
@@ -941,24 +938,20 @@ export default function MerchantDashboard() {
             {/* Theme toggle */}
             <button
               onClick={() => setTheme(d ? "light" : "dark")}
-              className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov} transition-all`}
+              className="w-9 h-9 rounded-md flex items-center justify-center border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] transition-all"
               aria-label="Toggle theme"
             >
-              {d ? (
-                <Sun className={`w-4 h-4 ${txt}`} />
-              ) : (
-                <Moon className={`w-4 h-4 ${txt}`} />
-              )}
+              {d ? <Sun className="w-4 h-4 text-white" /> : <Moon className="w-4 h-4 text-white" />}
             </button>
 
             {/* Profile/menu */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setOpen(!open)}
-                className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov} transition-all`}
+                className="w-9 h-9 rounded-md flex items-center justify-center border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] transition-all"
                 aria-label="Menu"
               >
-                <Menu className={`w-4 h-4 ${txt}`} />
+                <Menu className="w-4 h-4 text-white" />
               </button>
 
               {open && (
@@ -1473,24 +1466,27 @@ export default function MerchantDashboard() {
 
             {/* ── Merchant Onboarding CTA ─────────────────────────────────────── */}
             <div
-              className={`${surface} border border-[#cc785c]/40 rounded-xl p-4 mb-3 shadow-[0_0_24px_rgba(204,120,92,0.12)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
+              className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4 md:p-5 mb-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-4`}
             >
-              <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-3.5 min-w-0">
                 <div
-                  className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                  className={`w-11 h-11 rounded-xl ${inputBg} border ${border} flex items-center justify-center shrink-0`}
                 >
-                  <Store className={`w-5 h-5 ${txt}`} />
+                  <Store className={`w-[18px] h-[18px] ${txt}`} strokeWidth={2} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <p className={`text-sm font-bold ${txt}`}>
+                  <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                    <p className={`text-[14px] font-semibold ${txt} tracking-tight`}>
                       Join Merchant On Board Program
                     </p>
-                    <span className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-500">
+                    <span
+                      className="text-[11px] font-semibold tracking-tight px-2 py-0.5 rounded-full"
+                      style={{ background: "rgba(204,120,92,0.10)", color: "#cc785c" }}
+                    >
                       +500 BLIP
                     </span>
                   </div>
-                  <p className={`text-[11px] ${muted} leading-relaxed mt-0.5`}>
+                  <p className={`text-[12px] ${muted} leading-snug`}>
                     Submit this Google Form to join our merchant onboarding
                     program and earn 500 pts.
                   </p>
@@ -1500,9 +1496,9 @@ export default function MerchantDashboard() {
                 href="https://forms.gle/UyfhpcMdq8BSTQSZA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#cc785c]/50`}
+                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-full text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] active:scale-[0.99] transition shadow-[0_8px_22px_-10px_rgba(0,0,0,0.35)] flex items-center gap-2 shrink-0`}
               >
-                Submit Google Form
+                Submit Form
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
