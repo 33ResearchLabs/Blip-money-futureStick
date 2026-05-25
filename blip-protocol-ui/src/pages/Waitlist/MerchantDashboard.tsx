@@ -312,8 +312,16 @@ export default function MerchantDashboard() {
 
   const d = resolvedTheme === "dark" || resolvedTheme === undefined;
 
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated.
+  // Skip on the unprotected /merchant-dashboard-preview route so the team
+  // can visually QA the dashboard without an account.
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.location.pathname === "/merchant-dashboard-preview"
+    ) {
+      return;
+    }
     if (!isLoading && !isAuthenticated) {
       navigate("/merchant-waitlist", { replace: true });
     }
