@@ -27,31 +27,6 @@ export default function MerchantLoginHero() {
               transition={{ duration: 1, ease: EASE }}
               className="text-center lg:text-left"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
-                className="flex justify-center lg:justify-start mb-5"
-              >
-                <motion.div
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-[76px] h-[76px] overflow-hidden"
-                  style={{
-                    borderRadius: 20,
-                    boxShadow:
-                      "0 16px 36px -12px rgba(0,0,0,0.20), 0 6px 14px -8px rgba(204,120,92,0.24), inset 0 1px 0 rgba(255,255,255,0.6)",
-                  }}
-                >
-                  <img
-                    src="/illustrations/join-waitlist-icon.png?v=3"
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="eager"
-                  />
-                </motion.div>
-              </motion.div>
-
               <div className="inline-flex items-center gap-3 mb-7">
                 <span className="w-5 h-px bg-black/15" />
                 <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black">
