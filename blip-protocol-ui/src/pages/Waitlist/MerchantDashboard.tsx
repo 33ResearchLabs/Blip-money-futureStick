@@ -1207,7 +1207,7 @@ export default function MerchantDashboard() {
 
           {/* Card 2: Your Referral Code */}
           <div
-            className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl p-5 md:p-6 flex flex-col gap-2.5`}
+            className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl p-5 md:p-6 flex flex-col gap-4 justify-between`}
           >
               <span
                 className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
