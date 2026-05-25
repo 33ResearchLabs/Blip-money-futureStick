@@ -1194,10 +1194,10 @@ export default function MerchantDashboard() {
                 </div>
               </div>
 
-              {/* Right: dark-stage 3D hero illustration */}
-              <div className="hidden md:block relative overflow-hidden bg-[#0a0a0a]">
+              {/* Right: elegant single-subject hero illustration on cream */}
+              <div className="hidden md:block relative overflow-hidden" style={{ background: "#FAF8F5" }}>
                 <img
-                  src="/images/merchant-dashboard-hero.jpg"
+                  src="/illustrations/refer-friends-hero.png?v=6"
                   alt="Refer friends and earn rewards"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
