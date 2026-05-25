@@ -1161,18 +1161,18 @@ export default function MerchantDashboard() {
           <div
             className={`lg:col-span-6 ${surface} border ${border} rounded-xl overflow-hidden relative flex flex-col`}
           >
-            {/* Hero illustration on top, full width */}
-            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
+            {/* Small centered hero illustration (~25% of previous footprint) */}
+            <div className="relative w-full flex items-center justify-center pt-6 pb-1">
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(circle at center, ${d ? "rgba(255,107,53,0.18)" : "rgba(255,107,53,0.10)"} 0%, transparent 65%)`,
+                  background: `radial-gradient(circle at center, ${d ? "rgba(255,107,53,0.14)" : "rgba(255,107,53,0.08)"} 0%, transparent 55%)`,
                 }}
               />
               <img
                 src="/illustrations/refer-friends-hero.png?v=3"
                 alt="Refer friends and earn rewards"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="relative w-[140px] h-[140px] object-contain"
               />
             </div>
 
