@@ -249,8 +249,21 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
                   })}
                 </div>
 
-                {/* Card heading */}
+                {/* Card heading + visible role chip */}
                 <div className="mb-5">
+                  <div
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-2.5 text-[10.5px] font-semibold uppercase tracking-[0.18em]"
+                    style={{
+                      background: "rgba(204,120,92,0.10)",
+                      color: "#cc785c",
+                    }}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ background: "#cc785c" }}
+                    />
+                    Joining as {role === "merchant" ? "a Merchant" : "a User"}
+                  </div>
                   <h2
                     className="font-display"
                     style={{

@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { HashRedirectScroll } from "@/components/HashRedirectScroll";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import MerchantAdBanner from "@/components/MerchantAdBanner";
 import { NotificationBannerProvider } from "@/components/NotificationPopup";
 import ScrollToBottomButton from "@/components/ScrollToBottomButton";
 import { ScrollProgressBar } from "@/components/GlobalPolish";
@@ -77,6 +78,7 @@ const MainLayout = () => {
       <HashRedirectScroll />
       <Outlet />
       <ScrollToBottomButton />
+      <MerchantAdBanner />
       <Footer />
       <StickyJoinWaitlist />
     </NotificationBannerProvider>
