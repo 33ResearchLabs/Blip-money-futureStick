@@ -257,7 +257,7 @@ const SpotlightCard = ({ children, className = "", onClick, disabled }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={!disabled ? onClick : undefined}
-      className={`relative overflow-hidden rounded-sm bg-[#0A0A0A] border border-neutral-800 ${className} ${disabled ? "cursor-not-allowed" : ""}`}
+      className={`relative overflow-hidden rounded-2xl bg-white dark:bg-[#0A0A0A] border border-black/[0.06] dark:border-neutral-800 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.10)] dark:shadow-none ${className} ${disabled ? "cursor-not-allowed" : ""}`}
     >
       {/* Spotlight Effect */}
       <div

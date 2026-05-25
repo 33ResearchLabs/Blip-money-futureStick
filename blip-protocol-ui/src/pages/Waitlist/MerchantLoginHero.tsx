@@ -2,20 +2,20 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
-import Register from "./Register";
+import Login from "./Login";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* /merchant-register — Apple-minimal 2-column join (mirrors UserRegister). */
-export default function MerchantRegister() {
+/* /merchant-login & /merchant-waitlist — Apple-minimal merchant sign-in. */
+export default function MerchantLoginHero() {
   return (
     <>
       <SEO
-        title="Become a Blip Merchant | Earn on Every Order"
-        description="Settle orders, set your spread, and earn margin on every trade. Founding merchants receive priority routing, reduced fees, and early dashboard access."
-        canonical="https://www.blip.money/merchant-register"
+        title="Sign In as Merchant | Blip Money"
+        description="Sign back in to your Blip merchant account — check live orders, settlements, and earnings."
+        canonical="https://www.blip.money/merchant-login"
       />
-      <HreflangTags path="/merchant-register" />
+      <HreflangTags path="/merchant-login" />
 
       <div className="min-h-screen bg-[#FAF8F5] text-black overflow-hidden">
         <main className="relative z-10 max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 pb-20">
@@ -54,7 +54,7 @@ export default function MerchantRegister() {
               <div className="inline-flex items-center gap-3 mb-7">
                 <span className="w-5 h-px bg-black/15" />
                 <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black">
-                  Founding Merchant
+                  Merchant · Welcome Back
                 </span>
                 <span className="w-5 h-px bg-black/15" />
               </div>
@@ -70,9 +70,9 @@ export default function MerchantRegister() {
                   marginBottom: 16,
                 }}
               >
-                Earn on every order.{" "}
+                Welcome back, operator.{" "}
                 <span style={{ fontStyle: "italic", fontWeight: 500, color: "#cc785c" }}>
-                  Set your spread.
+                  The order book is live.
                 </span>
               </h1>
 
@@ -80,15 +80,15 @@ export default function MerchantRegister() {
                 className="text-[15.5px] leading-[1.5] tracking-tight max-w-[480px] mx-auto lg:mx-0 mb-7"
                 style={{ color: "#1d1d1f" }}
               >
-                Settle real orders for verified users. Compete live, win the
-                trade, capture your margin — paid out instantly, on-chain.
+                Pick up where you left off — live orders, settlement queue,
+                merchant earnings, and your standing on the leaderboard.
               </p>
 
               <ul className="space-y-3 max-w-[440px] mx-auto lg:mx-0 text-left">
                 {[
-                  "Zero settlement fees during the beta",
-                  "Priority routing — faster matching, more wins",
-                  "Founding merchant status, recognised on launch",
+                  "Live order routing and bid history",
+                  "Daily earnings, paid out instantly on-chain",
+                  "Leaderboard standing and founder perks",
                 ].map((line) => (
                   <li
                     key={line}
@@ -107,7 +107,7 @@ export default function MerchantRegister() {
                 className="mt-9 text-[11px] tracking-[0.18em] uppercase font-semibold"
                 style={{ color: "#3a3a3c" }}
               >
-                1,284 merchants already onboarded
+                1,284 merchants live on the network
               </p>
             </motion.div>
 
@@ -136,17 +136,17 @@ export default function MerchantRegister() {
                       color: "#1d1d1f",
                     }}
                   >
-                    Become a{" "}
+                    Sign in as{" "}
                     <span style={{ fontStyle: "italic", fontWeight: 500, color: "#cc785c" }}>
                       merchant.
                     </span>
                   </h2>
                   <p className="mt-1.5 text-[12.5px]" style={{ color: "#3a3a3c" }}>
-                    Takes 60 seconds. Same login carries into the merchant app.
+                    Welcome back. Your orders are right where you left them.
                   </p>
                 </div>
 
-                <Register role="merchant" embedded />
+                <Login role="merchant" />
               </div>
             </motion.div>
           </div>

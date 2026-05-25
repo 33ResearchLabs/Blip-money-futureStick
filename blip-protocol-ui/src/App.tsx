@@ -32,6 +32,7 @@ const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
 const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
 const WaitlistUserHero = lazy(() => import("./pages/Waitlist/WaitlistUserHero"));
 const UserLoginHero = lazy(() => import("./pages/Waitlist/UserLoginHero"));
+const MerchantLoginHero = lazy(() => import("./pages/Waitlist/MerchantLoginHero"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
 const EmailVerificationPending = lazy(
@@ -333,13 +334,13 @@ const App = () => (
                     <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
                     <Route path="/waitlist/user" element={<WaitlistUserHero />} />
                     <Route path="/waitlist/merchant" element={<MerchantRegister />} />
-                    <Route path="/merchant-waitlist" element={<MerchantLogin initialView="waitlist" />} />
+                    <Route path="/merchant-waitlist" element={<MerchantLoginHero />} />
                     {/* Explicit register routes */}
                     <Route path="/join-waitlist" element={<UserRegister />} />
                     <Route path="/merchant-register" element={<MerchantRegister />} />
                     {/* Explicit login routes (aliases of the waitlist defaults) */}
                     <Route path="/login" element={<UserLoginHero />} />
-                    <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
+                    <Route path="/merchant-login" element={<MerchantLoginHero />} />
                   </Route>
 
                   {/* PROTECTED DASHBOARD (NO LAYOUT) */}
@@ -360,6 +361,10 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+                  {/* Unprotected preview — lets the team visually QA the
+                      merchant dashboard without logging in. Do NOT link to it
+                      from public nav. Remove before going to production. */}
+                  <Route path="/merchant-dashboard-preview" element={<MerchantDashboard />} />
 
                   <Route
                     path="/superadmin"

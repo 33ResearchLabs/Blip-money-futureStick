@@ -55,6 +55,8 @@ const LIGHT_ROUTES = new Set<string>([
   "/", "", "/rates",
   "/waitlist/user", "/waitlist/merchant", "/join-waitlist",
   "/login", "/register", "/merchant-login", "/merchant-register",
+  "/merchant-waitlist",
+  "/dashboard", "/merchant-dashboard", "/merchant-dashboard-preview",
 ]);
 
 const RouteThemeSync = () => {
