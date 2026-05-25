@@ -1179,14 +1179,14 @@ export default function MerchantDashboard() {
                 <div className="flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => setShowReferralModal(true)}
-                    className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
+                    className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2 rounded-lg text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
                   >
                     <Share2 className="w-3.5 h-3.5" />
                     Share Your Code
                   </button>
                   <button
                     onClick={() => setShowHowItWorksModal(true)}
-                    className={`${inputBg} border ${border} ${txt} px-5 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                    className={`${inputBg} border ${border} ${txt} px-5 py-2 rounded-lg text-[11.5px] font-semibold uppercase tracking-[0.16em] ${hov} transition flex items-center gap-2`}
                   >
                     How It Works
                     <Info className="w-3.5 h-3.5" />
@@ -1210,7 +1210,7 @@ export default function MerchantDashboard() {
             className={`lg:col-span-3 ${surface} border ${border} ${cardShadow} rounded-2xl p-5 md:p-6 flex flex-col gap-4 justify-between`}
           >
               <span
-                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
               >
                 Your Referral Code
               </span>
@@ -1240,7 +1240,7 @@ export default function MerchantDashboard() {
               <div className="flex items-center gap-2">
                 <div className={`h-px flex-1 border-t ${divider}`} />
                 <span
-                  className={`text-[9px] font-black uppercase tracking-[0.18em] ${sub}`}
+                  className={`text-[10px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                 >
                   Or share your link
                 </span>
@@ -1304,7 +1304,7 @@ export default function MerchantDashboard() {
               className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
             >
               <span
-                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
               >
                 Real-Time Activity
               </span>
@@ -1492,7 +1492,7 @@ export default function MerchantDashboard() {
                 href="https://forms.gle/UyfhpcMdq8BSTQSZA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#cc785c]/50`}
+                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#cc785c]/50`}
               >
                 Submit Google Form
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -1506,7 +1506,7 @@ export default function MerchantDashboard() {
               <div className="flex items-center gap-2 mb-3">
                 <div className={`w-1.5 h-1.5 rounded-full bg-[#cc785c]`} />
                 <span
-                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                  className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                 >
                   Your Referral Stats
                 </span>
@@ -1688,7 +1688,7 @@ export default function MerchantDashboard() {
                           ) : (
                             <button
                               onClick={() => handleQuestClick(quest.id)}
-                              className={`${accentBg} ${d ? "text-black" : "text-white"} px-6 py-2 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition`}
+                              className={`${accentBg} ${d ? "text-black" : "text-white"} px-6 py-2 rounded-md text-[11.5px] font-semibold uppercase tracking-[0.16em] hover:opacity-90 active:scale-[0.98] transition`}
                             >
                               Start
                             </button>
@@ -1817,7 +1817,7 @@ export default function MerchantDashboard() {
                   className={`w-1.5 h-1.5 rounded-full ${d ? "bg-white" : "bg-black"}`}
                 />
                 <span
-                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                  className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                 >
                   Your Referral Code
                 </span>
@@ -1864,7 +1864,7 @@ export default function MerchantDashboard() {
             {/* Your Progress */}
             <div className={`${surface} border ${border} ${cardShadow} rounded-2xl p-4`}>
               <div
-                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub} mb-1`}
+                className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub} mb-1`}
               >
                 Your Progress
               </div>
@@ -1954,7 +1954,7 @@ export default function MerchantDashboard() {
                 <div className="flex items-center gap-2">
                   <Trophy className={`w-3.5 h-3.5 ${txt}`} />
                   <span
-                    className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                    className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                   >
                     Leaderboard
                   </span>
@@ -2026,7 +2026,7 @@ export default function MerchantDashboard() {
             >
               <div className={`px-4 py-2.5 border-b ${divider}`}>
                 <span
-                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                  className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                 >
                   Your Progress & Steps
                 </span>
@@ -2218,7 +2218,7 @@ export default function MerchantDashboard() {
               <div className="flex items-center gap-2">
                 <div className={`w-1.5 h-1.5 rounded-full bg-[#cc785c]`} />
                 <span
-                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                  className={`text-[10.5px] font-semibold uppercase tracking-[0.2em] ${sub}`}
                 >
                   How It Works
                 </span>
