@@ -1165,31 +1165,31 @@ export default function MerchantDashboard() {
           >
             <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] h-full">
               {/* Left: heading + description + CTAs */}
-              <div className="p-4 md:p-5 flex flex-col justify-center">
-                <h2 className="text-[22px] md:text-[28px] font-semibold font-display leading-[1.05] tracking-tight mb-2">
+              <div className="p-6 md:p-7 flex flex-col justify-center">
+                <h2 className="text-[28px] md:text-[34px] font-semibold font-display leading-[1.05] tracking-tight mb-3">
                   <span className={txt}>Refer Friends.</span>
                   <br />
                   <span className="text-[#cc785c]">Earn More.</span>
                 </h2>
-                <p className={`text-[12.5px] ${muted} mb-3.5 max-w-md leading-snug`}>
+                <p className={`text-[13.5px] ${muted} mb-5 max-w-md leading-relaxed`}>
                   Invite your friends to Blip Money and earn{" "}
                   <span className={`font-bold ${txt}`}>50 pts</span> for each
-                  successful referral.
+                  successful referral. There's no limit to how much you can earn.
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2.5">
                   <button
                     onClick={() => setShowReferralModal(true)}
-                    className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-4 py-2 rounded-lg text-[10.5px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
+                    className={`border border-[#cc785c]/60 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
                   >
-                    <Share2 className="w-3 h-3" />
+                    <Share2 className="w-3.5 h-3.5" />
                     Share Your Code
                   </button>
                   <button
                     onClick={() => setShowHowItWorksModal(true)}
-                    className={`${inputBg} border ${border} ${txt} px-4 py-2 rounded-lg text-[10.5px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                    className={`${inputBg} border ${border} ${txt} px-6 py-2.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
                   >
                     How It Works
-                    <Info className="w-3 h-3" />
+                    <Info className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
