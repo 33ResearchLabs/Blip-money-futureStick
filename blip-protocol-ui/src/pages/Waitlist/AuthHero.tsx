@@ -128,7 +128,11 @@ export default function AuthHero({ initialRole, initialMode = "signup" }: Props)
       <SEO
         title={mode === "signin" ? "Sign In to Blip Money" : "Join the Blip Waitlist"}
         description="Create your Blip account or sign in to track your waitlist position, bonus points, and referrals."
-        canonical={`https://www.blip.money/${mode === "signin" ? "login" : "register"}`}
+        canonical={`https://app.blip.money/waitlist/${
+          mode === "signin"
+            ? (role === "merchant" ? "merchant-login" : "login")
+            : (role === "merchant" ? "merchant" : "user")
+        }`}
       />
       <HreflangTags path={mode === "signin" ? "https://app.blip.money/waitlist/login" : "https://app.blip.money/waitlist/user"} />
 

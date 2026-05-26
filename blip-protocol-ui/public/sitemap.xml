@@ -188,27 +188,6 @@
     <priority>0.8</priority>
   </url>
 
-  <url>
-    <loc>https://www.blip.money/compare/blip-vs-wise</loc>
-    <lastmod>2026-02-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.blip.money/compare/blip-vs-binance-p2p</loc>
-    <lastmod>2026-02-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.blip.money/compare/onchain-vs-traditional-escrow</loc>
-    <lastmod>2026-02-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Crypto to AED Converter (Tool Page) -->
   <url>
     <loc>https://www.blip.money/crypto-to-aed</loc>
@@ -311,12 +290,6 @@
   </url>
 
   <!-- pSEO:start -->
-  <url>
-    <loc>https://www.blip.money/accept-stablecoin-payments-uae-business</loc>
-    <lastmod>2026-05-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
   <url>
     <loc>https://www.blip.money/best-bnb-to-aed-rate</loc>
     <lastmod>2026-05-20</lastmod>
@@ -1739,12 +1712,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url>
-    <loc>https://www.blip.money/wazirx-p2p-alternative</loc>
-    <lastmod>2026-05-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
   <!-- pSEO:end -->
 
   <!-- Geo Landing Pages -->
@@ -1822,13 +1789,6 @@
   <url>
     <loc>https://www.blip.money/blog/usdt-to-aed-how-to-sell-tether-uae-instantly</loc>
     <lastmod>2026-02-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.blip.money/blog/why-dubai-becoming-crypto-capital-world</loc>
-    <lastmod>2026-02-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

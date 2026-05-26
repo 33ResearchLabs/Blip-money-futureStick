@@ -90,7 +90,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       <SEO
         title="Join the Blip Money Waitlist | Early Access & Rewards"
         description="Sign up for the Blip Money waitlist and get early access to fast, secure, and borderless crypto payments. Earn 2000 bonus points."
-        canonical="https://www.blip.money/waitlist"
+        canonical="https://app.blip.money/waitlist/user"
       />
       <HreflangTags path="https://app.blip.money/waitlist/user" />
 

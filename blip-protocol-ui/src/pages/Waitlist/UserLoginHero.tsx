@@ -15,7 +15,7 @@ export default function UserLoginHero() {
       <SEO
         title="Sign In to Blip Money"
         description="Sign in to your Blip account to access your waitlist position, bonus points, and early access perks."
-        canonical="https://www.blip.money/login"
+        canonical="https://app.blip.money/waitlist/login"
       />
       <HreflangTags path="https://app.blip.money/waitlist/login" />
 
