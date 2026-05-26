@@ -655,7 +655,6 @@ const TrustSection = () => {
       features={features}
       columns={4}
       variant="cards"
-      mobilePagination="dots"
     />
   );
 };
