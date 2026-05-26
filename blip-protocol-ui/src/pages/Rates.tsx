@@ -493,7 +493,7 @@ const RateFinder = () => {
         >
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.02]">
             Always cheaper.<br className="hidden sm:block" />{" "}
-            <span className="text-black/55 dark:text-white/45">Anywhere you look.</span>
+            <span className="text-black/60 dark:text-white/40 italic">Anywhere you look.</span>
           </h1>
         </motion.div>
 
@@ -798,7 +798,7 @@ const ComparisonSection = () => {
             Side by side
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
-            Why Blip wins<br className="hidden sm:block" /> on the rest.
+            Why Blip wins<br className="hidden sm:block" /> <span className="italic text-black/60 dark:text-white/40"> on the rest.</span>
           </h2>
           <p className="text-base text-black/55 dark:text-white/50 max-w-xl mx-auto">
             Centralized P2P desks took the consumer's side. Blip rebuilt them
@@ -920,11 +920,11 @@ const ComparisonSection = () => {
         className="relative mt-20 sm:mt-28 overflow-hidden bg-black text-center px-6 py-24 sm:py-32 -mx-5 sm:-mx-6"
       >
           {/* glow accents */}
-          <div className="pointer-events-none absolute inset-0">
+          {/* <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#ff6b35]/20 blur-[120px]" />
             <div className="absolute -bottom-40 -left-20 w-[400px] h-[400px] rounded-full bg-[#ff6b35]/10 blur-[100px]" />
             <div className="absolute -bottom-40 -right-20 w-[400px] h-[400px] rounded-full bg-white/5 blur-[100px]" />
-          </div>
+          </div> */}
           {/* subtle grid */}
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -943,7 +943,7 @@ const ComparisonSection = () => {
                 Lower price.
               </span>
               <br />
-              <span className="bg-gradient-to-r from-[#ff6b35] via-[#ff8c5a] to-[#ff6b35] bg-clip-text text-transparent">
+              <span className="text-white/40 dark:text-black/40 italic">
                 Stronger guarantees.
               </span>
             </h3>

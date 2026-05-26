@@ -404,7 +404,7 @@ export default function About() {
               <h2 className="font-display text-center text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08]">
                 Sending money
                 <br className="hidden sm:block" />
-                <span className="text-white/45">
+                <span className="text-white/45 italic">
                   {" "}should be as easy as
                 </span>{" "}
                 sending a message.
@@ -441,7 +441,7 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-center text-3xl sm:text-5xl font-semibold tracking-tight mb-14">
-                What we are building toward.
+                What we are <span className="dark:text-black/60 text-white/40 italic">building toward.</span>
               </h2>
             </Reveal>
 
@@ -477,7 +477,7 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-center text-3xl sm:text-5xl font-semibold tracking-tight mb-14">
-                The principles that guide us.
+                The principles <span className="text-black/60 dark:text-white/40 italic"> that guide us. </span>
               </h2>
             </Reveal>
 
@@ -514,7 +514,7 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.08}>
               <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight mb-5">
-                Want to build with us?
+                Want to <span className="dark:text-black/60 text-white/40 italic"> build with us? </span>
               </h2>
             </Reveal>
             <Reveal delay={0.15}>

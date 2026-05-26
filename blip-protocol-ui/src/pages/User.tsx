@@ -1476,7 +1476,7 @@ const UserTrustSection = () => {
             className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             <EditableText id="user.safety.title.pre" default="Built for " as="span" />
-            <EditableText id="user.safety.title.accent" default="peace of mind." as="span" className="text-black/60 dark:text-white/40" />
+            <EditableText id="user.safety.title.accent" default="peace of mind." as="span" className="text-black/60 dark:text-white/40 italic" />
           </motion.h2>
         </div>
 

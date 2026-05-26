@@ -428,7 +428,8 @@ const HowItWorksSection = () => {
           <EditableText id="merchant.howitworks.eyebrow" default="Three taps. One settled trade." as="span" />
         </motion.p>
         <h2 className="text-4xl md:text-6xl font-bold text-black tracking-tight">
-          <EditableText id="merchant.howitworks.title" default="How merchants execute on Blip" as="span" />
+          <EditableText id="merchant.howitworks.title" default="How merchants " as="span" />
+          <EditableText id="merchant.howitworks.title.accent" default=" execute on Blip" as="span" className="italic text-black/70" />
         </h2>
       </div>
 

@@ -252,11 +252,11 @@ export function BlipPhoneMockup({balance}) {
           {/* TRANSACTIONS */}
           <div className="px-3 pt-2 pb-14 flex-1 overflow-hidden">
             <h2 className="text-[#5a6578] font-bold text-sm">Transactions</h2>
-            <div className="mt-1">
+            <div className="">
               {TRANSACTIONS.slice(0, 1).map((tx) => (
                 <div
                   key={tx.id}
-                  className="flex items-center py-1.5 border-b border-[#edf0f5]"
+                  className="flex items-center py-1 border-b border-[#edf0f5]"
                 >
                   <div className="w-7 h-7 rounded-lg bg-[#f4f5f7] border border-[#e5e7eb] flex items-center justify-center font-bold text-[10px] text-[#0B1220] flex-shrink-0">
                     {tx.user[0]}

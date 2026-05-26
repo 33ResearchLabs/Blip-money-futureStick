@@ -422,7 +422,7 @@ export default function Community() {
               className="text-center"
             >
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">
-                Community & Ecosystem
+                Community & <span className="text-black/60 dark:text-white/40 italic">Ecosystem</span>
               </h1>
               <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed">
                 Blip is built by and for its community. Join thousands of users,
@@ -441,7 +441,7 @@ export default function Community() {
                 Join the Community
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
-                Connect with us everywhere
+                Connect with us <span className="text-black/60 dark:text-white/40 italic"> everywhere </span>
               </h2>
             </AnimatedSection>
 
@@ -466,7 +466,7 @@ export default function Community() {
                 Ecosystem Partners
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
-                Powering the Blip ecosystem
+                Powering the Blip <span className="text-black/60 dark:text-white/40 italic"> ecosystem </span>
               </h2>
               <p className="text-lg text-gray-500 dark:text-white/40 max-w-lg mx-auto">
                 Integrations and partnerships that make decentralized payments
@@ -495,7 +495,7 @@ export default function Community() {
                 DAO Governance
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
-                Governed by the community
+                Governed by the <span className="text-black/60 dark:text-white/40 italic"> community </span>
               </h2>
               <p className="text-lg text-gray-500 dark:text-white/40 max-w-xl mx-auto">
                 The Blip Protocol is governed by $BLIP token holders through a
@@ -604,7 +604,7 @@ export default function Community() {
               <div className="p-10 sm:p-16 rounded-3xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
                 <Users className="w-10 h-10 text-black dark:text-white mx-auto mb-6" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
-                  Join the Blip Community
+                  Join the Blip <span className="text-black/60 dark:text-white/40 italic"> community </span>
                 </h2>
                 <p className="text-lg text-gray-500 dark:text-white/40 max-w-md mx-auto mb-8 leading-relaxed">
                   Be part of the movement building decentralized payment

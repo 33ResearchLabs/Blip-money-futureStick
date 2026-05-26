@@ -127,14 +127,8 @@ function FeatureCard({
         transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center mb-5"
-        style={{
-          background: `${ACCENT}18`,
-          border: `1px solid ${ACCENT}44`,
-        }}
-      >
-        <Icon className="w-5 h-5" style={{ color: ACCENT }} strokeWidth={2} />
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5">
+        <Icon className="w-5 h-5 text-black dark:text-white" strokeWidth={2} />
       </div>
       <div
         className="text-[10px] font-bold tracking-[0.22em] mb-2"
@@ -154,38 +148,32 @@ const FEATURES = [
   {
     icon: TrendingUp,
     title: "Sealed-bid live auctions",
-    body:
-      "Merchants compete in real-time second-price auctions. You always get the best rate the market can offer at that moment.",
+    body: "Merchants compete in real-time second-price auctions. You always get the best rate the market can offer at that moment.",
   },
   {
     icon: Lock,
     title: "Non-custodial escrow",
-    body:
-      "Funds sit in a Solana PDA. No human, no exchange, no custodian holds your money — only the smart contract.",
+    body: "Funds sit in a Solana PDA. No human, no exchange, no custodian holds your money — only the smart contract.",
   },
   {
     icon: ShieldCheck,
     title: "Merchant bonds & slashing",
-    body:
-      "Every market-maker posts a cryptographic bond. Cheat the protocol, lose the bond. Reputation is on-chain and unforgeable.",
+    body: "Every market-maker posts a cryptographic bond. Cheat the protocol, lose the bond. Reputation is on-chain and unforgeable.",
   },
   {
     icon: Zap,
     title: "Sub-second settlement",
-    body:
-      "Built on Solana. Quote → escrow → release happens in seconds, not the minutes or hours of legacy P2P rails.",
+    body: "Built on Solana. Quote → escrow → release happens in seconds, not the minutes or hours of legacy P2P rails.",
   },
   {
     icon: Eye,
     title: "Pseudonymous by design",
-    body:
-      "No phone numbers, no KYC for routine transfers. Counter-party risk is handled by the protocol, not your personal info.",
+    body: "No phone numbers, no KYC for routine transfers. Counter-party risk is handled by the protocol, not your personal info.",
   },
   {
     icon: Globe2,
     title: "Borderless corridors",
-    body:
-      "USD, AED, INR, and growing. Every corridor is a live order book — open 24/7, no banking hours, no holidays.",
+    body: "USD, AED, INR, and growing. Every corridor is a live order book — open 24/7, no banking hours, no holidays.",
   },
 ];
 
@@ -209,7 +197,9 @@ const Market = () => {
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1200px] h-[700px] rounded-full opacity-[0.12] blur-3xl"
-          style={{ background: `radial-gradient(ellipse, ${ACCENT}, transparent 70%)` }}
+          style={{
+            background: `radial-gradient(ellipse, ${ACCENT}, transparent 70%)`,
+          }}
         />
         {/* Dotted grid */}
         <div
@@ -240,7 +230,11 @@ const Market = () => {
             >
               <motion.span
                 animate={{ opacity: [1, 0.35, 1] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="w-1.5 h-1.5 rounded-full"
                 style={{ background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }}
               />
@@ -394,7 +388,6 @@ const Market = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* ── CTA ────────────────────────────────────────────── */}
