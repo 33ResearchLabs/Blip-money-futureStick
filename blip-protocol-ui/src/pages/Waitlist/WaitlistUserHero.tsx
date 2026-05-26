@@ -16,7 +16,7 @@ export default function WaitlistUserHero() {
       <SEO
         title="Create your Blip account | Waitlist"
         description="Create your Blip account, earn 5,000 BLIP points, and unlock early access the moment the app opens."
-        canonical="https://www.blip.money/waitlist/user"
+        canonical="https://app.blip.money/waitlist/user"
       />
       <HreflangTags path="https://app.blip.money/waitlist/user" />
 
