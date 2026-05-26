@@ -265,7 +265,7 @@ const Whitepaper = () => {
         }
       `}</style>
 
-      <div className="min-h-screen bg-white text-black mt-20 relative overflow-hidden">
+      <div className="min-h-screen bg-white text-black pt-20 relative overflow-hidden">
         {/* Faint dotted grid background */}
         <div
           aria-hidden

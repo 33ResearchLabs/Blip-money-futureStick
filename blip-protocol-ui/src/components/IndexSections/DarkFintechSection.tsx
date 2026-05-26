@@ -18,6 +18,7 @@ import { Globe, ChevronDown, Check, Home, Zap, MessageCircle, Activity, User ,  
 import { useIsMobile } from "@/hooks/use-mobile";
 import { EditableText } from "@/components/dashboard/Editable";
 import { useOverride } from "@/hooks/useOverride";
+import { P } from "node_modules/framer-motion/dist/types.d-DagZKalS";
 
 const TABS = [
   { key: "home", Icon: Home, label: "Home" },
@@ -1822,6 +1823,7 @@ function DesktopFlow() {
                 {/* ── Trading Screen ── */}
                 <AnimatePresence>
                   {stage === "fiatPayout" && (
+                    
                     <motion.div
                       initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
                       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}

@@ -1,4 +1,4 @@
-import { useRef, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { sounds } from "@/lib/sounds";
 import { LucideIcon } from "lucide-react";
@@ -23,7 +23,77 @@ interface FeatureGridProps {
   features: Feature[];
   columns?: 2 | 3 | 4;
   variant?: "cards" | "minimal" | "images";
+  mobilePagination?: "arrows" | "dots";
 }
+
+/* Bottom-centered dot indicators that mirror the snap-scroll track's active
+   card. Like SwipeHint, finds the track via previousElementSibling — place
+   immediately after the snap track inside its `relative` wrapper. */
+const CarouselDots = ({ count }: { count: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const track = ref.current?.previousElementSibling as HTMLElement | null;
+    if (!track) return;
+
+    const computeIndex = () => {
+      const firstCard = track.firstElementChild as HTMLElement | null;
+      if (!firstCard) return;
+      const cardW = firstCard.getBoundingClientRect().width;
+      if (cardW <= 0) return;
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+      const idx = Math.round(track.scrollLeft / (cardW + gap));
+      setActiveIndex(Math.max(0, Math.min(count - 1, idx)));
+    };
+
+    computeIndex();
+    track.addEventListener("scroll", computeIndex, { passive: true });
+    const ro = new ResizeObserver(computeIndex);
+    ro.observe(track);
+    return () => {
+      track.removeEventListener("scroll", computeIndex);
+      ro.disconnect();
+    };
+  }, [count]);
+
+  const scrollToIndex = (i: number) => {
+    const track = ref.current?.previousElementSibling as HTMLElement | null;
+    if (!track) return;
+    const firstCard = track.firstElementChild as HTMLElement | null;
+    if (!firstCard) return;
+    const cardW = firstCard.getBoundingClientRect().width;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    track.scrollTo({ left: i * (cardW + gap), behavior: "smooth" });
+  };
+
+  return (
+    <div
+      ref={ref}
+      className="md:hidden flex justify-center items-center gap-2 mt-6"
+    >
+      {Array.from({ length: count }).map((_, i) => {
+        const isActive = i === activeIndex;
+        return (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Go to card ${i + 1}`}
+            aria-current={isActive ? "true" : undefined}
+            onClick={() => scrollToIndex(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              isActive
+                ? "w-6 bg-black dark:bg-white"
+                : "w-1.5 bg-black/20 dark:bg-white/25 hover:bg-black/35 dark:hover:bg-white/40"
+            }`}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 const FeatureCard = ({
   feature,
@@ -121,6 +191,7 @@ export const FeatureGrid = ({
   features,
   columns = 3,
   variant = "cards",
+  mobilePagination = "arrows",
 }: FeatureGridProps) => {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
@@ -129,7 +200,7 @@ export const FeatureGrid = ({
   const cardWidthClasses = {
     2: "w-[85%] sm:w-[60%] md:w-[46%]",
     3: "w-[85%] sm:w-[55%] md:w-[40%] lg:w-[31%]",
-    4: "w-[85%] sm:w-[55%] md:w-[40%] lg:w-[23%]",
+    4: "w-[92%] sm:w-[72%] md:w-[48%] lg:w-[23%]",
   };
 
   return (
@@ -139,7 +210,7 @@ export const FeatureGrid = ({
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-16 md:mb-20">
+        <div ref={headerRef} className="text-center mb-16 md:mb-20 ">
           {subtitle && (
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -173,7 +244,7 @@ export const FeatureGrid = ({
         {/* Horizontal snap-scroll on every breakpoint */}
         <div className="relative">
         <div
-          className="flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-12 sm:px-0 scroll-pl-12 sm:scroll-pl-0 scroll-pr-12 sm:scroll-pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-12 sm:px-0 scroll-pl-12 sm:scroll-pl-0 scroll-pr-12 sm:scroll-pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden "
         >
           {features.map((feature, index) => (
             <div
@@ -188,7 +259,11 @@ export const FeatureGrid = ({
             </div>
           ))}
         </div>
-        <SwipeHint />
+        {mobilePagination === "dots" ? (
+          <CarouselDots count={features.length} />
+        ) : (
+          <SwipeHint />
+        )}
         </div>
       </div>
     </section>

@@ -25,6 +25,7 @@ import { useOverride } from "@/hooks/useOverride";
 import SendGloballySection from "@/components/IndexSections/SendGloballySection";
 import BestRatesSection from "@/components/IndexSections/BestRatesSection";
 import { CTASection } from "@/components/sections/CTASection";
+import { BlipPhoneMockup } from "@/components/BlipPhoneMockup";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -1362,9 +1363,9 @@ const AppPreviewSection = () => {
               initial={{ opacity: 0, scale: 0.94, y: 24 }}
               animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ duration: 1.1, delay: 0.1, ease: EASE }}
-              className="relative w-[78%] sm:w-full max-w-[280px] sm:max-w-[340px] mx-auto"
+              // className="relative w-[78%] sm:w-full max-w-[280px] sm:max-w-[340px] mx-auto "
             >
-              <IPhoneFrame src="/screenshots/app-screen-3.png"  />
+              <BlipPhoneMockup balance={190} />
             </motion.div>
 
             {/* RIGHT column — top-right + bottom-right tooltips */}
