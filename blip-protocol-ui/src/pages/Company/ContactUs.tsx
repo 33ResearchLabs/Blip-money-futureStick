@@ -6,6 +6,7 @@ import {
   useSpring,
   useInView,
 } from "framer-motion";
+// useScroll/useTransform/useSpring still used in VisualSection
 import {
   Send,
   Copy,
@@ -36,116 +37,134 @@ const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
    SECTION 1: CINEMATIC HERO
    ============================================ */
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 const HeroSection = () => {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 150]),
-    smoothConfig,
-  );
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
   return (
-    <motion.section
-      ref={ref}
-      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden mt-20"
-      style={{ opacity }}
-    >
-      {/* Background with parallax */}
-      <motion.div className="absolute inset-0 z-0" style={{ y }}>
-        <img
-          src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2874&auto=format&fit=crop"
-          alt="Modern office"
-          className="w-full h-full object-cover"
-          onContextMenu={(e) => e.stopPropagation()}
-          draggable="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/20 via-[#FAF8F5]/10 to-[#FAF8F5]/90   dark:from-black/80 dark:via-black/60 dark:to-black" />
-      </motion.div>
-
-      {/* Grid overlay */}
-      <div className="absolute inset-0 z-[1] opacity-[0.03]">
-        <div
-          className="w-full h-full"
+    <section className="relative min-h-[86vh] flex items-center pt-32 sm:pt-36 pb-20 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+      {/* Dotted grid — matches home/about */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.45]"
+        style={{
+          backgroundImage: "radial-gradient(rgba(0,0,0,0.18) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+          maskImage: "radial-gradient(ellipse 70% 60% at 50% 45%, black 30%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 45%, black 30%, transparent 80%)",
+        }}
+      />
+      {/* Orange radial wash — matches about hero */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(60% 55% at 50% 38%, rgba(204,120,92,0.10) 0%, rgba(204,120,92,0.03) 40%, transparent 75%)",
+        }}
+      />
+      {/* Floating particles */}
+      {Array.from({ length: 10 }).map((_, i) => (
+        <motion.span
+          key={i}
+          aria-hidden
+          className="absolute w-1 h-1 rounded-full bg-black/25 dark:bg-white/25"
           style={{
-            backgroundImage: `
-              linear-gradient(to right, white 1px, transparent 1px),
-              linear-gradient(to bottom, white 1px, transparent 1px)
-            `,
-            backgroundSize: "80px 80px",
+            left: `${8 + ((i * 43 + 11) % 84)}%`,
+            top: `${14 + ((i * 53 + 7) % 72)}%`,
           }}
+          animate={{ y: [0, -22, 0], opacity: [0.18, 0.55, 0.18] }}
+          transition={{ duration: 4.5 + (i % 4) * 0.7, repeat: Infinity, delay: (i % 5) * 0.5 }}
         />
-      </div>
+      ))}
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full text-center">
+        {/* Eyebrow */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
-          style={{
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-          }}
+          transition={{ duration: 0.9, ease: EASE }}
+          className="text-[11px] font-semibold uppercase tracking-[0.32em] mb-8"
+          style={{ color: "#cc785c" }}
         >
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
-          <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
-            System Status: Active
-          </span>
-        </motion.div>
+          Contact Blip Money
+        </motion.p>
 
-        {/* Headlines */}
-        <div className="overflow-hidden mb-8">
-          <motion.h1
-            initial={{ y: 120 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[1.20] tracking-[-0.04em]"
+        {/* Headline — font-display + serif italic, matches about/home */}
+        <h1
+          className="font-display text-center font-semibold text-black dark:text-white tracking-tight leading-[1.04]"
+          style={{ fontSize: "clamp(2.75rem, 6.5vw, 5.25rem)" }}
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 40, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.1, ease: EASE }}
+            className="block"
           >
-            <span className="block text-black dark:text-white">Protocol</span>
+            We'd love to
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.15, ease: EASE }}
+            className="block"
+            style={{ color: "#cc785c", fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+          >
+            hear from you.
+          </motion.span>
+        </h1>
 
-            <span
-              className="block bg-gradient-to-br 
-      from-black/80 via-black/60 to-black/80 
-      dark:from-white/60 dark:via-white/40 dark:to-white/60
-      bg-clip-text text-transparent"
-            >
-              Gateway
-            </span>
-          </motion.h1>
-        </div>
+        {/* Underline rule — matches about */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.7, ease: EASE }}
+          style={{ originX: 0.5 }}
+          className="mx-auto mt-10 h-[2px] w-32 bg-gradient-to-r from-transparent via-black/25 dark:via-white/25 to-transparent"
+        />
 
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="text-lg md:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto"
+          transition={{ duration: 1, delay: 0.85, ease: EASE }}
+          className="text-center text-[17px] sm:text-xl text-black/55 dark:text-white/50 max-w-xl mx-auto leading-relaxed mt-10"
         >
-          Direct peer-to-protocol messaging. Encrypted by default.
+          Merchants, partners, developers —<br className="hidden sm:block" />
+          reach us anytime.
         </motion.p>
+
+        {/* Floating status pills — matches home hero style */}
+        <div className="relative mt-14 flex items-center justify-center gap-3 flex-wrap">
+          {[
+            { dot: "#cc785c", label: "Merchant support" },
+            { dot: "#6ee0c5", label: "Response < 24h" },
+            { dot: "#0a0a0a", label: "Dubai HQ" },
+          ].map((pill, i) => (
+            <motion.div
+              key={pill.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 1.1 + i * 0.15, ease: EASE }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-white/5 text-black dark:text-white text-[11px] font-semibold tracking-tight"
+              style={{ border: "1px solid rgba(0,0,0,0.07)", boxShadow: "0 6px 18px -8px rgba(0,0,0,0.12)" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: pill.dot }} />
+              <span>{pill.label}</span>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute top-[380px] sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          transition={{ delay: 1.6 }}
+          className="flex flex-col items-center mt-16"
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ChevronDown className="w-5 h-5 text-black dark:text-white" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+            <ChevronDown className="w-5 h-5 text-black/40 dark:text-white/40" />
           </motion.div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
@@ -213,14 +232,16 @@ const ContactOptionsSection = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
-                  className="group p-5 rounded-2xl cursor-pointer transition-all duration-300"
+                  className="group p-5 rounded-2xl cursor-pointer transition-all duration-300 hover:bg-black/[0.04] dark:hover:bg-white/[0.04]"
                   style={{
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "1px solid rgba(255, 255, 255, 0.05)",
+                    background: "rgba(0, 0, 0, 0.02)",
+                    border: "1px solid rgba(0, 0, 0, 0.07)",
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <channel.icon className="w-5 h-5 text-black dark:text-[#ffffff] mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3 bg-[#cc785c]/10 border border-[#cc785c]/20 group-hover:bg-[#cc785c]/20 transition-colors">
+                    <channel.icon className="w-4 h-4 text-[#cc785c] group-hover:scale-110 transition-transform" />
+                  </div>
                   <h3 className="text-sm font-semibold text-black dark:text-white mb-1">
                     {channel.label}
                   </h3>
@@ -238,27 +259,27 @@ const ContactOptionsSection = () => {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.6 }}
                 onClick={() => copyToClipboard("support@blip.money", "email")}
-                className="w-full flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group"
+                className="w-full flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
                 style={{
-                  background: "rgba(255, 255, 255, 0.02)",
-                  border: "1px solid rgba(255, 255, 255, 0.05)",
+                  background: "rgba(0,0,0,0.02)",
+                  border: "1px solid rgba(0,0,0,0.07)",
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:bg-black/20 dark:group-hover:bg-[#ffffff]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-black dark:text-[#ffffff]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#cc785c]/10 border border-[#cc785c]/20 flex items-center justify-center group-hover:bg-[#cc785c]/20 transition-colors">
+                    <Mail className="w-5 h-5 text-[#cc785c]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
-                      Digital Gateway
+                      Email us
                     </span>
-                    <span className="text-black dark:text-white">
+                    <span className="text-black dark:text-white font-medium">
                       support@blip.money
                     </span>
                   </div>
                 </div>
                 {copied.email ? (
-                  <Check className="w-4 h-4 text-black/60 dark:text-white/60" />
+                  <Check className="w-4 h-4 text-[#cc785c]" />
                 ) : (
                   <Copy className="w-4 h-4 text-black/30 dark:text-white/30 group-hover:text-black/60 dark:group-hover:text-white/60 transition-colors" />
                 )}
@@ -268,25 +289,22 @@ const ContactOptionsSection = () => {
                 initial={{ opacity: 0, x: -30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.7 }}
-                // href="https://www.google.com/maps/search/?api=1&query=JLT+Cluster+Y+Dubai"
-                // target="_blank"
-                // rel="noopener noreferrer"
-                className="w-full flex items-center p-5 rounded-2xl transition-all duration-300 group"
+                className="w-full flex items-center p-5 rounded-2xl transition-all duration-300 group hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
                 style={{
-                  background: "rgba(255, 255, 255, 0.02)",
-                  border: "1px solid rgba(255, 255, 255, 0.05)",
+                  background: "rgba(0,0,0,0.02)",
+                  border: "1px solid rgba(0,0,0,0.07)",
                 }}
                 onMouseEnter={() => sounds.hover()}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:bg-black/20 dark:group-hover:bg-[#ffffff]/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-black dark:text-[#ffffff]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#cc785c]/10 border border-[#cc785c]/20 flex items-center justify-center group-hover:bg-[#cc785c]/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-[#cc785c]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
                       Location
                     </span>
-                    <span className="text-black dark:text-white">
+                    <span className="text-black dark:text-white font-medium">
                       Blip Money, JLT Cluster Y, Dubai
                     </span>
                   </div>
@@ -368,19 +386,15 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative rounded-3xl overflow-hidden p-12 text-center flex flex-col items-center justify-center min-h-[500px]"
-        style={{
-          background: "rgba(255, 255, 255, 0.02)",
-          border: "1px solid rgba(255, 255, 255, 0.05)",
-        }}
+        className="relative rounded-3xl overflow-hidden p-12 text-center flex flex-col items-center justify-center min-h-[500px] bg-white dark:bg-white/[0.02] border border-black/[0.07] dark:border-white/[0.05]"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-24 h-24 rounded-full2 bg-black/20 dark:bg-[#ffffff]/20 flex items-center justify-center mb-8"
+          className="w-24 h-24 rounded-full bg-[#cc785c]/15 border border-[#cc785c]/30 flex items-center justify-center mb-8"
         >
-          <Check className="w-12 h-12 text-black/60 dark:text-white/60" />
+          <Check className="w-12 h-12 text-[#cc785c]" />
         </motion.div>
         <h3 className="text-3xl font-semibold text-black dark:text-white mb-4">
           Message Sent
@@ -403,24 +417,20 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: 0.3 }}
-      className="relative rounded-3xl overflow-hidden"
-      style={{
-        background: "rgba(255, 255, 255, 0.02)",
-        border: "1px solid rgba(255, 255, 255, 0.05)",
-      }}
+      className="relative rounded-3xl overflow-hidden bg-white dark:bg-white/[0.02] border border-black/[0.07] dark:border-white/[0.05]"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-8 py-5 border-b border-black/5 dark:border-white/5">
         <div className="flex items-center gap-3">
-          <MessageSquare className="w-5 h-5 text-black/60 dark:text-white/60" />
+          <MessageSquare className="w-5 h-5 text-[#cc785c]" />
           <span className="text-sm font-medium text-black dark:text-white">
-            Secure Channel
+            Send a message
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Lock className="w-3 h-3 text-black/40 dark:text-white/40" />
           <span className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
-            Encrypted
+            Private
           </span>
         </div>
       </div>
@@ -511,7 +521,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-black hover:bg-black/90 dark:bg-[#ffffff]/80 dark:hover:bg-white text-white dark:text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed "
+          className="w-full relative overflow-hidden group bg-[#cc785c] hover:bg-[#b8694e] text-white font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(204,120,92,0.35)]"
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">
