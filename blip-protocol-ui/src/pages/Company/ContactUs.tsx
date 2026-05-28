@@ -214,7 +214,7 @@ const ContactOptionsSection = () => {
               <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-6">
                 Connect
                 <br />
-                <span className="text-black/80 dark:text-white/50">
+                <span className="text-black dark:text-white">
                   Directly.
                 </span>
               </h2>
@@ -239,8 +239,8 @@ const ContactOptionsSection = () => {
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3 bg-[#cc785c]/10 border border-[#cc785c]/20 group-hover:bg-[#cc785c]/20 transition-colors">
-                    <channel.icon className="w-4 h-4 text-[#cc785c] group-hover:scale-110 transition-transform" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 group-hover:bg-black/10 dark:group-hover:bg-white/20 transition-colors">
+                    <channel.icon className="w-4 h-4 text-black dark:text-white group-hover:scale-110 transition-transform" />
                   </div>
                   <h3 className="text-sm font-semibold text-black dark:text-white mb-1">
                     {channel.label}
@@ -266,8 +266,8 @@ const ContactOptionsSection = () => {
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#cc785c]/10 border border-[#cc785c]/20 flex items-center justify-center group-hover:bg-[#cc785c]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-[#cc785c]" />
+                  <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 flex items-center justify-center group-hover:bg-black/10 dark:group-hover:bg-white/20 transition-colors">
+                    <Mail className="w-5 h-5 text-black dark:text-white" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
@@ -279,7 +279,7 @@ const ContactOptionsSection = () => {
                   </div>
                 </div>
                 {copied.email ? (
-                  <Check className="w-4 h-4 text-[#cc785c]" />
+                  <Check className="w-4 h-4 text-black dark:text-white" />
                 ) : (
                   <Copy className="w-4 h-4 text-black/30 dark:text-white/30 group-hover:text-black/60 dark:group-hover:text-white/60 transition-colors" />
                 )}
@@ -297,8 +297,8 @@ const ContactOptionsSection = () => {
                 onMouseEnter={() => sounds.hover()}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#cc785c]/10 border border-[#cc785c]/20 flex items-center justify-center group-hover:bg-[#cc785c]/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-[#cc785c]" />
+                  <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 flex items-center justify-center group-hover:bg-black/10 dark:group-hover:bg-white/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-black dark:text-white" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
@@ -392,9 +392,9 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-24 h-24 rounded-full bg-[#cc785c]/15 border border-[#cc785c]/30 flex items-center justify-center mb-8"
+          className="w-24 h-24 rounded-full bg-black/5 dark:bg-white/10 border border-black/15 dark:border-white/20 flex items-center justify-center mb-8"
         >
-          <Check className="w-12 h-12 text-[#cc785c]" />
+          <Check className="w-12 h-12 text-black dark:text-white" />
         </motion.div>
         <h3 className="text-3xl font-semibold text-black dark:text-white mb-4">
           Message Sent
@@ -422,7 +422,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       {/* Header */}
       <div className="flex items-center justify-between px-8 py-5 border-b border-black/5 dark:border-white/5">
         <div className="flex items-center gap-3">
-          <MessageSquare className="w-5 h-5 text-[#cc785c]" />
+          <MessageSquare className="w-5 h-5 text-black dark:text-white" />
           <span className="text-sm font-medium text-black dark:text-white">
             Send a message
           </span>
@@ -521,7 +521,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-[#cc785c] hover:bg-[#b8694e] text-white font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(204,120,92,0.35)]"
+          className="w-full relative overflow-hidden group bg-white/90 hover:bg-white text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed "
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">
@@ -569,7 +569,7 @@ const VisualSection = () => {
           <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
             Dubai
             <br />
-            <span className="text-black/80 dark:text-white/50">
+            <span className="text-black dark:text-white italic">
               Headquarters
             </span>
           </h2>

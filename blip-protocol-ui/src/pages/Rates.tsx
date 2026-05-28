@@ -493,7 +493,7 @@ const RateFinder = () => {
         >
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.02]">
             Always cheaper.<br className="hidden sm:block" />{" "}
-            <span className="text-black/60 dark:text-white/40 italic">Anywhere you look.</span>
+            <span className="italic">Anywhere you look.</span>
           </h1>
         </motion.div>
 
@@ -798,7 +798,7 @@ const ComparisonSection = () => {
             Side by side
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
-            Why Blip wins<br className="hidden sm:block" /> <span className="italic text-black/60 dark:text-white/40"> on the rest.</span>
+            Why Blip wins<br className="hidden sm:block" /> <span className="italic"> on the rest.</span>
           </h2>
           <p className="text-base text-black/55 dark:text-white/50 max-w-xl mx-auto">
             Centralized P2P desks took the consumer's side. Blip rebuilt them
@@ -943,7 +943,7 @@ const ComparisonSection = () => {
                 Lower price.
               </span>
               <br />
-              <span className="text-white/40 dark:text-black/40 italic">
+              <span className="bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent italic">
                 Stronger guarantees.
               </span>
             </h3>

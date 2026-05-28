@@ -132,7 +132,7 @@ const WhyBlipSection = () => {
           <div className="max-w-xl text-center lg:text-left">
             <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-2 sm:mb-4 lg:mb-6">
               <EditableText id="merchant.why.title.pre" default="Why Merchants " as="span" />
-              <EditableText id="merchant.why.title.accent" default="Choose" as="span" className="text-black/70 dark:text-white/70 italic" />
+              <EditableText id="merchant.why.title.accent" default="Choose" as="span" className=" italic" />
               <EditableText id="merchant.why.title.post" default=" Blip?" as="span" />
             </h2>
 
@@ -321,7 +321,7 @@ const DashboardSection = () => {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
             <EditableText id="merchant.dashboard.title.pre" default="Your " as="span" />
-            <EditableText id="merchant.dashboard.title.accent" default="command" as="span" className="text-black/70 dark:text-white/50 italic" />
+            <EditableText id="merchant.dashboard.title.accent" default="command" as="span" className=" italic" />
             <EditableText id="merchant.dashboard.title.post" default=" center" as="span" />
           </motion.h2>
           <motion.p
@@ -646,7 +646,7 @@ const TrustSection = () => {
         <>
           Trades secured by
           <br />
-          <span className="text-black/80 dark:text-white/50 italic">
+          <span className="italic">
             escrow + transparency
           </span>
         </>
@@ -721,7 +721,7 @@ const RolloutSection = () => {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             <EditableText id="merchant.rollout.title.pre" default="Invite-only " as="span" />
-            <EditableText id="merchant.rollout.title.accent" default="rollout." as="span" className="text-black/60 dark:text-white/40 italic" />
+            <EditableText id="merchant.rollout.title.accent" default="rollout." as="span" className=" italic" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -905,7 +905,7 @@ const RequirementsSection = () => {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             <EditableText id="merchant.requirements.title.pre" default="Who should " as="span" />
-            <EditableText id="merchant.requirements.title.accent" default="apply." as="span" className="text-black/60 dark:text-white/40 italic" />
+            <EditableText id="merchant.requirements.title.accent" default="apply." as="span" className=" italic" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}

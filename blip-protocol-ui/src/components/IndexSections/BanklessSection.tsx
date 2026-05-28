@@ -57,7 +57,7 @@ const BanklessSection = () => {
           style={{ marginBottom: 0 }}
         >
           <EditableText id="home.bankless.title.line1" default="Banking," as="span" className="block" />
-          <EditableText id="home.bankless.title.line2" default="without the bank." as="span" className="block text-white/30 italic" />
+          <EditableText id="home.bankless.title.line2" default="without the bank." as="span" className="block  italic" />
         </motion.h2>
 
         {/* Subtext */}
@@ -105,7 +105,7 @@ const BanklessSection = () => {
         className="relative z-10 mt-32 sm:mt-40 mx-auto max-w-5xl px-5 md:px-6 text-center font-display text-2xl sm:text-4xl md:text-5xl font-semibold tracking-[-0.02em] leading-[1.15] text-white"
       >
         <EditableText id="home.bankless.outro.line1" default="Settlement becomes a marketplace" as="span" className="block" />
-        <EditableText id="home.bankless.outro.line2" default="instead of a monopoly." as="span" className="block text-white/30" />
+        <EditableText id="home.bankless.outro.line2" default="instead of a monopoly." as="span" className="block " />
       </motion.p>
     </section>
   );

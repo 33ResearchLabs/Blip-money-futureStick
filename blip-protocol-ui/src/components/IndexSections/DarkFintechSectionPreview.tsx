@@ -1949,7 +1949,7 @@ function DesktopFlow() {
                       {/* Sized for the 290x600 phone mockup — values shrunk from native mobile design */}
                       <div className="absolute inset-0 bg-white flex flex-col">
                         {/* HERO — 60% of phone height */}
-                        <div className="relative bg-[#050816] rounded-b-[22px] px-3 pt-3 pb-3 overflow-hidden h-[75%] flex-shrink-0 flex flex-col">
+                        <div className="relative bg-[#050816] rounded-b-[22px] px-3 pt-3 pb-3 overflow-hidden h-[78%] flex-shrink-0 flex flex-col">
                           {/* background glow */}
                           <div className="absolute inset-0">
                             <div className="absolute -top-12 left-[-30px] w-40 h-40 bg-blue-500/10 blur-3xl rounded-full" />
@@ -2019,7 +2019,7 @@ function DesktopFlow() {
                           </div>
 
                           {/* Balance */}
-                          <div className="relative z-10 text-center mt-5">
+                          <div className="relative z-10 text-center mt-3">
                             <div className="flex items-end justify-center">
                               <span className="text-white text-5xl font-black tracking-[-2px] leading-none">
                                 425
@@ -2042,10 +2042,10 @@ function DesktopFlow() {
                           </div>
 
                           {/* spacer absorbs leftover hero height */}
-                          <div className="relative z-10 flex-1" />
+                          {/* <div className="relative z-10 flex-1" /> */}
 
                           {/* ACTION BUTTONS */}
-                          <div className="relative z-10 grid grid-cols-4 gap-2 mt-5">
+                          <div className="relative z-10 grid grid-cols-4 gap-2 mt-3">
                             {[
                               { label: "Pay", icon: QrCode, light: false },
                               { label: "Buy", icon: ArrowDownLeft, light: true },
@@ -2056,7 +2056,7 @@ function DesktopFlow() {
                               return (
                                 <button
                                   key={i}
-                                  className={`h-16 rounded-2xl border flex flex-col items-center justify-center gap-1 ${
+                                  className={`h-10 rounded-2xl border flex flex-col items-center justify-center gap-1 ${
                                     item.light
                                       ? "bg-white text-black border-white"
                                       : "bg-white/[0.03] text-white border-white/10"
@@ -2071,37 +2071,38 @@ function DesktopFlow() {
                             })}
                           </div>
 
-                          {/* Beat any rate */}
-                          <div className="relative z-10 mt-4 rounded-xl border border-white/40 overflow-hidden bg-gradient-to-r from-[#f5f7fb] via-[#e4e7ed] to-[#dce3ec] p-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
-                            <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-lg bg-[#0B0F14] border border-black/10 flex items-center justify-center flex-shrink-0">
-                                <ShieldCheck size={12} className="text-[#e8b66a]" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-1">
-                                  <h3 className="text-black font-extrabold text-[11px]">
-                                    Beat any rate
-                                  </h3>
-                                  <div className="px-1 py-[1px] rounded-full bg-emerald-500/15 border border-emerald-500/20 flex items-center gap-0.5">
-                                    <div className="w-1 h-1 rounded-full bg-emerald-500" />
-                                    <span className="text-[7px] font-extrabold text-emerald-700">
-                                      LIVE
-                                    </span>
-                                  </div>
-                                </div>
-                                <p className="text-[#5d6777] text-[8px] font-medium leading-tight truncate">
-                                  Compared across exchanges
-                                </p>
-                              </div>
-                              <button className="w-5 h-5 rounded-full bg-black/5 border border-black/10 flex items-center justify-center flex-shrink-0">
-                                <ExternalLink size={8} className="text-black/70" />
-                              </button>
+                        </div>
+
+                        {/* Beat any rate — floating card bridging dark hero and transactions */}
+                        <div className="relative z-30 -mt-4 mx-3 rounded-xl border border-black/10 bg-gradient-to-r from-[#f5f7fb] via-[#e4e7ed] to-[#dce3ec] p-2 shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-lg bg-[#0B0F14] border border-black/10 flex items-center justify-center flex-shrink-0">
+                              <ShieldCheck size={12} className="text-[#e8b66a]" />
                             </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1">
+                                <h3 className="text-black font-extrabold text-[11px]">
+                                  Beat any rate
+                                </h3>
+                                <div className="px-1 py-[1px] rounded-full bg-emerald-500/15 border border-emerald-500/20 flex items-center gap-0.5">
+                                  <div className="w-1 h-1 rounded-full bg-emerald-500" />
+                                  <span className="text-[7px] font-extrabold text-emerald-700">
+                                    LIVE
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="text-[#5d6777] text-[8px] font-medium leading-tight truncate">
+                                Compared across exchanges
+                              </p>
+                            </div>
+                            <button className="w-5 h-5 rounded-full bg-black/5 border border-black/10 flex items-center justify-center flex-shrink-0">
+                              <ExternalLink size={8} className="text-black/70" />
+                            </button>
                           </div>
                         </div>
 
                         {/* TRANSACTIONS */}
-                        <div className="px-3 pt-2 pb-14 flex-1 overflow-hidden">
+                        <div className="px-3 pt-3 pb-14 flex-1 overflow-hidden">
                           <h2 className="text-[#5a6578] font-bold text-sm">
                             Transactions
                           </h2>

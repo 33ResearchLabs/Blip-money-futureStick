@@ -376,7 +376,7 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
               id="home.markets.title.line2"
               default="for global settlement."
               as="span"
-              className="text-white/55 italic"
+              className="italic"
             />
           </h2>
           <p className="text-white/60 text-[0.95rem] md:text-[1.2rem] leading-[1.55] max-w-[620px] mx-auto px-2">

@@ -145,7 +145,7 @@ export function BlipPhoneMockup({balance}) {
             </div>
 
             {/* Rate pill */}
-            <div className="relative z-10 mt-4 flex items-center justify-center">
+            <div className="relative z-10 mt-3 flex items-center justify-center">
               <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
                 <span className="text-white/70 text-[9px] font-semibold">
@@ -155,7 +155,7 @@ export function BlipPhoneMockup({balance}) {
             </div>
 
             {/* Status pills */}
-            <div className="relative z-10 mt-3 flex items-center justify-center gap-1.5">
+            <div className="relative z-10 mt-2 flex items-center justify-center gap-1.5">
               <div className="px-2 py-0.5 rounded-full bg-[#171d2c] border border-white/10 flex items-center gap-1">
                 <ShieldCheck size={8} className="text-white/50" />
                 <span className="text-white/60 text-[8px] font-semibold">
@@ -171,7 +171,7 @@ export function BlipPhoneMockup({balance}) {
             </div>
 
             {/* Balance */}
-            <div className="relative z-10 text-center mt-3">
+            <div className="relative z-10 text-center mt-2">
               <div className="flex items-end justify-center">
                 <span className="text-white text-5xl font-black tracking-[-2px] leading-none">
                   {balance}
@@ -183,17 +183,17 @@ export function BlipPhoneMockup({balance}) {
                   USDT
                 </span>
               </div>
-              <p className="mt-2 text-white/50 text-[10px] font-semibold">
+              <p className="mt-1 text-white/50 text-[10px] font-semibold">
                 ≈ {balance * 95.38} INR
               </p>
-              <div className="flex items-center justify-center gap-1 mt-2">
+              <div className="flex items-center justify-center gap-1 mt-1">
                 <div className="w-3.5 h-1.5 rounded-full bg-emerald-400" />
                 <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
                 <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
               </div>
             </div>
 
-            <div className="relative z-10 flex-1" />
+            {/* <div className="relative z-10 flex-1" /> */}
 
             {/* ACTION BUTTONS */}
             <div className="relative z-10 grid grid-cols-4 gap-2 mt-2">
@@ -250,13 +250,13 @@ export function BlipPhoneMockup({balance}) {
           </div>
 
           {/* TRANSACTIONS */}
-          <div className="px-3 pt-2 pb-14 flex-1 overflow-hidden">
-            <h2 className="text-[#5a6578] font-bold text-sm">Transactions</h2>
+          <div className="px-3 pt-0.5 pb-14 flex-1 overflow-hidden">
+            <h2 className="text-[#5a6578] font-bold text-xs">Transactions</h2>
             <div className="">
               {TRANSACTIONS.slice(0, 1).map((tx) => (
                 <div
                   key={tx.id}
-                  className="flex items-center py-1 border-b border-[#edf0f5]"
+                  className="flex items-center py-1 "
                 >
                   <div className="w-7 h-7 rounded-lg bg-[#f4f5f7] border border-[#e5e7eb] flex items-center justify-center font-bold text-[10px] text-[#0B1220] flex-shrink-0">
                     {tx.user[0]}
@@ -291,7 +291,7 @@ export function BlipPhoneMockup({balance}) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="absolute bottom-4 left-2 right-2 z-10"
+          className="absolute bottom-3 left-2 right-2 z-10"
         >
           <div className="h-11 rounded-2xl border border-[#dfe3ea] bg-[#f5f7fb]/95 backdrop-blur-xl flex items-center justify-around px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.06)]">
             {[

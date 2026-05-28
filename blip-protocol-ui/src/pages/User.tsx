@@ -1343,7 +1343,7 @@ const AppPreviewSection = () => {
               default="Everything you need."
               as="span"
               style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
-              className="text-white/65"
+              className=""
             />
           </motion.h2>
         </div>
@@ -1476,7 +1476,7 @@ const UserTrustSection = () => {
             className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             <EditableText id="user.safety.title.pre" default="Built for " as="span" />
-            <EditableText id="user.safety.title.accent" default="peace of mind." as="span" className="text-black/60 dark:text-white/40 italic" />
+            <EditableText id="user.safety.title.accent" default="peace of mind." as="span" className=" italic" />
           </motion.h2>
         </div>
 

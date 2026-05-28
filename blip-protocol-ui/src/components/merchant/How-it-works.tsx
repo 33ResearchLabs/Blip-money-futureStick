@@ -429,7 +429,7 @@ const HowItWorksSection = () => {
         </motion.p>
         <h2 className="text-4xl md:text-6xl font-bold text-black tracking-tight">
           <EditableText id="merchant.howitworks.title" default="How merchants " as="span" />
-          <EditableText id="merchant.howitworks.title.accent" default=" execute on Blip" as="span" className="italic text-black/70" />
+          <EditableText id="merchant.howitworks.title.accent" default=" execute on Blip" as="span" className="italic " />
         </h2>
       </div>
 
