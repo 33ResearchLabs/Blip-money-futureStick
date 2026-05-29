@@ -951,23 +951,18 @@ export const HowItWorksPage = () => {
                       aria-hidden
                       className="absolute inset-x-0 top-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       style={{
-                        background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)`,
+                        background: `linear-gradient(90deg, transparent 0%, white 50%, transparent 100%)`,
                       }}
                     />
 
                     {/* Icon + index */}
                     <div className="flex items-start justify-between mb-6">
                       <div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                        style={{
-                          background: `linear-gradient(135deg, ${ACCENT}26, ${ACCENT}0d)`,
-                          border: `1px solid ${ACCENT}55`,
-                          boxShadow: `inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 20px -8px ${ACCENT}55`,
-                        }}
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-white/20"
                       >
                         <f.icon
                           className="w-5 h-5"
-                          style={{ color: ACCENT }}
+                          // style={{ color: ACCENT }}
                           strokeWidth={2.2}
                         />
                       </div>

@@ -147,7 +147,7 @@ export function BlipPhoneMockup({balance}) {
             {/* Rate pill */}
             <div className="relative z-10 mt-3 flex items-center justify-center">
               <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
                 <span className="text-white/70 text-[9px] font-semibold">
                   96.30 INR
                 </span>
@@ -163,9 +163,9 @@ export function BlipPhoneMockup({balance}) {
                 </span>
               </div>
               <div className="px-2 py-0.5 rounded-full bg-[#2b2207] border border-yellow-500/20 flex items-center gap-1">
-                <Zap size={8} className="text-yellow-400" />
-                <span className="text-yellow-400 text-[8px] font-semibold">
-                  0
+                <Zap size={8} className="text-white" />
+                <span className="text-white text-[8px] font-semibold">
+                  100
                 </span>
               </div>
             </div>
@@ -187,7 +187,7 @@ export function BlipPhoneMockup({balance}) {
                 ≈ {balance * 95.38} INR
               </p>
               <div className="flex items-center justify-center gap-1 mt-1">
-                <div className="w-3.5 h-1.5 rounded-full bg-emerald-400" />
+                <div className="w-3.5 h-1.5 rounded-full bg-white" />
                 <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
                 <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
               </div>

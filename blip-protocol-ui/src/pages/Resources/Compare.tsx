@@ -78,7 +78,7 @@ const ComparisonCard = ({
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 text-[12px] font-medium text-gray-500 dark:text-white/50">
                 {comparison.features.length} features compared
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#cc785c]/10 text-[12px] font-medium text-[#a45a40] dark:text-[#cc785c]">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-[12px] font-medium text-[#fff] dark:text-[#000]">
                 <CheckCircle2 className="w-3 h-3" />
                 Blip wins {blipAdvantageCount}
               </span>
@@ -196,12 +196,12 @@ const ComparisonRow = ({
       <td className="py-4 px-4 sm:px-6">
         <div className="flex items-center gap-2">
           {feature.blipAdvantage && (
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-[#cc785c] dark:text-[#cc785c]" />
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-black dark:text-white" />
           )}
           <span
             className={`text-[14px] sm:text-[15px] leading-snug ${
               feature.blipAdvantage
-                ? "text-emerald-700 dark:text-emerald-300 font-medium"
+                ? "text-black dark:text-white font-medium"
                 : "text-gray-500 dark:text-white/40"
             }`}
           >
@@ -214,7 +214,7 @@ const ComparisonRow = ({
       <td className="py-4 px-4 sm:px-6">
         <div className="flex items-center gap-2">
           {!feature.blipAdvantage && (
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-[#cc785c] dark:text-[#cc785c]" />
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-white dark:text-white" />
           )}
           {feature.blipAdvantage && (
             <Minus className="w-4 h-4 flex-shrink-0 text-gray-300 dark:text-white/20" />
@@ -222,7 +222,7 @@ const ComparisonRow = ({
           <span
             className={`text-[14px] sm:text-[15px] leading-snug ${
               !feature.blipAdvantage
-                ? "text-emerald-700 dark:text-emerald-300 font-medium"
+                ? "text-white dark:text-white font-medium"
                 : "text-gray-400 dark:text-white/30"
             }`}
           >

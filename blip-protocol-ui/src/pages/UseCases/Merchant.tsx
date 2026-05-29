@@ -825,8 +825,8 @@ const RolloutSection = () => {
                   transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
                   className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:border-[#ff6b35]/40 transition-colors duration-300"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-3 h-3 text-[#ff6b35]" />
+                  <div className="w-6 h-6 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-3 h-3 text-black/70 dark:text-white/70" />
                   </div>
                   <span className="text-sm text-white/80">
                     <EditableText id={`merchant.rollout.benefit.${b.key}`} default={b.text} as="span" />
@@ -941,9 +941,9 @@ const RequirementsSection = () => {
 
                 {/* Subtle monochrome icon panel */}
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 group-hover:border-[#ff6b35]/30"
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 group-hover:border-white"
                 >
-                  <Icon className="w-6 h-6 text-black/70 dark:text-white/80 group-hover:text-[#ff6b35] transition-colors" strokeWidth={1.8} />
+                  <Icon className="w-6 h-6 text-black/70 dark:text-white/60 group-hover:text-[white] transition-colors" strokeWidth={1.8} />
                 </div>
 
                 <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">

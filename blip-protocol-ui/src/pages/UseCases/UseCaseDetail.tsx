@@ -16,13 +16,7 @@ import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
 
 /* ── Pain Point Card ── */
-const PainPointCard = ({
-  point,
-  index,
-}: {
-  point: string;
-  index: number;
-}) => {
+const PainPointCard = ({ point, index }: { point: string; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
@@ -39,15 +33,15 @@ const PainPointCard = ({
       className="flex gap-4 p-6 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]"
     >
       {/* Number + warning accent */}
-      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-red-500/10 dark:bg-red-500/10 flex items-center justify-center">
-        <AlertTriangle className="w-5 h-5 text-red-500/70 dark:text-red-400/70" />
+      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center">
+        <AlertTriangle className="w-5 h-5 text-black/70 dark:text-white/70" />
       </div>
 
       <div className="flex-1 min-w-0">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-red-500 dark:text-red-400/50 mb-1 block">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/70 dark:text-white/80 mb-1 block">
           Pain Point {index + 1}
         </span>
-        <p className="text-[15px] text-black dark:text-white/60 leading-relaxed">
+        <p className="text-[15px] text-black dark:text-white/90 leading-relaxed">
           {point}
         </p>
       </div>
@@ -81,15 +75,15 @@ const SolutionCard = ({
     >
       {/* Green check accent */}
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#cc785c]/10 dark:bg-[#cc785c]/10 flex items-center justify-center">
-          <CheckCircle2 className="w-5 h-5 text-[#cc785c]/70 dark:text-[#cc785c]/70" />
+        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center">
+          <CheckCircle2 className="w-5 h-5 text-black/70 dark:text-white/70" />
         </div>
 
         <div className="flex-1 min-w-0">
           <h3 className="text-lg font-semibold text-black dark:text-white mb-2 group-hover:text-gray-700 dark:group-hover:text-white/90 transition-colors">
             {solution.title}
           </h3>
-          <p className="text-[15px] text-gray-500 dark:text-white/40 leading-relaxed">
+          <p className="text-[15px] text-gray-500 dark:text-white/60 leading-relaxed">
             {solution.description}
           </p>
         </div>
@@ -121,7 +115,13 @@ export default function UseCaseDetail() {
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Use Cases", href: "/use-cases" }, { label: useCase.title }]} />
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Use Cases", href: "/use-cases" },
+                { label: useCase.title },
+              ]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -143,7 +143,11 @@ export default function UseCaseDetail() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
+            transition={{
+              duration: 0.6,
+              delay: 0.15,
+              ease: [0.19, 1, 0.22, 1],
+            }}
             className="text-[17px] text-gray-500 dark:text-white/40 leading-[1.8] text-center max-w-2xl mx-auto"
           >
             {useCase.description}
@@ -164,7 +168,7 @@ export default function UseCaseDetail() {
             transition={{ duration: 0.6 }}
             className="mb-10"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-red-500 dark:text-red-400/50 mb-3 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/80 mb-3 block">
               The Problem
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
@@ -193,7 +197,7 @@ export default function UseCaseDetail() {
             transition={{ duration: 0.6 }}
             className="mb-10"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#cc785c] dark:text-[#cc785c]/50 mb-3 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/80 mb-3 block">
               The Solution
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
@@ -239,7 +243,9 @@ export default function UseCaseDetail() {
               {useCase.cta.text}
               <ArrowLeft className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Link> */}
-            <CTAButton to={useCase.cta.link}className=" h-[48px]">{useCase.cta.text}</CTAButton>
+            <CTAButton to={useCase.cta.link} className=" h-[48px]">
+              {useCase.cta.text}
+            </CTAButton>
           </motion.div>
         </section>
       </div>

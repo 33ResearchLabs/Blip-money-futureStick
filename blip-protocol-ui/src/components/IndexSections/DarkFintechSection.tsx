@@ -1880,9 +1880,9 @@ function DesktopFlow() {
                           </div>
 
                           {/* Rate pill */}
-                          <div className="relative z-10 mt-4 flex items-center justify-center">
+                          <div className="relative z-10 mt-3 flex items-center justify-center">
                             <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
                               <span className="text-white/70 text-[9px] font-semibold">
                                 96.30 INR
                               </span>
@@ -1898,13 +1898,13 @@ function DesktopFlow() {
                               </span>
                             </div>
                             <div className="px-2 py-0.5 rounded-full bg-[#2b2207] border border-yellow-500/20 flex items-center gap-1">
-                              <Zap size={8} className="text-yellow-400" />
-                              <span className="text-yellow-400 text-[8px] font-semibold">0</span>
+                              <Zap size={8} className="text-white" />
+                              <span className="text-white text-[8px] font-semibold">200</span>
                             </div>
                           </div>
 
                           {/* Balance */}
-                          <div className="relative z-10 text-center mt-5">
+                          <div className="relative z-10 text-center mt-3">
                             <div className="flex items-end justify-center">
                               <span className="text-white text-5xl font-black tracking-[-2px] leading-none">
                                 425
@@ -1920,7 +1920,7 @@ function DesktopFlow() {
                               ≈ 40,633.68 INR
                             </p>
                             <div className="flex items-center justify-center gap-1 mt-2">
-                              <div className="w-3.5 h-1.5 rounded-full bg-emerald-400" />
+                              <div className="w-3.5 h-1.5 rounded-full bg-white" />
                               <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
                               <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
                             </div>
@@ -1930,7 +1930,7 @@ function DesktopFlow() {
                           <div className="relative z-10 flex-1" />
 
                           {/* ACTION BUTTONS */}
-                          <div className="relative z-10 grid grid-cols-4 gap-2 mt-5">
+                          <div className="relative z-10 grid grid-cols-4 gap-2 mt-3">
                             {[
                               { label: "Pay", icon: QrCode, light: false },
                               { label: "Buy", icon: ArrowDownLeft, light: true },
@@ -1941,7 +1941,7 @@ function DesktopFlow() {
                               return (
                                 <button
                                   key={i}
-                                  className={`h-16 rounded-2xl border flex flex-col items-center justify-center gap-1 ${
+                                  className={`h-14 rounded-2xl border flex flex-col items-center justify-center gap-1 ${
                                     item.light
                                       ? "bg-white text-black border-white"
                                       : "bg-white/[0.03] text-white border-white/10"
@@ -1986,15 +1986,15 @@ function DesktopFlow() {
                         </div>
 
                         {/* TRANSACTIONS */}
-                        <div className="px-3 pt-2 pb-14 flex-1 overflow-hidden">
-                          <h2 className="text-[#5a6578] font-bold text-sm">
+                        <div className="px-3 pt-1 pb-14 flex-1 overflow-hidden">
+                          <h2 className="text-[#5a6578] font-bold text-xs">
                             Transactions
                           </h2>
-                          <div className="mt-1">
+                          <div className="">
                             {transactionsB.slice(0,1).map((tx) => (
                               <div
                                 key={tx.id}
-                                className="flex items-center py-1.5 border-b border-[#edf0f5]"
+                                className="flex items-center py-1"
                               >
                                 <div className="w-7 h-7 rounded-lg bg-[#f4f5f7] border border-[#e5e7eb] flex items-center justify-center font-bold text-[10px] text-[#0B1220] flex-shrink-0">
                                   {tx.user[0]}
