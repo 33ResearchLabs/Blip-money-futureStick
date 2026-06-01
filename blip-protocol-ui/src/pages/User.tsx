@@ -22,6 +22,7 @@ import { HreflangTags } from "@/components/HreflangTags";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 import { EditableText, EditableImage } from "@/components/dashboard/Editable";
 import { useOverride } from "@/hooks/useOverride";
+import { useP2PRate } from "@/hooks/useP2PRate";
 import SendGloballySection from "@/components/IndexSections/SendGloballySection";
 import BestRatesSection from "@/components/IndexSections/BestRatesSection";
 import { CTASection } from "@/components/sections/CTASection";
@@ -125,28 +126,33 @@ const BestRatesBlackSection = () => {
    1. CINEMATIC HERO
    ============================================ */
 const UserHero = () => {
-  // USDT / INR only
-  const BASE_RATE = 97.2;
-  const [rate, setRate] = useState(BASE_RATE);
+  // USDT / INR only. Anchored to the live rate from /api/rates (shared hook),
+  // with a small wobble kept for the "live" feel. Falls back to 97.2.
+  const live = useP2PRate("INR");
+  const baseRate = live.isLive && live.buy != null ? live.buy : 97.2;
+
+  const [rate, setRate] = useState(baseRate);
   useEffect(() => {
+    setRate(baseRate);
     const id = setInterval(() => {
-      setRate(+(BASE_RATE + (Math.random() - 0.5) * 0.1).toFixed(2));
+      setRate(+(baseRate + (Math.random() - 0.5) * 0.1).toFixed(2));
     }, 1800);
     return () => clearInterval(id);
-  }, []);
+  }, [baseRate]);
 
   // Receiving amount (1,000 USDT * rate, with small live wobble)
-  const [outAmount, setOutAmount] = useState(Math.round(1000 * BASE_RATE));
+  const [outAmount, setOutAmount] = useState(Math.round(1000 * baseRate));
   useEffect(() => {
     let frame = 0;
-    const baseOut = Math.round(1000 * BASE_RATE);
+    const baseOut = Math.round(1000 * baseRate);
+    setOutAmount(baseOut);
     const id = setInterval(() => {
       frame = (frame + 1) % 60;
       const wobble = Math.floor(Math.sin(frame * 0.6) * 180);
       setOutAmount(baseOut + wobble);
     }, 500);
     return () => clearInterval(id);
-  }, []);
+  }, [baseRate]);
 
   return (
     <section className="relative min-h-[92vh] overflow-hidden flex flex-col items-stretch bg-white text-black">

@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { SwipeHint } from "./SwipeHint";
 import { EditableText } from "@/components/dashboard/Editable";
+import { useP2PRate } from "@/hooks/useP2PRate";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -161,12 +162,30 @@ function CardShell({
 function BiddingCard() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
+
+  /* Live USDT/INR rate from our /api/p2p-rates aggregator (p2prate.live).
+     Seeds the leaderboard; the random walk below then animates competing
+     bids around it. Falls back to ~97.20 while loading / if API is down. */
+  const live = useP2PRate("INR");
   const [bids, setBids] = useState([
     { name: "AlphaFX", rate: 97.20 },
     { name: "GulfTrade", rate: 97.17 },
     { name: "NovaP2P", rate: 97.15 },
     { name: "SwiftExch", rate: 97.13 },
   ]);
+
+  /* Re-anchor the leaderboard to the live rate each time it refreshes (~60s).
+     Top merchant gets the live rate; the rest trail just below it. */
+  useEffect(() => {
+    if (!live.isLive || live.buy == null) return;
+    const top = live.buy;
+    setBids([
+      { name: "AlphaFX", rate: +top.toFixed(3) },
+      { name: "GulfTrade", rate: +(top - 0.03).toFixed(3) },
+      { name: "NovaP2P", rate: +(top - 0.05).toFixed(3) },
+      { name: "SwiftExch", rate: +(top - 0.07).toFixed(3) },
+    ]);
+  }, [live.isLive, live.buy]);
 
   useEffect(() => {
     if (!inView) return;

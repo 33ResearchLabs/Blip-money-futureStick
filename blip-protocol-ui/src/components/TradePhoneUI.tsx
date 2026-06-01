@@ -11,6 +11,7 @@ import {
   Activity,
   User,
 } from "lucide-react";
+import { useP2PRate } from "@/hooks/useP2PRate";
 
 /* ═══════════════════════════════════════════════════════════
    TradePhoneUI — Coded iPhone mockup · P2P Trade USDT screen
@@ -24,12 +25,21 @@ const TradePhoneUI = () => {
   const divider = "rgba(255,255,255,0.07)";
   const muted = "rgba(255,255,255,0.28)";
   const sub = "rgba(255,255,255,0.42)";
-  const [amount , setAmount] = useState('123')
-  const inrRate = 95.38;
-  const inrValue = (Number(amount) || 0) * inrRate;
-  const formattedInr = inrValue.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+  const [amount, setAmount] = useState("123");
 
-  
+  // Live USDT/INR rate from /api/rates (shared hook); falls back to 95.38.
+  const live = useP2PRate("INR");
+  const inrRate = live.isLive && live.buy != null ? live.buy : 95.38;
+
+  const fmtInr = (n: number) =>
+    n.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+
+  const inrValue = (Number(amount) || 0) * inrRate;
+  const formattedInr = fmtInr(inrValue);
+
+  // $5 testing reward, expressed in INR at the current rate. 0% fees.
+  const rewardInr = 5 * inrRate;
+  const totalInr = Math.max(0, inrValue - rewardInr);
 
   return (
     <div className="relative w-full flex items-center justify-center pt-4 pb-2">
@@ -63,7 +73,9 @@ const TradePhoneUI = () => {
             </p>
 
             <div className="mt-1 flex items-end justify-center gap-1.5">
-              <span className="text-[38px] font-bold leading-none">{amount}</span>
+              <span className="text-[38px] font-bold leading-none">
+                {amount}
+              </span>
               <span className="mb-0.5 text-sm font-semibold text-white/50">
                 USDT
               </span>
@@ -112,7 +124,7 @@ const TradePhoneUI = () => {
             <div className="mx-auto mb-1.5 h-0.5 w-7 rounded-full bg-white/20" />
 
             {/* Settlement */}
-            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 mt-1">
+            {/* <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 mt-1">
               <span className="text-[8px] text-white/70">
                 Final settlement amount
               </span>
@@ -121,11 +133,63 @@ const TradePhoneUI = () => {
                 {formattedInr} INR
                 <ChevronDown size={10} />
               </div>
+            </div> */}
+            <div className="flex items-center justify-between px-1.5 ">
+              <span className="text-[13px] font-semibold text-white whitespace-nowrap">
+                {amount || 0} USDT
+              </span>
+              <span className="text-[13px] font-bold whitespace-nowrap">
+                ₹{formattedInr}
+              </span>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-white/5" />
+
+            {/* Fees */}
+            <div className="flex items-center justify-between px-1.5 py-1.5 text-[9px]">
+              <div className="flex items-center gap-1.5">
+                <span className="text-gray-400">Fees</span>
+                <span className="text-gray-500 line-through">3%</span>
+                <span className="font-semibold text-emerald-400">0%</span>
+              </div>
+
+              <span className="font-medium text-emerald-400">₹0.00</span>
+            </div>
+
+            {/* Reward */}
+            <div className="flex items-center justify-between px-1.5 py-1.5 text-[9px]">
+              <div className="flex items-center gap-1 text-emerald-400">
+                <span>🎁</span>
+                <span className="font-medium whitespace-nowrap">
+                  $5 testing reward
+                </span>
+              </div>
+
+              <span className="font-medium text-emerald-400 whitespace-nowrap">
+                -₹{fmtInr(rewardInr)}
+              </span>
+            </div>
+
+            {/* Total */}
+            <div className=" rounded-lg bg-white/[0.04] px-2 py-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[13px] font-bold">Total</span>
+
+                <div className="flex items-baseline gap-1 whitespace-nowrap">
+                  <span className="text-[13px] font-bold">
+                    ₹{fmtInr(totalInr)}
+                  </span>
+                  <span className="text-[8px] font-semibold text-gray-300">
+                    INR
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Payment */}
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-[7px] uppercase tracking-[2px] text-white/40 mb-1">
+            <div className="mt-1 flex items-center justify-between">
+              <span className="text-[7px] uppercase tracking-[2px] text-white/40 ">
                 Pay With
               </span>
 
@@ -142,7 +206,9 @@ const TradePhoneUI = () => {
                   </div>
 
                   <div>
-                    <p className="text-[9px] font-semibold leading-tight">Bank Transfer</p>
+                    <p className="text-[9px] font-semibold leading-tight">
+                      Bank Transfer
+                    </p>
                     <p className="text-[7px] text-black/60">Wire / IBAN</p>
                   </div>
                 </div>
@@ -155,7 +221,9 @@ const TradePhoneUI = () => {
                   </div>
 
                   <div>
-                    <p className="text-[9px] font-semibold leading-tight">Cash</p>
+                    <p className="text-[9px] font-semibold leading-tight">
+                      Cash
+                    </p>
                     <p className="text-[7px] text-white/40">In-person</p>
                   </div>
                 </div>
@@ -163,31 +231,37 @@ const TradePhoneUI = () => {
             </div>
 
             {/* Priority */}
-            <div className="mt-4">
-              <p className="mb-1 text-[7px] uppercase tracking-[2px] text-white/40">
+            <div className="mt-1">
+              <p className=" text-[7px] uppercase tracking-[2px] text-white/40">
                 Priority
               </p>
 
               <div className="grid grid-cols-3 rounded-lg border border-white/10 bg-white/[0.03] p-0.5">
                 <div className="rounded-md bg-white py-1 text-center text-black">
-                  <p className="text-[8px] font-semibold leading-tight">Fastest</p>
-                  <p className="text-[7px] text-black/60">2.9%</p>
+                  <p className="text-[8px] font-semibold leading-tight">
+                    Fastest
+                  </p>
+                  <p className="text-[7px] text-black"><span className="line-through text-black/60">2.9%</span> 0%</p>
                 </div>
 
                 <div className="py-1 text-center text-white/50">
-                  <p className="text-[8px] font-semibold leading-tight">Best Rate</p>
+                  <p className="text-[8px] font-semibold leading-tight">
+                    Best Rate
+                  </p>
                   <p className="text-[7px]">2.5%</p>
                 </div>
 
                 <div className="py-1 text-center text-white/50">
-                  <p className="text-[8px] font-semibold leading-tight">Cheapest</p>
+                  <p className="text-[8px] font-semibold leading-tight">
+                    Cheapest
+                  </p>
                   <p className="text-[7px]">1.5%</p>
                 </div>
               </div>
             </div>
 
             {/* CTA */}
-            <button className="mt-4 flex h-8 w-full items-center justify-center gap-1 rounded-xl bg-white text-[11px] font-bold text-black">
+            <button className="mt-1 flex h-8 w-full items-center justify-center gap-1 rounded-xl bg-white text-[11px] font-bold text-black">
               <ArrowDownLeft size={12} />
               Buy {amount} USDT
             </button>

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useP2PRate } from "@/hooks/useP2PRate";
 import { ArrowRight, X } from "lucide-react";
 import {
   ArrowLeftRight,
@@ -144,11 +145,16 @@ function rand<T>(arr: readonly T[] | T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+/* Live USDT base price per fiat, kept up to date from /api/rates by
+   useMerchantDashboardState(). Module-level so the non-component order
+   generators below can read it. Defaults match the old hardcoded mock. */
+const liveBasePrice: Record<"INR" | "AED", number> = { INR: 95, AED: 3.67 };
+
 function makeOrder(): Order {
   const side: "BUY" | "SELL" = Math.random() > 0.5 ? "BUY" : "SELL";
   const fiat: "INR" | "AED" = Math.random() > 0.45 ? "INR" : "AED";
   const amount = Math.floor(50 + Math.random() * 4950);
-  const basePrice = fiat === "INR" ? 95 : 3.67;
+  const basePrice = liveBasePrice[fiat];
   const price = +(basePrice * (1 + (Math.random() - 0.5) * 0.04)).toFixed(2);
   return {
     id: nextOrderId(),
@@ -311,6 +317,19 @@ export function useMerchantDashboardState() {
     "All" | "Accepted" | "Escrowed" | "Paid" | "Cancelled"
   >("All");
   const [corridor, setCorridor] = useState<"AED" | "INR">("INR");
+
+  /* Live USDT rates from /api/rates (via shared hook). We mirror them into the
+     module-level liveBasePrice so the order generators stay in sync, and also
+     expose them for the corridor pill / settlement amounts to render live. */
+  const liveINR = useP2PRate("INR");
+  const liveAED = useP2PRate("AED");
+  const rateINR = liveINR.isLive && liveINR.buy != null ? liveINR.buy : 95;
+  const rateAED = liveAED.isLive && liveAED.buy != null ? liveAED.buy : 3.67;
+  useEffect(() => {
+    liveBasePrice.INR = rateINR;
+    liveBasePrice.AED = rateAED;
+  }, [rateINR, rateAED]);
+
   const [spread, setSpread] = useState<"Fast" | "Best" | "Cheap">("Fast");
   const [boost, setBoost] = useState<0 | 5 | 10 | 15>(0);
   const [livePulse, setLivePulse] = useState(true);
@@ -448,7 +467,7 @@ export function useMerchantDashboardState() {
               pushNotification({
                 kind: "payment_received",
                 title: "Payment received",
-                body: `${t.user} marked ${t.fiat === "INR" ? "₹" : ""}${(t.amount * (t.fiat === "INR" ? 95 : 3.67)).toLocaleString()}${t.fiat === "AED" ? " AED" : ""} as paid`,
+                body: `${t.user} marked ${t.fiat === "INR" ? "₹" : ""}${(t.amount * liveBasePrice[t.fiat]).toLocaleString()}${t.fiat === "AED" ? " AED" : ""} as paid`,
               });
             }
             return next;
@@ -578,7 +597,7 @@ export function useMerchantDashboardState() {
     const avatar = input.avatar || "🟢";
     const side = input.side || "SELL";
     const fiat = input.fiat;
-    const price = input.price ?? (fiat === "INR" ? 95 : 3.67);
+    const price = input.price ?? liveBasePrice[fiat];
 
     const order: Order = {
       id,
@@ -659,6 +678,7 @@ export function useMerchantDashboardState() {
     tab, setTab,
     progressTab, setProgressTab,
     corridor, setCorridor,
+    rateINR, rateAED,
     spread, setSpread,
     boost, setBoost,
     livePulse,
@@ -696,6 +716,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
     tab, setTab,
     progressTab, setProgressTab,
     corridor, setCorridor,
+    rateINR, rateAED,
     spread, setSpread,
     boost, setBoost,
     unread, markAllRead,
@@ -943,7 +964,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                       {settledCelebration.fiat === "INR" ? "₹" : ""}
                       {(
                         settledCelebration.amount *
-                        (settledCelebration.fiat === "INR" ? 95 : 3.67)
+                        (settledCelebration.fiat === "INR" ? rateINR : rateAED)
                       ).toLocaleString("en-US", { maximumFractionDigits: 0 })}
                     </div>
                     <div className="text-[9px] text-black/40 mt-0.5 font-medium">
@@ -1238,7 +1259,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   >
                     <span className="text-[10px] font-medium tracking-tight">USDT/{c}</span>
                     <span className={`text-[9px] font-mono tabular-nums ${active ? "text-white/55" : "text-white/30"}`}>
-                      {c === "INR" ? "₹95" : "3.67"}
+                      {c === "INR" ? `₹${Math.round(rateINR)}` : rateAED.toFixed(2)}
                     </span>
                   </button>
                 );

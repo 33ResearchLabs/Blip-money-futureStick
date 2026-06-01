@@ -14,6 +14,7 @@ import {
   CardHeroGrid,
 } from "@/pages/CardPreview";
 import { useMerchantCardsVariant } from "@/hooks/useMerchantCardsVariant";
+import { useP2PRate, type Fiat } from "@/hooks/useP2PRate";
 import { EditableText } from "@/components/dashboard/Editable";
 import {
   ArrowRight,
@@ -154,13 +155,27 @@ function HeroCharacterSlideshow() {
    right column. Central offers card + ambient pills + subtle
    network nodes. No people, no crypto cliché.
    ──────────────────────────────────────────────────────────── */
+/* Static template for the three offer rows. `factor` models merchants
+   competing just under the best live rate (~0.2% steps); the displayed
+   ₹ payout is derived from the live USDT/INR rate at render time. */
 const MARKET_OFFERS = [
-  { name: "Merchant A", rate: "₹97,850", time: "2 min", best: true },
-  { name: "Merchant B", rate: "₹97,640", time: "4 min", best: false },
-  { name: "Merchant C", rate: "₹97,420", time: "6 min", best: false },
+  { name: "Merchant A", factor: 1, time: "2 min", best: true },
+  { name: "Merchant B", factor: 0.99785, time: "4 min", best: false },
+  { name: "Merchant C", factor: 0.9956, time: "6 min", best: false },
 ];
 
 function BlipMarketHeroVisual() {
+  /* Live USDT/INR rate from our /api/p2p-rates aggregator (p2prate.live).
+     Payouts shown are for a $1,000 settlement; falls back to ~97.85 when
+     the API is loading or unreachable, matching the previous static copy. */
+  const live = useP2PRate("INR");
+  const basePayout =
+    (live.isLive && live.buy != null ? live.buy : 97.85) * 1000;
+  const offers = MARKET_OFFERS.map((o) => ({
+    ...o,
+    rate: "₹" + Math.round(basePayout * o.factor).toLocaleString("en-IN"),
+  }));
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}
@@ -245,7 +260,7 @@ function BlipMarketHeroVisual() {
 
         {/* Offer rows */}
         <div className="px-3 py-2 space-y-1">
-          {MARKET_OFFERS.map((o, i) => (
+          {offers.map((o, i) => (
             <motion.div
               key={o.name}
               initial={{ opacity: 0, x: -8 }}
@@ -551,6 +566,7 @@ export function SendReceiveWidget({
   setSendAmount,
   fiatIdx,
   setFiatIdx,
+  liveRate,
 }: {
   isInView: boolean;
   onSend: (order: InlineOrder, numericAmount: number) => void;
@@ -560,14 +576,17 @@ export function SendReceiveWidget({
   setSendAmount: (v: string) => void;
   fiatIdx: number;
   setFiatIdx: (fn: (i: number) => number) => void;
+  /* Live USDT/<fiat> rate from /api/p2p-rates; falls back to fiat.rate. */
+  liveRate?: number;
 }) {
   const fiat = FIATS[fiatIdx];
+  const rate = liveRate ?? fiat.rate;
 
   const numeric = useMemo(() => {
     const n = parseFloat(sendAmount.replace(/[^0-9.]/g, ""));
     return Number.isFinite(n) ? n : 0;
   }, [sendAmount]);
-  const receive = useMemo(() => numeric * fiat.rate, [numeric, fiat.rate]);
+  const receive = useMemo(() => numeric * rate, [numeric, rate]);
   const fmt = (n: number) =>
     n.toLocaleString(fiat.locale, {
       minimumFractionDigits: fiat.digits,
@@ -589,7 +608,7 @@ export function SendReceiveWidget({
         pair: `USD → ${fiat.code}`,
         amount: `$${numeric.toLocaleString("en-US")}`,
         payout: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fmt(receive)}`,
-        rate: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fiat.rate}`,
+        rate: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${rate.toFixed(fiat.digits)}`,
         merchant: "AlphaFX",
         profit: `+$${profit}`,
       },
@@ -825,6 +844,27 @@ export function InlineMerchantDashboard({
   currentFiat: string;
 }) {
 
+  /* Live USDT rates from our /api/p2p-rates aggregator (p2prate.live) for the
+     corridor pair control. Falls back to static copy while loading / if down. */
+  const liveINR = useP2PRate("INR");
+  const liveAED = useP2PRate("AED");
+  const corridorRates = [
+    {
+      code: "INR",
+      rate:
+        liveINR.isLive && liveINR.buy != null
+          ? `₹${liveINR.buy.toFixed(2)}`
+          : "₹97.85",
+    },
+    {
+      code: "AED",
+      rate:
+        liveAED.isLive && liveAED.buy != null
+          ? `${liveAED.buy.toFixed(2)} AED`
+          : "3.66 AED",
+    },
+  ];
+
   const isIdle = !pending && !inProgress;
   const balanceFmt = balance.toLocaleString("en-US", {
     minimumFractionDigits: 2,
@@ -989,10 +1029,7 @@ export function InlineMerchantDashboard({
           {/* Corridor segmented control */}
           <div className="px-3 pb-2 space-y-1.5">
             <div className="inline-flex w-full rounded-lg bg-white/[0.025] border border-white/[0.05] p-0.5">
-              {[
-                { code: "INR", rate: "₹97.85" },
-                { code: "AED", rate: "3.66 AED" },
-              ].map((c) => {
+              {corridorRates.map((c) => {
                 const active = currentFiat === c.code;
                 return (
                   <div
@@ -2063,6 +2100,13 @@ const CinematicHero = () => {
   const [sendAmount, setSendAmount] = useState("1,000");
   const [fiatIdx, setFiatIdx] = useState(0);
 
+  /* ── Live USDT/<fiat> rate from our own /api/p2p-rates aggregator
+        (p2prate.live). Refetches when the user switches currency; falls
+        back to the static FIATS rate while loading or if the API is down. */
+  const live = useP2PRate(FIATS[fiatIdx].code as Fiat);
+  const liveRate =
+    live.isLive && live.buy != null ? live.buy : FIATS[fiatIdx].rate;
+
   /* ── Available balance (still validates Send) ── */
   const STARTING_BALANCE = 12847.2;
   const [balance, setBalance] = useState(STARTING_BALANCE);
@@ -2084,7 +2128,7 @@ const CinematicHero = () => {
       side: "SELL",
       user: "You",
       avatar: "🟢",
-      price: FIATS[fiatIdx].rate,
+      price: liveRate,
     });
 
     /* Smooth-scroll the dashboard into view so the user sees their order land */
@@ -2171,6 +2215,7 @@ const CinematicHero = () => {
             setSendAmount={setSendAmount}
             fiatIdx={fiatIdx}
             setFiatIdx={setFiatIdx}
+            liveRate={liveRate}
           />
 
           <motion.div
@@ -2186,7 +2231,7 @@ const CinematicHero = () => {
                 const numeric = parseFloat(sendAmount.replace(/[^0-9.]/g, "")) || 0;
                 if (numeric <= 0 || numeric > balance) return;
                 const fiat = FIATS[fiatIdx];
-                const receive = numeric * fiat.rate;
+                const receive = numeric * liveRate;
                 const fmt = (n: number) =>
                   n.toLocaleString(fiat.locale, {
                     minimumFractionDigits: fiat.digits,
@@ -2202,7 +2247,7 @@ const CinematicHero = () => {
                     pair: `USD → ${fiat.code}`,
                     amount: `$${numeric.toLocaleString("en-US")}`,
                     payout: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fmt(receive)}`,
-                    rate: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fiat.rate}`,
+                    rate: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${liveRate.toFixed(fiat.digits)}`,
                     merchant: "AlphaFX",
                     profit: `+$${profit}`,
                   },
@@ -2232,7 +2277,7 @@ const CinematicHero = () => {
       </main>
 
       {/* Caption above the dashboard */}
-      <div className="relative z-10 w-full text-center mt-4 md:-mt-[6vh] mb-3 md:mb-4 px-6">
+      <div className="relative z-10 w-full text-center mt-4 md:-mt-[6vh] mb-3 md:mb- px-6">
         <span className="text-[10px] font-semibold tracking-[0.32em] uppercase text-black/55">
           Live Blip Market Dashboard
         </span>
@@ -2265,7 +2310,7 @@ const CinematicHero = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 1, ease: EASE }}
-          className="relative max-w-[1180px] mx-auto px-4 md:px-10 py-20 md:py-28 flex flex-col items-center text-center w-full"
+          className="relative max-w-[1180px] mx-auto px-4 md:px-10 py-20  flex flex-col items-center text-center w-full"
         >
           <EditableText id="home.merchant.eyebrow" default="Powered by Merchants" as="div" className="text-[11.5px] font-bold tracking-[0.36em] uppercase mb-5" style={{ color: "#cc785c" }} />
 
@@ -2276,7 +2321,7 @@ const CinematicHero = () => {
               fontWeight: 500,
               lineHeight: 1.05,
               letterSpacing: "-0.04em",
-              marginBottom: 14,
+              
               maxWidth: "720px",
             }}
           >
@@ -2341,7 +2386,7 @@ const CinematicHero = () => {
             </Link>
           </div>
 
-          <div className="inline-flex items-center gap-3 text-[12px] text-black/50 tracking-tight">
+          {/* <div className="inline-flex items-center gap-3 text-[12px] text-black/50 tracking-tight">
             <span className="flex items-center gap-1.5">
               <motion.span
                 animate={{ opacity: [1, 0.4, 1] }}
@@ -2356,7 +2401,8 @@ const CinematicHero = () => {
             <span><span className="font-mono tabular-nums">{dashboardState.activeTrades.length + dashboardState.pendingOrders.length}</span> live orders</span>
             <span className="text-black/25">·</span>
             <span>+2,400 merchants</span>
-          </div>
+          </div> */}
+
         </motion.div>
       </div>
     </section>

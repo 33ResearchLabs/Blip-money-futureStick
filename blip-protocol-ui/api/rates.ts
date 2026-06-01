@@ -45,7 +45,7 @@ const jsonHeaders = {
   "accept-language": "en-US,en;q=0.9",
 };
 
-async function fetchBinance(side: Side): Promise<Quote[]> {
+async function fetchBinance(side: Side, fiat: string): Promise<Quote[]> {
   const res = await fetch(
     "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search",
     {
@@ -53,7 +53,7 @@ async function fetchBinance(side: Side): Promise<Quote[]> {
       headers: jsonHeaders,
       body: JSON.stringify({
         asset: "USDT",
-        fiat: "INR",
+        fiat,
         tradeType: side,
         page: 1,
         rows: 10,
@@ -67,8 +67,7 @@ async function fetchBinance(side: Side): Promise<Quote[]> {
   return rows.map(
     (r): Quote => ({
       source: "Binance P2P",
-      sourceUrl:
-        "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
+      sourceUrl: `https://p2p.binance.com/en/trade/all-payments/USDT?fiat=${fiat}`,
       price: parseFloat(r.adv.price),
       minINR: parseFloat(r.adv.minSingleTransAmount),
       maxINR: parseFloat(
@@ -85,14 +84,14 @@ async function fetchBinance(side: Side): Promise<Quote[]> {
   );
 }
 
-async function fetchBybit(side: Side): Promise<Quote[]> {
+async function fetchBybit(side: Side, fiat: string): Promise<Quote[]> {
   const res = await fetch("https://api2.bybit.com/fiat/otc/item/online", {
     method: "POST",
     headers: jsonHeaders,
     body: JSON.stringify({
       userId: "",
       tokenId: "USDT",
-      currencyId: "INR",
+      currencyId: fiat,
       payment: [],
       side: side === "BUY" ? "1" : "0",
       size: "10",
@@ -107,8 +106,7 @@ async function fetchBybit(side: Side): Promise<Quote[]> {
   return rows.map(
     (r): Quote => ({
       source: "Bybit P2P",
-      sourceUrl:
-        "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
+      sourceUrl: `https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=${fiat}`,
       price: parseFloat(r.price),
       minINR: parseFloat(r.minAmount),
       maxINR: parseFloat(r.maxAmount),
@@ -124,16 +122,16 @@ async function fetchBybit(side: Side): Promise<Quote[]> {
   );
 }
 
-async function fetchOkx(side: Side): Promise<Quote[]> {
+async function fetchOkx(side: Side, fiat: string): Promise<Quote[]> {
   const okxSide = side === "BUY" ? "sell" : "buy";
-  const url = `https://www.okx.com/v3/c2c/tradingOrders/books?quoteCurrency=INR&baseCurrency=USDT&side=${okxSide}&paymentMethod=all&userType=all&receivingAds=false&showTrade=false&showFollow=false&showAlreadyTraded=false&isAbleFilter=false`;
+  const url = `https://www.okx.com/v3/c2c/tradingOrders/books?quoteCurrency=${fiat}&baseCurrency=USDT&side=${okxSide}&paymentMethod=all&userType=all&receivingAds=false&showTrade=false&showFollow=false&showAlreadyTraded=false&isAbleFilter=false`;
   const res = await fetch(url, { headers: jsonHeaders });
   const json: any = await res.json();
   const rows: any[] = json?.data?.[okxSide] ?? json?.data ?? [];
   return (Array.isArray(rows) ? rows : []).slice(0, 10).map(
     (r): Quote => ({
       source: "OKX P2P",
-      sourceUrl: "https://www.okx.com/p2p-markets/inr/buy-usdt",
+      sourceUrl: `https://www.okx.com/p2p-markets/${fiat.toLowerCase()}/buy-usdt`,
       price: parseFloat(r.price),
       minINR: parseFloat(r.quoteMinAmountPerOrder ?? r.minAmount ?? 0),
       maxINR: parseFloat(r.quoteMaxAmountPerOrder ?? r.maxAmount ?? 0),
@@ -147,13 +145,13 @@ async function fetchOkx(side: Side): Promise<Quote[]> {
   );
 }
 
-async function fetchKucoin(side: Side): Promise<Quote[]> {
+async function fetchKucoin(side: Side, fiat: string): Promise<Quote[]> {
   const kuSide = side === "BUY" ? "SELL" : "BUY";
-  const url = `https://www.kucoin.com/_api/otc/ad/list?currency=INR&legal=INR&lang=en_US&status=PUTUP&side=${kuSide}&page=1&pageSize=10&token=USDT`;
+  const url = `https://www.kucoin.com/_api/otc/ad/list?currency=${fiat}&legal=${fiat}&lang=en_US&status=PUTUP&side=${kuSide}&page=1&pageSize=10&token=USDT`;
   const res = await fetch(url, {
     headers: {
       ...jsonHeaders,
-      referer: "https://www.kucoin.com/otc/buy/USDT-INR",
+      referer: `https://www.kucoin.com/otc/buy/USDT-${fiat}`,
     },
   });
   const json: any = await res.json();
@@ -161,7 +159,7 @@ async function fetchKucoin(side: Side): Promise<Quote[]> {
   return rows.slice(0, 10).map(
     (r): Quote => ({
       source: "KuCoin P2P",
-      sourceUrl: "https://www.kucoin.com/otc/buy/USDT-INR",
+      sourceUrl: `https://www.kucoin.com/otc/buy/USDT-${fiat}`,
       price: parseFloat(r.floatPrice ?? r.price),
       minINR: parseFloat(r.limitMinQuote ?? r.minQuote ?? 0),
       maxINR: parseFloat(r.limitMaxQuote ?? r.maxQuote ?? 0),
@@ -177,13 +175,19 @@ async function fetchKucoin(side: Side): Promise<Quote[]> {
   );
 }
 
-async function fetchHtx(side: Side): Promise<Quote[]> {
+// HTX identifies fiats by numeric currency id (not ISO code). Only mapped
+// fiats can be live-scraped; unmapped ones return [] rather than wrong data.
+const HTX_CURRENCY_CODE: Record<string, number> = { INR: 102 };
+
+async function fetchHtx(side: Side, fiat: string): Promise<Quote[]> {
+  const currencyCode = HTX_CURRENCY_CODE[fiat.toUpperCase()];
+  if (currencyCode == null) return [];
   const htxType = side === "BUY" ? "sell" : "buy";
-  const url = `https://www.htx.com/-/x/otc/v1/data/trade-market?coinId=2&currency=102&tradeType=${htxType}&currPage=1&payMethod=0&acceptOrder=0&country=37&blockType=general&online=1&range=0&amount=`;
+  const url = `https://www.htx.com/-/x/otc/v1/data/trade-market?coinId=2&currency=${currencyCode}&tradeType=${htxType}&currPage=1&payMethod=0&acceptOrder=0&country=37&blockType=general&online=1&range=0&amount=`;
   const res = await fetch(url, {
     headers: {
       ...jsonHeaders,
-      referer: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+      referer: `https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_${fiat.toLowerCase()}/`,
     },
   });
   const json: any = await res.json();
@@ -210,7 +214,9 @@ async function fetchHtx(side: Side): Promise<Quote[]> {
 
 // Live fetchers only exist for the direct-crawled exchanges (fallback path
 // when the DB is empty/stale). p2p.army-covered exchanges have no live path.
-const fetchers: Partial<Record<Source, (side: Side) => Promise<Quote[]>>> = {
+const fetchers: Partial<
+  Record<Source, (side: Side, fiat: string) => Promise<Quote[]>>
+> = {
   binance: fetchBinance,
   bybit: fetchBybit,
   okx: fetchOkx,
@@ -507,7 +513,10 @@ export default async function handler(req: Request): Promise<Response> {
   // Fallback: live exchange scrape — only available for direct-crawled exchanges.
   if (strategy === "direct" && source in fetchers) {
     try {
-      const quotes = await fetchers[source as keyof typeof fetchers](side);
+      const quotes = await fetchers[source as keyof typeof fetchers](
+        side,
+        fiat,
+      );
       return new Response(
         JSON.stringify({
           quotes,

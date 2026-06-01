@@ -53,6 +53,10 @@ const COMMON_HEADERS = {
   "cache-control": "public, s-maxage=15, stale-while-revalidate=60",
 };
 
+// Max time to wait on a single upstream venue before giving up on it. Keeps
+// the whole function well under the platform's ~25s invocation timeout.
+const VENUE_TIMEOUT_MS = 6_000;
+
 const SOURCE_CONFIG: Array<{ source: string; label: string }> = [
   { source: "binance", label: "Binance P2P" },
   { source: "bybit", label: "Bybit P2P" },
@@ -77,7 +81,19 @@ async function fetchVenue(
       `https://p2prate.live/api/rates?source=${encodeURIComponent(source)}` +
       `&fiat=${encodeURIComponent(fiat)}` +
       `&crypto=USDT`;
-    const res = await fetch(url, { headers: { accept: "application/json" } });
+    // Per-venue timeout so one slow/hanging upstream can't stall the whole
+    // function into a 504 (Promise.all is only as fast as its slowest call).
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), VENUE_TIMEOUT_MS);
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        headers: { accept: "application/json" },
+        signal: ctrl.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
     if (!res.ok) {
       return {
         name: label,

@@ -3,6 +3,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { SwipeHint } from "./SwipeHint";
 import { EditableText } from "@/components/dashboard/Editable";
+import { useP2PRate } from "@/hooks/useP2PRate";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -162,12 +163,18 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
 /* ─── Rates Visual: Live auction feed ─── */
 function RatesVisual({ isInView }: { isInView: boolean }) {
   const tick = useTicker(2000, isInView);
+
+  /* Live USDT/AED rate from our /api/p2p-rates aggregator (p2prate.live).
+     Merchants are offset around the live base; the ticker animation then
+     shuffles who's winning. Falls back to ~3.670 while loading / if down. */
+  const live = useP2PRate("AED");
+  const base = live.isLive && live.buy != null ? live.buy : 3.67;
   const merchants = [
-    { name: "AlphaFX", rate: 3.672, speed: "1.2s" },
-    { name: "GulfTrade", rate: 3.668, speed: "0.9s" },
-    { name: "SwiftExch", rate: 3.665, speed: "1.8s" },
-    { name: "NovaP2P", rate: 3.671, speed: "1.1s" },
-    { name: "CedarFX", rate: 3.669, speed: "2.1s" },
+    { name: "AlphaFX", rate: base + 0.002, speed: "1.2s" },
+    { name: "GulfTrade", rate: base - 0.002, speed: "0.9s" },
+    { name: "SwiftExch", rate: base - 0.005, speed: "1.8s" },
+    { name: "NovaP2P", rate: base + 0.001, speed: "1.1s" },
+    { name: "CedarFX", rate: base - 0.001, speed: "2.1s" },
   ];
 
   // Shuffle best rate position based on tick

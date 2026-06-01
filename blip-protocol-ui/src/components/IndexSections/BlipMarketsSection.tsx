@@ -389,7 +389,7 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
         </motion.div>
 
         {/* Big earnings strip */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
@@ -414,7 +414,7 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
               </div>
             </div>
           ))}
-        </motion.div>
+        </motion.div> */}
 
         {/* The live dashboard — rests at a subtle tilt, straightens on hover */}
         <TiltDashboard>

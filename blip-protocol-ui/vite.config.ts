@@ -17,8 +17,28 @@ export default defineConfig(({ mode }) => ({
       ".ngrok.io",
     ],
     // Dev proxy — keeps API calls same-origin so the browser doesn't fire
-    // CORS preflight against the Railway backend. Only used in `vite dev`.
+    // CORS preflight against the backend. Only used in `vite dev`.
+    // NOTE: order matters — more specific routes are listed first.
     proxy: {
+      // Live-rate edge functions live on Vercel (production), NOT on Railway.
+      // Proxy them to prod so `npm run dev` shows real rates instead of the
+      // static fallback. (These routes are read-only public rate data.)
+      "/api/p2p-rates": {
+        target: "https://www.blip.money",
+        changeOrigin: true,
+        secure: true,
+      },
+      "/api/rates": {
+        target: "https://www.blip.money",
+        changeOrigin: true,
+        secure: true,
+      },
+      "/api/history": {
+        target: "https://www.blip.money",
+        changeOrigin: true,
+        secure: true,
+      },
+      // Everything else (auth, bots, user data) → Railway backend.
       "/api": {
         target: "https://blip-money-futurestick-production.up.railway.app",
         changeOrigin: true,
