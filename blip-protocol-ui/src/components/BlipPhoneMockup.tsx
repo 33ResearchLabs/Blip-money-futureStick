@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useP2PRate } from "@/hooks/useP2PRate";
 import {
   Home,
   MessageCircle,
@@ -48,6 +49,11 @@ const TRANSACTIONS = [
 ];
 
 export function BlipPhoneMockup({balance}) {
+  // Live USDT/INR rate from /api/rates (shared hook); falls back to 95.38.
+  const live = useP2PRate("INR");
+  const inrRate = live.isLive && live.buy != null ? live.buy : 95.38;
+  const inrValue = (Number(balance) || 0) * inrRate;
+
   return (
     <div
       className="relative mx-auto"
@@ -149,7 +155,7 @@ export function BlipPhoneMockup({balance}) {
               <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
                 <span className="text-white/70 text-[9px] font-semibold">
-                  96.30 INR
+                  {inrRate.toFixed(2)} INR
                 </span>
               </div>
             </div>
@@ -184,7 +190,7 @@ export function BlipPhoneMockup({balance}) {
                 </span>
               </div>
               <p className="mt-1 text-white/50 text-[10px] font-semibold">
-                ≈ {balance * 95.38} INR
+                ≈ {inrValue.toLocaleString("en-IN", { maximumFractionDigits: 2 })} INR
               </p>
               <div className="flex items-center justify-center gap-1 mt-1">
                 <div className="w-3.5 h-1.5 rounded-full bg-white" />

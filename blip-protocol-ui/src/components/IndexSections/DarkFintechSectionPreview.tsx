@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useP2PRate } from "@/hooks/useP2PRate";
 import { Globe, ChevronDown, Check, Home, Zap, MessageCircle, Activity, User ,   Bell,
   SunMedium,
   ArrowDownLeft,
@@ -1313,6 +1314,13 @@ function DesktopFlow() {
     currencies.length * CARD_HEIGHT + (currencies.length - 1) * LIST_GAP;
   const totalStackHeight = CARD_HEIGHT + (currencies.length - 1) * STACK_OFFSET;
 
+   const amonut = 425;
+
+  // Live USDT/INR rate from /api/rates (shared hook); falls back to 95.38.
+  const live = useP2PRate("INR");
+  const inrRate = live.isLive && live.buy != null ? live.buy : 95.38;
+  const inrValue = amonut * inrRate;
+
   return (
     <section
       ref={sectionRef}
@@ -1999,7 +2007,7 @@ function DesktopFlow() {
                             <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-1">
                               <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
                               <span className="text-white/70 text-[9px] font-semibold">
-                                96.30 INR
+                                {inrRate.toFixed(2)} INR
                               </span>
                             </div>
                           </div>
@@ -2022,7 +2030,7 @@ function DesktopFlow() {
                           <div className="relative z-10 text-center mt-3">
                             <div className="flex items-end justify-center">
                               <span className="text-white text-5xl font-black tracking-[-2px] leading-none">
-                                425
+                                {amonut}
                               </span>
                               <span className="text-white/40 text-3xl font-black tracking-[-1px] leading-none">
                                 .00
@@ -2032,7 +2040,7 @@ function DesktopFlow() {
                               </span>
                             </div>
                             <p className="mt-2 text-white/50 text-[10px] font-semibold">
-                              ≈ 40,633.68 INR
+                              ≈ {inrValue.toLocaleString("en-IN", { maximumFractionDigits: 2 })} INR
                             </p>
                             <div className="flex items-center justify-center gap-1 mt-2">
                               <div className="w-3.5 h-1.5 rounded-full bg-emerald-400" />
