@@ -1952,10 +1952,10 @@ function DesktopFlow() {
                       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 1, ease: EASE }}
-                      className="absolute inset-[3px] rounded-[2.7rem] z-40 overflow-hidden bg-white dark:bg-[#0a0a0a]"
+                      className="absolute inset-[3px] rounded-[2.7rem] z-40 overflow-hidde"
                     >
                       {/* Sized for the 290x600 phone mockup — values shrunk from native mobile design */}
-                      <div className="absolute inset-0 bg-white flex flex-col">
+                      <div className="absolute inset-0  flex flex-col">
                         {/* HERO — 60% of phone height */}
                         <div className="relative bg-[#050816] rounded-b-[22px] px-3 pt-3 pb-3 overflow-hidden h-[78%] flex-shrink-0 flex flex-col">
                           {/* background glow */}

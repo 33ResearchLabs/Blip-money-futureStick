@@ -58,7 +58,7 @@ const FIRST_NAMES = [
   "James",
   "Sofia",
   "Lucas",
-  "Maya",
+  "Zoe",
   "David",
   "Anna",
   "Ryan",
@@ -109,7 +109,13 @@ export type ActivityEvent = {
 
 export type Notification = {
   id: string;
-  kind: "order_new" | "order_accepted" | "escrow_locked" | "payment_received" | "trade_settled" | "system";
+  kind:
+    | "order_new"
+    | "order_accepted"
+    | "escrow_locked"
+    | "payment_received"
+    | "trade_settled"
+    | "system";
   title: string;
   body: string;
   ts: string;
@@ -264,9 +270,24 @@ function seedChatThreads(): ChatThread[] {
       isTyping: false,
       isOnline: true,
       messages: [
-        { id: nextChatMsgId(), from: "them", text: "Hey, ready to start the trade?", ts: "14:32" },
-        { id: nextChatMsgId(), from: "me", text: "Sure, locking escrow now.", ts: "14:32" },
-        { id: nextChatMsgId(), from: "them", text: "Sending UPI now, give me 2 mins.", ts: "14:33" },
+        {
+          id: nextChatMsgId(),
+          from: "them",
+          text: "Hey, ready to start the trade?",
+          ts: "14:32",
+        },
+        {
+          id: nextChatMsgId(),
+          from: "me",
+          text: "Sure, locking escrow now.",
+          ts: "14:32",
+        },
+        {
+          id: nextChatMsgId(),
+          from: "them",
+          text: "Sending UPI now, give me 2 mins.",
+          ts: "14:33",
+        },
       ],
     },
     {
@@ -280,8 +301,18 @@ function seedChatThreads(): ChatThread[] {
       isTyping: false,
       isOnline: false,
       messages: [
-        { id: nextChatMsgId(), from: "them", text: "Got the receipt, releasing escrow soon.", ts: "14:18" },
-        { id: nextChatMsgId(), from: "me", text: "Confirmed receipt — releasing.", ts: "14:19" },
+        {
+          id: nextChatMsgId(),
+          from: "them",
+          text: "Got the receipt, releasing escrow soon.",
+          ts: "14:18",
+        },
+        {
+          id: nextChatMsgId(),
+          from: "me",
+          text: "Confirmed receipt — releasing.",
+          ts: "14:19",
+        },
       ],
     },
   ];
@@ -306,11 +337,21 @@ function fmtTTL(s: number) {
 /* ───────────────────────── Headless hook ───────────────────────── */
 
 export function useMerchantDashboardState() {
-  const [pendingOrders, setPendingOrders] = useState<Order[]>(() => seedPending());
-  const [activeTrades, setActiveTrades] = useState<ActiveTrade[]>(() => seedActive());
-  const [activity, setActivity] = useState<ActivityEvent[]>(() => seedActivity());
-  const [notifications, setNotifications] = useState<Notification[]>(() => seedNotifications());
-  const [chatThreads, setChatThreads] = useState<ChatThread[]>(() => seedChatThreads());
+  const [pendingOrders, setPendingOrders] = useState<Order[]>(() =>
+    seedPending(),
+  );
+  const [activeTrades, setActiveTrades] = useState<ActiveTrade[]>(() =>
+    seedActive(),
+  );
+  const [activity, setActivity] = useState<ActivityEvent[]>(() =>
+    seedActivity(),
+  );
+  const [notifications, setNotifications] = useState<Notification[]>(() =>
+    seedNotifications(),
+  );
+  const [chatThreads, setChatThreads] = useState<ChatThread[]>(() =>
+    seedChatThreads(),
+  );
   const [activeChatId, setActiveChatId] = useState<string | null>("F8421X");
   const [tab, setTab] = useState<"Pending" | "My Orders" | "All">("Pending");
   const [progressTab, setProgressTab] = useState<
@@ -341,7 +382,12 @@ export function useMerchantDashboardState() {
   const pushNotification = (n: Omit<Notification, "id" | "ts" | "read">) => {
     setNotifications((prev) =>
       [
-        { ...n, id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, ts: "now", read: false },
+        {
+          ...n,
+          id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          ts: "now",
+          read: false,
+        },
         ...prev,
       ].slice(0, 8),
     );
@@ -357,12 +403,12 @@ export function useMerchantDashboardState() {
     const id = setInterval(() => {
       const order = makeOrder();
       setPendingOrders((prev) => {
-      /* Preserve the user's order at top if present, then ambient fills under */
-      const yours = prev.find((o) => o.isYours);
-      const others = prev.filter((o) => !o.isYours);
-      const merged = yours ? [yours, order, ...others] : [order, ...others];
-      return merged.slice(0, 3);
-    });
+        /* Preserve the user's order at top if present, then ambient fills under */
+        const yours = prev.find((o) => o.isYours);
+        const others = prev.filter((o) => !o.isYours);
+        const merged = yours ? [yours, order, ...others] : [order, ...others];
+        return merged.slice(0, 3);
+      });
       // Notify only ~50% of the time so the panel doesn't drown
       if (Math.random() > 0.5) {
         pushNotification({
@@ -452,7 +498,9 @@ export function useMerchantDashboardState() {
           .map((t) => {
             const next = { ...t };
             /* User's accepted trade rips through faster so the celebration lands sooner */
-            const step = t.isYours ? 0.22 + Math.random() * 0.06 : 0.08 + Math.random() * 0.04;
+            const step = t.isYours
+              ? 0.22 + Math.random() * 0.06
+              : 0.08 + Math.random() * 0.04;
             next.progress = Math.min(1, t.progress + step);
             next.ttl = Math.max(0, t.ttl - (t.isYours ? 18 : 6));
             if (next.progress > 0.35 && t.status === "ACCEPTED") {
@@ -573,7 +621,9 @@ export function useMerchantDashboardState() {
   const [totalEarned, setTotalEarned] = useState(220); // starting baseline
   const [lastEarning, setLastEarning] = useState<number | null>(null);
   /** Quick "Merchant earned +$X" zoom that fires just before the big celebration card */
-  const [merchantZoom, setMerchantZoom] = useState<{ earned: number } | null>(null);
+  const [merchantZoom, setMerchantZoom] = useState<{ earned: number } | null>(
+    null,
+  );
   /** Center-screen celebration card when the user's trade completes */
   const [settledCelebration, setSettledCelebration] = useState<{
     amount: number;
@@ -675,12 +725,18 @@ export function useMerchantDashboardState() {
   };
 
   return {
-    tab, setTab,
-    progressTab, setProgressTab,
-    corridor, setCorridor,
-    rateINR, rateAED,
-    spread, setSpread,
-    boost, setBoost,
+    tab,
+    setTab,
+    progressTab,
+    setProgressTab,
+    corridor,
+    setCorridor,
+    rateINR,
+    rateAED,
+    spread,
+    setSpread,
+    boost,
+    setBoost,
     livePulse,
     pendingOrders,
     activeTrades,
@@ -711,19 +767,33 @@ interface MerchantDashboardBodyProps {
   className?: string;
 }
 
-export function MerchantDashboardBody({ state, className = "" }: MerchantDashboardBodyProps) {
+export function MerchantDashboardBody({
+  state,
+  className = "",
+}: MerchantDashboardBodyProps) {
   const {
-    tab, setTab,
-    progressTab, setProgressTab,
-    corridor, setCorridor,
-    rateINR, rateAED,
-    spread, setSpread,
-    boost, setBoost,
-    unread, markAllRead,
+    tab,
+    setTab,
+    progressTab,
+    setProgressTab,
+    corridor,
+    setCorridor,
+    rateINR,
+    rateAED,
+    spread,
+    setSpread,
+    boost,
+    setBoost,
+    unread,
+    markAllRead,
     livePulse,
-    pendingOrders, activeTrades, activity,
+    pendingOrders,
+    activeTrades,
+    activity,
     notifications,
-    chatThreads, activeChatId, setActiveChatId,
+    chatThreads,
+    activeChatId,
+    setActiveChatId,
     acceptOrder,
     addPendingOrder,
     sendChatMessage,
@@ -736,9 +806,11 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
   /* Sidebar AMOUNT input — typable, drives BUY/SELL */
   const [tradeAmount, setTradeAmount] = useState("");
-  const tradeAmountNum =
-    parseFloat(tradeAmount.replace(/[^0-9.]/g, "")) || 0;
-  const activeChat = chatThreads.find((t) => t.orderId === activeChatId) ?? chatThreads[0] ?? null;
+  const tradeAmountNum = parseFloat(tradeAmount.replace(/[^0-9.]/g, "")) || 0;
+  const activeChat =
+    chatThreads.find((t) => t.orderId === activeChatId) ??
+    chatThreads[0] ??
+    null;
 
   // ESC key + click-anywhere closes the settled celebration
   useEffect(() => {
@@ -766,7 +838,10 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
               if (e.target === e.currentTarget) setSettledCelebration(null);
             }}
             className="fixed inset-0 z-[9999] flex items-center justify-center px-4 cursor-pointer"
-            style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(10px)" }}
+            style={{
+              background: "rgba(0,0,0,0.55)",
+              backdropFilter: "blur(10px)",
+            }}
           >
             <motion.div
               initial={{ scale: 0.92, opacity: 0, y: 12 }}
@@ -821,7 +896,11 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     boxShadow: "0 6px 16px -8px rgba(0,0,0,0.2)",
                   }}
                 >
-                  <svg viewBox="0 0 200 130" className="w-full h-full" preserveAspectRatio="xMidYMax slice">
+                  <svg
+                    viewBox="0 0 200 130"
+                    className="w-full h-full"
+                    preserveAspectRatio="xMidYMax slice"
+                  >
                     <defs>
                       <clipPath id="bustClip">
                         <rect x="0" y="0" width="200" height="130" />
@@ -839,10 +918,30 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         fill="#d4a878"
                       />
                       {/* Nose hint */}
-                      <path d="M 86 66 Q 84 72 88 74" stroke="#a8855e" strokeWidth="0.9" fill="none" strokeLinecap="round" />
+                      <path
+                        d="M 86 66 Q 84 72 88 74"
+                        stroke="#a8855e"
+                        strokeWidth="0.9"
+                        fill="none"
+                        strokeLinecap="round"
+                      />
                       {/* Cheek blush */}
-                      <ellipse cx="74" cy="74" rx="3.5" ry="2" fill="#e88a7a" opacity="0.55" />
-                      <ellipse cx="100" cy="74" rx="3.5" ry="2" fill="#e88a7a" opacity="0.55" />
+                      <ellipse
+                        cx="74"
+                        cy="74"
+                        rx="3.5"
+                        ry="2"
+                        fill="#e88a7a"
+                        opacity="0.55"
+                      />
+                      <ellipse
+                        cx="100"
+                        cy="74"
+                        rx="3.5"
+                        ry="2"
+                        fill="#e88a7a"
+                        opacity="0.55"
+                      />
                       {/* Big happy smile (teeth visible) */}
                       <path
                         d="M 76 80 Q 86 92 96 80 Q 86 86 76 80 Z"
@@ -867,12 +966,48 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                       />
                       {/* Sunglasses */}
                       <g>
-                        <rect x="70" y="58" width="16" height="10" rx="5" fill="#0a0a0a" />
-                        <rect x="88" y="58" width="16" height="10" rx="5" fill="#0a0a0a" />
-                        <rect x="86" y="61" width="2" height="2" fill="#0a0a0a" />
+                        <rect
+                          x="70"
+                          y="58"
+                          width="16"
+                          height="10"
+                          rx="5"
+                          fill="#0a0a0a"
+                        />
+                        <rect
+                          x="88"
+                          y="58"
+                          width="16"
+                          height="10"
+                          rx="5"
+                          fill="#0a0a0a"
+                        />
+                        <rect
+                          x="86"
+                          y="61"
+                          width="2"
+                          height="2"
+                          fill="#0a0a0a"
+                        />
                         {/* highlight on glasses */}
-                        <rect x="73" y="60" width="3" height="2" rx="1" fill="#fff" opacity="0.4" />
-                        <rect x="91" y="60" width="3" height="2" rx="1" fill="#fff" opacity="0.4" />
+                        <rect
+                          x="73"
+                          y="60"
+                          width="3"
+                          height="2"
+                          rx="1"
+                          fill="#fff"
+                          opacity="0.4"
+                        />
+                        <rect
+                          x="91"
+                          y="60"
+                          width="3"
+                          height="2"
+                          rx="1"
+                          fill="#fff"
+                          opacity="0.4"
+                        />
                       </g>
                       {/* Body — orange shirt */}
                       <path
@@ -889,17 +1024,58 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     {/* Floating coins outside the bust */}
                     <motion.g
                       animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{
+                        duration: 2.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                     >
-                      <circle cx="20" cy="40" r="8" fill="#ffd45a" stroke="#a45a40" strokeWidth="1" />
-                      <text x="20" y="43" textAnchor="middle" fontSize="9" fontWeight="800" fill="#0a0a0a">$</text>
+                      <circle
+                        cx="20"
+                        cy="40"
+                        r="8"
+                        fill="#ffd45a"
+                        stroke="#a45a40"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x="20"
+                        y="43"
+                        textAnchor="middle"
+                        fontSize="9"
+                        fontWeight="800"
+                        fill="#0a0a0a"
+                      >
+                        $
+                      </text>
                     </motion.g>
                     <motion.g
                       animate={{ y: [0, -6, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.5,
+                      }}
                     >
-                      <circle cx="180" cy="56" r="7" fill="#ffd45a" stroke="#a45a40" strokeWidth="1" />
-                      <text x="180" y="59" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0a0a0a">$</text>
+                      <circle
+                        cx="180"
+                        cy="56"
+                        r="7"
+                        fill="#ffd45a"
+                        stroke="#a45a40"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x="180"
+                        y="59"
+                        textAnchor="middle"
+                        fontSize="8"
+                        fontWeight="800"
+                        fill="#0a0a0a"
+                      >
+                        $
+                      </text>
                     </motion.g>
                     {/* sparkles — subtle black/grey */}
                     {[
@@ -928,14 +1104,21 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
                 <div
                   className="relative font-display tracking-tight leading-[1.05] text-black"
-                  style={{ fontSize: "20px", fontWeight: 600, letterSpacing: "-0.028em" }}
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: 600,
+                    letterSpacing: "-0.028em",
+                  }}
                 >
                   <span>Best rates</span>{" "}
                   <span className="text-black/55">guaranteed.</span>
                 </div>
                 <p className="relative text-[11.5px] text-black/55 mt-1.5 tracking-tight">
                   0% market fees · routed through{" "}
-                  <span className="font-semibold text-black" style={{ fontStyle: "italic" }}>
+                  <span
+                    className="font-semibold text-black"
+                    style={{ fontStyle: "italic" }}
+                  >
                     Blip Market
                   </span>
                 </p>
@@ -948,19 +1131,38 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     <div className="text-[8.5px] font-bold tracking-[0.2em] uppercase text-black/40">
                       Sent
                     </div>
-                    <div className="font-display tabular-nums tracking-tight leading-none mt-1" style={{ fontSize: "20px", fontWeight: 600, letterSpacing: "-0.025em" }}>
+                    <div
+                      className="font-display tabular-nums tracking-tight leading-none mt-1"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.025em",
+                      }}
+                    >
                       ${settledCelebration.amount.toLocaleString()}
                     </div>
-                    <div className="text-[9px] text-black/40 mt-0.5 font-medium">USDT</div>
+                    <div className="text-[9px] text-black/40 mt-0.5 font-medium">
+                      USDT
+                    </div>
                   </div>
                   <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 bg-black">
-                    <ArrowRight className="w-3 h-3 text-white" strokeWidth={2.5} />
+                    <ArrowRight
+                      className="w-3 h-3 text-white"
+                      strokeWidth={2.5}
+                    />
                   </div>
                   <div className="flex-1 text-right">
                     <div className="text-[8.5px] font-bold tracking-[0.2em] uppercase text-black/40">
                       Received
                     </div>
-                    <div className="font-display tabular-nums tracking-tight leading-none mt-1" style={{ fontSize: "20px", fontWeight: 600, letterSpacing: "-0.025em" }}>
+                    <div
+                      className="font-display tabular-nums tracking-tight leading-none mt-1"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.025em",
+                      }}
+                    >
                       {settledCelebration.fiat === "INR" ? "₹" : ""}
                       {(
                         settledCelebration.amount *
@@ -977,7 +1179,11 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.5,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="mt-3 rounded-xl px-3 py-2.5 flex items-center justify-between gap-3"
                   style={{
                     background: "#0a0a0a",
@@ -986,7 +1192,10 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     {/* avatar dot */}
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#1a1a1a" }}>
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ background: "#1a1a1a" }}
+                    >
                       <span className="text-[13px]">🤝</span>
                     </div>
                     <div className="text-left leading-tight">
@@ -1001,7 +1210,11 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   <motion.span
                     initial={{ opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.7,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="font-mono tabular-nums text-[15px] font-bold text-white flex-shrink-0"
                   >
                     +${settledCelebration.earned.toFixed(2)}
@@ -1051,7 +1264,17 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <Activity className="w-3.5 h-3.5 text-white/70" />
           <span className="font-display text-sm font-semibold text-white">
-            Blip <span style={{ color: "#cc785c", fontStyle: "italic", fontWeight: 600, letterSpacing: "-0.01em" }}>Market</span>
+            Blip{" "}
+            <span
+              style={{
+                color: "#cc785c",
+                fontStyle: "italic",
+                fontWeight: 600,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Market
+            </span>
           </span>
         </div>
 
@@ -1076,7 +1299,12 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
               >
                 <Icon className="w-3 h-3" />
                 <span>{t.label}</span>
-                {t.dot && <span className="w-1 h-1 rounded-full" style={{ background: "#cc785c" }} />}
+                {t.dot && (
+                  <span
+                    className="w-1 h-1 rounded-full"
+                    style={{ background: "#cc785c" }}
+                  />
+                )}
               </span>
             );
           })}
@@ -1101,9 +1329,18 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0 ml-auto sm:ml-0">
           {/* 24h volume mini-stat */}
           <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-md border border-white/[0.06] bg-white/[0.02]">
-            <span className="text-[8.5px] font-bold tracking-[0.18em] uppercase text-white/35">24h</span>
-            <span className="text-[10.5px] font-mono font-bold text-white tabular-nums">$12.4K</span>
-            <span className="text-[9px] font-mono font-semibold" style={{ color: "#cc785c" }}>↑ 8.2%</span>
+            <span className="text-[8.5px] font-bold tracking-[0.18em] uppercase text-white/35">
+              24h
+            </span>
+            <span className="text-[10.5px] font-mono font-bold text-white tabular-nums">
+              $12.4K
+            </span>
+            <span
+              className="text-[9px] font-mono font-semibold"
+              style={{ color: "#cc785c" }}
+            >
+              ↑ 8.2%
+            </span>
           </div>
 
           {/* Notifications */}
@@ -1120,28 +1357,48 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           </button>
 
           {/* Quick actions */}
-          <IconBtn><History className="w-3.5 h-3.5" /></IconBtn>
-          <IconBtn><Plus className="w-3.5 h-3.5" /></IconBtn>
+          <IconBtn>
+            <History className="w-3.5 h-3.5" />
+          </IconBtn>
+          <IconBtn>
+            <Plus className="w-3.5 h-3.5" />
+          </IconBtn>
 
           {/* Rep + Points */}
           <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-md border border-white/[0.06] bg-white/[0.02]">
             <Shield className="w-3 h-3 text-white/55" />
-            <span className="text-[10px] font-mono text-white/85 font-bold tabular-nums">500</span>
+            <span className="text-[10px] font-mono text-white/85 font-bold tabular-nums">
+              500
+            </span>
           </div>
           <div className="hidden md:flex items-center gap-1 px-2 py-1 rounded-md border border-white/40">
-            <Star className="w-3 h-3"  />
-            <span className="text-[10px] font-mono font-bold tabular-nums">500</span>
+            <Star className="w-3 h-3" />
+            <span className="text-[10px] font-mono font-bold tabular-nums">
+              500
+            </span>
           </div>
 
           {/* Profile */}
           <div className="flex items-center gap-1.5 pl-1.5 sm:pl-2 ml-0.5 border-l border-white/[0.06]">
             <div className="hidden sm:block text-right leading-tight">
-              <div className="text-[10.5px] font-semibold text-white">Alex Wei</div>
-              <div className="text-[8.5px] font-mono text-white/40">Tier 2 · Verified</div>
+              <div className="text-[10.5px] font-semibold text-white">
+                Alex Wei
+              </div>
+              <div className="text-[8.5px] font-mono text-white/40">
+                Tier 2 · Verified
+              </div>
             </div>
-            <div className="relative w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-[14px]" style={{ background: "linear-gradient(135deg, #ffb38a, #cc785c)" }}>
+            <div
+              className="relative w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-[14px]"
+              style={{
+                background: "linear-gradient(135deg, #ffb38a, #cc785c)",
+              }}
+            >
               🐝
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black" style={{ background: "#cc785c" }} />
+              <span
+                className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black"
+                style={{ background: "#cc785c" }}
+              />
             </div>
           </div>
         </div>
@@ -1167,7 +1424,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
               </span>
             </div>
             <button className="w-6 h-6 rounded-full bg-white/[0.03] border border-white/[0.10] flex items-center justify-center">
-              <Radio className={`w-3 h-3 text-[#cc785c] transition-transform ${livePulse ? "scale-110" : "scale-100"}`} />
+              <Radio
+                className={`w-3 h-3 text-[#cc785c] transition-transform ${livePulse ? "scale-110" : "scale-100"}`}
+              />
             </button>
           </div>
 
@@ -1204,27 +1463,27 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
               </div>
               {/* Floating earned toast — reserved slot so dashboard doesn't reflow when it shows/hides */}
               <div className="mt-2 h-6 relative flex items-center">
-              <AnimatePresence>
-                {lastEarning != null && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute left-16 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
-                    style={{
-                      background: "rgba(204,120,92,0.12)",
-                      border: "1px solid rgba(204,120,92,0.40)",
-                      color: "#cc785c",
-                    }}
-                  >
-                    <ArrowUpFromLine className="w-3 h-3" />
-                    <span className="text-[11px] font-bold font-mono tabular-nums">
-                      +${lastEarning.toFixed(2)} earned
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <AnimatePresence>
+                  {lastEarning != null && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute left-16 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full "
+                      style={{
+                        background: "transparent",
+                        border: "1px solid #fff",
+                        color: "#fff",
+                      }}
+                    >
+                      <ArrowUpFromLine className="w-3 h-3" />
+                      <span className="text-[11px] font-bold font-mono tabular-nums">
+                        +${lastEarning.toFixed(2)} earned
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
@@ -1239,7 +1498,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   className="flex flex-col items-center gap-1 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/70 transition-colors"
                 >
                   <a.Icon className="w-3 h-3" />
-                  <span className="text-[8px] font-bold tracking-wide">{a.label}</span>
+                  <span className="text-[8px] font-bold tracking-wide">
+                    {a.label}
+                  </span>
                 </button>
               ))}
             </div>
@@ -1257,9 +1518,15 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                       active ? "bg-white/[0.08] text-white" : "text-white/40"
                     }`}
                   >
-                    <span className="text-[10px] font-medium tracking-tight">USDT/{c}</span>
-                    <span className={`text-[9px] font-mono tabular-nums ${active ? "text-white/55" : "text-white/30"}`}>
-                      {c === "INR" ? `₹${Math.round(rateINR)}` : rateAED.toFixed(2)}
+                    <span className="text-[10px] font-medium tracking-tight">
+                      USDT/{c}
+                    </span>
+                    <span
+                      className={`text-[9px] font-mono tabular-nums ${active ? "text-white/55" : "text-white/30"}`}
+                    >
+                      {c === "INR"
+                        ? `₹${Math.round(rateINR)}`
+                        : rateAED.toFixed(2)}
                     </span>
                   </button>
                 );
@@ -1269,7 +1536,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
           <div className="px-3 mb-1.5">
             <button className="w-full flex items-center justify-between py-1 px-2 rounded-lg bg-white/[0.025] border border-white/[0.04] hover:bg-white/[0.05] transition-all">
-              <span className="text-[9px] text-white/30 font-mono uppercase tracking-wider">Cash & Market</span>
+              <span className="text-[9px] text-white/30 font-mono uppercase tracking-wider">
+                Cash & Market
+              </span>
               <ChevronRight className="w-3 h-3 text-white/25" />
             </button>
           </div>
@@ -1277,9 +1546,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             <button className="w-full flex items-center justify-between py-1 px-2 rounded-lg bg-white/[0.025] border border-white/[0.04] hover:bg-white/[0.05] transition-all">
               <div className="flex items-center gap-1.5">
                 <Activity className="w-3 h-3 text-white/20" />
-                <span className="text-[9px] text-white/30 font-mono uppercase tracking-wider">Corridor</span>
+                <span className="text-[9px] text-white/30 font-mono uppercase tracking-wider">
+                  Corridor
+                </span>
               </div>
-              <CounterText className="text-[9px] text-white/40 font-mono tabular-nums" base={4} jitter={2} suffix=" online" />
+              <CounterText
+                className="text-[9px] text-white/40 font-mono tabular-nums"
+                base={4}
+                jitter={2}
+                suffix=" online"
+              />
             </button>
           </div>
 
@@ -1296,12 +1572,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-1.5">
                 <ArrowLeftRight className="w-3 h-3 text-white/30" />
-                <span className="text-[10px] uppercase font-mono tracking-widest text-white/40">Amount</span>
+                <span className="text-[10px] uppercase font-mono tracking-widest text-white/40">
+                  Amount
+                </span>
                 <span className="px-1 py-[1px] rounded bg-white/[0.06] text-[8px] font-mono text-white/50">
                   USDT / {corridor}
                 </span>
               </div>
-              <span className="text-[9px] text-white/30 font-mono">MAX 1,500</span>
+              <span className="text-[9px] text-white/30 font-mono">
+                MAX 1,500
+              </span>
             </div>
             <div className="relative mb-1.5">
               <input
@@ -1313,36 +1593,48 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 placeholder="0"
                 className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-white/[0.18] rounded-md px-2 py-1.5 text-sm font-mono text-white outline-none placeholder:text-white/25 transition-colors"
               />
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/30">USDT</span>
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/30">
+                USDT
+              </span>
             </div>
 
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Spread</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">
+                Spread
+              </span>
             </div>
             <div className="grid grid-cols-3 gap-1 mb-2">
-              {([
-                { label: "Fast", v: "+2.5%" },
-                { label: "Best", v: "+2%" },
-                { label: "Cheap", v: "+1.5%" },
-              ] as const).map((s) => {
+              {(
+                [
+                  { label: "Fast", v: "+2.5%" },
+                  { label: "Best", v: "+2%" },
+                  { label: "Cheap", v: "+1.5%" },
+                ] as const
+              ).map((s) => {
                 const active = spread === s.label;
                 return (
                   <button
                     key={s.label}
                     onClick={() => setSpread(s.label as typeof spread)}
                     className={`rounded-md py-1 px-1 flex flex-col items-center gap-0 transition-all border ${
-                      active ? "bg-white/[0.08] border-white/15 text-white" : "bg-white/[0.02] border-white/[0.04] text-white/50"
+                      active
+                        ? "bg-white/[0.08] border-white/15 text-white"
+                        : "bg-white/[0.02] border-white/[0.04] text-white/50"
                     }`}
                   >
                     <span className="text-[10px]">{s.label}</span>
-                    <span className="text-[8px] font-mono tabular-nums text-white/60">{s.v}</span>
+                    <span className="text-[8px] font-mono tabular-nums text-white/60">
+                      {s.v}
+                    </span>
                   </button>
                 );
               })}
             </div>
 
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Boost</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">
+                Boost
+              </span>
               <span className="text-[8px] font-mono text-white/30">manual</span>
             </div>
             <div className="grid grid-cols-4 gap-1 mb-2">
@@ -1353,7 +1645,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     key={b}
                     onClick={() => setBoost(b)}
                     className={`rounded-md py-0.5 text-[10px] font-mono tabular-nums transition-all border ${
-                      active ? "bg-white/[0.04] border-white/[0.10] text-[#cc785c]" : "bg-white/[0.02] border-white/[0.04] text-white/40"
+                      active
+                        ? "bg-white/[0.04] border-white/[0.10] text-[#cc785c]"
+                        : "bg-white/[0.02] border-white/[0.04] text-white/40"
                     }`}
                   >
                     {b}%
@@ -1474,7 +1768,10 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         <motion.div
                           initial={{ opacity: 0, y: 6, scale: 0.92 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                          transition={{
+                            duration: 0.45,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
                           className="absolute bottom-9 right-1 z-20 pointer-events-none"
                         >
                           <motion.div
@@ -1495,7 +1792,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                                   "0 18px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.05), 0 1px 0 rgba(255,255,255,0.8) inset",
                               }}
                             >
-                              <span className="text-[18px] leading-none">👇</span>
+                              <span className="text-[18px] leading-none">
+                                👇
+                              </span>
                               <div className="flex flex-col leading-tight text-left">
                                 <span className="text-[13px] font-bold tracking-tight text-black">
                                   Accept the order
@@ -1512,7 +1811,8 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                                 borderLeft: "4px solid transparent",
                                 borderRight: "4px solid transparent",
                                 borderTop: "4px solid #fff",
-                                filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.25))",
+                                filter:
+                                  "drop-shadow(0 2px 2px rgba(0,0,0,0.25))",
                               }}
                             />
                           </motion.div>
@@ -1523,10 +1823,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                       )}
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-base leading-none">{o.avatar}</span>
+                          <span className="text-base leading-none">
+                            {o.avatar}
+                          </span>
                           <div className="flex flex-col leading-tight">
-                            <span className="text-[11px] font-medium text-white/85">{o.user}</span>
-                            <span className="text-[8px] font-mono text-white/30">#{o.id}</span>
+                            <span className="text-[11px] font-medium text-white/85">
+                              {o.user}
+                            </span>
+                            <span className="text-[8px] font-mono text-white/30">
+                              #{o.id}
+                            </span>
                           </div>
                         </div>
                         <span
@@ -1543,7 +1849,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         <div>
                           <div className="text-sm font-bold text-white font-mono tabular-nums leading-none">
                             {o.amount.toLocaleString()}{" "}
-                            <span className="text-[9px] text-white/40 font-normal">USDT</span>
+                            <span className="text-[9px] text-white/40 font-normal">
+                              USDT
+                            </span>
                           </div>
                           <div className="text-[9px] text-white/40 font-mono mt-0.5 tabular-nums">
                             @ {o.fiat === "INR" ? "₹" : ""}
@@ -1566,7 +1874,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         <motion.div
                           className="h-full bg-white/30"
                           initial={{ width: "0%" }}
-                          animate={{ width: `${Math.min(100, (o.age + 3) * 4)}%` }}
+                          animate={{
+                            width: `${Math.min(100, (o.age + 3) * 4)}%`,
+                          }}
                           transition={{ duration: 1, ease: "linear" }}
                         />
                       </div>
@@ -1583,13 +1893,19 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Shield className="w-3 h-3 text-white/50" />
-              <span className="text-[11px] font-medium text-white/80 uppercase tracking-wider">In Progress</span>
+              <span className="text-[11px] font-medium text-white/80 uppercase tracking-wider">
+                In Progress
+              </span>
             </div>
-            <span className="text-[10px] font-mono text-white/30 tabular-nums">{activeTrades.length}</span>
+            <span className="text-[10px] font-mono text-white/30 tabular-nums">
+              {activeTrades.length}
+            </span>
           </div>
 
           <div className="px-3 py-1.5 flex items-center gap-1 border-b border-white/[0.04] text-[10px] overflow-x-auto">
-            {(["All", "Accepted", "Escrowed", "Paid", "Cancelled"] as const).map((t) => {
+            {(
+              ["All", "Accepted", "Escrowed", "Paid", "Cancelled"] as const
+            ).map((t) => {
               const active = progressTab === t;
               return (
                 <button
@@ -1636,12 +1952,19 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                           initial={{ opacity: 0, scale: 0.85, y: 6 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.9 }}
-                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                          transition={{
+                            duration: 0.4,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
                           className="absolute -top-2 right-1 z-20 pointer-events-none"
                         >
                           <motion.div
                             animate={{ y: [0, -3, 0] }}
-                            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                            transition={{
+                              duration: 1.8,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
                             className="relative"
                           >
                             <div
@@ -1655,8 +1978,15 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                             >
                               <span className="relative flex w-2 h-2 flex-shrink-0">
                                 <motion.span
-                                  animate={{ scale: [1, 1.8, 1], opacity: [0.7, 0, 0.7] }}
-                                  transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                                  animate={{
+                                    scale: [1, 1.8, 1],
+                                    opacity: [0.7, 0, 0.7],
+                                  }}
+                                  transition={{
+                                    duration: 1.4,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                  }}
                                   className="absolute inset-0 rounded-full"
                                   style={{ background: "#cc785c" }}
                                 />
@@ -1681,7 +2011,8 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                                 borderLeft: "5px solid transparent",
                                 borderRight: "5px solid transparent",
                                 borderTop: "5px solid #fff",
-                                filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.25))",
+                                filter:
+                                  "drop-shadow(0 2px 2px rgba(0,0,0,0.25))",
                               }}
                             />
                           </motion.div>
@@ -1690,10 +2021,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-base leading-none">{t.avatar}</span>
+                          <span className="text-base leading-none">
+                            {t.avatar}
+                          </span>
                           <div className="flex flex-col leading-tight">
-                            <span className="text-[11px] font-medium text-white/85">{t.user}</span>
-                            <span className="text-[8px] font-mono text-white/30">#{t.id}</span>
+                            <span className="text-[11px] font-medium text-white/85">
+                              {t.user}
+                            </span>
+                            <span className="text-[8px] font-mono text-white/30">
+                              #{t.id}
+                            </span>
                           </div>
                         </div>
                         <StatusBadge status={t.status} />
@@ -1703,11 +2040,15 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         <div>
                           <div className="text-sm font-bold text-white font-mono tabular-nums leading-none">
                             {t.amount.toLocaleString()}{" "}
-                            <span className="text-[9px] text-white/40 font-normal">USDT</span>
+                            <span className="text-[9px] text-white/40 font-normal">
+                              USDT
+                            </span>
                           </div>
                           <div className="text-[9px] text-white/40 font-mono mt-0.5 flex items-center gap-1">
                             <Clock className="w-2.5 h-2.5" />
-                            <span className="tabular-nums">{fmtTTL(t.ttl)}</span>
+                            <span className="tabular-nums">
+                              {fmtTTL(t.ttl)}
+                            </span>
                           </div>
                         </div>
                         <button className="px-2 py-0.5 rounded-md bg-white/[0.06] border border-white/[0.08] text-[10px] font-bold text-white/70 flex items-center gap-1">
@@ -1718,24 +2059,29 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                       {/* Continuous progress bar — animates with t.progress */}
                       <div className="relative">
                         <div className="flex items-center gap-1 mb-1.5">
-                          {(["A", "E", "P", "S"] as const).map((step, i, arr) => {
-                            const stepProgress = i / (arr.length - 1);
-                            const reached = t.progress >= stepProgress - 0.001;
-                            return (
-                              <div
-                                key={step}
-                                className="flex-1 flex items-center justify-center"
-                              >
-                                <span
-                                  className={`text-[8px] font-mono font-bold tracking-[0.1em] ${
-                                    reached ? "text-white/85" : "text-white/20"
-                                  }`}
+                          {(["A", "E", "P", "S"] as const).map(
+                            (step, i, arr) => {
+                              const stepProgress = i / (arr.length - 1);
+                              const reached =
+                                t.progress >= stepProgress - 0.001;
+                              return (
+                                <div
+                                  key={step}
+                                  className="flex-1 flex items-center justify-center"
                                 >
-                                  {step}
-                                </span>
-                              </div>
-                            );
-                          })}
+                                  <span
+                                    className={`text-[8px] font-mono font-bold tracking-[0.1em] ${
+                                      reached
+                                        ? "text-white/85"
+                                        : "text-white/20"
+                                    }`}
+                                  >
+                                    {step}
+                                  </span>
+                                </div>
+                              );
+                            },
+                          )}
                         </div>
                         <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden">
                           <motion.div
@@ -1743,8 +2089,13 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                               t.isYours ? "bg-[#cc785c]" : "bg-white"
                             }`}
                             initial={false}
-                            animate={{ width: `${Math.round(t.progress * 100)}%` }}
-                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                            animate={{
+                              width: `${Math.round(t.progress * 100)}%`,
+                            }}
+                            transition={{
+                              duration: 0.5,
+                              ease: [0.16, 1, 0.3, 1],
+                            }}
                           />
                         </div>
                       </div>
@@ -1783,7 +2134,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 >
                   <div className="flex items-center gap-1.5 min-w-0">
                     {i < 3 ? (
-                      <span className="text-[10px]">{["👑", "🥈", "🥉"][i]}</span>
+                      <span className="text-[10px]">
+                        {["👑", "🥈", "🥉"][i]}
+                      </span>
                     ) : (
                       <span className="w-3 text-[10px] font-mono text-white/30 tabular-nums">
                         {i + 1}
@@ -1791,8 +2144,12 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     )}
                     <span className="text-base leading-none">{m.avatar}</span>
                     <div className="flex flex-col leading-tight min-w-0">
-                      <span className="text-[10px] text-white/80 truncate">{m.name}</span>
-                      <span className="text-[8px] font-mono text-white/30">{m.trades}T</span>
+                      <span className="text-[10px] text-white/80 truncate">
+                        {m.name}
+                      </span>
+                      <span className="text-[8px] font-mono text-white/30">
+                        {m.trades}T
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
@@ -1923,7 +2280,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                         <div className="text-[9px] text-white/45 leading-tight mt-0.5 truncate">
                           {n.body}
                         </div>
-                        <div className="text-[8px] font-mono text-white/25 mt-0.5">{n.ts}</div>
+                        <div className="text-[8px] font-mono text-white/25 mt-0.5">
+                          {n.ts}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1934,7 +2293,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   <div className="w-7 h-7 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-1.5">
                     <Bell className="w-3 h-3 text-white/30" />
                   </div>
-                  <span className="text-[10px] text-white/40">All caught up</span>
+                  <span className="text-[10px] text-white/40">
+                    All caught up
+                  </span>
                 </div>
               )}
             </div>
@@ -1963,7 +2324,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   <div className="w-7 h-7 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-1.5">
                     <MessageSquare className="w-3 h-3 text-white/30" />
                   </div>
-                  <span className="text-[10px] text-white/40">No active order chats</span>
+                  <span className="text-[10px] text-white/40">
+                    No active order chats
+                  </span>
                 </div>
               </>
             )}
@@ -1981,7 +2344,10 @@ function NotificationIcon({ kind }: { kind: Notification["kind"] }) {
    *  kind reads by its own color + glyph. */
   const map: Record<
     Notification["kind"],
-    { Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>; color: string }
+    {
+      Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+      color: string;
+    }
   > = {
     order_new: { Icon: Bell, color: "rgba(255,255,255,0.60)" },
     order_accepted: { Icon: CheckCircle2, color: "#cc785c" },
@@ -2005,7 +2371,12 @@ interface ChatPanelProps {
   onSendMessage?: (orderId: string, text: string) => void;
 }
 
-function ChatPanel({ threads, active, onSelect, onSendMessage }: ChatPanelProps) {
+function ChatPanel({
+  threads,
+  active,
+  onSelect,
+  onSendMessage,
+}: ChatPanelProps) {
   const [draft, setDraft] = useState("");
   const handleSend = () => {
     if (!draft.trim() || !onSendMessage) return;
@@ -2030,7 +2401,9 @@ function ChatPanel({ threads, active, onSelect, onSendMessage }: ChatPanelProps)
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <p className="text-[11px] font-medium text-white/85 truncate">{active.user}</p>
+            <p className="text-[11px] font-medium text-white/85 truncate">
+              {active.user}
+            </p>
             <span
               className={`text-[9px] px-1 py-[1px] rounded font-mono border ${
                 active.side === "BUY"
@@ -2186,13 +2559,29 @@ function IconBtn({ children }: { children: React.ReactNode }) {
 
 function StatusBadge({ status }: { status: ActiveTrade["status"] }) {
   const map = {
-    ACCEPTED: { cls: "bg-white/[0.04] text-white/70 border-white/[0.12]", label: "ACCEPTED" },
-    ESCROWED: { cls: "bg-white/[0.04] text-white/75 border-white/[0.12]", label: "ESCROWED" },
-    PAID: { cls: "bg-white/[0.04] text-white/70 border-white/[0.12]", label: "PAID" },
+    ACCEPTED: {
+      cls: "bg-white/[0.04] text-white/70 border-white/[0.12]",
+      label: "ACCEPTED",
+    },
+    ESCROWED: {
+      cls: "bg-white/[0.04] text-white/75 border-white/[0.12]",
+      label: "ESCROWED",
+    },
+    PAID: {
+      cls: "bg-white/[0.04] text-white/70 border-white/[0.12]",
+      label: "PAID",
+    },
   } as const;
-  const s = map[status] as { cls: string; label: string; style?: React.CSSProperties };
+  const s = map[status] as {
+    cls: string;
+    label: string;
+    style?: React.CSSProperties;
+  };
   return (
-    <span style={s.style} className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border tabular-nums flex items-center gap-1 ${s.cls}`}>
+    <span
+      style={s.style}
+      className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border tabular-nums flex items-center gap-1 ${s.cls}`}
+    >
       <span className="relative flex w-1 h-1">
         <span className="absolute inset-0 rounded-full bg-current animate-ping opacity-60" />
         <span className="relative inline-flex w-1 h-1 rounded-full bg-current" />
@@ -2202,7 +2591,15 @@ function StatusBadge({ status }: { status: ActiveTrade["status"] }) {
   );
 }
 
-function EmptyState({ icon, title, sub }: { icon: React.ReactNode; title: string; sub: string }) {
+function EmptyState({
+  icon,
+  title,
+  sub,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  sub: string;
+}) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
       <div className="w-9 h-9 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center">
@@ -2245,12 +2642,12 @@ function CounterText({
 const LEADERS = [
   { name: "John", avatar: "🌊", trades: 23, vol: "3.8k", rating: 5.0 },
   { name: "zoro", avatar: "🦋", trades: 36, vol: "2.7k", rating: 4.5 },
-  { name: "Zayn Khan", avatar: "🐱", trades: 4, vol: "1.4k", rating: null },
+  { name: "Jake Cole", avatar: "🐱", trades: 4, vol: "1.4k", rating: null },
   { name: "Drako", avatar: "🐙", trades: 2, vol: "1.0k", rating: null },
   { name: "Hulk", avatar: "🐢", trades: 14, vol: "315", rating: 1.0 },
   { name: "Craig Mo...", avatar: "🐻", trades: 0, vol: "0", rating: null },
   { name: "Zooo", avatar: "🐧", trades: 0, vol: "0", rating: null },
-  { name: "shubham", avatar: "🌊", trades: 0, vol: "0", rating: null },
+  { name: "blaze", avatar: "🌊", trades: 0, vol: "0", rating: null },
 ] as const;
 
 /* ───────────────────── Standalone export (optional) ───────────────────── */
@@ -2281,8 +2678,8 @@ export default function LiveMerchantDashboard() {
             Settlement, in motion.
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto">
-            A real-time view of the merchant dashboard. Orders stream in, escrow locks, fiat
-            confirms, and trades settle — all on-protocol.
+            A real-time view of the merchant dashboard. Orders stream in, escrow
+            locks, fiat confirms, and trades settle — all on-protocol.
           </p>
         </motion.div>
       </div>

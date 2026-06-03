@@ -1831,7 +1831,7 @@ function DesktopFlow() {
                       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 1, ease: EASE }}
-                      className="absolute inset-[3px] rounded-[2.7rem] z-40  bg-white dark:bg-[#0a0a0a] flex items-center justify-center"
+                      className="absolute inset-[3px] rounded-[2.7rem] z-40   flex items-center justify-center"
                     >
                       <BlipPhoneMockup balance={190} />
                     </motion.div>

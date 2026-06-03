@@ -331,13 +331,10 @@ export function BlipPhoneMockup({balance}) {
     // </div>
     // E:\33researchlabs\Blip-money-futureStick\blip-protocol-ui\public\screenshots\image.png
     <div
-      className="overflow-hidden rounded-[3rem]"
-      style={{
-        width: "min(290px, calc(100vw - 60px))",
-        height: "min(600px, 77vh)",
-      }}
+      className="overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] mx-auto w-full max-w-[220px] sm:max-w-[250px] lg:max-w-[270px]"
+      style={{ aspectRatio: "431 / 855" }}
     >
-      <img className="w-full h-full object-cover" src="/screenshots/image2-bg.png" alt="" />
+      <img className="block w-full h-full object-cover" src="/screenshots/image20-bg.png" alt="" />
     </div>
   );
 }
