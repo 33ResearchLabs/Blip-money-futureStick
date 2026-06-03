@@ -61,12 +61,12 @@ const FIRST_NAMES = [
   "Maya",
   "David",
   "Anna",
-  "Chen",
-  "Yuki",
+  "Ryan",
+  "Grace",
   "Liam",
-  "Noor",
-  "Ravi",
-  "Carlos",
+  "Chloe",
+  "Ethan",
+  "Jack",
 ];
 
 export type Order = {
@@ -176,7 +176,7 @@ function seedActive(): ActiveTrade[] {
   return [
     {
       id: "F8421X",
-      user: "Mira",
+      user: "Emma",
       avatar: "🦊",
       side: "BUY",
       amount: 1250,
@@ -187,7 +187,7 @@ function seedActive(): ActiveTrade[] {
     },
     {
       id: "F8419Q",
-      user: "Tariq",
+      user: "Noah",
       avatar: "🐯",
       side: "SELL",
       amount: 780,
@@ -255,7 +255,7 @@ function seedChatThreads(): ChatThread[] {
   return [
     {
       orderId: "F8421X",
-      user: "Mira",
+      user: "Emma",
       avatar: "🦊",
       side: "BUY",
       amount: 1250,
@@ -271,7 +271,7 @@ function seedChatThreads(): ChatThread[] {
     },
     {
       orderId: "F8419Q",
-      user: "Tariq",
+      user: "Noah",
       avatar: "🐯",
       side: "SELL",
       amount: 780,
@@ -1128,9 +1128,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             <Shield className="w-3 h-3 text-white/55" />
             <span className="text-[10px] font-mono text-white/85 font-bold tabular-nums">500</span>
           </div>
-          <div className="hidden md:flex items-center gap-1 px-2 py-1 rounded-md border" style={{ borderColor: "rgba(204,120,92,0.3)", background: "rgba(204,120,92,0.06)" }}>
-            <Star className="w-3 h-3" style={{ color: "#cc785c" }} />
-            <span className="text-[10px] font-mono font-bold tabular-nums" style={{ color: "#cc785c" }}>500</span>
+          <div className="hidden md:flex items-center gap-1 px-2 py-1 rounded-md border border-white/40">
+            <Star className="w-3 h-3"  />
+            <span className="text-[10px] font-mono font-bold tabular-nums">500</span>
           </div>
 
           {/* Profile */}
@@ -1203,7 +1203,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 </motion.span>
               </div>
               {/* Floating earned toast — reserved slot so dashboard doesn't reflow when it shows/hides */}
-              <div className="mt-2 h-6 relative">
+              <div className="mt-2 h-6 relative flex items-center">
               <AnimatePresence>
                 {lastEarning != null && (
                   <motion.div
@@ -1211,7 +1211,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute left-0 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
+                    className="absolute left-16 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
                     style={{
                       background: "rgba(204,120,92,0.12)",
                       border: "1px solid rgba(204,120,92,0.40)",
@@ -1292,7 +1292,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           </div>
 
           {/* Trade form */}
-          <div className="border-t border-white/[0.05] px-3 pt-2 pb-3 mt-auto">
+          <div className="border-t border-white/[0.05] px-3 pt-2 pb-3 mt-2">
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-1.5">
                 <ArrowLeftRight className="w-3 h-3 text-white/30" />
@@ -2034,7 +2034,7 @@ function ChatPanel({ threads, active, onSelect, onSendMessage }: ChatPanelProps)
             <span
               className={`text-[9px] px-1 py-[1px] rounded font-mono border ${
                 active.side === "BUY"
-                  ? "bg-white/[0.03] text-[#cc785c] border-white/[0.10]"
+                  ? "bg-white/[0.03] text-white/70 border-white/[0.10]"
                   : "bg-orange-500/10 text-orange-300 border-orange-500/25"
               }`}
             >
