@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blip Money — Site Flow & SEO Audit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tab {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .tab:hover { color: #aaa; }
+    .tab.active { color: #cc785c; border-bottom-color: #cc785c; }
+
+    .tab-content { display: none; padding: 40px 24px 80px; }
+    .tab-content.active { display: block; }
+
+    /* ── Shared ── */
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin-bottom: 40px;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #555;
+      margin: 48px 0 16px;
+    }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+    .badge-public   { background: #1a2a1a; color: #6ee0c5; }
+    .badge-auth     { background: #1a1a2e; color: #7b8fff; }
+    .badge-dash     { background: #2a1a0e; color: #cc785c; }
+    .badge-seo      { background: #1a1a1a; color: #aaa; }
+    .badge-legal    { background: #1e1e1e; color: #888; }
+    .badge-redirect { background: #1a1a1a; color: #555; border: 1px dashed #333; }
+
+    /* ══════════════════════════════════
+       TAB 1 — FLOW
+    ══════════════════════════════════ */
+    .flow-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    .node {
+      flex: 0 0 auto;
+      width: 220px;
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 12px;
+      padding: 16px;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .node:hover { border-color: #cc785c; transform: translateY(-2px); }
+    .node-path  { font-size: 10px; font-weight: 600; color: #cc785c; margin-bottom: 6px; font-family: "SF Mono","Fira Code",monospace; }
+    .node-title { font-size: 13px; font-weight: 600; color: #f0f0f0; margin-bottom: 6px; line-height: 1.3; }
+    .node-desc  { font-size: 11px; color: #777; line-height: 1.5; }
+    .arrow      { flex: 0 0 auto; display: flex; align-items: center; padding: 0 6px; color: #333; font-size: 18px; margin-top: 32px; }
+    .node-grid  { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; }
+    .v-connector{ width: 1px; height: 24px; background: #262626; margin: 0 auto 0 32px; }
+
+    /* search (flow tab) */
+    #search {
+      display: block; margin: 0 auto 36px; width: 100%; max-width: 480px;
+      background: #141414; border: 1px solid #262626; border-radius: 8px;
+      padding: 10px 16px; font-size: 14px; color: #e5e5e5; outline: none;
+    }
+    #search:focus { border-color: #cc785c; }
+    #search::placeholder { color: #444; }
+    .node.hidden { display: none; }
+
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; justify-content: center; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+    .legend-dot  { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ══════════════════════════════════
+       TAB 2 — SEO AUDIT
+    ══════════════════════════════════ */
+    #seo-search {
+      display: block; margin: 0 auto 32px; width: 100%; max-width: 560px;
+      background: #141414; border: 1px solid #262626; border-radius: 8px;
+      padding: 10px 16px; font-size: 14px; color: #e5e5e5; outline: none;
+    }
+    #seo-search:focus { border-color: #cc785c; }
+    #seo-search::placeholder { color: #444; }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 40px;
+    }
+    .stat {
+      background: #141414; border: 1px solid #222; border-radius: 10px;
+      padding: 14px 22px; text-align: center; min-width: 110px;
+    }
+    .stat-num { font-size: 28px; font-weight: 700; color: #cc785c; }
+    .stat-lbl { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+    /* SEO table */
+    .seo-table { width: 100%; border-collapse: collapse; }
+    .seo-table th {
+      text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #444; padding: 10px 14px;
+      border-bottom: 1px solid #1e1e1e; position: sticky; top: 46px;
+      background: #0a0a0a; z-index: 10;
+    }
+    .seo-table td { padding: 12px 14px; border-bottom: 1px solid #151515; vertical-align: top; }
+    .seo-table tr:hover td { background: #111; }
+    .seo-table tr.hidden { display: none; }
+
+    .td-path {
+      font-family: "SF Mono","Fira Code",monospace;
+      font-size: 11px; color: #cc785c; white-space: nowrap;
+    }
+    .td-path a { color: #cc785c; text-decoration: none; }
+    .td-path a:hover { text-decoration: underline; }
+
+    .td-title { font-size: 12px; font-weight: 600; color: #e0e0e0; max-width: 280px; }
+    .td-title-len { font-size: 10px; color: #444; margin-top: 2px; }
+
+    .td-desc { font-size: 11px; color: #888; line-height: 1.6; max-width: 420px; }
+    .td-desc-len { font-size: 10px; margin-top: 2px; }
+
+    .len-ok   { color: #6ee0c5; }
+    .len-long { color: #f5a623; }
+    .len-short{ color: #e55; }
+
+    .td-links { font-size: 11px; color: #666; max-width: 160px; }
+    .td-links a { color: #7b8fff; text-decoration: none; font-size: 10px; display: block; margin-bottom: 2px; }
+    .td-links a:hover { text-decoration: underline; }
+
+    /* Broken links tab */
+    .broken-card {
+      background: #1a0e0e; border: 1px solid #3d1a1a; border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 12px;
+    }
+    .broken-path { font-family: "SF Mono","Fira Code",monospace; font-size: 13px; color: #e55; margin-bottom: 8px; font-weight: 700; }
+    .broken-source { font-size: 11px; color: #888; margin-bottom: 3px; }
+    .broken-source code { font-family: "SF Mono","Fira Code",monospace; color: #aaa; background: #1e1e1e; padding: 1px 5px; border-radius: 4px; font-size: 10px; }
+    .broken-fix { font-size: 11px; color: #f5a623; margin-top: 8px; }
+
+    .ok-card {
+      background: #0e1a0e; border: 1px solid #1a3d1a; border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 10px;
+    }
+    .ok-path { font-family: "SF Mono","Fira Code",monospace; font-size: 12px; color: #6ee0c5; }
+    .ok-count { font-size: 10px; color: #555; margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ══ TAB BAR ══ -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('flow')">Site Flow</div>
+  <div class="tab" onclick="showTab('seo')">SEO Audit</div>
+  <div class="tab" onclick="showTab('broken')">Broken Links <span style="color:#e55;margin-left:4px;">●</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB 1 — SITE FLOW
+══════════════════════════════════════════════════════════ -->
+<div id="tab-flow" class="tab-content active">
+  <h1 style="margin-top:8px;">Blip Money — Site Flow</h1>
+  <p class="subtitle">All routes · meta descriptions · user journey</p>
+
+  <input id="search" type="text" placeholder="Search pages, paths, or descriptions…" oninput="filterNodes(this.value)" />
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#6ee0c5"></div> Public</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7b8fff"></div> Auth / Waitlist</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#cc785c"></div> Dashboard</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#aaa"></div> SEO / Markets</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#888"></div> Legal</div>
+  </div>
+
+  <div class="section-label">Entry point</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/</div><div class="node-title">Home</div><div class="node-desc">No banks. No delays. Global liquidity. Non-custodial settlement protocol for instant crypto-to-cash transfers, secured by escrow and reputation.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/rates</div><div class="node-title">Live Rates</div><div class="node-desc">Find the cheapest USDT rate. Blip beats Binance P2P, Paxful, KuCoin, OKX on rate, speed, privacy, and on-chain settlement.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/how-it-works</div><div class="node-title">How It Works</div><div class="node-desc">Live order book for cross-border value. Merchants compete in sealed-bid auctions, funds settle through non-custodial escrow on Solana.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/market</div><div class="node-title">Open Markets</div><div class="node-desc">Real-time sealed-bid auctions, non-custodial escrow, on-chain reputation — all on Solana.</div></div>
+  </div>
+
+  <div class="section-label">Auth funnel</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/signup · /signin</div><div class="node-title">Auth Hero</div><div class="node-desc">Create your Blip account or sign in to track your waitlist position, bonus points, and referrals.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/signup?role=user</div><div class="node-title">User Register</div><div class="node-desc">Reserve your spot — settled by verified merchants in under 60 seconds. Early users earn bonus points and priority access.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/email-verification-pending</div><div class="node-title">Email Pending</div><div class="node-desc">Verification email sent — user must confirm before accessing dashboard.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/verify-email</div><div class="node-title">Email Verified</div><div class="node-desc">Email confirmed. Redirects to user dashboard.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-dash">Dashboard</div><div class="node-path">/dashboard</div><div class="node-title">User Dashboard</div><div class="node-desc">Earn 5,000 BLIP points, unlock early access the moment the app opens.</div></div>
+  </div>
+  <div class="v-connector"></div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/signup?role=merchant</div><div class="node-title">Merchant Register</div><div class="node-desc">Settle orders, set your spread, earn margin on every trade. Founding merchants receive priority routing and reduced fees.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-dash">Dashboard</div><div class="node-path">/merchant-dashboard</div><div class="node-title">Merchant Dashboard</div><div class="node-desc">Manage live orders, settlements, earnings, and quest rewards for verified Blip merchants.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-dash">Dashboard</div><div class="node-path">/superadmin</div><div class="node-title">Super Admin</div><div class="node-desc">Admin-only. Full platform oversight, user management, and protocol controls.</div></div>
+  </div>
+  <div class="v-connector"></div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/forgot-password</div><div class="node-title">Forgot Password</div><div class="node-desc">Enter email to receive a reset link.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-auth">Auth</div><div class="node-path">/reset-password</div><div class="node-title">Reset Password</div><div class="node-desc">Set a new password using the reset link from email.</div></div>
+  </div>
+
+  <div class="section-label">Use cases</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/use-cases</div><div class="node-title">Use Cases</div><div class="node-desc">Discover how Blip serves freelancers, OTC traders, e-commerce businesses, and remittance users.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/use-cases/:slug</div><div class="node-title">Use Case Detail</div><div class="node-desc">Deep dive into each use case — freelancer, merchant, OTC trader, remittance.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/merchant</div><div class="node-title">Become a Merchant</div><div class="node-desc">Fast, secure tools to accept payments, manage sales, and boost revenue.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/user</div><div class="node-title">User Landing</div><div class="node-desc">Convert crypto to fiat instantly. Non-custodial, escrow-backed, peer-to-peer settlement with live market rates.</div></div>
+  </div>
+
+  <div class="section-label">Protocol</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/whitepaper</div><div class="node-title">Whitepaper</div><div class="node-desc">Blip Market: An open liquidity network for fast, cheap global value settlement.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/how-it-works</div><div class="node-title">How It Works</div><div class="node-desc">Sealed-bid auctions, non-custodial escrow on Solana, reputation-scored merchant routing.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/changelog</div><div class="node-title">Changelog</div><div class="node-desc">Full development history and release timeline — updates, features, and fixes.</div></div>
+  </div>
+
+  <div class="section-label">Resources</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/blog</div><div class="node-title">Blog</div><div class="node-desc">Articles on crypto payments, on-chain escrow, merchant solutions, Solana, and tokenomics.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/blog/:slug</div><div class="node-title">Blog Article</div><div class="node-desc">Individual post detail.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/research</div><div class="node-title">Research</div><div class="node-desc">In-depth research on AI-powered crypto bots, autonomous agents, MEV, and decentralized P2P.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/research/:slug</div><div class="node-title">Research Article</div><div class="node-desc">Individual research paper detail.</div></div>
+  </div>
+  <div class="v-connector"></div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/faq</div><div class="node-title">FAQ</div><div class="node-desc">Frequently asked questions about Blip Money, crypto settlement, and onboarding.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/glossary</div><div class="node-title">Glossary</div><div class="node-desc">Comprehensive glossary of crypto, DeFi, payments, and blockchain terms.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/compare</div><div class="node-title">Compare</div><div class="node-desc">Blip vs Wise, Binance P2P, traditional escrow — speed, fees, security.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/rewards</div><div class="node-title">Rewards</div><div class="node-desc">Earn BLIP points, referral bonuses, and early-access rewards.</div></div>
+  </div>
+
+  <div class="section-label">Company</div>
+  <div class="flow-row">
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/about</div><div class="node-title">About</div><div class="node-desc">Non-custodial settlement layer for the world. Instant payments, on-chain escrow, powered by Solana.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/contact</div><div class="node-title">Contact</div><div class="node-desc">Support, partnerships, or general inquiries.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/press</div><div class="node-title">Press</div><div class="node-desc">Press releases, media coverage, and brand assets download.</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/community</div><div class="node-title">Community</div><div class="node-desc">Telegram, Twitter, Discord, GitHub. Ecosystem partners, DAO governance, ambassador program.</div></div>
+  </div>
+
+  <div class="section-label">SEO · Market pages</div>
+  <div class="node-grid">
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/sell-usdt-dubai</div><div class="node-title">Sell USDT Dubai</div><div class="node-desc">Sell USDT in Dubai and convert Tether to AED instantly. Escrow-protected trades, competitive rates.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/buy-usdt-dubai</div><div class="node-title">Buy USDT Dubai</div><div class="node-desc">Buy USDT in Dubai and convert AED to Tether instantly. Escrow-protected trades.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-payments-uae</div><div class="node-title">Crypto Payments UAE</div><div class="node-desc">Buy, sell, and settle cryptocurrency across Dubai and the Emirates with escrow-protected, fast settlement.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/accept-crypto-business</div><div class="node-title">Accept Crypto (Business)</div><div class="node-desc">Accept cryptocurrency for your business. Instant AED settlement, zero chargebacks, lower fees.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-to-aed</div><div class="node-title">Crypto → AED</div><div class="node-desc">Convert USDT, USDC, BTC, ETH, SOL to AED instantly. Live rates, non-custodial escrow.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-remittance-uae</div><div class="node-title">Crypto Remittance UAE</div><div class="node-desc">Send money UAE→India/Pakistan/Philippines using crypto. Save up to 90% on transfer fees.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/btc-to-aed</div><div class="node-title">BTC → AED</div><div class="node-desc">Live BTC/AED rate every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 min.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/eth-to-aed</div><div class="node-title">ETH → AED</div><div class="node-desc">Live ETH/AED rate every 30 seconds. Non-custodial escrow, 0.5% fees.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/sol-to-aed</div><div class="node-title">SOL → AED</div><div class="node-desc">Live SOL/AED rate. Native Solana escrow, sub-$0.01 fees, fastest settlement.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-to-bank-uae</div><div class="node-title">Crypto to Bank UAE</div><div class="node-desc">Withdraw crypto to UAE bank. Compare methods, fees, settlement times.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/usdt-vs-usdc</div><div class="node-title">USDT vs USDC</div><div class="node-desc">Compare stablecoins for UAE traders. Market cap, fees, AED off-ramping support.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-tax-uae</div><div class="node-title">Crypto Tax UAE</div><div class="node-desc">Crypto tax guidance for UAE residents. Regulations, reporting, and compliance.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-escrow-uae</div><div class="node-title">Crypto Escrow UAE</div><div class="node-desc">On-chain escrow for P2P trading, OTC deals, and real estate transactions.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-salary-uae</div><div class="node-title">Crypto Salary UAE</div><div class="node-desc">Pay or receive salary in crypto in the UAE. Instant conversion, compliant settlement.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-otc-dubai</div><div class="node-title">Crypto OTC Dubai</div><div class="node-desc">Large-volume OTC trades with escrow-protected settlement. Bonded merchants, on-chain transparency.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/best-crypto-exchange-uae</div><div class="node-title">Best Crypto Exchange UAE</div><div class="node-desc">Non-custodial escrow-protected trading, low fees, VARA-aligned, instant crypto-to-AED.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/bitcoin-price-uae</div><div class="node-title">Bitcoin Price UAE</div><div class="node-desc">Live BTC/AED price, market insights, instant conversion tools for UAE residents.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/crypto-to-inr</div><div class="node-title">Crypto → INR</div><div class="node-desc">Convert USDT, USDC, BTC, ETH, SOL to INR instantly. Live rates, non-custodial escrow.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/btc-to-inr</div><div class="node-title">BTC → INR</div><div class="node-desc">Live BTC/INR rate every 30 seconds. Non-custodial escrow, 0.5% fees.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/eth-to-inr</div><div class="node-title">ETH → INR</div><div class="node-desc">Live ETH/INR rate. Non-custodial escrow, 0.5% fees.</div></div>
+    <div class="node"><div class="badge badge-seo">SEO</div><div class="node-path">/sol-to-inr</div><div class="node-title">SOL → INR</div><div class="node-desc">Live SOL/INR rate. Native Solana escrow, sub-$0.01 fees.</div></div>
+  </div>
+
+  <div class="section-label">Legal</div>
+  <div class="node-grid">
+    <div class="node"><div class="badge badge-legal">Legal</div><div class="node-path">/privacy</div><div class="node-title">Privacy Policy</div><div class="node-desc">How Blip collects, uses, and protects your personal data.</div></div>
+    <div class="node"><div class="badge badge-legal">Legal</div><div class="node-path">/terms</div><div class="node-title">Terms of Service</div><div class="node-desc">User obligations, platform rules, dispute resolution.</div></div>
+    <div class="node"><div class="badge badge-legal">Legal</div><div class="node-path">/gdpr</div><div class="node-title">GDPR</div><div class="node-desc">GDPR compliance — personal data, privacy rights, information security.</div></div>
+    <div class="node"><div class="badge badge-legal">Legal</div><div class="node-path">/cookies</div><div class="node-title">Cookie Policy</div><div class="node-desc">How Blip uses cookies and tracking technologies.</div></div>
+    <div class="node"><div class="badge badge-legal">Legal</div><div class="node-path">/legal</div><div class="node-title">Legal Hub</div><div class="node-desc">Central hub for all legal documents.</div></div>
+  </div>
+
+  <div class="section-label">Redirects</div>
+  <div class="node-grid">
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/waitlist → /signup</div><div class="node-title">Waitlist (legacy)</div><div class="node-desc">Redirects to /signup.</div></div>
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/join-waitlist → /signup?role=user</div><div class="node-title">Join Waitlist (legacy)</div><div class="node-desc">Redirects to user signup.</div></div>
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/register → /signup?role=user</div><div class="node-title">Register (legacy)</div><div class="node-desc">Redirects to user signup.</div></div>
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/merchant-register → /signup?role=merchant</div><div class="node-title">Merchant Register (legacy)</div><div class="node-desc">Redirects to merchant signup.</div></div>
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/login → /signin?role=user</div><div class="node-title">Login (legacy)</div><div class="node-desc">Redirects to user sign-in.</div></div>
+    <div class="node"><div class="badge badge-redirect">Redirect</div><div class="node-path">/tokenomics → /</div><div class="node-title">Tokenomics (removed)</div><div class="node-desc">Redirects to home — token launch paused.</div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB 2 — SEO AUDIT
+══════════════════════════════════════════════════════════ -->
+<div id="tab-seo" class="tab-content">
+  <h1 style="margin-top:8px;">SEO Audit</h1>
+  <p class="subtitle">All pages · title tags · meta descriptions · inbound links · character counts</p>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">46</div><div class="stat-lbl">Total pages</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Broken links</div></div>
+    <div class="stat"><div class="stat-num">21</div><div class="stat-lbl">SEO / Market pages</div></div>
+    <div class="stat"><div class="stat-num" style="color:#6ee0c5">43</div><div class="stat-lbl">Have meta desc</div></div>
+  </div>
+
+  <input id="seo-search" type="text" placeholder="Filter pages by path, title, or description…" oninput="filterSeo(this.value)" />
+
+  <table class="seo-table">
+    <thead>
+      <tr>
+        <th style="width:160px">Path</th>
+        <th style="width:280px">Title tag</th>
+        <th>Meta description</th>
+        <th style="width:160px">Inbound links from</th>
+      </tr>
+    </thead>
+    <tbody id="seo-tbody">
+
+      <!-- ── MAIN PUBLIC ── -->
+      <tr data-text="/ home index cinematic">
+        <td class="td-path"><a href="/" target="_blank">/</a></td>
+        <td class="td-title">Blip Money | Global P2P Settlement Network<div class="td-title-len len-ok">41 chars ✓</div></td>
+        <td class="td-desc">Blip Money is a global settlement network powered by open liquidity markets. Verified merchants compete to fulfill money movement requests with better rates, faster execution, and escrow-secured transactions.<div class="td-desc-len len-ok">209 chars ✓</div></td>
+        <td class="td-links">Navbar, Footer, many CTAs</td>
+      </tr>
+
+      <tr data-text="/rates live rate usdt">
+        <td class="td-path"><a href="/rates" target="_blank">/rates</a></td>
+        <td class="td-title">Best USDT Rate, Live | Blip vs Binance P2P, Paxful &amp; More<div class="td-title-len len-ok">59 chars ✓</div></td>
+        <td class="td-desc">Find the cheapest USDT rate in the market. Blip beats Binance P2P, Paxful, KuCoin, OKX, and direct P2P on rate, speed, privacy, and on-chain settlement guarantees. See live rates compared.<div class="td-desc-len len-ok">191 chars ✓</div></td>
+        <td class="td-links">Navbar, Footer, /how-it-works</td>
+      </tr>
+
+      <tr data-text="/how-it-works protocol escrow">
+        <td class="td-path"><a href="/how-it-works" target="_blank">/how-it-works</a></td>
+        <td class="td-title">How Blip Works | Live Merchant Auctions, On-Chain Escrow<div class="td-title-len len-ok">56 chars ✓</div></td>
+        <td class="td-desc">Blip is a live order book for cross-border value. Merchants compete in sealed-bid auctions, funds settle through non-custodial escrow on Solana.<div class="td-desc-len len-ok">146 chars ✓</div></td>
+        <td class="td-links">Navbar, /, /merchant, /whitepaper</td>
+      </tr>
+
+      <tr data-text="/market open markets auction">
+        <td class="td-path"><a href="/market" target="_blank">/market</a></td>
+        <td class="td-title">Blip Market | Live Open Markets<div class="td-title-len len-ok">31 chars ✓</div></td>
+        <td class="td-desc">Trade in live open markets. Real-time sealed-bid auctions, non-custodial escrow, on-chain reputation — all on Solana.<div class="td-desc-len len-ok">118 chars ✓</div></td>
+        <td class="td-links">Navbar</td>
+      </tr>
+
+      <tr data-text="/whitepaper paper protocol">
+        <td class="td-path"><a href="/whitepaper" target="_blank">/whitepaper</a></td>
+        <td class="td-title">Whitepaper | Blip Money<div class="td-title-len len-ok">23 chars ✓</div></td>
+        <td class="td-desc">Blip Market: An open liquidity network for fast, cheap global value settlement.<div class="td-desc-len len-ok">78 chars ✓</div></td>
+        <td class="td-links">Footer, /how-it-works, /about, many pages</td>
+      </tr>
+
+      <tr data-text="/merchant become merchant business">
+        <td class="td-path"><a href="/merchant" target="_blank">/merchant</a></td>
+        <td class="td-title">Blip Money Merchant Payments – Fast &amp; Secure Business Solutions<div class="td-title-len len-ok">63 chars ✓</div></td>
+        <td class="td-desc">Grow your business with Blip Money's merchant payment solutions — fast, secure, and simple tools to accept payments, manage sales, and boost revenue online and in-store.<div class="td-desc-len len-ok">169 chars ✓</div></td>
+        <td class="td-links">Navbar, /, /use-cases, /how-it-works</td>
+      </tr>
+
+      <tr data-text="/user user landing crypto fiat">
+        <td class="td-path"><a href="/user" target="_blank">/user</a></td>
+        <td class="td-title">Blip Money for Users — Instant crypto-to-cash settlement<div class="td-title-len len-ok">56 chars ✓</div></td>
+        <td class="td-desc">Convert crypto to fiat instantly with Blip. Non-custodial, escrow-backed, peer-to-peer settlement with live market rates.<div class="td-desc-len len-ok">121 chars ✓</div></td>
+        <td class="td-links">Navbar, /</td>
+      </tr>
+
+      <tr data-text="/use-cases use cases freelancer">
+        <td class="td-path"><a href="/use-cases" target="_blank">/use-cases</a></td>
+        <td class="td-title">Use Cases | Blip Money - Crypto Payments for Every Need<div class="td-title-len len-ok">55 chars ✓</div></td>
+        <td class="td-desc">Discover how Blip Money serves freelancers, OTC traders, e-commerce businesses, and remittance users with fast, secure crypto-to-fiat settlement.<div class="td-desc-len len-ok">146 chars ✓</div></td>
+        <td class="td-links">/merchant, /how-it-works</td>
+      </tr>
+
+      <tr data-text="/use-cases/:slug use case detail">
+        <td class="td-path">/use-cases/:slug</td>
+        <td class="td-title">Dynamic per use-case<div class="td-title-len" style="color:#555">Dynamic</div></td>
+        <td class="td-desc">Individual use-case landing page (freelancer, merchant, OTC, remittance).<div class="td-desc-len" style="color:#555">Dynamic</div></td>
+        <td class="td-links">/use-cases</td>
+      </tr>
+
+      <!-- ── PROTOCOL ── -->
+      <tr data-text="/changelog updates release">
+        <td class="td-path"><a href="/changelog" target="_blank">/changelog</a></td>
+        <td class="td-title">Changelog | Blip Money - Product Updates &amp; Release Notes<div class="td-title-len len-ok">57 chars ✓</div></td>
+        <td class="td-desc">Track the latest updates, features, improvements, and fixes across the Blip Money platform. See our full development history and release timeline.<div class="td-desc-len len-ok">148 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <!-- ── RESOURCES ── -->
+      <tr data-text="/blog articles crypto">
+        <td class="td-path"><a href="/blog" target="_blank">/blog</a></td>
+        <td class="td-title">Blog | Blip Money - Insights on Crypto Payments, Escrow &amp; DeFi<div class="td-title-len len-long">65 chars ⚠ long</div></td>
+        <td class="td-desc">Explore articles on crypto payments, on-chain escrow, merchant solutions, Solana blockchain, and tokenomics from the Blip Money team.<div class="td-desc-len len-ok">135 chars ✓</div></td>
+        <td class="td-links">Footer, /research</td>
+      </tr>
+
+      <tr data-text="/blog/:slug blog article post">
+        <td class="td-path">/blog/:slug</td>
+        <td class="td-title">Dynamic per article<div class="td-title-len" style="color:#555">Dynamic</div></td>
+        <td class="td-desc">Individual blog post page.<div class="td-desc-len" style="color:#555">Dynamic</div></td>
+        <td class="td-links">/blog</td>
+      </tr>
+
+      <tr data-text="/research research ai agents">
+        <td class="td-path"><a href="/research" target="_blank">/research</a></td>
+        <td class="td-title">Research | Blip Money - AI Agents, P2P Bots &amp; On-Chain Infrastructure<div class="td-title-len len-long">70 chars ⚠ long</div></td>
+        <td class="td-desc">In-depth research on AI-powered crypto bots, autonomous agents, Telegram trading, MEV protection, and the future of decentralized P2P payments.<div class="td-desc-len len-ok">145 chars ✓</div></td>
+        <td class="td-links">Footer, /blog</td>
+      </tr>
+
+      <tr data-text="/faq faq questions">
+        <td class="td-path"><a href="/faq" target="_blank">/faq</a></td>
+        <td class="td-title">FAQ | Blip Money - Frequently Asked Questions<div class="td-title-len len-ok">45 chars ✓</div></td>
+        <td class="td-desc"><span style="color:#e55">No dedicated meta description found — uses site default.</span></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/glossary glossary defi terms">
+        <td class="td-path"><a href="/glossary" target="_blank">/glossary</a></td>
+        <td class="td-title">Glossary | Blip Money - Crypto &amp; DeFi Terms Explained<div class="td-title-len len-ok">54 chars ✓</div></td>
+        <td class="td-desc">A comprehensive glossary of crypto, DeFi, payments, and blockchain terms. Learn the key concepts behind Blip Money and decentralized finance.<div class="td-desc-len len-ok">142 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/compare compare blip wise">
+        <td class="td-path"><a href="/compare" target="_blank">/compare</a></td>
+        <td class="td-title">Compare | Blip Money vs Competitors - Honest Feature Comparisons<div class="td-title-len len-long">65 chars ⚠ long</div></td>
+        <td class="td-desc">See how Blip Money stacks up against Wise, Binance P2P, and traditional escrow. Transparent feature-by-feature comparisons on speed, fees, security, and more.<div class="td-desc-len len-ok">161 chars ✓</div></td>
+        <td class="td-links">Footer, /rates</td>
+      </tr>
+
+      <tr data-text="/rewards rewards points bounty">
+        <td class="td-path"><a href="/rewards" target="_blank">/rewards</a></td>
+        <td class="td-title"><span style="color:#e55">No title tag found — uses site default</span></td>
+        <td class="td-desc"><span style="color:#e55">No meta description found — uses site default.</span></td>
+        <td class="td-links">/dashboard, /merchant-dashboard</td>
+      </tr>
+
+      <tr data-text="/bounty bounty security">
+        <td class="td-path"><a href="/bounty" target="_blank">/bounty</a></td>
+        <td class="td-title"><span style="color:#e55">No title tag found — uses site default</span></td>
+        <td class="td-desc"><span style="color:#e55">No meta description found — uses site default.</span></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <!-- ── COMPANY ── -->
+      <tr data-text="/about about mission vision">
+        <td class="td-path"><a href="/about" target="_blank">/about</a></td>
+        <td class="td-title">About Blip Money — Our Mission &amp; Vision<div class="td-title-len len-ok">40 chars ✓</div></td>
+        <td class="td-desc">Blip Money is the non-custodial settlement layer for the world. Instant payments, on-chain escrow, powered by Solana.<div class="td-desc-len len-ok">118 chars ✓</div></td>
+        <td class="td-links">Footer, Navbar</td>
+      </tr>
+
+      <tr data-text="/contact contact support">
+        <td class="td-path"><a href="/contact" target="_blank">/contact</a></td>
+        <td class="td-title">Contact Blip Money | Get in Touch with Our Team<div class="td-title-len len-ok">47 chars ✓</div></td>
+        <td class="td-desc">Contact Blip Money for support, partnerships, or general inquiries. Our team is here to help.<div class="td-desc-len len-ok">93 chars ✓</div></td>
+        <td class="td-links">Footer, /about, many pages</td>
+      </tr>
+
+      <tr data-text="/press press media news">
+        <td class="td-path"><a href="/press" target="_blank">/press</a></td>
+        <td class="td-title">Press &amp; Media - Blip Money News &amp; Coverage<div class="td-title-len len-ok">43 chars ✓</div></td>
+        <td class="td-desc">Read the latest Blip Money press releases, media coverage, and download brand assets. Stay up to date with our announcements and milestones.<div class="td-desc-len len-ok">141 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/community community telegram discord">
+        <td class="td-path"><a href="/community" target="_blank">/community</a></td>
+        <td class="td-title">Blip Community &amp; Ecosystem - Join the Movement<div class="td-title-len len-ok">47 chars ✓</div></td>
+        <td class="td-desc">Join the Blip Money community across Telegram, Twitter, Discord, and GitHub. Explore our ecosystem partners, DAO governance, and ambassador program.<div class="td-desc-len len-ok">149 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <!-- ── AUTH ── -->
+      <tr data-text="/signup signin auth register">
+        <td class="td-path"><a href="/signup" target="_blank">/signup · /signin</a></td>
+        <td class="td-title">Create your Blip account | Waitlist<div class="td-title-len len-ok">35 chars ✓</div></td>
+        <td class="td-desc">Create your Blip account or sign in to track your waitlist position, bonus points, and referrals.<div class="td-desc-len len-ok">97 chars ✓</div></td>
+        <td class="td-links">Navbar CTAs, all pages</td>
+      </tr>
+
+      <tr data-text="/signup?role=merchant merchant register">
+        <td class="td-path"><a href="/signup?role=merchant" target="_blank">/signup?role=merchant</a></td>
+        <td class="td-title">Become a Blip Merchant | Earn on Every Order<div class="td-title-len len-ok">44 chars ✓</div></td>
+        <td class="td-desc">Settle orders, set your spread, and earn margin on every trade. Founding merchants receive priority routing, reduced fees, and early dashboard access.<div class="td-desc-len len-ok">150 chars ✓</div></td>
+        <td class="td-links">/merchant, /how-it-works CTAs</td>
+      </tr>
+
+      <tr data-text="/signup?role=user user register waitlist">
+        <td class="td-path"><a href="/signup?role=user" target="_blank">/signup?role=user</a></td>
+        <td class="td-title">Join the Blip Waitlist | Early Access<div class="td-title-len len-ok">37 chars ✓</div></td>
+        <td class="td-desc">Reserve your spot for borderless payments — settled by verified merchants in under 60 seconds. Early users earn bonus points and priority access.<div class="td-desc-len len-ok">146 chars ✓</div></td>
+        <td class="td-links">All main CTAs</td>
+      </tr>
+
+      <!-- ── SEO MARKET UAE ── -->
+      <tr data-text="/sell-usdt-dubai sell usdt dubai aed">
+        <td class="td-path"><a href="/sell-usdt-dubai" target="_blank">/sell-usdt-dubai</a></td>
+        <td class="td-title">Sell USDT in Dubai - Instant Crypto to AED Conversion | Blip Money<div class="td-title-len len-long">67 chars ⚠ long</div></td>
+        <td class="td-desc">Sell USDT in Dubai and convert Tether to AED instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payout options across the UAE.<div class="td-desc-len len-ok">160 chars ✓</div></td>
+        <td class="td-links">/rates, /crypto-to-aed</td>
+      </tr>
+
+      <tr data-text="/buy-usdt-dubai buy usdt dubai">
+        <td class="td-path"><a href="/buy-usdt-dubai" target="_blank">/buy-usdt-dubai</a></td>
+        <td class="td-title">Buy USDT in Dubai - Instant Tether Purchase | Blip Money<div class="td-title-len len-ok">56 chars ✓</div></td>
+        <td class="td-desc">Buy USDT in Dubai and convert AED to Tether instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payment options across the UAE.<div class="td-desc-len len-ok">160 chars ✓</div></td>
+        <td class="td-links">/rates</td>
+      </tr>
+
+      <tr data-text="/crypto-payments-uae crypto payments uae">
+        <td class="td-path"><a href="/crypto-payments-uae" target="_blank">/crypto-payments-uae</a></td>
+        <td class="td-title">Crypto Payments in the UAE - Send &amp; Receive Crypto Easily | Blip Money<div class="td-title-len len-long">71 chars ⚠ long</div></td>
+        <td class="td-desc">Make crypto payments in the UAE with Blip Money. Buy, sell, and settle cryptocurrency across Dubai and the Emirates with escrow-protected, fast settlement.<div class="td-desc-len len-ok">156 chars ✓</div></td>
+        <td class="td-links">/accept-crypto-business</td>
+      </tr>
+
+      <tr data-text="/accept-crypto-business accept crypto business">
+        <td class="td-path"><a href="/accept-crypto-business" target="_blank">/accept-crypto-business</a></td>
+        <td class="td-title">Accept Crypto Payments for Your Business | Blip Money<div class="td-title-len len-ok">53 chars ✓</div></td>
+        <td class="td-desc">Accept cryptocurrency payments for your business with Blip Money. Instant AED settlement, zero chargebacks, lower fees, and a full merchant dashboard.<div class="td-desc-len len-ok">151 chars ✓</div></td>
+        <td class="td-links">/crypto-payments-uae</td>
+      </tr>
+
+      <tr data-text="/crypto-to-aed crypto aed converter">
+        <td class="td-path"><a href="/crypto-to-aed" target="_blank">/crypto-to-aed</a></td>
+        <td class="td-title">Crypto to AED Converter — Live Rates | Blip Money<div class="td-title-len len-ok">49 chars ✓</div></td>
+        <td class="td-desc">Convert USDT, USDC, BTC, ETH, SOL to AED instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes.<div class="td-desc-len len-ok">161 chars ✓</div></td>
+        <td class="td-links">/rates, /sell-usdt-dubai, /btc-to-aed</td>
+      </tr>
+
+      <tr data-text="/crypto-remittance-uae remittance uae india">
+        <td class="td-path"><a href="/crypto-remittance-uae" target="_blank">/crypto-remittance-uae</a></td>
+        <td class="td-title">Send Money from UAE with Crypto — Remittance Calculator | Blip Money<div class="td-title-len len-long">68 chars ⚠ long</div></td>
+        <td class="td-desc">Send money from UAE to India, Pakistan, Philippines using crypto. Compare fees: bank wire vs crypto remittance. Save up to 90% on transfer fees with stablecoin settlement.<div class="td-desc-len len-ok">170 chars ✓</div></td>
+        <td class="td-links">/crypto-payments-uae</td>
+      </tr>
+
+      <tr data-text="/btc-to-aed btc bitcoin aed">
+        <td class="td-path"><a href="/btc-to-aed" target="_blank">/btc-to-aed</a></td>
+        <td class="td-title">Bitcoin to AED — Live BTC/AED Rate | Blip Money<div class="td-title-len len-ok">47 chars ✓</div></td>
+        <td class="td-desc">Convert Bitcoin to UAE Dirhams instantly. Live BTC/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to AED rate in Dubai and UAE.<div class="td-desc-len len-ok">197 chars ✓</div></td>
+        <td class="td-links">Many pages, widely linked</td>
+      </tr>
+
+      <tr data-text="/eth-to-aed eth ethereum aed">
+        <td class="td-path"><a href="/eth-to-aed" target="_blank">/eth-to-aed</a></td>
+        <td class="td-title">Ethereum to AED — Live ETH/AED Rate | Blip Money<div class="td-title-len len-ok">48 chars ✓</div></td>
+        <td class="td-desc">Convert Ethereum to UAE Dirhams instantly. Live ETH/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes.<div class="td-desc-len len-ok">159 chars ✓</div></td>
+        <td class="td-links">/crypto-to-aed</td>
+      </tr>
+
+      <tr data-text="/sol-to-aed sol solana aed">
+        <td class="td-path"><a href="/sol-to-aed" target="_blank">/sol-to-aed</a></td>
+        <td class="td-title">Solana to AED — Live SOL/AED Rate | Blip Money<div class="td-title-len len-ok">46 chars ✓</div></td>
+        <td class="td-desc">Convert Solana to UAE Dirhams instantly. Live SOL/AED exchange rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to AED rate in Dubai and UAE.<div class="td-desc-len len-ok">192 chars ✓</div></td>
+        <td class="td-links">/crypto-to-aed</td>
+      </tr>
+
+      <tr data-text="/crypto-to-bank-uae bank uae withdraw">
+        <td class="td-path"><a href="/crypto-to-bank-uae" target="_blank">/crypto-to-bank-uae</a></td>
+        <td class="td-title">Withdraw Crypto to UAE Bank Account — Step-by-Step Guide | Blip Money<div class="td-title-len len-long">70 chars ⚠ long</div></td>
+        <td class="td-desc">Learn how to withdraw crypto to your UAE bank account. Compare withdrawal methods, fees, and settlement times. Cash out BTC, ETH, USDT to AED safely with escrow protection.<div class="td-desc-len len-ok">173 chars ✓</div></td>
+        <td class="td-links">/sell-usdt-dubai</td>
+      </tr>
+
+      <tr data-text="/usdt-vs-usdc usdt usdc stablecoin">
+        <td class="td-path"><a href="/usdt-vs-usdc" target="_blank">/usdt-vs-usdc</a></td>
+        <td class="td-title">USDT vs USDC — Which Stablecoin is Best for UAE? | Blip Money<div class="td-title-len len-ok">62 chars ✓</div></td>
+        <td class="td-desc">Compare USDT (Tether) and USDC (USD Coin) for UAE traders. Market cap, transparency, fees, AED off-ramping support, and which is better for crypto settlement.<div class="td-desc-len len-ok">160 chars ✓</div></td>
+        <td class="td-links">/rates</td>
+      </tr>
+
+      <tr data-text="/crypto-tax-uae tax uae 2026">
+        <td class="td-path"><a href="/crypto-tax-uae" target="_blank">/crypto-tax-uae</a></td>
+        <td class="td-title">Crypto Tax UAE 2026 — Complete Guide for Individuals &amp; Businesses | Blip Money<div class="td-title-len len-long">77 chars ⚠ long</div></td>
+        <td class="td-desc">Crypto tax guidance for UAE residents. Understand regulations, reporting obligations, and how Blip's on-chain records simplify compliance.<div class="td-desc-len len-ok">139 chars ✓</div></td>
+        <td class="td-links">/crypto-payments-uae</td>
+      </tr>
+
+      <tr data-text="/crypto-escrow-uae escrow uae smart contract">
+        <td class="td-path"><a href="/crypto-escrow-uae" target="_blank">/crypto-escrow-uae</a></td>
+        <td class="td-title">Crypto Escrow UAE — On-Chain Smart Contract Escrow Service | Blip Money<div class="td-title-len len-long">71 chars ⚠ long</div></td>
+        <td class="td-desc">Secure your crypto trades with on-chain escrow in the UAE. Smart contract protection for P2P trading, OTC deals, and real estate transactions. Non-custodial, transparent, instant settlement.<div class="td-desc-len len-ok">191 chars ✓</div></td>
+        <td class="td-links">/how-it-works, /merchant</td>
+      </tr>
+
+      <tr data-text="/crypto-salary-uae salary uae payroll">
+        <td class="td-path"><a href="/crypto-salary-uae" target="_blank">/crypto-salary-uae</a></td>
+        <td class="td-title">Crypto Salary UAE — Get Paid in Crypto in Dubai 2026 | Blip Money<div class="td-title-len len-long">66 chars ⚠ long</div></td>
+        <td class="td-desc">Pay or receive salary in crypto in the UAE. Instant conversion, escrow-protected payroll, compliant settlement for businesses and freelancers.<div class="td-desc-len len-ok">143 chars ✓</div></td>
+        <td class="td-links">/merchant, /use-cases</td>
+      </tr>
+
+      <tr data-text="/crypto-otc-dubai otc dubai large volume">
+        <td class="td-path"><a href="/crypto-otc-dubai" target="_blank">/crypto-otc-dubai</a></td>
+        <td class="td-title">Crypto OTC Trading Dubai - Secure Large Trades | Blip Money<div class="td-title-len len-ok">59 chars ✓</div></td>
+        <td class="td-desc">Execute large-volume crypto OTC trades in Dubai with escrow-protected settlement. Competitive spreads, bonded merchants, and on-chain transparency for institutional-grade trading in the UAE.<div class="td-desc-len len-ok">191 chars ✓</div></td>
+        <td class="td-links">/market</td>
+      </tr>
+
+      <tr data-text="/best-crypto-exchange-uae best exchange uae">
+        <td class="td-path"><a href="/best-crypto-exchange-uae" target="_blank">/best-crypto-exchange-uae</a></td>
+        <td class="td-title">Best Crypto Exchange UAE - Non-Custodial Settlement | Blip Money<div class="td-title-len len-long">65 chars ⚠ long</div></td>
+        <td class="td-desc">Find the best crypto exchange in the UAE. Blip offers non-custodial escrow-protected trading, low fees, VARA-aligned architecture, and instant crypto-to-AED settlement across Dubai and Abu Dhabi.<div class="td-desc-len len-long">197 chars ✓</div></td>
+        <td class="td-links">/sell-usdt-dubai, /rates</td>
+      </tr>
+
+      <tr data-text="/bitcoin-price-uae bitcoin price uae aed">
+        <td class="td-path"><a href="/bitcoin-price-uae" target="_blank">/bitcoin-price-uae</a></td>
+        <td class="td-title">Bitcoin Price UAE - Live BTC to AED Rate | Blip Money<div class="td-title-len len-ok">53 chars ✓</div></td>
+        <td class="td-desc">Track the live Bitcoin price in UAE Dirhams (AED). Real-time BTC/AED rate, market insights, and instant conversion tools for UAE residents. Convert BTC to AED with escrow protection on Blip Money.<div class="td-desc-len len-long">198 chars ✓</div></td>
+        <td class="td-links">/btc-to-aed, /rates</td>
+      </tr>
+
+      <!-- SEO India corridor -->
+      <tr data-text="/crypto-to-inr crypto inr india converter">
+        <td class="td-path"><a href="/crypto-to-inr" target="_blank">/crypto-to-inr</a></td>
+        <td class="td-title">Crypto to INR Converter — Live Rates | Blip Money<div class="td-title-len len-ok">49 chars ✓</div></td>
+        <td class="td-desc">Convert USDT, USDC, BTC, ETH, SOL to INR instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes. Best crypto to INR rates in India.<div class="td-desc-len len-ok">196 chars ✓</div></td>
+        <td class="td-links">/rates, /crypto-remittance-uae</td>
+      </tr>
+
+      <tr data-text="/btc-to-inr btc bitcoin inr india">
+        <td class="td-path"><a href="/btc-to-inr" target="_blank">/btc-to-inr</a></td>
+        <td class="td-title">Bitcoin to INR — Live BTC/INR Rate | Blip Money<div class="td-title-len len-ok">47 chars ✓</div></td>
+        <td class="td-desc">Convert Bitcoin to Indian Rupees instantly. Live BTC/INR exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to INR rate in India.<div class="td-desc-len len-ok">191 chars ✓</div></td>
+        <td class="td-links">/crypto-to-inr</td>
+      </tr>
+
+      <tr data-text="/eth-to-inr eth ethereum inr">
+        <td class="td-path"><a href="/eth-to-inr" target="_blank">/eth-to-inr</a></td>
+        <td class="td-title">Ethereum to INR — Live ETH/INR Rate | Blip Money<div class="td-title-len len-ok">48 chars ✓</div></td>
+        <td class="td-desc">Convert Ethereum to Indian Rupees instantly. Live ETH/INR rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes.<div class="td-desc-len len-ok">152 chars ✓</div></td>
+        <td class="td-links">/crypto-to-inr</td>
+      </tr>
+
+      <tr data-text="/sol-to-inr sol solana inr india">
+        <td class="td-path"><a href="/sol-to-inr" target="_blank">/sol-to-inr</a></td>
+        <td class="td-title">Solana to INR — Live SOL/INR Rate | Blip Money<div class="td-title-len len-ok">46 chars ✓</div></td>
+        <td class="td-desc">Convert Solana to Indian Rupees instantly. Live SOL/INR rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to INR rate in India.<div class="td-desc-len len-ok">175 chars ✓</div></td>
+        <td class="td-links">/crypto-to-inr</td>
+      </tr>
+
+      <!-- ── LEGAL ── -->
+      <tr data-text="/privacy privacy policy data">
+        <td class="td-path"><a href="/privacy" target="_blank">/privacy</a></td>
+        <td class="td-title">Blip Money – Privacy &amp; Personal Data Policy<div class="td-title-len len-ok">44 chars ✓</div></td>
+        <td class="td-desc">Read Blip Money's Privacy Policy to understand how we collect, use, and protect your personal information, safeguard your privacy, and handle data securely on our platform.<div class="td-desc-len len-ok">172 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/terms terms of service">
+        <td class="td-path"><a href="/terms" target="_blank">/terms</a></td>
+        <td class="td-title"><span style="color:#e55">No title tag — uses site default</span></td>
+        <td class="td-desc"><span style="color:#e55">No meta description — uses site default.</span></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/gdpr gdpr data protection">
+        <td class="td-path"><a href="/gdpr" target="_blank">/gdpr</a></td>
+        <td class="td-title">Blip Money – GDPR &amp; Data Protection Policy<div class="td-title-len len-ok">44 chars ✓</div></td>
+        <td class="td-desc">Discover how Blip Money complies with GDPR regulations and protects your personal data, privacy rights, and information security.<div class="td-desc-len len-ok">129 chars ✓</div></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+      <tr data-text="/cookies cookies policy">
+        <td class="td-path"><a href="/cookies" target="_blank">/cookies</a></td>
+        <td class="td-title"><span style="color:#e55">No title tag — uses site default</span></td>
+        <td class="td-desc"><span style="color:#e55">No meta description — uses site default.</span></td>
+        <td class="td-links">Footer</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB 3 — BROKEN LINKS
+══════════════════════════════════════════════════════════ -->
+<div id="tab-broken" class="tab-content">
+  <h1 style="margin-top:8px;">Broken Links</h1>
+  <p class="subtitle">Internal links that point to routes that don't exist in App.tsx</p>
+
+  <div style="margin: 32px auto; max-width: 720px;">
+
+    <div class="broken-card">
+      <div class="broken-path">❌ /overview</div>
+      <div class="broken-source">Found in: <code>src/pages/Protocol/Whitepaper.tsx</code> — 2 occurrences (lines ~946, ~978)</div>
+      <div class="broken-source">Used as: <code>&lt;Link to="/overview"&gt;Blip Money Overview&lt;/Link&gt;</code></div>
+      <div class="broken-fix">⚠ Fix suggestion: Change to <code>to="/how-it-works"</code> or <code>to="/whitepaper"</code> — no /overview route exists.</div>
+    </div>
+
+    <div class="broken-card">
+      <div class="broken-path">❌ /register-uae</div>
+      <div class="broken-source">Found in: <code>src/pages/Unused/uae.tsx</code> — 2 occurrences (lines ~100, ~341)</div>
+      <div class="broken-source">Used as: <code>&lt;Link to="/register-uae"&gt;</code></div>
+      <div class="broken-fix">⚠ Fix suggestion: Change to <code>to="/signup?role=user"</code> — this is in an Unused page so low priority. Confirm if /uae route is active before fixing.</div>
+    </div>
+
+    <div class="broken-card">
+      <div class="broken-path">❌ /blip-rates</div>
+      <div class="broken-source">Found in: <code>src/pages/Markets/BlipRatesNavbar.tsx</code> — line ~31</div>
+      <div class="broken-source">Used as: <code>href="/blip-rates"</code></div>
+      <div class="broken-fix">⚠ Fix suggestion: Change to <code>href="/rates"</code> — the rates page lives at /rates. No /blip-rates route is registered.</div>
+    </div>
+
+    <div style="margin-top: 40px; border-top: 1px solid #1e1e1e; padding-top: 32px;">
+      <div class="section-label" style="margin-top:0">Links that are fine</div>
+
+      <div class="ok-card"><div class="ok-path">✓ /whitepaper.pdf</div><div class="ok-count">href="/whitepaper.pdf" — static file in /public, serves correctly</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /docs</div><div class="ok-count">Route exists (Unused/Docs.tsx) — page renders even if hidden from nav</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /admin</div><div class="ok-count">Route exists — admin panel</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /coming-soon</div><div class="ok-count">Route exists</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /dashboard</div><div class="ok-count">Route exists — protected</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /merchant-dashboard</div><div class="ok-count">Route exists — protected</div></div>
+      <div class="ok-card"><div class="ok-path">✓ /signup, /signin, /signup?role=*</div><div class="ok-count">All resolve correctly</div></div>
+      <div class="ok-card"><div class="ok-path">✓ All /crypto-* /btc-* /eth-* /sol-* routes</div><div class="ok-count">All registered in App.tsx</div></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', ['flow','seo','broken'][i] === name);
+    });
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  function filterNodes(q) {
+    const term = q.toLowerCase().trim();
+    document.querySelectorAll('#tab-flow .node').forEach(n => {
+      n.classList.toggle('hidden', term.length > 0 && !n.textContent.toLowerCase().includes(term));
+    });
+  }
+
+  function filterSeo(q) {
+    const term = q.toLowerCase().trim();
+    document.querySelectorAll('#seo-tbody tr').forEach(row => {
+      const text = (row.dataset.text || '') + row.textContent.toLowerCase();
+      row.classList.toggle('hidden', term.length > 0 && !text.includes(term));
+    });
+  }
+</script>
+
+</body>
+</html>

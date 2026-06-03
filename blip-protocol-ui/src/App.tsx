@@ -56,6 +56,9 @@ const SuperAdminDashboard = lazy(
 );
 const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
+// app.blip.money landing — no-scroll single-screen chooser
+const AppLanding = lazy(() => import("./pages/AppLanding"));
+
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
 const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
@@ -407,6 +410,9 @@ const App = () => (
 
                   {/* REDEEM TELEGRAM (public — handles auth internally) */}
                   <Route path="/redeem" element={<RedeemTelegram />} />
+
+                  {/* app.blip.money landing — no-layout, no-scroll chooser */}
+                  <Route path="/app" element={<AppLanding />} />
 
                   {/* 404 */}
                   {/* NO-LAYOUT ROUTES (admin tools — no global navbar/footer) */}

@@ -9,7 +9,6 @@ import {
   Zap,
   Lock,
   Heart,
-  Target,
   ArrowRight,
 } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -35,7 +34,7 @@ const PrimaryLink = ({
     onClick={() => sounds.click()}
     onMouseEnter={() => sounds.hover()}
     className={
-      "group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] active:scale-[0.98] " +
+      "group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] active:scale-[0.98] dark:bg-white dark:text-black dark:border-white " +
       className
     }
   >
@@ -124,10 +123,10 @@ const coreValues = [
 ];
 
 const metrics = [
-  { value: "100+", label: "Merchants" },
-  { value: "<60s", label: "Avg settlement" },
-  { value: "24/7", label: "Always-on" },
-  { value: "0", label: "Custodians" },
+  { value: "100+", label: "Active merchants" },
+  { value: "<60s", label: "Avg settlement time" },
+  { value: "24/7", label: "Protocol uptime" },
+  { value: "0", label: "Custodians needed" },
 ];
 
 /* ── Reveal wrapper ──────────────────────────────────────── */
@@ -296,7 +295,7 @@ export default function About() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: EASE }}
-              className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[#ff6b35] mb-8"
+              className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[#cc785c] mb-8"
             >
               About Blip Money
             </motion.p>
@@ -327,7 +326,7 @@ export default function About() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 1.2, delay: 0.32, ease: EASE }}
                 className="block italic"
-                style={{ color: "#ff6b35" }}
+                style={{ color: "#cc785c" }}
               >
                 billion users.
               </motion.span>
@@ -379,7 +378,7 @@ export default function About() {
                   delay={i * 0.06}
                   className="text-center py-10"
                 >
-                  <div className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tabular-nums tracking-tight">
+                  <div className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tabular-nums tracking-tight" style={{ color: "#cc785c" }}>
                     {m.value}
                   </div>
                   <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-black/40">
@@ -507,10 +506,9 @@ export default function About() {
         <section className="bg-[#FAF8F5] text-black py-24 sm:py-32">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <Reveal>
-              <Target
-                className="w-9 h-9 mx-auto mb-7 text-black/65"
-                strokeWidth={1.5}
-              />
+              <div className="w-14 h-14 rounded-2xl mx-auto mb-8 flex items-center justify-center border border-[#cc785c]/25" style={{ backgroundColor: "rgba(204,120,92,0.1)" }}>
+                <Zap className="w-6 h-6" style={{ color: "#cc785c" }} strokeWidth={1.7} />
+              </div>
             </Reveal>
             <Reveal delay={0.08}>
               <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight mb-5">
@@ -519,8 +517,8 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.15}>
               <p className="text-base sm:text-lg text-black/55 max-w-xl mx-auto mb-10 leading-relaxed">
-                We&apos;re always looking for builders who share our vision for
-                open, decentralized finance.
+                We&apos;re looking for merchants, liquidity partners, and builders
+                who believe in open, borderless finance.
               </p>
             </Reveal>
             <Reveal delay={0.22}>
