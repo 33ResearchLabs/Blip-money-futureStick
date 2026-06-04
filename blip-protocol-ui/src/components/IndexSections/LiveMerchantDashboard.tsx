@@ -765,11 +765,21 @@ interface MerchantDashboardBodyProps {
   state: ReturnType<typeof useMerchantDashboardState>;
   /** Cap the dashboard height — useful when embedding in a fixed frame. */
   className?: string;
+  /** Show the Leaderboard pane (top half of col 4). Default true. */
+  showLeaderboard?: boolean;
+  /** Show the Activity pane. Default true. */
+  showActivity?: boolean;
+  /** Render Activity stacked beneath the In Progress column (col 3) instead
+   *  of in its own col-4 slot. Default false. */
+  activityUnderInProgress?: boolean;
 }
 
 export function MerchantDashboardBody({
   state,
   className = "",
+  showLeaderboard = true,
+  showActivity = true,
+  activityUnderInProgress = false,
 }: MerchantDashboardBodyProps) {
   const {
     tab,
@@ -811,6 +821,13 @@ export function MerchantDashboardBody({
     chatThreads.find((t) => t.orderId === activeChatId) ??
     chatThreads[0] ??
     null;
+
+  /* Activity can live in its own col-4 slot or stacked under In Progress.
+     Col 4 only renders when the Leaderboard shows, or when Activity is shown
+     AND not relocated under In Progress. */
+  const activityInCol3 = showActivity && activityUnderInProgress;
+  const activityInCol4 = showActivity && !activityUnderInProgress;
+  const showCol4 = showLeaderboard || activityInCol4;
 
   // ESC key + click-anywhere closes the settled celebration
   useEffect(() => {
@@ -1409,7 +1426,11 @@ export function MerchantDashboardBody({
           are fixed and narrow. On lg+ the grid is height-locked + overflow-
           hidden so streaming pending orders don't push the dashboard taller —
           inner panels clip via their own flex-1 overflow rules. */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 lg:h-[720px] lg:overflow-hidden">
+      <div
+        className={`grid grid-cols-1 lg:h-[650px] lg:overflow-hidden ${
+          showCol4 ? "lg:grid-cols-5" : "lg:grid-cols-4"
+        }`}
+      >
         {/* ===== Col 1: Wallet sidebar ===== */}
         <div className="border-r border-white/[0.05] flex flex-col min-h-0">
           <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.04] text-[9px] font-mono">
@@ -1462,7 +1483,7 @@ export function MerchantDashboardBody({
                 </motion.span>
               </div>
               {/* Floating earned toast — reserved slot so dashboard doesn't reflow when it shows/hides */}
-              <div className="mt-2 h-6 relative flex items-center">
+              <div className="mt-2 h-6 relative flex items-center justify-center">
                 <AnimatePresence>
                   {lastEarning != null && (
                     <motion.div
@@ -1470,16 +1491,20 @@ export function MerchantDashboardBody({
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute left-16 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full "
-                      style={{
-                        background: "transparent",
-                        border: "1px solid #fff",
-                        color: "#fff",
-                      }}
+                      className="absolute inset-x-0 top-0 flex justify-center"
                     >
-                      <ArrowUpFromLine className="w-3 h-3" />
-                      <span className="text-[11px] font-bold font-mono tabular-nums">
-                        +${lastEarning.toFixed(2)} earned
+                      <span
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
+                        style={{
+                          background: "transparent",
+                          border: "1px solid #fff",
+                          color: "#fff",
+                        }}
+                      >
+                        <ArrowUpFromLine className="w-3 h-3" />
+                        <span className="text-[11px] font-bold font-mono tabular-nums">
+                          +${lastEarning.toFixed(2)} earned
+                        </span>
                       </span>
                     </motion.div>
                   )}
@@ -1888,8 +1913,18 @@ export function MerchantDashboardBody({
           </div>
         </div>
 
-        {/* ===== Col 3: In Progress ===== */}
-        <div className="hidden lg:flex border-r border-white/[0.05] flex-col min-w-0 min-h-0">
+        {/* ===== Col 3: In Progress (+ Activity stacked below when requested) ===== */}
+        <div
+          className={`hidden border-r border-white/[0.05] min-w-0 min-h-0 ${
+            activityInCol3 ? "lg:grid grid-rows-2" : "lg:flex flex-col"
+          }`}
+        >
+          {/* In Progress */}
+          <div
+            className={`flex flex-col min-h-0 ${
+              activityInCol3 ? "border-b border-white/[0.05]" : ""
+            }`}
+          >
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Shield className="w-3 h-3 text-white/50" />
@@ -2109,12 +2144,25 @@ export function MerchantDashboardBody({
               </div>
             )}
           </div>
+          </div>
+          {/* Activity stacked beneath In Progress (How It Works layout) */}
+          {activityInCol3 && <ActivityPane activity={activity} />}
         </div>
 
         {/* ===== Col 4: Leaderboard + Activity (50/50 split) ===== */}
-        <div className="hidden lg:grid border-r border-white/[0.05] grid-rows-2 min-w-0 min-h-0">
+        {showCol4 && (
+        <div
+          className={`hidden lg:grid border-r border-white/[0.05] min-w-0 min-h-0 ${
+            showLeaderboard && activityInCol4 ? "grid-rows-2" : "grid-rows-1"
+          }`}
+        >
           {/* Top half: Leaderboard */}
-          <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
+          {showLeaderboard && (
+          <div
+            className={`flex flex-col min-h-0 ${
+              activityInCol4 ? "border-b border-white/[0.05]" : ""
+            }`}
+          >
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-1.5">
                 <Crown className="w-3.5 h-3.5 text-amber-400/80" />
@@ -2126,7 +2174,7 @@ export function MerchantDashboardBody({
                 Vol <ChevronDown className="w-2.5 h-2.5" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto px-2 py-2 min-h-0 divide-y divide-white/[0.04]">
+            <div className="flex-1 overflow-y-auto scrollbar-hide px-2 py-2 min-h-0 divide-y divide-white/[0.04]">
               {LEADERS.map((m, i) => (
                 <div
                   key={m.name}
@@ -2169,65 +2217,12 @@ export function MerchantDashboardBody({
               ))}
             </div>
           </div>
+          )}
 
           {/* Bottom half: Activity */}
-          <div className="flex flex-col min-h-0">
-            <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
-              <div className="flex items-center gap-1.5">
-                <Activity className="w-3 h-3 text-white/50" />
-                <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">
-                  Activity
-                </span>
-              </div>
-              <RotateCcw className="w-3 h-3 text-white/30" />
-            </div>
-            <div className="flex-1 overflow-y-auto px-3 py-2 min-h-0">
-              <ul className="divide-y divide-white/[0.04]">
-                <AnimatePresence initial={false}>
-                  {activity.slice(0, 6).map((a) => (
-                    <motion.li
-                      key={a.id}
-                      layout
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="flex items-start gap-2 py-1.5"
-                    >
-                      <div
-                        className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          a.type === "settle"
-                            ? "bg-white/[0.03] border border-white/[0.10]"
-                            : a.type === "order"
-                              ? "bg-blue-500/10 border border-blue-500/30"
-                              : "bg-white/[0.04] border border-white/[0.06]"
-                        }`}
-                      >
-                        {a.type === "settle" ? (
-                          <CheckCircle2 className="w-2 h-2 text-[#cc785c]" />
-                        ) : a.type === "order" ? (
-                          <Activity className="w-2 h-2 text-blue-300" />
-                        ) : (
-                          <AlertCircle className="w-2 h-2 text-white/40" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[10px] text-white/80 leading-tight truncate">
-                          {a.msg}
-                        </div>
-                        <div className="text-[9px] font-mono text-white/30 truncate">
-                          {a.detail}
-                        </div>
-                      </div>
-                      <div className="text-[9px] font-mono text-white/50 tabular-nums flex-shrink-0">
-                        {a.amount}
-                      </div>
-                    </motion.li>
-                  ))}
-                </AnimatePresence>
-              </ul>
-            </div>
-          </div>
+          {activityInCol4 && <ActivityPane activity={activity} />}
         </div>
+        )}
 
         {/* ===== Col 5: Notifications + Messages (50/50 split) ===== */}
         <div className="hidden lg:grid grid-rows-2 min-w-0 min-h-0">
@@ -2252,7 +2247,7 @@ export function MerchantDashboardBody({
                 <CheckCircle2 className="w-3 h-3" /> READ
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto px-2 py-1.5 space-y-1 min-h-0">
+            <div className="flex-1 overflow-y-auto scrollbar-hide px-2 py-1.5 space-y-1 min-h-0">
               <AnimatePresence initial={false}>
                 {notifications.map((n) => (
                   <motion.div
@@ -2408,7 +2403,7 @@ function ChatPanel({
               className={`text-[9px] px-1 py-[1px] rounded font-mono border ${
                 active.side === "BUY"
                   ? "bg-white/[0.03] text-white/70 border-white/[0.10]"
-                  : "bg-orange-500/10 text-orange-300 border-orange-500/25"
+                  : "bg-orange-500/10 text-white/70 border-white/[0.10]"
               }`}
             >
               {active.side}
@@ -2588,6 +2583,75 @@ function StatusBadge({ status }: { status: ActiveTrade["status"] }) {
       </span>
       {s.label}
     </span>
+  );
+}
+
+/** Activity feed pane — shared so it can render either in its own col-4 slot
+ *  or stacked beneath the In Progress column. */
+function ActivityPane({
+  activity,
+  className = "",
+}: {
+  activity: ActivityEvent[];
+  className?: string;
+}) {
+  return (
+    <div className={`flex flex-col min-h-0 ${className}`}>
+      <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-1.5">
+          <Activity className="w-3 h-3 text-white/50" />
+          <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">
+            Activity
+          </span>
+        </div>
+        <RotateCcw className="w-3 h-3 text-white/30" />
+      </div>
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-3 py-2 min-h-0">
+        <ul className="divide-y divide-white/[0.04]">
+          <AnimatePresence initial={false}>
+            {activity.slice(0, 5).map((a) => (
+              <motion.li
+                key={a.id}
+                layout
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="flex items-start gap-2 py-1.5 "
+              >
+                <div
+                  className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    a.type === "settle"
+                      ? "bg-white/[0.03] border border-white/[0.10]"
+                      : a.type === "order"
+                        ? "bg-blue-500/10 border border-blue-500/30"
+                        : "bg-white/[0.04] border border-white/[0.06]"
+                  }`}
+                >
+                  {a.type === "settle" ? (
+                    <CheckCircle2 className="w-2 h-2 text-[#cc785c]" />
+                  ) : a.type === "order" ? (
+                    <Activity className="w-2 h-2 text-blue-300" />
+                  ) : (
+                    <AlertCircle className="w-2 h-2 text-white/40" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] text-white/80 leading-tight truncate">
+                    {a.msg}
+                  </div>
+                  <div className="text-[9px] font-mono text-white/30 truncate">
+                    {a.detail}
+                  </div>
+                </div>
+                <div className="text-[9px] font-mono text-white/50 tabular-nums flex-shrink-0">
+                  {a.amount}
+                </div>
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
+      </div>
+    </div>
   );
 }
 

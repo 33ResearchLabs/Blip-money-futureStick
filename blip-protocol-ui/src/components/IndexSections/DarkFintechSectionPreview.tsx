@@ -1952,7 +1952,7 @@ function DesktopFlow() {
                       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 1, ease: EASE }}
-                      className="absolute inset-[3px] rounded-[2.7rem] z-40 overflow-hidde"
+                      className="absolute inset-[3px] rounded-[2.7rem] z-40 overflow-hidden"
                     >
                       {/* Sized for the 290x600 phone mockup — values shrunk from native mobile design */}
                       <div className="absolute inset-0  flex flex-col">
