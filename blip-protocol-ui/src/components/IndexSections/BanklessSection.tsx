@@ -234,7 +234,7 @@ function BiddingCard() {
             transition={{ duration: 0.4 }}
             className={`flex items-center justify-between px-3 py-2 rounded-md ${
               i === 0
-                ? "bg-[#ff6b35]/[0.06] border border-[#ff6b35]/40 shadow-[0_0_0_1px_rgba(255,107,53,0.08)]"
+                ? " border border-[#ff6b35]/30 "
                 : "bg-white/[0.02] border border-white/[0.04]"
             }`}
           >

@@ -9,7 +9,7 @@ const TradePhoneUI = () => {
     <div className="relative w-full flex items-center justify-center pt-4 pb-2">
       {/* Phone frame */}
       <div
-        className="relative mx-auto w-[232px] max-w-full aspect-[232/490] "
+        className="relative mx-auto w-[232px] max-w-full aspect-[232/470] "
         
       >
         <img

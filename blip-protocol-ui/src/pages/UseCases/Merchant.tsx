@@ -232,11 +232,11 @@ const WhyBlipSection = () => {
                       </div>
 
                       {/* RIGHT CHECK */}
-                      {(isActive || isPrimary) && (
+                      {/* {(isActive || isPrimary) && (
                         <div className="w-8 h-8 rounded-full flex items-center justify-center bg-black text-white dark:bg-white dark:text-black shadow-md">
                           <Check className="w-4 h-4" strokeWidth={3} />
                         </div>
-                      )}
+                      )} */}
                     </motion.div>
                   );
                 })}

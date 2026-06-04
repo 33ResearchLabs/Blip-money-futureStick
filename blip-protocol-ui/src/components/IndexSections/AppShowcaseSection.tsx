@@ -32,7 +32,7 @@ const AppShowcaseSection = () => {
   return (
     <section
       ref={ref}
-      className="dark relative py-24 md:py-40 bg-black overflow-hidden"
+      className="dark relative py-24 md:py-40 bg-black overflow-hidden hidden"
     >
       {/* Top divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -144,7 +144,7 @@ const AppShowcaseSection = () => {
             className="md:col-span-5 relative rounded-3xl overflow-hidden"
           >
             <TradePhoneUI />
-            <div className="relative z-10 px-6 pb-6">
+            <div className="relative z-10 px-6 pb-5 mt-1.5">
               <div className="text-[10px] text-white/25 uppercase tracking-[0.2em] font-semibold mb-1">
                 Step 01
               </div>

@@ -91,7 +91,7 @@ const Index = () => {
           {/* 9. Product Experience */}
           <LazySection minHeight="100vh">
             <Suspense fallback={null}>
-              <AppShowcaseSection />
+              <AppShowcaseSection  />
             </Suspense>
           </LazySection>
 
