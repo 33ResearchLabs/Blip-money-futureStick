@@ -1361,7 +1361,7 @@ const CLEAR_CARDS = [
   { key: "friend", label: "REFERRAL · LIVE", refTag: "#R-1842", hero: "friend" as const, titlePre: "Bring a friend.", titleAccent: "You both get upto $20.", cta: "Share invite" },
   { key: "boost", label: "LEADERBOARD", refTag: "RANK 3", hero: "boost" as const, titlePre: "Stack a", titleAccent: "+15% boost", titleTail: " on your next 5.", cta: "Activate" },
 ];
-const NAMES_W = ["Alex Wei", "Priya R.", "You + Kai", "Jules S."];
+const NAMES_W = ["Alex Wei", "Kai R.", "You + Kai", "Jules S."];
 const SUBS_W = ["$250 · 14s ago", "$1,000 → ₹83,250", "$72/$100 to unlock", "$48/wk · top 1%"];
 const INITIALS_W = ["AW", "PR", "Y+K", "JS"];
 const BG_W = ["#ffe1d6", "#d6ecff", "#ffd6e7", "#fff0d6"];

@@ -175,7 +175,7 @@ const KPIS = [
 const PROFITS = [
   {
     initial: "A",
-    name: "Ananya M.",
+    name: "Leila M.",
     pair: "USD → INR",
     earn: 84.0,
     pos: "left-[3%] top-[18%]",
@@ -183,7 +183,7 @@ const PROFITS = [
   },
   {
     initial: "K",
-    name: "Karan S.",
+    name: "Lee S.",
     pair: "EUR → PHP",
     earn: 57.5,
     pos: "right-[4%] top-[32%]",
@@ -199,7 +199,7 @@ const PROFITS = [
   },
   {
     initial: "R",
-    name: "Rohit P.",
+    name: "Omar P.",
     pair: "USD → INR",
     earn: 31.2,
     pos: "right-[3%] bottom-[28%]",

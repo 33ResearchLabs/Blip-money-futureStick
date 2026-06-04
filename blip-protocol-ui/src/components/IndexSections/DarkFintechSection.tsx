@@ -113,7 +113,7 @@ const transactionsB = [
   {
     id: 1,
     type: "Buy USDT",
-    user: "Rahul S.",
+    user: "Tom S.",
     date: "22 May 2026",
     amount: "-₹10,242.5",
     usdt: "120.50 USDT",
@@ -122,7 +122,7 @@ const transactionsB = [
   {
     id: 2,
     type: "Sell USDT",
-    user: "Priya M.",
+    user: "Sara M.",
     date: "21 May 2026",
     amount: "+₹4,250",
     usdt: "50.00 USDT",

@@ -2705,7 +2705,7 @@ function CounterText({
 
 const LEADERS = [
   { name: "John", avatar: "🌊", trades: 23, vol: "3.8k", rating: 5.0 },
-  { name: "zoro", avatar: "🦋", trades: 36, vol: "2.7k", rating: 4.5 },
+  { name: "marco", avatar: "🦋", trades: 36, vol: "2.7k", rating: 4.5 },
   { name: "Jake Cole", avatar: "🐱", trades: 4, vol: "1.4k", rating: null },
   { name: "Drako", avatar: "🐙", trades: 2, vol: "1.0k", rating: null },
   { name: "Hulk", avatar: "🐢", trades: 14, vol: "315", rating: 1.0 },

@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, X, Search, RefreshCw, Sparkles, ChevronDown, TrendingDown } from "lucide-react";
+import { ArrowRight, Check, X, Search, RefreshCw, ChevronDown, TrendingDown } from "lucide-react";
 import { SEO } from "@/components";
 import { CTAButton } from "@/components/Navbar";
+import { useP2PRate, type Fiat } from "@/hooks/useP2PRate";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -65,70 +66,6 @@ function formatRate(value: number, digits: number, symbol: string) {
   );
 }
 
-/* ───────── Live rate hook ───────── */
-type LiveRate = {
-  mid: number | null;
-  venues: Record<string, number | null>;
-  loading: boolean;
-  error: string | null;
-  observed_at: number | null;
-};
-
-function useLiveRates(fiat: string, direction: Direction, amount: number): LiveRate {
-  const [state, setState] = useState<LiveRate>({
-    mid: null,
-    venues: {},
-    loading: true,
-    error: null,
-    observed_at: null,
-  });
-  const abortRef = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    abortRef.current?.abort();
-    const ctrl = new AbortController();
-    abortRef.current = ctrl;
-    setState((s) => ({ ...s, loading: true, error: null }));
-
-    const params = new URLSearchParams({
-      fiat,
-      tradeType: direction === "buy" ? "BUY" : "SELL",
-      amount: String(Math.max(0, amount)),
-    });
-    fetch(`/api/p2p-rates?${params.toString()}`, { signal: ctrl.signal })
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`http-${r.status}`);
-        return r.json() as Promise<{
-          mid: number | null;
-          venues: Array<{ name: string; price: number | null; error?: string }>;
-          observed_at: number;
-        }>;
-      })
-      .then((data) => {
-        const map: Record<string, number | null> = {};
-        for (const v of data.venues) map[v.name] = v.price;
-        setState({
-          mid: data.mid ?? null,
-          venues: map,
-          loading: false,
-          error: null,
-          observed_at: data.observed_at ?? Date.now(),
-        });
-      })
-      .catch((err: unknown) => {
-        if ((err as { name?: string })?.name === "AbortError") return;
-        setState((s) => ({
-          ...s,
-          loading: false,
-          error: err instanceof Error ? err.message : String(err),
-        }));
-      });
-
-    return () => ctrl.abort();
-  }, [fiat, direction, amount]);
-
-  return state;
-}
 
 /* ============================================
    SEARCH PANEL — Skyscanner-style
@@ -186,19 +123,14 @@ const CurrencyPicker = ({
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl border border-black/[0.10] dark:border-white/[0.10] bg-white dark:bg-white/[0.04] hover:border-black/[0.25] dark:hover:border-white/[0.25] transition-colors"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-black/[0.10] dark:border-white/[0.10] bg-black/[0.03] dark:bg-white/[0.04] hover:border-black/[0.25] dark:hover:border-white/[0.25] transition-colors"
       >
-        <span className="flex items-center gap-2 min-w-0">
-          <span className="text-lg leading-none">{current.flag}</span>
-          <span className="text-sm font-bold text-black dark:text-white">
-            {current.code}
-          </span>
-          <span className="text-[12px] text-black/45 dark:text-white/45 truncate hidden sm:inline">
-            {current.name}
-          </span>
+        <span className="text-base leading-none">{current.flag}</span>
+        <span className="text-sm font-bold text-black dark:text-white tracking-tight">
+          {current.code}
         </span>
         <ChevronDown
-          className={`w-4 h-4 text-black/45 dark:text-white/45 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-3.5 h-3.5 text-black/40 dark:text-white/40 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -251,7 +183,7 @@ const CurrencyPicker = ({
                           {c.name}
                         </span>
                         {selected && (
-                          <Check className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" strokeWidth={3} />
+                          <Check className="w-3.5 h-3.5 text-[#cc785c] shrink-0" strokeWidth={3} />
                         )}
                       </button>
                     </li>
@@ -274,20 +206,38 @@ const SearchPanel = ({
   onChange: (v: SearchValues) => void;
 }) => {
   return (
-    <div className="rounded-3xl bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_2px_30px_rgba(0,0,0,0.08)]">
-      <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_auto] divide-y md:divide-y-0 md:divide-x divide-black/[0.07] dark:divide-white/[0.07]">
-        {/* Amount + Buy/Sell selector inline (p2prate-style) */}
-        <label className="block px-5 py-4 hover:bg-black/[0.015] dark:hover:bg-white/[0.02] transition-colors cursor-text">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
-              Amount
-            </span>
-            {/* Compact Buy/Sell selector right where the eye lands */}
-            <div
-              role="tablist"
-              className="flex gap-0.5 rounded-full p-0.5 bg-black/[0.05] dark:bg-white/[0.06]"
-              onClick={(e) => e.preventDefault()}
-            >
+    <div className="rounded-2xl bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_2px_24px_rgba(0,0,0,0.07)]">
+      <div className="flex flex-col sm:flex-row sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-black/[0.07] dark:divide-white/[0.07]">
+        {/* Amount */}
+        <label className="flex-1 flex items-center gap-3 px-5 py-4 cursor-text">
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/40 dark:text-white/35 mb-1">Amount</div>
+            <div className="flex items-baseline gap-2">
+              <input
+                type="number"
+                inputMode="decimal"
+                value={values.amount}
+                onChange={(e) => onChange({ ...values, amount: e.target.value })}
+                placeholder="1000"
+                className="w-full bg-transparent border-0 focus:outline-none font-display text-[28px] font-semibold text-black dark:text-white tracking-tight tabular-nums placeholder:text-black/20 dark:placeholder:text-white/20"
+                style={{ letterSpacing: "-0.03em" }}
+              />
+              <span className="text-sm font-semibold text-black/40 dark:text-white/35 shrink-0">USDT</span>
+            </div>
+          </div>
+        </label>
+
+        {/* Currency + direction */}
+        <div className="flex items-center gap-3 px-5 py-4 sm:shrink-0">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/40 dark:text-white/35 mb-1.5">Currency</div>
+            <CurrencyPicker
+              value={values.currencyCode}
+              onChange={(code) => onChange({ ...values, currencyCode: code })}
+            />
+          </div>
+          <div className="self-end pb-0.5">
+            <div role="tablist" className="flex gap-0.5 rounded-full p-0.5 bg-black/[0.05] dark:bg-white/[0.06]">
               {(["buy", "sell"] as const).map((d) => (
                 <button
                   key={d}
@@ -298,46 +248,13 @@ const SearchPanel = ({
                   className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-colors ${
                     values.direction === d
                       ? "bg-black text-white dark:bg-white dark:text-black"
-                      : "text-black/50 dark:text-white/50"
+                      : "text-black/45 dark:text-white/45"
                   }`}
                 >
                   {d}
                 </button>
               ))}
             </div>
-          </div>
-          <div className="flex items-baseline gap-2 mt-1">
-            <input
-              type="number"
-              inputMode="decimal"
-              value={values.amount}
-              onChange={(e) => onChange({ ...values, amount: e.target.value })}
-              placeholder="1000"
-              className="w-full bg-transparent border-0 focus:outline-none font-display text-2xl md:text-3xl font-semibold text-black dark:text-white tracking-tight tabular-nums placeholder:text-black/25 dark:placeholder:text-white/25"
-            />
-            <span className="text-sm font-semibold text-black/55 dark:text-white/45">
-              USDT
-            </span>
-          </div>
-        </label>
-
-        {/* Currency — searchable dropdown */}
-        <div className="block px-5 py-4">
-          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
-            Currency
-          </span>
-          <div className="mt-2">
-            <CurrencyPicker
-              value={values.currencyCode}
-              onChange={(code) => onChange({ ...values, currencyCode: code })}
-            />
-          </div>
-        </div>
-
-        {/* Search badge — visual only on md+; hidden on mobile to save vertical space */}
-        <div className="hidden md:flex md:py-3 md:pl-3 md:pr-5 md:items-center md:justify-end">
-          <div className="w-12 h-12 rounded-2xl bg-black text-white dark:bg-white dark:text-black flex items-center justify-center shadow-md">
-            <Search className="w-5 h-5" strokeWidth={2.4} />
           </div>
         </div>
       </div>
@@ -361,94 +278,44 @@ const RateFinder = () => {
     [values.currencyCode],
   );
   const amt = parseFloat(values.amount) || 0;
-  const live = useLiveRates(currency.code, values.direction, amt);
 
-  // Live venue prices, with scam outliers filtered out.
-  // P2P aggregators sometimes carry quotes 15–25% above the realistic
-  // market — those aren't real merchants we can transact against. Keep
-  // only quotes within ±5% of the median.
-  const livePrices = useMemo(
-    () =>
-      Object.values(live.venues).filter(
-        (p): p is number => p != null && Number.isFinite(p) && p > 0,
-      ),
-    [live.venues],
-  );
+  // Use the same fast DB-backed hook the homepage hero uses (/api/rates)
+  const live = useP2PRate(currency.code as Fiat);
 
-  const trustedPrices = useMemo(() => {
-    if (livePrices.length === 0) return [] as number[];
-    const sorted = [...livePrices].sort((a, b) => a - b);
-    const median = sorted[Math.floor(sorted.length / 2)];
-    if (!median) return livePrices;
-    return livePrices.filter(
-      (p) => Math.abs(p - median) / median <= 0.05,
-    );
-  }, [livePrices]);
+  // Market reference rate for this direction
+  const marketRate = useMemo(() => {
+    if (values.direction === "buy") return live.buy ?? currency.fallbackMid;
+    return live.sell ?? currency.fallbackMid;
+  }, [live.buy, live.sell, currency.fallbackMid, values.direction]);
 
-  // "Best realistic" rate for the user's direction:
-  //   BUY  → lowest trusted ask (cheapest place to buy USDT)
-  //   SELL → highest trusted ask (most INR per USDT among legit merchants)
-  // Blip then beats this by 0.2% in the user's favor.
-  const bestRealistic = useMemo(() => {
-    const list = trustedPrices.length > 0 ? trustedPrices : livePrices;
-    if (list.length === 0) return currency.fallbackMid;
-    return values.direction === "buy" ? Math.min(...list) : Math.max(...list);
-  }, [trustedPrices, livePrices, currency.fallbackMid, values.direction]);
-
+  // Blip beats market by 0.2% in the user's favor
   const blipRate =
     values.direction === "buy"
-      ? bestRealistic * (1 - BLIP_EDGE_PCT)
-      : bestRealistic * (1 + BLIP_EDGE_PCT);
+      ? marketRate * (1 - BLIP_EDGE_PCT)
+      : marketRate * (1 + BLIP_EDGE_PCT);
   const blipTotal = blipRate * amt;
-
-  // The on-page "market" reference used for indicative competitor fallbacks:
-  //   - for BUY, the cheapest competitor is what users see, so the market is
-  //     the lowest competitor price.
-  //   - for SELL, indicative competitors should sit a notch below the
-  //     trusted best, so we anchor on bestRealistic.
-  const market =
-    values.direction === "buy"
-      ? livePrices.length > 0
-        ? Math.min(...livePrices)
-        : currency.fallbackMid
-      : bestRealistic;
 
   const competitorRows = useMemo(() => {
     return COMPETITORS.map((c) => {
-      const livePrice = c.apiName ? live.venues[c.apiName] : null;
-      let rate: number;
-      let isLive: boolean;
-      if (livePrice != null && Number.isFinite(livePrice) && livePrice > 0) {
-        rate = livePrice;
-        isLive = true;
-      } else {
-        rate =
-          values.direction === "buy"
-            ? market * (1 + c.fallbackBuy)
-            : market * (1 - c.fallbackSell);
-        isLive = false;
-      }
+      const rate =
+        values.direction === "buy"
+          ? marketRate * (1 + c.fallbackBuy)
+          : marketRate * (1 - c.fallbackSell);
       const total = rate * amt;
       const youLose =
         values.direction === "buy"
           ? (rate - blipRate) * amt
           : (blipRate - rate) * amt;
-      return { ...c, rate, total, youLose, isLive };
+      return { ...c, rate, total, youLose, isLive: false };
     });
-  }, [values.direction, amt, blipRate, market, live.venues]);
+  }, [values.direction, amt, blipRate, marketRate]);
 
-  // Savings vs the AVERAGE of trusted competitor rates (outliers excluded).
   const avgCompetitorRate = useMemo(() => {
-    // Use trusted live prices when we have at least 2; otherwise fall back
-    // to the full competitor row average (which includes indicative spreads).
-    const liveSet = trustedPrices.length >= 2 ? trustedPrices : livePrices;
-    if (liveSet.length > 0) {
-      return liveSet.reduce((s, r) => s + r, 0) / liveSet.length;
-    }
     const rates = competitorRows.map((c) => c.rate);
     if (rates.length === 0) return null;
-    return rates.reduce((sum, r) => sum + r, 0) / rates.length;
-  }, [trustedPrices, livePrices, competitorRows]);
+    return rates.reduce((s, r) => s + r, 0) / rates.length;
+  }, [competitorRows]);
+
   const youSaveVsAvg = useMemo(() => {
     if (avgCompetitorRate == null || amt === 0) return null;
     return values.direction === "buy"
@@ -457,104 +324,95 @@ const RateFinder = () => {
   }, [avgCompetitorRate, blipRate, amt, values.direction]);
 
   return (
-    <section className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 px-5 sm:px-6">
-      {/* Subtle hero backdrop */}
+    <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 px-5 sm:px-6">
+      {/* Soft warm backdrop */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-0"
         style={{
           background:
-            "radial-gradient(60% 50% at 50% 0%, rgba(255,107,53,0.08) 0%, transparent 70%), radial-gradient(50% 40% at 100% 30%, rgba(120,119,255,0.06) 0%, transparent 70%)",
+            "radial-gradient(55% 45% at 50% 0%, rgba(204,120,92,0.07) 0%, transparent 65%)",
         }}
       />
 
       <div className="relative max-w-5xl mx-auto">
-        {/* Eyebrow pill */}
+        {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="flex justify-center mb-6"
+          className="flex justify-center mb-7"
         >
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white/70 dark:bg-white/[0.04] backdrop-blur">
-            <Sparkles className="w-3 h-3 text-[#ff6b35]" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/65 dark:text-white/55">
-              Live · Comparing 4 venues
+          <span className="inline-flex items-center gap-2.5">
+            <span className="w-5 h-px bg-black/20 dark:bg-white/20" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-black/50 dark:text-white/40">
+              Live rates · 4 venues
             </span>
+            <span className="w-5 h-px bg-black/20 dark:bg-white/20" />
           </span>
         </motion.div>
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
-          className="text-center mb-3"
+          className="text-center mb-10"
         >
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.02]">
-            Always cheaper.<br className="hidden sm:block" />{" "}
-            <span className="italic">Anywhere you look.</span>
+          <h1
+            className="font-display text-black dark:text-white"
+            style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 1.05 }}
+          >
+            Always cheaper.{" "}
+            <span style={{ fontStyle: "italic", fontWeight: 600 }}>Anywhere you look.</span>
           </h1>
         </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.18 }}
-          className="text-center text-base md:text-lg text-black/55 dark:text-white/50 max-w-2xl mx-auto mb-6"
-        >
-          Best rates, guaranteed across every P2P venue we compare against.
-          Safer than custody. Private by design. Verifiable on-chain.
-        </motion.p>
-
-        {/* Pillar chips — cheaper / safer / private / on-chain */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex flex-wrap items-center justify-center gap-2 mb-10 sm:mb-12"
-        >
-          {[
-            { label: "Best rates, guaranteed" },
-            { label: "Non-custodial" },
-            { label: "Private by design" },
-            { label: "On-chain verifiable" },
-          ].map((p) => (
-            <span
-              key={p.label}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white/60 dark:bg-white/[0.03] text-[11px] font-semibold text-black/65 dark:text-white/60"
-            >
-              <Check className="w-3 h-3 text-[#ff6b35]" strokeWidth={3} />
-              {p.label}
-            </span>
-          ))}
-        </motion.div>
-
-        {/* Search panel — narrower than the results column for visual focus */}
+        {/* BIG RESULT — hero number front and center */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
+          className="text-center mb-6"
+        >
+          <div
+            className="font-display text-black dark:text-white tabular-nums"
+            style={{ fontSize: "clamp(3.2rem, 11vw, 3.9rem)", fontWeight: 700, lineHeight: 0.98, letterSpacing: "-0.06em" }}
+          >
+            {live.loading ? <span className="opacity-20">—</span> : formatRate(blipTotal, currency.digits, currency.symbol)}
+          </div>
+          <div className="mt-2 flex items-center justify-center gap-3 text-[13px] text-black/45 dark:text-white/35">
+            <span>{values.direction === "buy" ? "you pay" : "you receive"}</span>
+            {!live.loading && <span className="text-black/25 dark:text-white/20">·</span>}
+            {!live.loading && <span>@ {formatRate(blipRate, currency.digits, currency.symbol)} / USDT</span>}
+          </div>
+        </motion.div>
+
+        {/* Search panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.14, ease: EASE }}
           className="max-w-3xl mx-auto"
         >
           <SearchPanel values={values} onChange={setValues} />
         </motion.div>
 
         {/* Status row */}
-        <div className="mt-5 flex items-center justify-between text-[12px] gap-3 text-black/55 dark:text-white/50">
+        <div className="mt-3 flex items-center justify-between text-[12px] gap-3 text-black/55 dark:text-white/50">
           <div className="flex items-center gap-2 min-w-0">
             {live.loading ? (
               <>
                 <RefreshCw className="w-3 h-3 animate-spin shrink-0" />
-                <span className="truncate">Searching live rates…</span>
+                <span className="truncate">Fetching live rates…</span>
               </>
             ) : live.error ? (
-              <span className="truncate">Live feed unavailable — showing indicative spreads</span>
-            ) : live.observed_at ? (
+              <span className="truncate">Using indicative spreads</span>
+            ) : live.isLive ? (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#cc785c] animate-pulse shrink-0" />
                 <span className="truncate">
-                  Live · {Math.max(0, Math.round((Date.now() - live.observed_at) / 1000))}s ago
+                  Live · {live.observedAt ? `${Math.max(0, Math.round((Date.now() - live.observedAt) / 1000))}s ago` : "just now"}
                 </span>
               </>
             ) : null}
@@ -573,7 +431,7 @@ const RateFinder = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="mt-5 relative overflow-hidden rounded-3xl border border-[#ff6b35]/25 bg-black text-white"
+              className="mt-5 relative overflow-hidden rounded-3xl border border-[#cc785c]/25 bg-black text-white"
             >
               {/* Subtle orange wash from the right */}
               <div
@@ -586,7 +444,7 @@ const RateFinder = () => {
               />
               <div className="relative px-5 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
-                  <div className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#ff6b35] shrink-0 shadow-[0_6px_20px_-4px_rgba(255,107,53,0.55)] mt-0.5 sm:mt-0">
+                  <div className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#cc785c] shrink-0 shadow-[0_6px_20px_-4px_rgba(255,107,53,0.55)] mt-0.5 sm:mt-0">
                     <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={2.6} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -625,7 +483,7 @@ const RateFinder = () => {
             transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
             className="relative group"
           >
-            <div className="absolute -left-1 top-3 bottom-3 w-1 rounded-full bg-[#ff6b35]" />
+            <div className="absolute -left-1 top-3 bottom-3 w-1 rounded-full bg-[#cc785c]" />
             <div className="rounded-2xl bg-white dark:bg-white/[0.035] border border-black/[0.08] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 px-4 sm:px-5 py-4 transition-colors flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 {/* Tiny logo mark */}
@@ -639,7 +497,7 @@ const RateFinder = () => {
                     <span className="text-[14px] font-semibold text-black dark:text-white">
                       Blip Money
                     </span>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#ff6b35] px-1.5 py-0.5 rounded-md bg-[#ff6b35]/10">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#cc785c] px-1.5 py-0.5 rounded-md bg-[#cc785c]/10">
                       Best deal
                     </span>
                   </div>
@@ -794,11 +652,22 @@ const ComparisonSection = () => {
           transition={{ duration: 0.8, ease: EASE }}
           className="text-center mb-14"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/55 dark:text-white/40 font-semibold mb-3 block">
-            Side by side
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
-            Why Blip wins<br className="hidden sm:block" /> <span className="italic"> on the rest.</span>
+          <div className="inline-flex items-center gap-2.5 mb-5">
+            <span className="w-5 h-px bg-black/20 dark:bg-white/20" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-black/45 dark:text-white/35">Side by side</span>
+            <span className="w-5 h-px bg-black/20 dark:bg-white/20" />
+          </div>
+          <h2
+            className="font-display text-black dark:text-white mb-4"
+            style={{
+              fontSize: "clamp(3.2rem, 11vw, 3.9rem)",
+              fontWeight: 700,
+              lineHeight: 0.98,
+              letterSpacing: "-0.06em",
+            }}
+          >
+            Why Blip wins<br className="hidden sm:block" />{" "}
+            <span style={{ fontStyle: "italic", fontWeight: 600 }}>on the rest.</span>
           </h2>
           <p className="text-base text-black/55 dark:text-white/50 max-w-xl mx-auto">
             Centralized P2P desks took the consumer's side. Blip rebuilt them
@@ -833,7 +702,7 @@ const ComparisonSection = () => {
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       {entry.data.good ? (
-                        <Check className={`w-3.5 h-3.5 shrink-0 ${entry.accent ? "text-[#ff6b35]" : "text-black/35 dark:text-white/30"}`} strokeWidth={3} />
+                        <Check className={`w-3.5 h-3.5 shrink-0 ${entry.accent ? "text-[#cc785c]" : "text-black/35 dark:text-white/30"}`} strokeWidth={3} />
                       ) : (
                         <X className="w-3.5 h-3.5 text-black/30 dark:text-white/30 shrink-0" strokeWidth={3} />
                       )}
@@ -885,7 +754,7 @@ const ComparisonSection = () => {
                 </div>
                 {/* Blip cell — continuous black */}
                 <div className="px-4 py-4 bg-black text-white text-center flex items-center justify-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" strokeWidth={3} />
+                  <Check className="w-3.5 h-3.5 text-[#cc785c] shrink-0" strokeWidth={3} />
                   <span className="text-[13px] font-bold tabular-nums">
                     {row.blip.value}
                   </span>
@@ -921,8 +790,8 @@ const ComparisonSection = () => {
       >
           {/* glow accents */}
           {/* <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#ff6b35]/20 blur-[120px]" />
-            <div className="absolute -bottom-40 -left-20 w-[400px] h-[400px] rounded-full bg-[#ff6b35]/10 blur-[100px]" />
+            <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#cc785c]/20 blur-[120px]" />
+            <div className="absolute -bottom-40 -left-20 w-[400px] h-[400px] rounded-full bg-[#cc785c]/10 blur-[100px]" />
             <div className="absolute -bottom-40 -right-20 w-[400px] h-[400px] rounded-full bg-white/5 blur-[100px]" />
           </div> */}
           {/* subtle grid */}
@@ -938,12 +807,18 @@ const ComparisonSection = () => {
           />
 
           <div className="relative">
-            <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-              <span className="bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent">
-                Lower price.
-              </span>
+            <h3
+              className="font-display text-white mb-6"
+              style={{
+                fontSize: "clamp(3.2rem, 11vw, 3.9rem)",
+                fontWeight: 700,
+                lineHeight: 0.98,
+                letterSpacing: "-0.06em",
+              }}
+            >
+              Lower price.
               <br />
-              <span className="bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent italic">
+              <span style={{ fontStyle: "italic", fontWeight: 600 }}>
                 Stronger guarantees.
               </span>
             </h3>

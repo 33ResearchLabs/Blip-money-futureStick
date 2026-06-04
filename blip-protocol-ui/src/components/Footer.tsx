@@ -193,9 +193,6 @@ export const Footer = ({
          
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
-            <div className="w-5 h-5 rounded-sm flex items-center justify-center">
-              <PulseIcon size={14} className="text-black dark:text-white" />
-            </div>
             Fast. Simple. Blip.
           </div>
         </div>

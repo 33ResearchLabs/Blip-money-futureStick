@@ -232,7 +232,7 @@ function TransferRouteWidget() {
         <Avatar initials="PR" bg="#d6ecff" />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <span className="text-[12px] font-bold text-black truncate">Priya R.</span>
+            <span className="text-[12px] font-bold text-black truncate">Sara R.</span>
             <span className="text-[9px] font-bold tracking-[0.18em] text-black/40">· DUBAI</span>
           </div>
           <div className="text-[10.5px] text-black/55 mt-0.5" style={{ fontFamily: "ui-monospace, monospace" }}>

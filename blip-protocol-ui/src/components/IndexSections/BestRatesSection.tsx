@@ -7,9 +7,9 @@ import { IllustrationCard } from "./sceneArt";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const OFFERS = [
-  { merchant: "Ananya M.", rate: "83.42", spread: "+0.18%", best: true },
-  { merchant: "Karan S.", rate: "83.38", spread: "+0.13%", best: false },
-  { merchant: "Rohit P.", rate: "83.31", spread: "+0.05%", best: false },
+  { merchant: "Leila M.", rate: "83.42", spread: "+0.18%", best: true },
+  { merchant: "Lee S.", rate: "83.38", spread: "+0.13%", best: false },
+  { merchant: "Omar P.", rate: "83.31", spread: "+0.05%", best: false },
   { merchant: "Bank wire", rate: "82.10", spread: "−1.46%", best: false, muted: true },
 ];
 

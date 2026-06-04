@@ -35,7 +35,7 @@ function PhoneMock() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderTop: "1px solid rgba(255,255,255,.05)" }}>
           <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#f97026", display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", flexShrink: 0 }}>M</div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12.5, fontWeight: 600, color: "#fff" }}>Meera K.</div>
+            <div style={{ fontSize: 12.5, fontWeight: 600, color: "#fff" }}>Maya K.</div>
             <div style={{ fontSize: 9.5, color: "#615c54", fontFamily: "monospace" }}>2m ago</div>
           </div>
           <span style={{ fontFamily: "monospace", fontSize: 12.5, fontWeight: 700, color: "#4cc98c" }}>+₹2,400</span>

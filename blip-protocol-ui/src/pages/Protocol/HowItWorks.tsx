@@ -92,7 +92,7 @@ function PhoneFrame({ src, alt = "" }: { src: string; alt?: string }) {
               {
                 i: "P",
                 t: "Sell USDT",
-                s: "Priya M. · 22 May 2026",
+                s: "Sara M. · 22 May 2026",
                 a: "+₹4,250",
                 u: "50.00 USDT",
                 neg: false,
@@ -108,7 +108,7 @@ function PhoneFrame({ src, alt = "" }: { src: string; alt?: string }) {
               {
                 i: "N",
                 t: "Sell USDT",
-                s: "Neha R. · 20 May 2026",
+                s: "Zoe R. · 20 May 2026",
                 a: "+₹17,000",
                 u: "200.00 USDT",
                 neg: false,

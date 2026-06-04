@@ -237,32 +237,34 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
       className="flex items-center gap-1.5 group no-underline hover:no-underline"
       onClick={() => sounds.click()}
     >
-      <svg
-        viewBox="0 0 70 60"
-        className="h-[17px] w-auto"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28"
-          className={onDark ? "stroke-white" : "stroke-black dark:stroke-white"}
-          strokeWidth="9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-
       <motion.span
-        className={`${className} font-display text-[22px] leading-none flex items-baseline`}
+        className={`${className} font-display text-[22px] leading-none flex items-center gap-2`}
         style={{ letterSpacing: "-0.045em", fontWeight: 700 }}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
+        <svg
+          viewBox="0 0 120 120"
+          width="20"
+          height="20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          style={{ flexShrink: 0, marginBottom: 1 }}
+        >
+          <path
+            d="M20 60 L36 60 L48 24 L72 96 L84 60 L100 60"
+            stroke={onDark ? "#ffffff" : "#0b0b0c"}
+            strokeWidth="11"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
         <span className={onDark ? "text-white" : "text-black dark:text-white"}>
           Blip
         </span>
         <span
-          className={`ml-1 ${onDark ? "text-white" : "text-black dark:text-white"}`}
+          className={`ml-0.5 ${onDark ? "text-white" : "text-black dark:text-white"}`}
           style={{
             fontStyle: "italic",
             fontWeight: 600,
@@ -533,6 +535,14 @@ const MobileMenu = memo(({
             )}
           </div>
       </div>
+      <style>{`
+        @keyframes blip-trace {
+          0%   { stroke-dashoffset: 140; opacity: 0.4; }
+          20%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { stroke-dashoffset: -140; opacity: 0.4; }
+        }
+      `}</style>
     </>
   );
 });

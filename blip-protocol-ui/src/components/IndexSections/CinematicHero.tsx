@@ -1120,7 +1120,7 @@ export function InlineMerchantDashboard({
                   Emirates Islamic
                 </div>
                 <div className="text-[8.5px] text-white/35 truncate font-mono">
-                  Anupam Sharma · 27500178802
+                  James Chen · 27500178802
                 </div>
               </div>
               <ChevronDown className="w-3 h-3 text-white/30 shrink-0" />
@@ -1473,7 +1473,7 @@ export function InlineMerchantDashboard({
 
 const LEADERBOARD = [
   { name: "John", volume: "$3.8K", rating: "5.0" },
-  { name: "zoro", volume: "$2.7K", rating: "4.5" },
+  { name: "marco", volume: "$2.7K", rating: "4.5" },
   { name: "Zayn Khan", volume: "$1.4K", rating: "—" },
   { name: "Drako", volume: "$1.0K", rating: "—" },
   { name: "Hulk", volume: "$315", rating: "1.0" },
@@ -2185,12 +2185,12 @@ const CinematicHero = () => {
               marginBottom: 18,
             }}
           >
-            <EditableText id="home.hero.title.line1" default="Settle money globally through " />
+            <EditableText id="home.hero.title.line1" default="A live marketplace " />
             <EditableText
               id="home.hero.title.line2"
-              default="open markets."
+              default="for global settlement."
               as="span"
-              style={{ fontStyle: "italic", fontWeight: 600 }}
+              style={{ fontStyle: "italic", fontWeight: 700 }}
             />
           </motion.h1>
 

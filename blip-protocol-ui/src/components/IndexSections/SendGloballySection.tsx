@@ -120,7 +120,7 @@ function PaymentMomentArt() {
               >
                 Sending
               </div>
-              <div className="text-[13px] text-white/55 mb-1">To Priya in Mumbai</div>
+              <div className="text-[13px] text-white/55 mb-1">To Sara in Dubai</div>
               <div className="flex items-baseline gap-1 mb-5">
                 <span className="text-[44px] font-semibold tracking-[-0.03em] tabular-nums text-white leading-none">
                   $2,400
@@ -188,7 +188,7 @@ function PaymentMomentArt() {
               P
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-[11px] font-semibold text-black truncate">Priya · Mumbai</div>
+              <div className="text-[11px] font-semibold text-black truncate">Sara · Dubai</div>
               <div className="text-[9px] text-black/45">just now</div>
             </div>
             <span className="relative flex w-1.5 h-1.5">

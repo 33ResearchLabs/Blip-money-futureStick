@@ -283,9 +283,9 @@ export function PaperPlaneGlobeScene() {
    ═══════════════════════════════════════════════ */
 export function PriceTagScene() {
   const OFFERS = [
-    { name: "Ananya M.", rate: "83.42", win: true },
-    { name: "Karan S.", rate: "83.38", win: false },
-    { name: "Rohit P.", rate: "83.31", win: false },
+    { name: "Leila M.", rate: "83.42", win: true },
+    { name: "Lee S.", rate: "83.38", win: false },
+    { name: "Omar P.", rate: "83.31", win: false },
     { name: "Bank wire", rate: "82.10", win: false, muted: true },
   ];
   return (

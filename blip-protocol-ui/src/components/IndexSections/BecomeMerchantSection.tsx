@@ -112,7 +112,7 @@ function OnboardingVisual() {
 
             <div className="absolute top-10 inset-x-4">
               <div className="text-[18px] font-semibold tracking-tight text-white mb-1">
-                Welcome, Ananya
+                Welcome, Leila
               </div>
               <div className="text-[10px] text-white/45 mb-5">
                 Step 2 of 3 · Verification
