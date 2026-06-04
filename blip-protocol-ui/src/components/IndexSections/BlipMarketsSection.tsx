@@ -6,6 +6,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "./LiveMerchantDashboard";
+import MobileMerchantDashboard from "@/components/MobileDashboard";
 import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -416,10 +417,19 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           ))}
         </motion.div> */}
 
-        {/* The live dashboard — rests at a subtle tilt, straightens on hover */}
-        <TiltDashboard>
-          <MerchantDashboardBody state={state} />
-        </TiltDashboard>
+        {/* The live dashboard — rests at a subtle tilt, straightens on hover · desktop only */}
+        <div className="hidden lg:block">
+          <TiltDashboard>
+            <MerchantDashboardBody state={state} />
+          </TiltDashboard>
+        </div>
+
+        {/* Mobile / tablet — mobile dashboard mockup */}
+        <div className="lg:hidden w-full flex justify-center overflow-hidden px-4">
+          <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
+            <MobileMerchantDashboard />
+          </div>
+        </div>
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 md:mt-12">

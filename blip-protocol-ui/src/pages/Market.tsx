@@ -14,6 +14,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "@/components/IndexSections/LiveMerchantDashboard";
+import MobileMerchantDashboard from "@/components/MobileDashboard";
 import { CTASection } from "@/components/sections/CTASection";
 
 const ACCENT = "#cc785c";
@@ -280,8 +281,8 @@ const Market = () => {
           </div>
         </div>
 
-        {/* ── DASHBOARD with annotation pins ─────────────────── */}
-        <div className="relative px-4 sm:px-6">
+        {/* ── DASHBOARD with annotation pins · desktop only ──── */}
+        <div className="relative px-4 sm:px-6 hidden lg:block">
           <div className="max-w-[1280px] mx-auto relative">
             {/* Annotation pins — desktop only, positioned over the dash */}
             <AnnotationPin
@@ -340,6 +341,13 @@ const Market = () => {
                 <MerchantDashboardBody state={state} />
               </div>
             </motion.div>
+          </div>
+        </div>
+
+        {/* ── DASHBOARD (mobile / tablet) — mobile dashboard mockup ── */}
+        <div className="lg:hidden relative px-4 sm:px-6 flex justify-center overflow-hidden">
+          <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
+            <MobileMerchantDashboard />
           </div>
         </div>
 

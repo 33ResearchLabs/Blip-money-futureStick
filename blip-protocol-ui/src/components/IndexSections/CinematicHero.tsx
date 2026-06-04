@@ -27,6 +27,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "./LiveMerchantDashboard";
+import MobileMerchantDashboard from "@/components/MobileDashboard";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -2149,13 +2150,13 @@ const CinematicHero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[150vh] flex flex-col items-stretch text-black bg-white"
+      className="relative lg:min-h-[150vh] flex flex-col items-stretch text-black bg-white"
     >
 
       {/* ── Content — 50/50 vertical split ── */}
-      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-0 md:pb-24 flex-1 flex flex-col items-stretch">
-        {/* ── TOP HALF — single centered column ── */}
-        <div className="flex flex-col items-center text-center min-h-[80vh] md:min-h-[58vh] justify-center md:justify-end pt-8 pb-0 md:py-16 max-w-[760px] mx-auto">
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-0 md:pb-4 flex-1 flex flex-col items-stretch">
+        {/* ── TOP HALF — single centered column (mobile: flow from top, no forced viewport height) ── */}
+        <div className="flex flex-col items-center text-center md:min-h-[58vh] justify-start md:justify-end pt-2 pb-0 md:py-16 max-w-[760px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -2222,7 +2223,7 @@ const CinematicHero = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2"
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 my-2 md:my-0"
           >
             <button
               type="button"
@@ -2276,8 +2277,8 @@ const CinematicHero = () => {
 
       </main>
 
-      {/* Caption above the dashboard */}
-      <div className="relative z-10 w-full text-center mt-4 md:-mt-[6vh] mb-3 md:mb- px-6">
+      {/* Caption above the dashboard — desktop only */}
+      <div className="relative z-10 w-full text-center mt-4 md:-mt-[6vh] mb-3 md:mb-2 px-6 hidden lg:block">
         <span className="text-[10px] font-semibold tracking-[0.32em] uppercase text-black/55">
           Live Blip Market Dashboard
         </span>
@@ -2286,8 +2287,8 @@ const CinematicHero = () => {
         </p>
       </div>
 
-      {/* ── Live Merchant Dashboard — section-level, centered on viewport ── */}
-      <div className="relative z-10 w-full flex justify-center pb-[5vh]">
+      {/* ── Live Merchant Dashboard — section-level, centered on viewport · desktop only ── */}
+      <div className="relative z-10 w-full hidden lg:flex justify-center pb-[5vh]">
         <motion.div
           ref={dashboardRef}
           initial={{ opacity: 0, y: 40 }}
@@ -2301,6 +2302,13 @@ const CinematicHero = () => {
             <MerchantDashboardBody state={dashboardState} />
           </div>
         </motion.div>
+      </div>
+
+      {/* ── Mobile / tablet — mobile dashboard mockup ── */}
+      <div className="lg:hidden relative z-10 w-full flex justify-center overflow-hidden px-4 pb-[5vh]">
+        <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
+          <MobileMerchantDashboard />
+        </div>
       </div>
 
       {/* ── Merchant section — white band, black text ── */}

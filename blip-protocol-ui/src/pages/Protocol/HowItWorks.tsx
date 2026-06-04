@@ -20,6 +20,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "@/components/IndexSections/LiveMerchantDashboard";
+import MobileMerchantDashboard from "@/components/MobileDashboard";
 import { CTASection } from "@/components/sections/CTASection";
 import { BlipPhoneMockup } from "@/components/BlipPhoneMockup";
 
@@ -317,8 +318,15 @@ function FeatureCard({
 function DashCard() {
   const state = useMerchantDashboardState();
   return (
+    <>
+    {/* Mobile / tablet — mobile dashboard mockup */}
+    <div className="lg:hidden w-full flex justify-center overflow-hidden px-4">
+      <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
+        <MobileMerchantDashboard />
+      </div>
+    </div>
     <div
-      className="relative rounded-[20px] overflow-hidden"
+      className="relative rounded-[20px] overflow-hidden hidden lg:block"
       style={{
         background: "#0a0a0a",
         border: "1px solid rgba(0,0,0,0.85)",
@@ -355,6 +363,7 @@ function DashCard() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
