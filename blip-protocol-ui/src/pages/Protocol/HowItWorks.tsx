@@ -320,13 +320,14 @@ function DashCard() {
   return (
     <>
     {/* Mobile / tablet — mobile dashboard mockup */}
-    <div className="lg:hidden w-full flex justify-center overflow-hidden px-4">
+    {/* <div className="lg:hidden w-full flex justify-center overflow-hidden px-4">
       <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
         <MobileMerchantDashboard />
       </div>
-    </div>
+    </div> */}
+
     <div
-      className="relative rounded-[20px] overflow-hidden hidden lg:block"
+      className="relative rounded-[20px] overflow-hidden "
       style={{
         background: "#0a0a0a",
         border: "1px solid rgba(0,0,0,0.85)",

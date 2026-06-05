@@ -396,6 +396,12 @@ const Whitepaper = () => {
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              {/* <button onClick={handleDownload}
+                className="group inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
+                style={{ background: "#0a0a0a", color: "#fff", boxShadow: "0 10px 30px -10px rgba(0,0,0,0.32)" }}>
+                <Download className="w-4 h-4" />
+                Download PDF
+              </button> */}
               <a href="#abstract" onClick={(e) => { e.preventDefault(); scrollToSection("abstract"); }}
                 className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight"
                 style={{ background: "#0a0a0a", color: "#fff", boxShadow: "0 10px 30px -10px rgba(0,0,0,0.32)" }}>
@@ -713,24 +719,28 @@ const Whitepaper = () => {
 
                   <LifecycleDiagram />
 
-                  <table>
-                    <thead>
-                      <tr><th>#</th><th>Step</th><th>What happens</th><th>Where</th></tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        ["1", "Order", "User (or API) submits a transfer order specifying amount, corridor, and maximum time window.", "Off-chain / API"],
-                        ["2", "Match", "Merchants bid in a sealed auction. The network scores bids by fee, reputation, and stake. Boost tokens can elevate priority.", "Off-chain auction"],
-                        ["3", "Escrow", "User deposits funds into a smart-contract escrow tied to the matched order. The settlement clock starts.", "On-chain"],
-                        ["4", "Settle", "The winning merchant executes the fiat-side transfer and obtains a signed proof of completion from the oracle.", "Off-chain fiat"],
-                        ["5", "Released", "Proof is verified on-chain. Escrow releases funds to the merchant. Reputation incremented. Stakers earn fees.", "On-chain"],
-                        ["6", "Refund", "If the settlement window expires without proof, the user triggers a refund. Merchant reputation decremented.", "On-chain (timeout)"],
-                        ["7", "Dispute", "Either party can flag a dispute. A decentralized arbiter reviews evidence and resolves to release or refund.", "On-chain / DAO"],
-                      ].map(([n, s, w, l]) => (
-                        <tr key={n}><td>{n}</td><td>{s}</td><td>{w}</td><td style={{ whiteSpace: "nowrap" }}>{l}</td></tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {/* Scroll wrapper — 4-col table with a nowrap "Where" column would clip on
+                      narrow screens; min-width keeps columns readable and lets it scroll instead. */}
+                  <div className="overflow-x-auto -mx-2 px-2">
+                    <table style={{ minWidth: 560 }}>
+                      <thead>
+                        <tr><th>#</th><th>Step</th><th>What happens</th><th>Where</th></tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          ["1", "Order", "User (or API) submits a transfer order specifying amount, corridor, and maximum time window.", "Off-chain / API"],
+                          ["2", "Match", "Merchants bid in a sealed auction. The network scores bids by fee, reputation, and stake. Boost tokens can elevate priority.", "Off-chain auction"],
+                          ["3", "Escrow", "User deposits funds into a smart-contract escrow tied to the matched order. The settlement clock starts.", "On-chain"],
+                          ["4", "Settle", "The winning merchant executes the fiat-side transfer and obtains a signed proof of completion from the oracle.", "Off-chain fiat"],
+                          ["5", "Released", "Proof is verified on-chain. Escrow releases funds to the merchant. Reputation incremented. Stakers earn fees.", "On-chain"],
+                          ["6", "Refund", "If the settlement window expires without proof, the user triggers a refund. Merchant reputation decremented.", "On-chain (timeout)"],
+                          ["7", "Dispute", "Either party can flag a dispute. A decentralized arbiter reviews evidence and resolves to release or refund.", "On-chain / DAO"],
+                        ].map(([n, s, w, l]) => (
+                          <tr key={n}><td>{n}</td><td>{s}</td><td>{w}</td><td style={{ whiteSpace: "nowrap" }}>{l}</td></tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </section>
 
                 {/* 07 Staking & Incentives */}
@@ -939,7 +949,7 @@ const Whitepaper = () => {
                   <p className="text-[13.5px] mt-4" style={{ color: "rgba(0,0,0,0.5)" }}>
                     For a non-technical introduction to Blip Money and Blip Market — written for users,
                     merchants, and contributors — see the{" "}
-                    <Link to="/overview" style={{ color: ACCENT }}>Blip Money Overview</Link>.
+                    <Link to="/market" style={{ color: ACCENT }}>Blip Market Overview</Link>.
                   </p>
                 </section>
 
@@ -964,15 +974,15 @@ const Whitepaper = () => {
                         Complete paper as a portable PDF — including appendices and protocol references.
                       </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <button onClick={handleDownload}
-                        className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
+                    <div className="flex flex-col sm:flex-row gap-2 ">
+                      {/* <button onClick={handleDownload}
+                        className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px] max-w-[220px]"
                         style={{ background: "#0a0a0a", color: "#fff", boxShadow: "0 14px 36px -10px rgba(0,0,0,0.32)" }}>
                         <Download className="w-4 h-4" />
                         Download PDF
-                      </button>
-                      <Link to="/overview"
-                        className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight"
+                      </button> */}
+                      <Link to="/market"
+                        className="flex items-center justify-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight max-w-[220px]"
                         style={{ color: "rgba(0,0,0,0.78)", border: "1px solid rgba(0,0,0,0.13)" }}>
                         Overview
                         <ArrowRight className="w-3.5 h-3.5" />

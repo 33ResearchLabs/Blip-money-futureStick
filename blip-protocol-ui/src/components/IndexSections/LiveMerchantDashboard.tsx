@@ -1764,7 +1764,7 @@ export function MerchantDashboardBody({
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto relative min-h-0">
+          <div className="flex-1 overflow-y-auto scrollbar-hide relative min-h-0">
             <AnimatePresence initial={false}>
               {pendingOrders.length === 0 ? (
                 <EmptyState
@@ -1773,7 +1773,7 @@ export function MerchantDashboardBody({
                   sub="New orders from the network show here"
                 />
               ) : (
-                <div className="px-2 py-1.5 space-y-1.5">
+                <div className="px-2 py-1.5 space-y-1.5 no-scrollbar">
                   {pendingOrders.map((o, i) => (
                     <motion.div
                       key={o.id}
@@ -1937,7 +1937,7 @@ export function MerchantDashboardBody({
             </span>
           </div>
 
-          <div className="px-3 py-1.5 flex items-center gap-1 border-b border-white/[0.04] text-[10px] overflow-x-auto">
+          <div className="px-3 py-1.5 flex items-center gap-1 border-b border-white/[0.04] text-[10px] overflow-x-auto no-scrollbar">
             {(
               ["All", "Accepted", "Escrowed", "Paid", "Cancelled"] as const
             ).map((t) => {
@@ -1956,7 +1956,7 @@ export function MerchantDashboardBody({
             })}
           </div>
 
-          <div className="flex-1 overflow-y-auto relative min-h-0">
+          <div className="flex-1 overflow-y-auto scrollbar-hide relative min-h-0">
             {activeTrades.length === 0 ? (
               <EmptyState
                 icon={<Shield className="w-5 h-5 text-white/20" />}

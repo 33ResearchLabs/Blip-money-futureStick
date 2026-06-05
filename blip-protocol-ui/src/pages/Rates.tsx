@@ -29,6 +29,9 @@ interface Currency {
  *  higher than what other venues would pay on a SELL. */
 const BLIP_EDGE_PCT = 0.002;
 
+/* Max amount the search panel accepts (10,000,000 USDT). */
+const MAX_AMOUNT = 10_000_000;
+
 const CURRENCIES: Currency[] = [
   { code: "INR", flag: "🇮🇳", name: "Indian Rupee", fallbackMid: 99.5, digits: 2, symbol: "₹" },
   { code: "AED", flag: "🇦🇪", name: "UAE Dirham", fallbackMid: 3.6735, digits: 4, symbol: "د.إ " },
@@ -141,7 +144,7 @@ const CurrencyPicker = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-30 left-0 right-0 mt-2 rounded-2xl border border-black/[0.10] dark:border-white/[0.12] bg-white dark:bg-[#111] shadow-[0_12px_40px_-10px_rgba(0,0,0,0.30)] overflow-hidden"
+            className="absolute w-fit z-30 left-0 right-0 mt-2 rounded-2xl border border-black/[0.10] dark:border-white/[0.12] bg-white dark:bg-[#111] shadow-[0_12px_40px_-10px_rgba(0,0,0,0.30)] overflow-hidden"
           >
             <div className="px-3 py-2 border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-2">
@@ -216,8 +219,18 @@ const SearchPanel = ({
               <input
                 type="number"
                 inputMode="decimal"
+                min={0}
+                max={MAX_AMOUNT}
                 value={values.amount}
-                onChange={(e) => onChange({ ...values, amount: e.target.value })}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  // Allow clearing the field; otherwise cap at MAX_AMOUNT.
+                  const next =
+                    raw === "" || Number(raw) <= MAX_AMOUNT
+                      ? raw
+                      : String(MAX_AMOUNT);
+                  onChange({ ...values, amount: next });
+                }}
                 placeholder="1000"
                 className="w-full bg-transparent border-0 focus:outline-none font-display text-[28px] font-semibold text-black dark:text-white tracking-tight tabular-nums placeholder:text-black/20 dark:placeholder:text-white/20"
                 style={{ letterSpacing: "-0.03em" }}
@@ -726,8 +739,8 @@ const ComparisonSection = () => {
           <div className="px-7 py-5 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06] text-[11px] font-bold uppercase tracking-[0.16em] text-black/55 dark:text-white/45">
             Feature
           </div>
-          <div className="px-4 py-5 bg-black text-white text-center inline-flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em]">
-            <svg viewBox="0 0 70 60" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div className="px-5 py-5 bg-black text-white flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em]">
+            <svg viewBox="0 0 70 60" className="w-3.5 h-3.5 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28" stroke="white" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Blip
@@ -735,7 +748,7 @@ const ComparisonSection = () => {
           {[ "Binance P2P", "Paxful", "Direct P2P" ].map((label) => (
             <div
               key={label}
-              className="px-4 py-5 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06] text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45"
+              className="px-5 py-5 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06] text-left text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45"
             >
               {label}
             </div>
@@ -753,7 +766,7 @@ const ComparisonSection = () => {
                   {row.feature}
                 </div>
                 {/* Blip cell — continuous black */}
-                <div className="px-4 py-4 bg-black text-white text-center flex items-center justify-center gap-1.5">
+                <div className="px-5 py-4 bg-black text-white flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-[#cc785c] shrink-0" strokeWidth={3} />
                   <span className="text-[13px] font-bold tabular-nums">
                     {row.blip.value}
@@ -763,7 +776,7 @@ const ComparisonSection = () => {
                 {[row.binance, row.paxful, row.direct].map((c, idx) => (
                   <div
                     key={idx}
-                    className={`px-4 py-4 text-center flex items-center justify-center gap-1.5 ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
+                    className={`px-5 py-4 flex items-center gap-2 ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
                   >
                     {c.good ? (
                       <Check className="w-3 h-3 text-[#cc785c] shrink-0" strokeWidth={3} />

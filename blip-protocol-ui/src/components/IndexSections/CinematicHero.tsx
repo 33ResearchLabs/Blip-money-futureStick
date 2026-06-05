@@ -1284,7 +1284,7 @@ export function InlineMerchantDashboard({
               <button className="text-white/30 text-[10px]">⋯</button>
             </div>
             {/* Status filter chips */}
-            <div className="flex items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
               {["All", "Accepted", "Escrowed", "Paid", "Cancelled"].map((c) => (
                 <button
                   key={c}
@@ -2288,7 +2288,7 @@ const CinematicHero = () => {
       </div>
 
       {/* ── Live Merchant Dashboard — section-level, centered on viewport · desktop only ── */}
-      <div className="relative z-10 w-full hidden lg:flex justify-center pb-[5vh]">
+      <div className="relative z-10 w-full flex justify-center pb-[5vh]">
         <motion.div
           ref={dashboardRef}
           initial={{ opacity: 0, y: 40 }}
@@ -2305,11 +2305,11 @@ const CinematicHero = () => {
       </div>
 
       {/* ── Mobile / tablet — mobile dashboard mockup ── */}
-      <div className="lg:hidden relative z-10 w-full flex justify-center overflow-hidden px-4 pb-[5vh]">
+      {/* <div className="lg:hidden relative z-10 w-full flex justify-center overflow-hidden px-4 pb-[5vh]">
         <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
           <MobileMerchantDashboard />
         </div>
-      </div>
+      </div> */}
 
       {/* ── Merchant section — white band, black text ── */}
       <div className="relative z-10 w-full bg-white text-black">

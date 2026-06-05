@@ -280,7 +280,7 @@ const Market = () => {
         </div>
 
         {/* ── DASHBOARD with annotation pins · desktop only ──── */}
-        <div className="relative px-4 sm:px-6 hidden lg:block">
+        <div className="relative px-4 sm:px-6 ">
           <div className="max-w-[1280px] mx-auto relative">
             {/* Annotation pins — desktop only, positioned over the dash */}
             <AnnotationPin
@@ -343,11 +343,11 @@ const Market = () => {
         </div>
 
         {/* ── DASHBOARD (mobile / tablet) — mobile dashboard mockup ── */}
-        <div className="lg:hidden relative px-4 sm:px-6 flex justify-center overflow-hidden">
+        {/* <div className="lg:hidden relative px-4 sm:px-6 flex justify-center overflow-hidden">
           <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
             <MobileMerchantDashboard />
           </div>
-        </div>
+        </div> */}
 
         {/* ── FEATURES ───────────────────────────────────────── */}
         <div className="relative px-5 sm:px-6 mt-16 sm:mt-24 md:mt-32">
