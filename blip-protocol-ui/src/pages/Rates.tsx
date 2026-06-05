@@ -389,7 +389,7 @@ const RateFinder = () => {
           className="text-center mb-6"
         >
           <div
-            className="font-display text-black dark:text-white tabular-nums"
+            className="font-display text-black dark:text-white tabular-nums break-all px-2"
             style={{ fontSize: "clamp(2.2rem, 7vw, 2.8rem)", fontWeight: 700, lineHeight: 0.98, letterSpacing: "-0.05em" }}
           >
             {live.loading ? <span className="opacity-20">—</span> : formatRate(blipTotal, currency.digits, currency.symbol)}
@@ -519,18 +519,18 @@ const RateFinder = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-3 sm:flex-1 sm:gap-6 sm:justify-end sm:text-right">
-                <div>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 sm:flex-1 sm:flex-nowrap sm:gap-6 sm:justify-end sm:text-right">
+                <div className="min-w-0">
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/40 dark:text-white/40">Rate</div>
-                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums">
+                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums break-all">
                     {formatRate(blipRate, currency.digits, currency.symbol)}
                   </div>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/40 dark:text-white/40">
                     {values.direction === "buy" ? "You pay" : "You get"}
                   </div>
-                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums">
+                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums break-all">
                     {formatRate(blipTotal, currency.digits, currency.symbol)}
                   </div>
                 </div>
@@ -590,27 +590,27 @@ const RateFinder = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-3 sm:flex-1 sm:gap-6 sm:justify-end sm:text-right">
-                <div>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 sm:flex-1 sm:flex-nowrap sm:gap-6 sm:justify-end sm:text-right">
+                <div className="min-w-0">
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">Rate</div>
-                  <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums">
+                  <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums break-all">
                     {formatRate(c.rate, currency.digits, currency.symbol)}
                   </div>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">
                     You {values.direction === "buy" ? "pay" : "get"}
                   </div>
-                  <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums">
+                  <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums break-all">
                     {formatRate(c.total, currency.digits, currency.symbol)}
                   </div>
                 </div>
                 {c.youLose > 0 && (
-                  <div className="sm:ml-3">
+                  <div className="min-w-0 sm:ml-3">
                     <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">
                       vs Blip
                     </div>
-                    <div className="font-mono text-sm font-bold text-red-500/80 tabular-nums">
+                    <div className="font-mono text-sm font-bold text-red-500/80 tabular-nums break-all">
                       {values.direction === "buy" ? "+" : "−"}
                       {formatRate(c.youLose, currency.digits, currency.symbol)}
                     </div>
