@@ -283,11 +283,7 @@ export default function About() {
           />
 
           <div className="relative max-w-[1200px] mx-auto px-6 w-full">
-            <div className="mb-8 flex justify-center ">
-              <Breadcrumbs
-                items={[{ label: "Home", href: "/" }, { label: "About" }]}
-              />
-            </div>
+            
 
             <motion.p
               initial={{ opacity: 0, y: 8 }}

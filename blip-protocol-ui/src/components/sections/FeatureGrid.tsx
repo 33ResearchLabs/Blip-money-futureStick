@@ -166,7 +166,7 @@ const FeatureCard = ({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group h-full flex flex-col p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-transparent hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
+      className="group h-full flex flex-col items-center text-center md:items-start md:text-left p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-transparent hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
       onMouseEnter={() => sounds.hover()}
     >
       {Icon && (

@@ -35,7 +35,6 @@ import { MagneticWrapper } from "@/components/MagneticButton";
 import { HeroDashboardVisual } from "@/components/HeroDashbaordVisual";
 import { CinematicMockup } from "@/components/CinemeticMockup";
 import { sounds } from "@/lib/sounds";
-import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import {
   MerchantDashboard,
@@ -617,23 +616,30 @@ const PricingSection = () => {
    TRUST & SAFETY SECTION
    ============================================ */
 const TrustSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const features = [
     {
+      key: "item1",
       title: "Escrow-backed execution",
       description: "Reduces non-completion and disputes",
       icon: Lock,
     },
     {
+      key: "item2",
       title: "On-chain traceability",
       description: "Verify status through Blip Scan",
       icon: Eye,
     },
     {
+      key: "item3",
       title: "Clear dispute process",
       description: "Handled by internal team during Beta",
       icon: Shield,
     },
     {
+      key: "item4",
       title: "Merchant reputation",
       description: "Performance tracking and enforcement",
       icon: BadgeCheck,
@@ -641,21 +647,67 @@ const TrustSection = () => {
   ];
 
   return (
-    <FeatureGrid
-      title={
-        <>
-          Trades secured by
-          <br />
-          <span className="italic">
-            escrow + transparency
-          </span>
-        </>
-      }
-      subtitle="Trust & Safety"
-      features={features}
-      columns={4}
-      variant="cards"
-    />
+    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
+          >
+            <EditableText id="merchant.trust.eyebrow" default="Trust & Safety" />
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+          >
+            <EditableText id="merchant.trust.title.pre" default="Trades secured by " as="span" />
+            <EditableText id="merchant.trust.title.accent" default="escrow + transparency." as="span" className=" italic" />
+          </motion.h2>
+        </div>
+
+        {/* Card grid — mirrors Requirements layout, no number watermark */}
+        <div className="relative">
+        <div className="flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                className="snap-start shrink-0 w-[88%] sm:w-[60%] md:w-[44%] lg:w-[32%] group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+                style={{ background: "rgba(255, 255, 255, 0.02)" }}
+              >
+                {/* Subtle monochrome icon panel */}
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 group-hover:border-white"
+                >
+                  <Icon className="w-6 h-6 text-black/70 dark:text-white/60 group-hover:text-[white] transition-colors" strokeWidth={1.8} />
+                </div>
+
+                <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
+                  <EditableText id={`merchant.trust.${f.key}.title`} default={f.title} as="span" />
+                </h3>
+                <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
+                  <EditableText id={`merchant.trust.${f.key}.description`} default={f.description} as="span" />
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
+        <SwipeHint />
+        </div>
+      </div>
+    </section>
   );
 };
 

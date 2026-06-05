@@ -1427,7 +1427,7 @@ export function MerchantDashboardBody({
           hidden so streaming pending orders don't push the dashboard taller —
           inner panels clip via their own flex-1 overflow rules. */}
       <div
-        className={`grid grid-cols-1 lg:h-[650px] lg:overflow-hidden ${
+        className={`grid grid-cols-1 max-h-[90svh] overflow-y-auto scrollbar-hide lg:max-h-none lg:overflow-hidden lg:h-[650px] ${
           showCol4 ? "lg:grid-cols-5" : "lg:grid-cols-4"
         }`}
       >
@@ -1451,11 +1451,11 @@ export function MerchantDashboardBody({
             </button>
           </div>
 
-          <div className="px-4 py-3 relative">
+          <div className="px-4 py-2 lg:py-3 relative">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-40 h-20 bg-white/[0.04] rounded-full blur-[60px]" />
             </div>
-            <div className="flex items-center justify-center gap-1.5 mb-1.5 relative z-10">
+            <div className="flex items-center justify-center gap-1.5 mb-1 lg:mb-1.5 relative z-10">
               <span className="text-[10px] text-white/40 font-mono uppercase tracking-widest">
                 Available Balance
               </span>
@@ -1469,7 +1469,7 @@ export function MerchantDashboardBody({
                 USDT
               </div>
               {/* Today's earned — running total */}
-              <div className="mt-3 flex items-center justify-center gap-1.5">
+              <div className="mt-1.5 lg:mt-3 flex items-center justify-center gap-1.5">
                 <span className="text-[9px] text-white/30 font-mono uppercase tracking-widest">
                   Today earned
                 </span>
@@ -1483,7 +1483,7 @@ export function MerchantDashboardBody({
                 </motion.span>
               </div>
               {/* Floating earned toast — reserved slot so dashboard doesn't reflow when it shows/hides */}
-              <div className="mt-2 h-6 relative flex items-center justify-center">
+              <div className="mt-1 h-5 lg:mt-2 lg:h-6 relative flex items-center justify-center">
                 <AnimatePresence>
                   {lastEarning != null && (
                     <motion.div
@@ -1512,7 +1512,7 @@ export function MerchantDashboardBody({
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-3 gap-1.5 relative z-10">
+            <div className="mt-2 lg:mt-3 grid grid-cols-3 gap-1.5 relative z-10">
               {[
                 { Icon: ArrowLeftRight, label: "SWAP" },
                 { Icon: ArrowUpFromLine, label: "SEND" },
@@ -1531,7 +1531,7 @@ export function MerchantDashboardBody({
             </div>
           </div>
 
-          <div className="px-3 mb-1.5">
+          <div className="px-3 mb-1 lg:mb-1.5">
             <div className="inline-flex w-full rounded-lg bg-white/[0.03] border border-white/[0.05] p-0.5">
               {(["AED", "INR"] as const).map((c) => {
                 const active = corridor === c;
@@ -1559,7 +1559,7 @@ export function MerchantDashboardBody({
             </div>
           </div>
 
-          <div className="px-3 mb-1.5">
+          <div className="px-3 mb-1 lg:mb-1.5">
             <button className="w-full flex items-center justify-between py-1 px-2 rounded-lg bg-white/[0.025] border border-white/[0.04] hover:bg-white/[0.05] transition-all">
               <span className="text-[9px] text-white/30 font-mono uppercase tracking-wider">
                 Cash & Market
@@ -1567,7 +1567,7 @@ export function MerchantDashboardBody({
               <ChevronRight className="w-3 h-3 text-white/25" />
             </button>
           </div>
-          <div className="px-3 mb-1.5">
+          <div className="px-3 mb-1 lg:mb-1.5">
             <button className="w-full flex items-center justify-between py-1 px-2 rounded-lg bg-white/[0.025] border border-white/[0.04] hover:bg-white/[0.05] transition-all">
               <div className="flex items-center gap-1.5">
                 <Activity className="w-3 h-3 text-white/20" />
@@ -1584,7 +1584,7 @@ export function MerchantDashboardBody({
             </button>
           </div>
 
-          <div className="px-3 mb-2 flex items-center justify-between text-[9px] font-mono text-white/25">
+          <div className="px-3 mb-1.5 lg:mb-2 flex items-center justify-between text-[9px] font-mono text-white/25">
             <span>0 done</span>
             <span className="text-white/10">·</span>
             <span>1 cancelled</span>
@@ -1593,7 +1593,7 @@ export function MerchantDashboardBody({
           </div>
 
           {/* Trade form */}
-          <div className="border-t border-white/[0.05] px-3 pt-2 pb-3 mt-2">
+          <div className="border-t border-white/[0.05] px-3 pt-1.5 pb-2 mt-1 lg:pt-2 lg:pb-3 lg:mt-2">
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-1.5">
                 <ArrowLeftRight className="w-3 h-3 text-white/30" />
@@ -1608,7 +1608,7 @@ export function MerchantDashboardBody({
                 MAX 1,500
               </span>
             </div>
-            <div className="relative mb-1.5">
+            <div className="relative mb-1 lg:mb-1.5">
               <input
                 inputMode="decimal"
                 value={tradeAmount}
@@ -1628,7 +1628,7 @@ export function MerchantDashboardBody({
                 Spread
               </span>
             </div>
-            <div className="grid grid-cols-3 gap-1 mb-2">
+            <div className="grid grid-cols-3 gap-1 mb-1.5 lg:mb-2">
               {(
                 [
                   { label: "Fast", v: "+2.5%" },
@@ -1662,7 +1662,7 @@ export function MerchantDashboardBody({
               </span>
               <span className="text-[8px] font-mono text-white/30">manual</span>
             </div>
-            <div className="grid grid-cols-4 gap-1 mb-2">
+            <div className="grid grid-cols-4 gap-1 mb-1.5 lg:mb-2">
               {([0, 5, 10, 15] as const).map((b) => {
                 const active = boost === b;
                 return (
