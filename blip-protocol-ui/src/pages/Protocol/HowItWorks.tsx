@@ -327,13 +327,12 @@ function DashCard() {
     </div> */}
 
     <div
-      className="relative rounded-[20px] overflow-hidden "
+      className="relative rounded-[20px] overflow-hidden lg:max-h-[380px]"
       style={{
         background: "#0a0a0a",
         border: "1px solid rgba(0,0,0,0.85)",
         boxShadow:
           "0 60px 140px -40px rgba(204,120,92,0.35), 0 30px 80px -30px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset",
-        maxHeight: 380,
       }}
     >
       {/* Subtle top sheen */}
@@ -345,16 +344,11 @@ function DashCard() {
             "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
         }}
       />
-      {/* Render the dashboard at ~185% width then scale down so each of the 4
-          columns gets enough room (~255px) to avoid cross-column overflow. */}
-      <div className="overflow-hidden" style={{ maxHeight: 380 }}>
-        <div
-          style={{
-            transform: "scale(0.54)",
-            transformOrigin: "top left",
-            width: "185.2%",
-          }}
-        >
+      {/* Desktop (lg+): render at ~185% width then scale down so each of the 4
+          columns gets room (~255px) to avoid cross-column overflow — unchanged.
+          Below lg: size responsively to the container like Home/Market. */}
+      <div className="overflow-x-auto lg:overflow-hidden lg:max-h-[380px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="w-full lg:w-[185.2%] lg:origin-top-left lg:scale-[0.54]">
           <MerchantDashboardBody
             state={state}
             showLeaderboard={false}

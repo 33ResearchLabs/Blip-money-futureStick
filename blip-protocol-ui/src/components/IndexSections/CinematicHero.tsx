@@ -2288,17 +2288,19 @@ const CinematicHero = () => {
       </div>
 
       {/* ── Live Merchant Dashboard — section-level, centered on viewport · desktop only ── */}
-      <div className="relative z-10 w-full flex justify-center pb-[5vh]">
+      <div className="relative z-10 w-full flex justify-center px-6 md:px-10 lg:px-0 pb-[5vh]">
         <motion.div
           ref={dashboardRef}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 1.2, ease: EASE }}
-          className="relative rounded-[28px] border border-white/[0.07] p-3 md:p-4 overflow-hidden text-white shadow-[0_30px_80px_-30px_rgba(204,120,92,0.25),0_12px_30px_-15px_rgba(0,0,0,0.18)]"
-          style={{ width: "min(98vw, 1410px)", background: "#0a0a0a" }}
+          className="relative w-full max-w-7xl lg:max-w-none lg:w-[min(98vw,1410px)] rounded-[28px] border border-white/[0.07] p-3 md:p-4 overflow-hidden text-white shadow-[0_30px_80px_-30px_rgba(204,120,92,0.25),0_12px_30px_-15px_rgba(0,0,0,0.18)]"
+          style={{ background: "#0a0a0a" }}
         >
-          <MerchantDashboardBody state={dashboardState} />
+          <div className="overflow-x-auto lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <MerchantDashboardBody state={dashboardState} />
+          </div>
         </motion.div>
       </div>
 

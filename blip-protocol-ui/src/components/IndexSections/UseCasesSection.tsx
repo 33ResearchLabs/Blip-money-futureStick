@@ -355,15 +355,37 @@ const UseCasesSection = () => {
                 <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.5)", marginBottom: 24, maxWidth: 380 }}>
                   <EditableText id="home.usecases.users.desc" default="Cross-border remittance in under 60 seconds. No banks. No forms. Recipient gets local currency instantly." multiline />
                 </p>
-                <div className="flex items-center gap-5 mb-6">
+                {/* <div className="flex items-center gap-5 mb-6">
                   {[{ val: "<60s", lbl: "Settle" }, { val: "42", lbl: "Routes" }, { val: "On-chain", lbl: "Proof" }].map((s, i) => (
                     <div key={s.lbl} className="flex flex-col md:flex-row items-center md:gap-1.5">
-                      {/* {i > 0 && <div className="w-px h-4 bg-white/10 mr-2" />} */}
+                      {i > 0 && <div className="w-px h-4 bg-white/10 mr-2 md:block hidden" />}
                       <span className="font-mono text-sm font-bold text-white">{s.val}</span>
                       <span className="text-[9px] uppercase text-white/30">{s.lbl}</span>
                     </div>
                   ))}
-                </div>
+                </div> */}
+                <div className="flex items-center gap-4 mb-6">
+  {[
+    { val: "<60s", lbl: "Settle" },
+    { val: "42", lbl: "Routes" },
+    { val: "On-chain", lbl: "Proof" },
+  ].map((s, i) => (
+    <div key={s.lbl} className="flex items-center">
+      {i > 0 && (
+        <div className="w-px h-10 bg-white/15 mx-2" />
+      )}
+
+      <div className="flex flex-col items-center md:flex-row md:gap-1.5">
+        <span className="font-mono text-sm font-bold text-white">
+          {s.val}
+        </span>
+        <span className="text-[9px] uppercase text-white/30">
+          {s.lbl}
+        </span>
+      </div>
+    </div>
+  ))}
+</div>
                 <motion.a
                   href="https://app.blip.money/waitlist/user"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px] font-semibold"
