@@ -238,7 +238,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
       onClick={() => sounds.click()}
     >
       <motion.span
-        className={`${className} font-display text-[22px] leading-none flex items-center gap-2`}
+        className={`${className} font-display text-[22px] leading-none flex items-center gap-1.5`}
         style={{ letterSpacing: "-0.045em", fontWeight: 700 }}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
@@ -264,7 +264,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
           Blip
         </span>
         <span
-          className={`ml-0.5 ${onDark ? "text-white" : "text-black dark:text-white"}`}
+          className={`-ml-1 ${onDark ? "text-white" : "text-black dark:text-white"}`}
           style={{
             fontStyle: "italic",
             fontWeight: 600,

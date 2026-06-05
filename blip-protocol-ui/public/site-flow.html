@@ -207,6 +207,7 @@
   <div class="tab active" onclick="showTab('flow')">Site Flow</div>
   <div class="tab" onclick="showTab('seo')">SEO Audit</div>
   <div class="tab" onclick="showTab('broken')">Broken Links <span style="color:#e55;margin-left:4px;">●</span></div>
+  <div class="tab" onclick="showTab('editor')" style="color:#cc785c;font-weight:700">✏️ SEO Editor</div>
 </div>
 
 
@@ -303,7 +304,7 @@
     <div class="arrow">→</div>
     <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/compare</div><div class="node-title">Compare</div><div class="node-desc">Blip vs Wise, Binance P2P, traditional escrow — speed, fees, security.</div></div>
     <div class="arrow">→</div>
-    <div class="node"><div class="badge badge-public">Public</div><div class="node-path">/rewards</div><div class="node-title">Rewards</div><div class="node-desc">Earn BLIP points, referral bonuses, and early-access rewards.</div></div>
+    <div class="node" style="opacity:.4"><div class="badge badge-redirect">Redirect</div><div class="node-path">/rewards → /</div><div class="node-title" style="text-decoration:line-through">Rewards</div><div class="node-desc">Removed — redirects to home.</div></div>
   </div>
 
   <div class="section-label">Company</div>
@@ -371,10 +372,11 @@
   <p class="subtitle">All pages · title tags · meta descriptions · inbound links · character counts</p>
 
   <div class="stats-bar">
-    <div class="stat"><div class="stat-num">46</div><div class="stat-lbl">Total pages</div></div>
-    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Broken links</div></div>
+    <div class="stat"><div class="stat-num">45</div><div class="stat-lbl">Total pages</div></div>
+    <div class="stat"><div class="stat-num" style="color:#6ee0c5">3</div><div class="stat-lbl">Broken links</div></div>
     <div class="stat"><div class="stat-num">21</div><div class="stat-lbl">SEO / Market pages</div></div>
-    <div class="stat"><div class="stat-num" style="color:#6ee0c5">43</div><div class="stat-lbl">Have meta desc</div></div>
+    <div class="stat"><div class="stat-num" style="color:#6ee0c5">45</div><div class="stat-lbl">Have meta desc ✓</div></div>
+    <div class="stat"><div class="stat-num" style="color:#6ee0c5">✓</div><div class="stat-lbl">seo.ts live</div></div>
   </div>
 
   <input id="seo-search" type="text" placeholder="Filter pages by path, title, or description…" oninput="filterSeo(this.value)" />
@@ -505,11 +507,11 @@
         <td class="td-links">Footer, /rates</td>
       </tr>
 
-      <tr data-text="/rewards rewards points bounty">
-        <td class="td-path"><a href="/rewards" target="_blank">/rewards</a></td>
-        <td class="td-title"><span style="color:#e55">No title tag found — uses site default</span></td>
-        <td class="td-desc"><span style="color:#e55">No meta description found — uses site default.</span></td>
-        <td class="td-links">/dashboard, /merchant-dashboard</td>
+      <tr data-text="/rewards rewards removed redirect">
+        <td class="td-path" style="color:#555">/rewards</td>
+        <td class="td-title" style="color:#555;font-style:italic">✅ Page removed — redirects to /</td>
+        <td class="td-desc" style="color:#555;font-style:italic">No meta needed — 301 redirect to home</td>
+        <td class="td-links" style="color:#555">—</td>
       </tr>
 
       <tr data-text="/bounty bounty security">
@@ -799,29 +801,334 @@
 </div>
 
 
+<!-- ══════════════════════════════════════════════════════
+     TAB — SEO EDITOR DASHBOARD
+══════════════════════════════════════════════════════ -->
+<div id="tab-editor" class="tab-content">
+<style>
+  .ed-top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+  .ed-top h1 { margin: 0; font-size: 22px; }
+  .ed-badge { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: #1a2a1a; color: #6ee0c5; padding: 4px 10px; border-radius: 99px; }
+  .ed-actions { margin-left: auto; display: flex; gap: 10px; }
+  .ed-btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: background .15s, transform .1s; }
+  .ed-btn:active { transform: scale(.97); }
+  .ed-btn.primary { background: #cc785c; color: #fff; }
+  .ed-btn.primary:hover { background: #d98a6e; }
+  .ed-btn.ghost { background: #1e1e1e; color: #aaa; border: 1px solid #2a2a2a; }
+  .ed-btn.ghost:hover { background: #262626; color: #e0e0e0; }
+  .ed-btn.danger { background: #2a1010; color: #e55; border: 1px solid #3d1a1a; }
+  .ed-btn.danger:hover { background: #3d1010; }
+
+  #ed-filter { width: 100%; max-width: 400px; background: #141414; border: 1px solid #262626; border-radius: 8px; padding: 9px 14px; font-size: 13px; color: #e5e5e5; outline: none; margin-bottom: 20px; }
+  #ed-filter:focus { border-color: #cc785c; }
+  #ed-filter::placeholder { color: #444; }
+
+  .ed-stats { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .ed-stat { background: #141414; border: 1px solid #1e1e1e; border-radius: 8px; padding: 10px 16px; font-size: 11px; color: #666; }
+  .ed-stat strong { color: #cc785c; font-size: 18px; display: block; margin-bottom: 2px; }
+
+  .ed-table { width: 100%; border-collapse: collapse; }
+  .ed-table thead th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #444; padding: 8px 10px; border-bottom: 1px solid #1e1e1e; position: sticky; top: 46px; background: #0a0a0a; z-index: 5; }
+  .ed-table tbody tr { border-bottom: 1px solid #141414; }
+  .ed-table tbody tr:hover { background: #0f0f0f; }
+  .ed-table tbody tr.hidden { display: none; }
+  .ed-table td { padding: 10px; vertical-align: top; }
+
+  .ed-path { font-family: monospace; font-size: 11px; color: #cc785c; white-space: nowrap; padding-top: 4px; }
+  .ed-status { font-size: 14px; text-align: center; }
+
+  .ed-input { width: 100%; background: #141414; border: 1px solid #222; border-radius: 6px; padding: 7px 10px; font-size: 12px; color: #e0e0e0; font-family: inherit; outline: none; resize: none; transition: border-color .15s; }
+  .ed-input:focus { border-color: #cc785c; }
+  .ed-input.changed { border-color: #f5a623; background: #1a1500; }
+  .ed-input.saved { border-color: #6ee0c5; background: #001a10; }
+  .ed-len { font-size: 10px; margin-top: 3px; font-family: monospace; }
+  .ed-len.ok   { color: #6ee0c5; }
+  .ed-len.warn { color: #f5a623; }
+  .ed-len.bad  { color: #e55; }
+  .ed-issue { font-size: 10px; color: #e55; margin-top: 3px; }
+
+  .ed-export-box { background: #0f0f0f; border: 1px solid #222; border-radius: 10px; padding: 20px; margin-top: 32px; }
+  .ed-export-box h3 { font-size: 14px; font-weight: 700; color: #e0e0e0; margin-bottom: 12px; }
+  .ed-export-code { width: 100%; height: 300px; background: #141414; border: 1px solid #262626; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 11px; color: #aaa; resize: vertical; outline: none; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a2a1a; border: 1px solid #2a5a2a; color: #6ee0c5; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 999; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: none; }
+</style>
+
+<div class="ed-top">
+  <div>
+    <h1 style="margin-bottom:4px">✏️ SEO Editor</h1>
+    <p style="font-size:12px;color:#555">Edit title &amp; meta description for every page. Changes save to your browser. Export when done.</p>
+  </div>
+  <span class="ed-badge" id="ed-changed-badge" style="display:none">● unsaved changes</span>
+  <div class="ed-actions">
+    <button class="ed-btn danger" onclick="resetAll()">Reset all</button>
+    <button class="ed-btn ghost" onclick="exportJSON()">Export JSON</button>
+    <button class="ed-btn primary" onclick="saveAll()">Save to browser ✓</button>
+  </div>
+</div>
+
+<input id="ed-filter" type="text" placeholder="Filter pages…" oninput="filterEditor(this.value)" />
+
+<div class="ed-stats">
+  <div class="ed-stat"><strong id="es-total">0</strong>Total pages</div>
+  <div class="ed-stat"><strong id="es-edited" style="color:#f5a623">0</strong>Edited</div>
+  <div class="ed-stat"><strong id="es-ok" style="color:#6ee0c5">0</strong>Title OK ≤60</div>
+  <div class="ed-stat"><strong id="es-long" style="color:#e55">0</strong>Title too long</div>
+  <div class="ed-stat"><strong id="es-missing" style="color:#e55">0</strong>Missing desc</div>
+</div>
+
+<table class="ed-table">
+  <thead>
+    <tr>
+      <th style="width:32px"></th>
+      <th style="width:160px">Path</th>
+      <th style="width:45%">Title tag <span style="color:#555;font-weight:400;text-transform:none;letter-spacing:0">(target: 50–60 chars)</span></th>
+      <th>Meta description <span style="color:#555;font-weight:400;text-transform:none;letter-spacing:0">(target: 140–160 chars)</span></th>
+    </tr>
+  </thead>
+  <tbody id="ed-tbody"></tbody>
+</table>
+
+<div class="ed-export-box">
+  <h3>📋 Export — copy this into <code style="font-size:12px;background:#1e1e1e;padding:2px 6px;border-radius:4px;color:#cc785c">src/data/seo.ts</code> when ready</h3>
+  <textarea class="ed-export-code" id="ed-export-code" readonly placeholder="Click 'Export JSON' above to generate…"></textarea>
+</div>
+
+<div class="toast" id="ed-toast"></div>
+</div>
+
 <script>
-  function showTab(name) {
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', ['flow','seo','broken'][i] === name);
-    });
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-  }
+// ── SEO data — all pages ──────────────────────────────────
+const SEO_PAGES = [
+  { path: '/',                       title: 'Blip Money | Global Money Settlement Network',                   desc: 'Blip Money helps people move money globally through verified merchants competing to offer better rates, faster settlement, and safer transactions.',          issues: [] },
+  { path: '/rates',                  title: 'Best USDT Rates Live | Blip Money',                              desc: 'Compare live USDT rates across Blip and major crypto markets. Find better rates, faster settlement, and safer trades in one place.',                      issues: [] },
+  { path: '/how-it-works',           title: 'How Blip Money Works | Fast Global Settlement',                  desc: 'See how Blip connects users with verified merchants who compete to settle money faster, safer, and at better rates.',                                      issues: [] },
+  { path: '/market',                 title: 'Blip Market | Open Market for Money Settlement',                 desc: 'Blip Market lets verified merchants compete to fulfill money movement requests with better pricing, speed, and trust.',                                     issues: [] },
+  { path: '/whitepaper',             title: 'Blip Money Whitepaper | Global Settlement Network',              desc: 'Read the Blip Money whitepaper and learn how open merchant markets can power faster, safer global money settlement.',                                      issues: [] },
+  { path: '/merchant',               title: 'Blip Money for Merchants | Earn on Settlement',                  desc: 'Become a Blip merchant, fulfill user orders, earn on every settlement, and access demand from a global money movement network.',                           issues: [] },
+  { path: '/user',                   title: 'Blip Money for Users | Move Money Faster',                       desc: 'Send, convert, and settle money through verified merchants competing to give you better rates and faster execution.',                                       issues: [] },
+  { path: '/use-cases',              title: 'Blip Money Use Cases | Global Settlement Ideas',                 desc: 'Explore how Blip Money can support remittance, crypto conversion, merchant payments, large trades, salaries, and escrow-based settlement.',                 issues: [] },
+  { path: '/use-cases/:slug',        title: 'Dynamic — set per use-case',                                     desc: 'Dynamic — set per use-case slug',                                                                                                                       issues: [] },
+  { path: '/about',                  title: 'About Blip Money | Building Open Money Markets',                 desc: 'Learn why Blip Money is building a global settlement network where verified merchants compete to move money faster and at better rates.',                   issues: [] },
+  { path: '/contact',                title: 'Contact Blip Money | Support and Partnerships',                  desc: 'Contact Blip Money for support, partnerships, merchant onboarding, press, or general questions about the platform.',                                       issues: [] },
+  { path: '/press',                  title: 'Blip Money Press | News and Media Resources',                    desc: 'Read Blip Money news, media updates, company announcements, and access official brand resources.',                                                         issues: [] },
+  { path: '/community',              title: 'Blip Money Community | Join the Network',                        desc: 'Join the Blip Money community, follow product updates, connect with builders, merchants, users, and early supporters.',                                    issues: [] },
+  { path: '/blog',                   title: 'Blip Money Blog | Stablecoins and Settlement',                   desc: 'Read insights on stablecoins, crypto payments, merchant markets, global settlement, escrow, and the future of money movement.',                            issues: [] },
+  { path: '/blog/:slug',             title: 'Dynamic — set per post',                                         desc: 'Dynamic — set per post',                                                                                                                                issues: [] },
+  { path: '/research',               title: 'Blip Money Research | Money Movement Insights',                  desc: 'Deep research on stablecoins, global settlement, merchant networks, crypto payments, AI agents, and open money markets.',                                  issues: [] },
+  { path: '/research/:slug',         title: 'Dynamic — set per article',                                      desc: 'Dynamic — set per article',                                                                                                                             issues: [] },
+  { path: '/faq',                    title: 'Blip Money FAQ | Questions and Answers',                         desc: 'Answers to common questions about Blip Money, how it works, fees, safety, supported markets, merchants, and getting started.',                             issues: [] },
+  { path: '/glossary',               title: 'Blip Money Glossary | Crypto and Payment Terms',                 desc: 'Learn key crypto, payment, settlement, escrow, stablecoin, and merchant market terms used across Blip Money.',                                             issues: [] },
+  { path: '/changelog',              title: 'Blip Money Changelog | Product Updates',                         desc: 'Track the latest Blip Money product updates, feature releases, platform improvements, and fixes.',                                                        issues: [] },
+  { path: '/compare',                title: 'Compare Blip Money | Rates, Speed and Safety',                   desc: 'Compare Blip Money with other money movement options across pricing, speed, safety, settlement design, and user experience.',                               issues: [] },
+  { path: '/bounty',                 title: 'Blip Money Bug Bounty | Report Security Issues',                 desc: 'Report security issues in Blip Money and help keep the global settlement network safer for users and merchants.',                                          issues: [] },
+  { path: '/rewards',                title: 'Dynamic — redirects to /',                                        desc: 'Dynamic — redirects to /',                                                                                                                              issues: [] },
+  { path: '/signup',                 title: 'Create Your Blip Money Account',                                  desc: 'Create your Blip Money account, join early access, track rewards, and start using faster global settlement.',                                             issues: [] },
+  { path: '/signup?role=user',       title: 'Join Blip Money | Early User Access',                            desc: 'Join Blip Money as an early user and access better rates, faster settlement, rewards, and priority product access.',                                       issues: [] },
+  { path: '/signup?role=merchant',   title: 'Become a Blip Merchant | Earn on Every Order',                   desc: 'Join Blip Money as a merchant, fulfill settlement orders, earn on volume, and access early network demand.',                                               issues: [] },
+  { path: '/privacy',                title: 'Blip Money Privacy Policy',                                      desc: 'Read how Blip Money collects, uses, stores, and protects your personal data and privacy.',                                                                issues: [] },
+  { path: '/terms',                  title: 'Blip Money Terms of Service',                                    desc: 'Read the Blip Money terms of service, including user rights, platform rules, obligations, and account requirements.',                                      issues: [] },
+  { path: '/cookies',                title: 'Blip Money Cookie Policy',                                       desc: 'Learn how Blip Money uses cookies to improve performance, personalize your experience, and manage preferences.',                                           issues: [] },
+  { path: '/gdpr',                   title: 'Blip Money GDPR and Data Protection Policy',                     desc: 'Learn how Blip Money handles GDPR rights, data protection, privacy requests, and personal information security.',                                         issues: [] },
+  { path: '/sell-usdt-dubai',        title: 'Sell USDT in Dubai | Convert USDT to AED',                       desc: 'Sell USDT in Dubai and convert Tether to AED with competitive rates, verified merchants, and safer settlement through Blip Money.',                        issues: [] },
+  { path: '/buy-usdt-dubai',         title: 'Buy USDT in Dubai | AED to Tether',                              desc: 'Buy USDT in Dubai with AED using Blip Money. Access competitive rates, verified merchants, and safer crypto settlement.',                                  issues: [] },
+  { path: '/crypto-to-aed',          title: 'Crypto to AED Converter | Live Rates',                           desc: 'Convert crypto to AED with live rates for USDT, USDC, BTC, ETH, and SOL. Compare pricing and settle faster with Blip Money.',                            issues: [] },
+  { path: '/crypto-to-inr',          title: 'Crypto to INR Converter | Live Rates',                           desc: 'Convert crypto to INR with live rates for USDT, USDC, BTC, ETH, and SOL. Compare pricing and settle faster with Blip Money.',                            issues: [] },
+  { path: '/btc-to-aed',             title: 'Bitcoin to AED | Live BTC/AED Rate',                            desc: 'Track the live Bitcoin to AED rate and convert BTC to UAE Dirhams with competitive pricing and faster settlement.',                                        issues: [] },
+  { path: '/btc-to-inr',             title: 'Bitcoin to INR | Live BTC/INR Rate',                            desc: 'Track the live Bitcoin to INR rate and convert BTC to Indian Rupees with competitive pricing and faster settlement.',                                      issues: [] },
+  { path: '/eth-to-aed',             title: 'Ethereum to AED | Live ETH/AED Rate',                           desc: 'Track the live Ethereum to AED rate and convert ETH to UAE Dirhams with competitive pricing and faster settlement.',                                       issues: [] },
+  { path: '/eth-to-inr',             title: 'Ethereum to INR | Live ETH/INR Rate',                           desc: 'Track the live Ethereum to INR rate and convert ETH to Indian Rupees with competitive pricing and faster settlement.',                                     issues: [] },
+  { path: '/sol-to-aed',             title: 'Solana to AED | Live SOL/AED Rate',                             desc: 'Track the live Solana to AED rate and convert SOL to UAE Dirhams with fast settlement and low network fees.',                                             issues: [] },
+  { path: '/sol-to-inr',             title: 'Solana to INR | Live SOL/INR Rate',                             desc: 'Track the live Solana to INR rate and convert SOL to Indian Rupees with fast settlement and low network fees.',                                           issues: [] },
+  { path: '/crypto-payments-uae',    title: 'Crypto Payments UAE | Blip Money',                               desc: 'Make crypto payments in the UAE with Blip Money. Buy, sell, and settle crypto with verified merchants and faster execution.',                               issues: [] },
+  { path: '/crypto-remittance-uae',  title: 'Crypto Remittance UAE | Send Money Faster',                      desc: 'Send money from the UAE using crypto. Compare rates, reduce transfer costs, and settle faster through Blip Money.',                                         issues: [] },
+  { path: '/accept-crypto-business', title: 'Accept Crypto Payments for Business',                            desc: 'Accept crypto payments for your business with Blip Money. Access faster settlement, lower fees, and merchant tools.',                                      issues: [] },
+  { path: '/crypto-escrow-uae',      title: 'Crypto Escrow UAE | Secure Crypto Trades',                      desc: 'Use crypto escrow in the UAE for safer trades, large deals, OTC transactions, and settlement through Blip Money.',                                         issues: [] },
+  { path: '/crypto-salary-uae',      title: 'Crypto Salary UAE | Pay and Get Paid in Crypto',                 desc: 'Pay or receive salary in crypto in the UAE with faster conversion, safer settlement, and clear transaction records.',                                       issues: [] },
+  { path: '/crypto-tax-uae',         title: 'Crypto Tax UAE 2026 | Guide for Users',                         desc: 'Understand crypto tax basics in the UAE, reporting considerations, and how transaction records can support compliance.',                                     issues: [] },
+  { path: '/crypto-otc-dubai',       title: 'Crypto OTC Trading Dubai | Secure Large Trades',                 desc: 'Execute large crypto OTC trades in Dubai with competitive pricing, verified merchants, and safer settlement through Blip Money.',                          issues: [] },
+  { path: '/best-crypto-exchange-uae',title:'Best Crypto Exchange UAE | Compare Options',                     desc: 'Compare crypto exchange options in the UAE across rates, speed, safety, custody, fees, and settlement experience.',                                        issues: [] },
+  { path: '/bitcoin-price-uae',      title: 'Bitcoin Price UAE | Live BTC to AED Rate',                      desc: 'Track the live Bitcoin price in UAE Dirhams. View BTC/AED rates, market movement, and conversion options.',                                               issues: [] },
+  { path: '/usdt-vs-usdc',           title: 'USDT vs USDC | Which Stablecoin Is Better?',                    desc: 'Compare USDT and USDC across liquidity, transparency, fees, market usage, and crypto settlement support.',                                                 issues: [] },
+  { path: '/crypto-to-bank-uae',     title: 'Withdraw Crypto to UAE Bank Account',                           desc: 'Learn how to withdraw crypto to a UAE bank account, compare methods, fees, settlement times, and safer options.',                                           issues: [] },
+];
 
-  function filterNodes(q) {
-    const term = q.toLowerCase().trim();
-    document.querySelectorAll('#tab-flow .node').forEach(n => {
-      n.classList.toggle('hidden', term.length > 0 && !n.textContent.toLowerCase().includes(term));
-    });
-  }
+const STORAGE_KEY = 'blip_seo_editor_v2'; // bumped — new SEO map 2026-06-05
 
-  function filterSeo(q) {
-    const term = q.toLowerCase().trim();
-    document.querySelectorAll('#seo-tbody tr').forEach(row => {
-      const text = (row.dataset.text || '') + row.textContent.toLowerCase();
-      row.classList.toggle('hidden', term.length > 0 && !text.includes(term));
-    });
-  }
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveToBrowser(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+let editorData = loadSaved();
+let hasChanges = false;
+
+function getVal(path, field) {
+  if (editorData[path] && editorData[path][field] !== undefined) return editorData[path][field];
+  const page = SEO_PAGES.find(p => p.path === path);
+  return page ? page[field] : '';
+}
+
+function lenClass(len, type) {
+  if (type === 'title') return len === 0 ? 'bad' : len <= 60 ? 'ok' : 'warn';
+  if (type === 'desc')  return len === 0 ? 'bad' : len <= 160 ? 'ok' : 'warn';
+  return 'ok';
+}
+function lenLabel(len, type) {
+  if (len === 0) return '❌ empty';
+  if (type === 'title') return len <= 60 ? `${len} chars ✓` : `${len} chars ⚠ over 60`;
+  return len <= 160 ? `${len} chars ✓` : `${len} chars ⚠ over 160`;
+}
+
+function buildEditor() {
+  const saved = loadSaved();
+  const tbody = document.getElementById('ed-tbody');
+  tbody.innerHTML = '';
+  SEO_PAGES.forEach(page => {
+    const curTitle = saved[page.path]?.title ?? page.title;
+    const curDesc  = saved[page.path]?.desc  ?? page.desc;
+    const isEdited = saved[page.path] !== undefined;
+    const tLen = curTitle.length, dLen = curDesc.length;
+    const isDynamic = curTitle.startsWith('Dynamic');
+    const issueHTML = page.issues.length ? `<div class="ed-issue">⚠ ${page.issues.join(' · ')}</div>` : '';
+    const tr = document.createElement('tr');
+    tr.dataset.path = page.path;
+    tr.dataset.text = (page.path + page.title + page.desc + page.issues.join(' ')).toLowerCase();
+    tr.innerHTML = `
+      <td class="ed-status">${isEdited ? '✏️' : (page.issues.length ? '⚠️' : '✅')}</td>
+      <td class="ed-path">${page.path}</td>
+      <td>
+        ${isDynamic
+          ? `<div style="color:#555;font-size:11px;font-style:italic">${curTitle}</div>`
+          : `<textarea class="ed-input ${isEdited?'saved':''}" rows="2" data-path="${page.path}" data-field="title" oninput="onInput(this)">${curTitle}</textarea>
+             <div class="ed-len ${lenClass(tLen,'title')}" id="tlen-${page.path.replace(/[^a-z0-9]/g,'_')}">${lenLabel(tLen,'title')}</div>`
+        }
+      </td>
+      <td>
+        ${isDynamic
+          ? `<div style="color:#555;font-size:11px;font-style:italic">${curDesc}</div>`
+          : `<textarea class="ed-input ${isEdited?'saved':''}" rows="3" data-path="${page.path}" data-field="desc" oninput="onInput(this)">${curDesc}</textarea>
+             <div class="ed-len ${lenClass(dLen,'desc')}" id="dlen-${page.path.replace(/[^a-z0-9]/g,'_')}">${lenLabel(dLen,'desc')}</div>
+             ${issueHTML}`
+        }
+      </td>`;
+    tbody.appendChild(tr);
+  });
+  updateStats();
+}
+
+function onInput(el) {
+  const { path, field } = el.dataset;
+  const val = el.value;
+  if (!editorData[path]) editorData[path] = {};
+  editorData[path][field] = val;
+  el.classList.add('changed');
+  el.classList.remove('saved');
+
+  // update length indicator
+  const key = path.replace(/[^a-z0-9]/g,'_');
+  const type = field === 'title' ? 'title' : 'desc';
+  const lenEl = document.getElementById((field==='title'?'tlen':'dlen')+'-'+key);
+  if (lenEl) { lenEl.className = 'ed-len '+lenClass(val.length,type); lenEl.textContent = lenLabel(val.length,type); }
+
+  hasChanges = true;
+  document.getElementById('ed-changed-badge').style.display = '';
+  updateStats();
+}
+
+function updateStats() {
+  const saved = loadSaved();
+  let edited=0, ok=0, long=0, missing=0;
+  SEO_PAGES.forEach(p => {
+    if (p.title.startsWith('Dynamic')) return;
+    const t = (editorData[p.path]?.title ?? p.title);
+    const d = (editorData[p.path]?.desc  ?? p.desc);
+    if (editorData[p.path]) edited++;
+    if (t.length > 0 && t.length <= 60) ok++;
+    if (t.length > 60) long++;
+    if (!d || d.length === 0) missing++;
+  });
+  document.getElementById('es-total').textContent = SEO_PAGES.filter(p=>!p.title.startsWith('Dynamic')).length;
+  document.getElementById('es-edited').textContent = edited;
+  document.getElementById('es-ok').textContent = ok;
+  document.getElementById('es-long').textContent = long;
+  document.getElementById('es-missing').textContent = missing;
+}
+
+function saveAll() {
+  saveToBrowser(editorData);
+  document.querySelectorAll('.ed-input.changed').forEach(el => {
+    el.classList.remove('changed'); el.classList.add('saved');
+  });
+  hasChanges = false;
+  document.getElementById('ed-changed-badge').style.display = 'none';
+  showToast('✓ Saved to browser');
+}
+
+function resetAll() {
+  if (!confirm('Reset all edits back to the original values?')) return;
+  editorData = {};
+  localStorage.removeItem(STORAGE_KEY);
+  buildEditor();
+  hasChanges = false;
+  document.getElementById('ed-changed-badge').style.display = 'none';
+  document.getElementById('ed-export-code').value = '';
+  showToast('Reset done');
+}
+
+function exportJSON() {
+  // merge saved over originals
+  const output = {};
+  SEO_PAGES.forEach(p => {
+    if (p.title.startsWith('Dynamic')) return;
+    output[p.path] = {
+      title: editorData[p.path]?.title ?? p.title,
+      description: editorData[p.path]?.desc ?? p.desc,
+    };
+  });
+  const ts = `// src/data/seo.ts — auto-generated from SEO Editor\n// Last exported: ${new Date().toISOString().slice(0,16)}\n\nexport const SEO_DATA: Record<string, { title: string; description: string }> = ${JSON.stringify(output, null, 2)};\n`;
+  document.getElementById('ed-export-code').value = ts;
+  showToast('Exported — copy the code below');
+}
+
+function filterEditor(q) {
+  const term = q.toLowerCase().trim();
+  document.querySelectorAll('#ed-tbody tr').forEach(row => {
+    row.classList.toggle('hidden', term.length > 0 && !(row.dataset.text||'').includes(term));
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('ed-toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Tab switching (updated to include editor) ──────────
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['flow','seo','broken','editor'][i] === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'editor' && document.getElementById('ed-tbody').childElementCount === 0) buildEditor();
+}
+
+function filterNodes(q) {
+  const term = q.toLowerCase().trim();
+  document.querySelectorAll('#tab-flow .node').forEach(n => {
+    n.classList.toggle('hidden', term.length > 0 && !n.textContent.toLowerCase().includes(term));
+  });
+}
+function filterSeo(q) {
+  const term = q.toLowerCase().trim();
+  document.querySelectorAll('#seo-tbody tr').forEach(row => {
+    const text = (row.dataset.text || '') + row.textContent.toLowerCase();
+    row.classList.toggle('hidden', term.length > 0 && !text.includes(term));
+  });
+}
 </script>
 
 </body>

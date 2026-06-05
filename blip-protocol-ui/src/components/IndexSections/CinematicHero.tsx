@@ -2298,18 +2298,10 @@ const CinematicHero = () => {
           className="relative rounded-[28px] border border-white/[0.07] p-3 md:p-4 overflow-hidden text-white shadow-[0_30px_80px_-30px_rgba(204,120,92,0.25),0_12px_30px_-15px_rgba(0,0,0,0.18)]"
           style={{ width: "min(98vw, 1410px)", background: "#0a0a0a" }}
         >
-          <div className="overflow-x-auto">
-            <MerchantDashboardBody state={dashboardState} />
-          </div>
+          <MerchantDashboardBody state={dashboardState} />
         </motion.div>
       </div>
 
-      {/* ── Mobile / tablet — mobile dashboard mockup ── */}
-      {/* <div className="lg:hidden relative z-10 w-full flex justify-center overflow-hidden px-4 pb-[5vh]">
-        <div className="w-full max-w-[400px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl">
-          <MobileMerchantDashboard />
-        </div>
-      </div> */}
 
       {/* ── Merchant section — white band, black text ── */}
       <div className="relative z-10 w-full bg-white text-black">
