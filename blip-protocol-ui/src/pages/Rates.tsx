@@ -270,7 +270,7 @@ const RateFinder = () => {
   const [values, setValues] = useState<SearchValues>({
     amount: "1000",
     currencyCode: "INR",
-    direction: "sell",
+    direction: "buy",
   });
 
   const currency = useMemo(
@@ -377,7 +377,7 @@ const RateFinder = () => {
         >
           <div
             className="font-display text-black dark:text-white tabular-nums"
-            style={{ fontSize: "clamp(3.2rem, 11vw, 3.9rem)", fontWeight: 700, lineHeight: 0.98, letterSpacing: "-0.06em" }}
+            style={{ fontSize: "clamp(2.2rem, 7vw, 2.8rem)", fontWeight: 700, lineHeight: 0.98, letterSpacing: "-0.05em" }}
           >
             {live.loading ? <span className="opacity-20">—</span> : formatRate(blipTotal, currency.digits, currency.symbol)}
           </div>
