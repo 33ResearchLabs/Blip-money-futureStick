@@ -276,11 +276,7 @@ export default function About() {
               }}
             />
           ))}
-          {/* Top fade line */}
-          <div
-            aria-hidden
-            className="absolute top-24 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-black/15 to-transparent"
-          />
+          
 
           <div className="relative max-w-[1200px] mx-auto px-6 w-full">
             

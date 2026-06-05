@@ -54,38 +54,44 @@ export const HeroDashboardVisual = ({
         </motion.div>
       </div>
 
-      {/* Right side fade */}
-      {/* Right side fade */}
-      <div
-        className="
-    pointer-events-none
-    absolute top-0 right-0
-    h-screen
-    w-44 md:w-52 lg:w-[32rem]
-    bg-gradient-to-l
-    from-white via-white/80 to-transparent
-    dark:from-black dark:via-black/70
-    -skew-y-10
-    origin-top-right
-  "
-      />
-
-      {/* Left side fade */}
-      {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-20 md:w-28 bg-gradient-to-r from-black via-black/70 to-transparent" /> */}
-
-      {/* Bottom fade */}
-      {/* Bottom fade */}
-      <div
-        className="
-    pointer-events-none
-    absolute inset-x-0 bottom-0
-    h-32 md:h-56
-    bg-gradient-to-t
-    from-white via-white/70 to-transparent
-    dark:from-black dark:via-black/40
-    -skew-x-6
-  "
-      />
+      {/*
+        Immersive dark fade overlays.
+        Wrapped in a stage that matches the dashboard's own width (w-120vw → 100vw)
+        so the gradients line up with the tilted dashboard and reach the viewport
+        edges instead of being clipped to the centered content column.
+        Each layer fades to transparent toward the center so it blends seamlessly
+        with the section's existing center vignette — content stays partially visible.
+      */}
+      {/*
+        Break out of the narrow <main> column to the full viewport width
+        (left-1/2 + -translate-x-1/2 + w-screen) and overscan upward
+        (-top-[260px]) so the fade also covers the dashboard's floated-up top
+        edge. Each gradient is anchored to its OWN real edge, so the dark always
+        reaches the actual top / right of the screen — no leftover bright band.
+      */}
+      <div className="pointer-events-none absolute z-20 left-1/2 -translate-x-1/2 w-screen -top-[260px] bottom-0">
+        {/* Right-side fade — black at the right edge, gone by mid-canvas.
+            Stays clear of the center (transparent by 78%). */}
+        <div
+          aria-hidden
+          className="absolute inset-y-0 right-0 w-[48vw]"
+          style={{
+            background:
+              "linear-gradient(to left, #000 0%, rgba(0,0,0,0.92) 14%, rgba(0,0,0,0.6) 34%, rgba(0,0,0,0.25) 56%, transparent 78%)",
+          }}
+        />
+        {/* Top-right corner only — darkens the lifted corner of the tilted board.
+            Anchored to the top-RIGHT and fades out toward the center, so the
+            center-top is left untouched (handled by the section's own vignette). */}
+        <div
+          aria-hidden
+          className="absolute top-0 right-0 w-[68vw] h-[88%]"
+          style={{
+            background:
+              "radial-gradient(ellipse 90% 95% at 100% 0%, #000 0%, rgba(0,0,0,0.78) 30%, rgba(0,0,0,0.35) 55%, transparent 78%)",
+          }}
+        />
+      </div>
     </div>
   );
 };

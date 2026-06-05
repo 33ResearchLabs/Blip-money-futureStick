@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Blip.money — Complete Website Inventory</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a; font-size: 10.5px; line-height: 1.5; margin: 0;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  h1 { font-size: 23px; letter-spacing: -0.02em; margin: 0 0 4px; color: #0b0b0c; }
+  h2 { font-size: 16px; margin: 22px 0 8px; padding-top: 8px; border-top: 2px solid #cc785c;
+       color: #0b0b0c; page-break-after: avoid; }
+  h3 { font-size: 12.5px; margin: 14px 0 5px; color: #b85c3e; page-break-after: avoid; }
+  h4 { font-size: 11px; margin: 10px 0 4px; color: #333; page-break-after: avoid; }
+  p { margin: 5px 0; }
+  a { color: #b85c3e; text-decoration: none; }
+  code { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 9.5px;
+         background: #f4efe9; padding: 1px 4px; border-radius: 3px; color: #8a3f23; }
+  pre { background: #1a1a1d; color: #e6e6e6; padding: 12px 14px; border-radius: 6px;
+        overflow-x: auto; font-size: 8.6px; line-height: 1.42; page-break-inside: avoid;
+        white-space: pre; }
+  pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.2px;
+          page-break-inside: avoid; }
+  th, td { border: 1px solid #ddd; padding: 4px 7px; text-align: left; vertical-align: top; }
+  th { background: #f4efe9; color: #6b3a26; font-weight: 700; }
+  tr:nth-child(even) td { background: #faf8f5; }
+  ul, ol { margin: 5px 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  blockquote { margin: 8px 0; padding: 6px 12px; border-left: 3px solid #cc785c;
+               background: #faf8f5; color: #444; }
+  hr { border: none; border-top: 1px solid #e5ded5; margin: 16px 0; }
+  strong { color: #0b0b0c; }
+  .cover { padding: 6px 0 14px; border-bottom: 2px solid #cc785c; margin-bottom: 12px; }
+  .cover .sub { color: #777; font-size: 11px; }
+</style></head>
+<body>
+<div class="cover">
+  <h1>Blip<span style="font-style:italic;font-weight:600;"> money</span> — Complete Website Inventory</h1>
+  <div class="sub">Pages · Routes · Sections · Buttons · Forms · User Flows · Sitemap · Dependencies</div>
+</div>
+<h1>Blip.money — Complete Website Inventory</h1>
+<blockquote>
+<p>Generated from <code>blip-protocol-ui/src</code>. Single-page React app (React Router v6, <code>BrowserRouter</code>).
+Routing source of truth: <code>src/App.tsx</code>. Global chrome: <code>src/Layout/RootLayout.tsx</code>.</p>
+</blockquote>
+<hr>
+<h2>0. Global / App-Wide Elements</h2>
+<p>These render on (almost) every public page via <code>MainLayout</code> (<code>RootLayout.tsx</code>).</p>
+<h3>Navbar (<code>components/Navbar.tsx</code>) — fixed top bar (black)</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Type</th>
+<th>Action</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Logo &quot;Blip <em>money</em>&quot;</td>
+<td>Link</td>
+<td>Navigate home</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td>How It Works</td>
+<td>NavItem</td>
+<td>Navigate</td>
+<td><code>/how-it-works</code></td>
+</tr>
+<tr>
+<td>Market</td>
+<td>NavItem</td>
+<td>Navigate</td>
+<td><code>/market</code></td>
+</tr>
+<tr>
+<td>Merchant</td>
+<td>NavItem</td>
+<td>Navigate</td>
+<td><code>/merchant</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td>NavItem</td>
+<td>Navigate</td>
+<td><code>/user</code></td>
+</tr>
+<tr>
+<td>Whitepaper</td>
+<td>NavItem</td>
+<td>Navigate</td>
+<td><code>/whitepaper</code></td>
+</tr>
+<tr>
+<td>Join Waitlist (CTA, logged-out)</td>
+<td>Link</td>
+<td>External waitlist</td>
+<td><code>https://app.blip.money/waitlist/user</code></td>
+</tr>
+<tr>
+<td>Dashboard (CTA, logged-in)</td>
+<td>Link</td>
+<td>Navigate</td>
+<td><code>/dashboard</code></td>
+</tr>
+<tr>
+<td>Install (mobile only)</td>
+<td>Button</td>
+<td>PWA install prompt / iOS hint + notification opt-in</td>
+<td>— (native prompt)</td>
+</tr>
+<tr>
+<td>Hamburger (mobile)</td>
+<td>Button</td>
+<td>Toggle <code>MobileMenu</code></td>
+<td>Mobile menu overlay</td>
+</tr>
+</tbody></table>
+<p><strong>MobileMenu</strong> mirrors the same nav items + the Join Waitlist / Dashboard CTA.</p>
+<h3>Footer (<code>components/Footer.tsx</code>)</h3>
+<ul>
+<li><strong>Protocol:</strong> How It Works <code>/how-it-works</code>, Whitepaper <code>/whitepaper</code></li>
+<li><strong>Use Cases:</strong> Freelancers <code>/use-cases/freelancers</code>, OTC Traders <code>/use-cases/otc-traders</code>, E-Commerce <code>/use-cases/e-commerce</code>, Remittances <code>/use-cases/remittance</code>, Merchants <code>/merchant</code></li>
+<li><strong>Resources:</strong> Blog <code>/blog</code>, Research <code>/research</code>, FAQ <code>/faq</code>, Glossary <code>/glossary</code>, Compare <code>/compare</code></li>
+<li><strong>Markets:</strong> Crypto to AED <code>/crypto-to-aed</code>, BTC to AED <code>/btc-to-aed</code>, USDT vs USDC <code>/usdt-vs-usdc</code>, Buy USDT Dubai <code>/buy-usdt-dubai</code>, Crypto OTC Dubai <code>/crypto-otc-dubai</code>, Bitcoin Price UAE <code>/bitcoin-price-uae</code>, Crypto Tax UAE <code>/crypto-tax-uae</code>, Crypto to INR <code>/crypto-to-inr</code>, BTC to INR <code>/btc-to-inr</code></li>
+<li><strong>Company:</strong> About <code>/about</code>, Press <code>/press</code>, Community <code>/community</code>, Waitlist <code>https://app.blip.money/waitlist/user</code>, Legal <code>/legal</code></li>
+<li><strong>Socials (bottom bar):</strong> X <code>https://x.com/blip_money</code>, Telegram <code>https://t.me/blipmoney</code>, YouTube <code>https://www.youtube.com/@BlipMoney</code>, LinkedIn <code>https://www.linkedin.com/company/blipmoneyofficial/...</code></li>
+</ul>
+<h3>Other global chrome</h3>
+<ul>
+<li><strong>StickyJoinWaitlist</strong> — mobile-only sticky bottom CTA → <code>https://app.blip.money/waitlist/user</code> (hidden on auth/redeem routes).</li>
+<li><strong>ScrollToTop</strong>, <strong>ScrollToBottomButton</strong>, <strong>ScrollProgressBar</strong>, <strong>HashRedirectScroll</strong>, <strong>NotificationBannerProvider</strong> — UX utilities, no navigation.</li>
+<li><strong>RouteThemeSync</strong> — forces light theme on <code>/</code>, <code>/rates</code>, <code>/signup</code>, <code>/signin</code>, dashboards; dark elsewhere.</li>
+<li><strong>GoogleAnalytics</strong>, <strong>StructuredData</strong> (org + website JSON-LD) — injected globally.</li>
+</ul>
+<hr>
+<h2>1. PAGE: Home</h2>
+<p><strong>ROUTE:</strong> <code>/</code> · Component <code>pages/Index.tsx</code> (wrapped in <code>FirebaseActionHandler</code>, which redirects Firebase <code>?mode=resetPassword|verifyEmail&amp;oobCode=...</code> to <code>/reset-password</code> / <code>/verify-email</code>).
+<strong>Purpose:</strong> Cinematic marketing landing assembling 11 lazy-loaded sections.</p>
+<h3>SECTION: Cinematic Hero (<code>IndexSections/CinematicHero.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Send</strong> — Action: validate amount, run in-page settlement demo (mutates embedded merchant dashboard). Destination: <em>none (demo only)</em></li>
+<li><strong>Button: Join Waitlist</strong> — Action: navigate external. Destination: <code>https://app.blip.money/waitlist/user</code></li>
+<li><strong>Button: Currency selector (flag pill)</strong> — Action: cycle INR→AED→PHP→THB, recompute rate. Destination: <em>in-page state</em></li>
+<li><strong>Button: Become a merchant now</strong> — Action: navigate. Destination: <code>/merchant</code></li>
+<li><strong>Button: Promo card CTA(s) / carousel arrows</strong> — Action: external waitlist / horizontal scroll. Destination: <code>https://app.blip.money/waitlist/user</code></li>
+<li><strong>Forms:</strong> &quot;Send&quot; amount input + currency selector (demo only, no submit)</li>
+<li><strong>User Flow:</strong> Land → see live USDT→fiat quote (via <code>useP2PRate</code>) → Send demo <em>or</em> Join Waitlist → scroll into live merchant dashboard replica.</li>
+<li><strong>Dependencies:</strong> <code>useP2PRate</code> (p2prate.live), framer-motion, <code>LiveMerchantDashboard</code>, <code>CardPreview</code>, <code>EditableText</code>.</li>
+</ul>
+<h3>SECTION: Bankless (<code>BanklessSection.tsx</code>)</h3>
+<ul>
+<li><strong>Buttons:</strong> None. <strong>Forms:</strong> None.</li>
+<li><strong>Purpose/Flow:</strong> &quot;Banking, without the bank.&quot; 3 animated proof cards (live bid leaderboard seeded by <code>useP2PRate(&quot;INR&quot;)</code>). Informational.</li>
+</ul>
+<h3>SECTION: How It Works / Dark Fintech (<code>DarkFintechSection.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Stage step markers</strong> — jump animation stage (in-page). <strong>Button: Replay</strong> — restart animation (in-page).</li>
+<li><strong>Forms:</strong> None. <strong>Purpose:</strong> Auto-playing 6-stage settlement story (Send→Match→Escrow→Payout→Proof→Remittance).</li>
+</ul>
+<h3>SECTION: Protocol Interstitial (<code>ProtocolInterstitial.tsx</code>)</h3>
+<ul>
+<li><strong>Button: GitHub</strong> → <code>https://github.com/blip-money</code> (new tab)</li>
+<li><strong>Button: Developer Docs</strong> → <code>/docs</code> (raw <code>&lt;a&gt;</code>, full reload)</li>
+<li><strong>Button: Read Whitepaper</strong> → <code>/whitepaper</code> (raw <code>&lt;a&gt;</code>, full reload)</li>
+<li><strong>Forms:</strong> None. <strong>Purpose:</strong> &quot;Introducing The Blip Protocol&quot; feature cards.</li>
+</ul>
+<h3>SECTION: Blip Markets (<code>BlipMarketsSection.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Join Waitlist</strong> → <code>https://app.blip.money/waitlist/merchant-login</code> (new tab)</li>
+<li><strong>Button: Explore Blip Market</strong> → <code>/market</code></li>
+<li><strong>MODAL: WaitlistPopup</strong> (auto-opens ~4s in view) — <strong>Join as Merchant</strong> → <code>https://app.blip.money/waitlist/merchant</code>; <strong>Dismiss/X</strong> closes modal.</li>
+<li><strong>Purpose:</strong> Live merchant dashboard replica + merchant-waitlist nudge.</li>
+</ul>
+<h3>SECTION: Use Cases (<code>UseCasesSection.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Start sending</strong> → <code>https://app.blip.money/waitlist/user</code></li>
+<li><strong>Button: Accept payments</strong> → <code>/merchant</code> (raw <code>&lt;a&gt;</code>)</li>
+<li><strong>Button: Provide liquidity</strong> → <code>https://app.blip.money/waitlist/user</code></li>
+<li><strong>Purpose:</strong> 3 audience cards (Users / Merchants / LPs).</li>
+</ul>
+<h3>SECTION: Liquidity Layer (<code>LiquidityLayer.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Get early access</strong> → <code>https://app.blip.money/waitlist/user</code>. <strong>Purpose:</strong> Rails-vs-Blip comparison table.</li>
+</ul>
+<h3>SECTION: Live Network Feed (<code>LiveNetworkFeed.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Start earning points</strong> → <code>https://app.blip.money/waitlist/user</code>. <strong>Purpose:</strong> Simulated live settlement terminal + points counter.</li>
+</ul>
+<h3>SECTION: App Showcase (<code>AppShowcaseSection.tsx</code>)</h3>
+<ul>
+<li><strong>Buttons:</strong> None. ⚠️ Section root has <code>hidden</code> class — <strong>not rendered</strong> on live home page.</li>
+</ul>
+<h3>SECTION: Trust (<code>TrustSection.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Read the whitepaper</strong> → <code>/whitepaper</code> (router Link). <strong>Purpose:</strong> 4 architecture/trust cards.</li>
+</ul>
+<h3>SECTION: Final CTA (<code>CTASection.tsx</code>)</h3>
+<ul>
+<li><strong>Button: Join waitlist</strong> → <code>https://app.blip.money/waitlist/user</code> (new tab, click SFX)</li>
+<li><strong>Button: Provide liquidity</strong> → <code>https://app.blip.money/</code> (new tab)</li>
+</ul>
+<hr>
+<h2>2. Primary Product / Marketing Pages</h2>
+<h3>PAGE: Market — ROUTE <code>/market</code> (<code>pages/Market.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Marketing for the live cross-border order-book / sealed-bid market.</p>
+<ul>
+<li><strong>SECTION: Hero</strong> — status chip, headline. No buttons.</li>
+<li><strong>SECTION: Live Merchant Dashboard</strong> — embedded mock (<code>LiveMerchantDashboard</code>), annotation pins (non-interactive).</li>
+<li><strong>SECTION: Features</strong> — 6 static feature cards.</li>
+<li><strong>SECTION: CTA (shared <code>CTASection</code>)</strong> — <em>Join as user</em> → <code>https://app.blip.money/waitlist/user</code>; <em>Become a merchant</em> → <code>https://app.blip.money/waitlist/merchant</code>.</li>
+</ul>
+<h3>PAGE: Merchant — ROUTE <code>/merchant</code> (<code>pages/UseCases/Merchant.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Convince liquidity providers to apply as Blip merchants.</p>
+<ul>
+<li><strong>Sections:</strong> Cinematic Hero (<code>MerchantSection/HeroSection</code>), How It Works (<code>merchant/How-it-works</code>), Why Blip (interactive feature rows — in-page highlight), Dashboard command-center (5 cards), Pricing &amp; Margin Controls (live ticker + slider mock), Trust &amp; Safety (4 cards), Rollout timeline, Requirements (4 cards), FAQ (<code>merchant/ScrollFAQ</code> accordion).</li>
+<li><strong>SECTION: CTA</strong> — <em>Apply as Merchant</em> → <code>https://app.blip.money/waitlist/merchant-login</code>.</li>
+<li><strong>Forms:</strong> None. <strong>Deps:</strong> SEO, HreflangTags, StructuredData (FAQPage).</li>
+</ul>
+<h3>PAGE: User — ROUTE <code>/user</code> (<code>pages/User.tsx</code>) <em>(file open in IDE)</em></h3>
+<p><strong>Purpose:</strong> Consumer marketing — send crypto, get fiat instantly.</p>
+<ul>
+<li><strong>SECTION: UserHero</strong> — <em>See how it works</em> → <code>/how-it-works</code>. (Live USDT/INR rate via <code>useP2PRate</code>; a Join Waitlist CTA is commented out.)</li>
+<li><strong>SECTION: BestRatesBlackSection</strong> — <em>Find the best rate</em> → <code>/rates</code>; <em>Join waitlist</em> → <code>https://app.blip.money/waitlist/user</code>.</li>
+<li><strong>SECTION: Send Globally</strong> (<code>SendGloballySection</code>).</li>
+<li><strong>SECTION: App Preview</strong> — <code>BlipPhoneMockup</code>, display-only.</li>
+<li><strong>SECTION: User Trust</strong> — 4 cards.</li>
+<li><strong>SECTION: CTA</strong> — <em>Join waitlist</em> → <code>https://app.blip.money/waitlist/user</code>; <em>Learn more</em> → <code>/how-it-works</code>.</li>
+</ul>
+<h3>PAGE: Rates — ROUTE <code>/rates</code> (<code>pages/Rates.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Skyscanner-style rate finder; Blip vs Binance/Bybit/OKX.</p>
+<ul>
+<li><strong>SECTION: RateFinder</strong> — currency picker dropdown (INR/AED/PHP/THB/USD), Buy/Sell direction tabs, <em>Lock this rate</em> / <em>Get rate</em> → <code>https://app.blip.money/waitlist/user</code>.<ul>
+<li><strong>Forms:</strong> Amount (number, max 10M USDT) + currency + direction. No submit — live recompute via <code>useP2PRate</code>.</li>
+</ul>
+</li>
+<li><strong>SECTION: ComparisonSection</strong> — feature table + <em>Join Waitlist</em> (<code>CTAButton</code>) → <code>https://app.blip.money/waitlist/user</code>.</li>
+</ul>
+<h3>PAGE: How It Works — ROUTE <code>/how-it-works</code> (<code>pages/Protocol/HowItWorks.tsx</code>)</h3>
+<p><strong>Purpose:</strong> 4-step protocol explainer (app → auction → escrow → settlement).</p>
+<ul>
+<li><strong>Sections:</strong> Hero; Steps 01–04 (phone/dashboard/escrow/settle visuals); Why It Works (metrics + bento cards).</li>
+<li><strong>SECTION: CTA</strong> — <em>Join Waitlist</em> → <code>https://app.blip.money/waitlist/user</code>; <em>See the live market</em> → <code>/market</code>.</li>
+</ul>
+<h3>PAGE: Whitepaper — ROUTE <code>/whitepaper</code> (<code>pages/Protocol/Whitepaper.tsx</code>)</h3>
+<p><strong>Purpose:</strong> In-browser technical whitepaper.</p>
+<ul>
+<li><strong>SECTION: Hero</strong> — <em>Read in-browser</em> → in-page anchor <code>#abstract</code>. (PDF download commented out.)</li>
+<li><strong>SECTION: Sidebar/TOC</strong> — 11 section buttons → smooth-scroll anchors (<code>#abstract</code>…<code>#conclusion</code>); scroll-spy via IntersectionObserver.</li>
+<li><strong>SECTION: Body / Footer</strong> — inline + footer <em>Overview</em> link → <code>/market</code>.</li>
+<li><strong>Forms:</strong> None.</li>
+</ul>
+<h3>PAGE: Bounty — ROUTE <code>/bounty</code> (<code>pages/Bounty.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Bounty/contribution program (earn BLIP points).</p>
+<ul>
+<li><strong>Sections:</strong> Hero (<em>Join Bounty Program</em>, <em>Submit Contribution</em> — ⚠️ inert, no handlers), Allocation &amp; Rules, Tracks, Rewards (<em>Reward Documentation</em> → <code>href=&quot;#&quot;</code> placeholder), Submission Form.</li>
+<li><strong>Forms:</strong> Submit Contribution — Wallet Address, Resource Link, Description → <em>Submit Work</em>. ⚠️ <code>handleSubmit</code> only calls <code>preventDefault()</code> (no API).</li>
+</ul>
+<h3>PAGE: Card Preview — ROUTE <code>/card-preview</code> (<code>pages/CardPreview.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Internal dev sandbox to preview merchant-card variants and set the live homepage variant.</p>
+<ul>
+<li><strong>Sections:</strong> Dashboard preview, HomepageVariantPicker (pills → <code>useMerchantCardsVariant</code>, persisted to localStorage), many card-variant showcases each with <strong>copy</strong> (clipboard) + <strong>Use this on homepage</strong> (<code>setVariant(...)</code>). Some card CTAs → <code>https://app.blip.money/waitlist/merchant-login</code>. Some buttons (BecomeMerchantPreview) are inert.</li>
+</ul>
+<h3>PAGE: App Landing — ROUTE <code>/app</code> (<code>pages/AppLanding.tsx</code>) — <em>no layout, no scroll</em></h3>
+<p><strong>Purpose:</strong> <code>app.blip.money</code> chooser screen.</p>
+<ul>
+<li><strong>Buttons:</strong> User app → <code>window.location.href</code> <code>/dashboard</code>; Market/Merchant → <code>/merchant-dashboard</code>; Sign in → <code>/signin</code>. Nav: <code>/how-it-works</code>, <code>/market</code>; brand → <code>https://blip.money</code>. iOS/Android/Mac pills are no-ops.</li>
+</ul>
+<h3>PAGE: UAE Landing — ROUTE <code>/uae</code> (<code>pages/Unused/uae.tsx</code>)</h3>
+<p><strong>Purpose:</strong> UAE regional early-access landing.</p>
+<ul>
+<li><strong>Buttons:</strong> <em>Join UAE Priority List</em> / <em>Claim UAE early access slot</em> → <code>/register-uae</code>; <em>View UAE launch perks</em> → anchor <code>#uae-why</code>. (⚠️ <code>/register-uae</code> is <strong>not</strong> a defined route → 404.)</li>
+</ul>
+<h3>PAGE: Dark Fintech Preview — ROUTE <code>/preview/dark-fintech</code> (<code>pages/Preview/DarkFintechPreview.tsx</code>)</h3>
+<p><strong>Purpose:</strong> Isolated design sandbox of the dark cinematic section. Controls: Replay, step dots (in-component). Mock buttons inert.</p>
+<hr>
+<h2>3. Auth / Waitlist / Onboarding</h2>
+<blockquote>
+<p>Auth is consolidated to <strong>two routes</strong> — <code>/signup</code> and <code>/signin</code> — both rendered by <code>AuthHero</code> with a User/Merchant role toggle. All legacy URLs redirect here.</p>
+</blockquote>
+<h3>PAGE: AuthHero — ROUTES <code>/signup</code> (signup), <code>/signin</code> (signin) (<code>pages/Waitlist/AuthHero.tsx</code>)</h3>
+<p><strong>Legacy redirects (<code>&lt;Navigate replace&gt;</code>):</strong> <code>/waitlist</code>→<code>/signup</code>; <code>/waitlist/user</code>→<code>/signup?role=user</code>; <code>/waitlist/merchant</code>→<code>/signup?role=merchant</code>; <code>/merchant-waitlist</code>→<code>/signin?role=merchant</code>; <code>/join-waitlist</code>→<code>/signup?role=user</code>; <code>/register</code>→<code>/signup?role=user</code>; <code>/merchant-register</code>→<code>/signup?role=merchant</code>; <code>/login</code>→<code>/signin?role=user</code>; <code>/merchant-login</code>→<code>/signin?role=merchant</code>.</p>
+<ul>
+<li><strong>SECTION: Role toggle / cross-sell</strong> — <em>User / Merchant</em> segmented toggle + &quot;Switch to…&quot; card → set <code>role</code> state, sync <code>?role=</code> to URL (no navigation).</li>
+<li><strong>SECTION: Embedded form</strong> — renders <code>&lt;Login role&gt;</code> (signin) or <code>&lt;Register role embedded&gt;</code> (signup).</li>
+<li>⚠️ <code>WaitlistUserHero</code>, <code>UserLoginHero</code>, <code>MerchantLoginHero</code>, <code>UserLogin</code>, <code>UserRegister</code>, <code>MerchantLogin</code>, <code>MerchantRegister</code> are imported in <code>App.tsx</code> but <strong>bound to no route</strong> (dead imports). Live forms are <code>Login.tsx</code> + <code>Register.tsx</code>.</li>
+</ul>
+<h3>Embedded form: Login (<code>pages/Waitlist/Login.tsx</code>)</h3>
+<ul>
+<li><strong>Forms:</strong> email, password (show/hide) → <code>authApi.login()</code> → <code>POST /auth/login</code>.<ul>
+<li>2FA required → 2FA modal. Missing role → external register host. Email unverified (403) → <code>/email-verification-pending</code>. Success → role-based dashboard: SUPERADMIN→<code>/admin-dashboard</code>*, merchant→<code>/merchant-dashboard</code>, user→<code>/dashboard</code>.</li>
+</ul>
+</li>
+<li><strong>Buttons:</strong> Sign up (→ external register host), Forgot password? → <code>/forgot-password</code> (+<code>?role=merchant</code>).</li>
+<li><strong>2FA modal forms:</strong> TOTP code → <code>/twofa/verify-login</code>; Recovery code → <code>/twofa/verify-recovery</code>. Both → login + dashboard.</li>
+<li><em>(*Note: <code>/admin-dashboard</code> has no route; the admin dashboard route is <code>/superadmin</code> — potential dead redirect.)</em></li>
+</ul>
+<h3>Embedded form: Register (<code>pages/Waitlist/Register.tsx</code>)</h3>
+<ul>
+<li><strong>Forms:</strong> email, password (strength meter), confirmPassword, referral_code (from <code>?ref=</code>), reCAPTCHA → <code>authApi.register()</code> → <code>POST /auth/register</code>.<ul>
+<li>ROLE_ADDED → login + dashboard. Normal success → <code>/email-verification-pending</code> (state {email, role}). EMAIL_EXISTS → toast w/ &quot;Log in&quot; → external login host.</li>
+</ul>
+</li>
+<li><strong>Buttons:</strong> Switch role (external), Sign in (external login host), Terms → <code>/terms</code>, Privacy → <code>/privacy</code>.</li>
+<li><strong>OTP modal</strong> (<code>verifyOTP</code> / <code>resendVerification</code>) — present but not triggered by current submit flow.</li>
+</ul>
+<h3>PAGE: ForgotPassword — ROUTE <code>/forgot-password</code> (<code>pages/Waitlist/ForgotPassword.tsx</code>)</h3>
+<ul>
+<li><strong>Form:</strong> email → <code>authApi.forgotPassword</code> → <code>POST /auth/forgot-password</code> → in-page success. <strong>Buttons:</strong> Back to Login (external), Try different email.</li>
+</ul>
+<h3>PAGE: ResetPassword — ROUTE <code>/reset-password</code> (<code>pages/Waitlist/ResetPassword.tsx</code>)</h3>
+<ul>
+<li><strong>Form:</strong> password + confirm → <code>authApi.resetPassword(token)</code> → <code>POST /auth/reset-password/:token</code> → success. Reads <code>?token</code>/<code>?oobCode</code>. Invalid-link view → <em>Request New Link</em> → <code>/forgot-password</code>.</li>
+</ul>
+<h3>PAGE: VerifyEmail — ROUTE <code>/verify-email</code> (<code>pages/Waitlist/VerifyEmail.tsx</code>)</h3>
+<ul>
+<li><strong>On mount:</strong> <code>authApi.verifyEmail(token)</code> → <code>GET /auth/verify-email</code>. Success → <em>Go to Login</em> (external, merchant-login if MERCHANT). Error → resend form (<code>POST /auth/resend-verification</code>).</li>
+</ul>
+<h3>PAGE: EmailVerificationPending — ROUTE <code>/email-verification-pending</code> (<code>pages/Waitlist/EmailVerificationPending.tsx</code>)</h3>
+<ul>
+<li><strong>Buttons:</strong> Resend Email (<code>POST /auth/resend-verification</code>, 60s cooldown), Back to Login (external), contact support → <code>/contact</code>.</li>
+</ul>
+<h3>PAGE: RedeemTelegram — ROUTE <code>/redeem</code> (<code>pages/Waitlist/RedeemTelegram.tsx</code>) — public, auth-aware</h3>
+<ul>
+<li>Reads <code>?token/?otp/?role</code> → <code>airdropApi</code> (getTokenInfo, getRedeemStatus, verifyLinkToken). Not-logged-in → <em>Join Waitlist</em> / <em>Log In</em> (external). OTP form → <code>airdropApi.verifyRedeemOTP</code>. Success → <em>Go to Dashboard</em> → <code>/dashboard</code>.</li>
+</ul>
+<h3>PAGE: TwoFactorAuth — ROUTE <code>/twoFactorAuth</code> (<code>components/TwoFactorAuth.tsx</code>) — authenticated</h3>
+<ul>
+<li>Enable (QR + TOTP verify → <code>/twofa/enable</code>, <code>/twofa/verify-enable</code>), recovery codes (download .txt), regenerate (<code>/twofa/regenerate-recovery</code>), disable (<code>/twofa/disable</code>). Back → <code>navigate(-1)</code>.</li>
+</ul>
+<h3>MODALS: TelegramVerificationModal / TelegramVerify (<code>components/</code>)</h3>
+<ul>
+<li>Join channel (<code>window.open</code> Telegram) → enter Telegram User ID → verify (<code>POST /telegram/verify</code> or parent <code>onVerify</code>) → award points. Used by dashboards.</li>
+</ul>
+<hr>
+<h2>4. Protected Dashboards &amp; Admin (no layout)</h2>
+<h3>PAGE: User Dashboard — ROUTE <code>/dashboard</code> (<code>pages/Waitlist/Dashboard.tsx</code>)</h3>
+<p><strong>Access:</strong> <code>ProtectedRoute requiredRole=&quot;user&quot;</code>. Unauth/unverified → external <code>https://app.blip.money/waitlist/user</code>; non-USER → <code>/merchant-dashboard</code>; SUPERADMIN/ADMIN bypass. Boot splash ~2.2s.
+<strong>Purpose:</strong> Waitlist/airdrop dashboard — quests, referrals, BLIP points.</p>
+<ul>
+<li><strong>Header:</strong> Protocol Balance → PointsHistoryModal; Wallet → WalletLinkingModal; theme toggle; menu → Refresh Points (<code>refreshSession</code>) / <strong>Logout</strong> (wallet disconnect + <code>logout()</code> + → external waitlist).</li>
+<li><strong>Hero card:</strong> BLIP points → history modal; <em>Share Code</em> → ReferralModal.</li>
+<li><strong>Social Quests grid:</strong> Follow Twitter (+50), Join Telegram (+100), Share on Twitter (+100), Share Referral. <em>Start</em> → XFollow/Twitter/Telegram/Referral verification modal → <code>updatePoints</code>. Status via <code>/telegram/status</code>, <code>/twitter/campaign-status/*</code>.</li>
+<li><strong>Invite Friends / Referral Code:</strong> Share/View → ReferralModal; Copy code → clipboard.</li>
+<li><strong>Your Progress</strong> (recharts gauge, milestones 100/250/500/1000/2500); <strong>Leaderboard</strong> (View All toggles Points/Followers via <code>useAutoRefreshLeaderboard</code>).</li>
+<li><strong>Modals:</strong> PointsHistory, Referral, WalletLinking, Twitter/Telegram/XFollow verification.</li>
+</ul>
+<h3>PAGE: Merchant Dashboard — ROUTES <code>/merchant-dashboard</code> (protected) + <code>/merchant-dashboard-preview</code> (unprotected gate) (<code>pages/Waitlist/MerchantDashboard.tsx</code>)</h3>
+<p><strong>Access:</strong> <code>ProtectedRoute requiredRole=&quot;merchant&quot;</code>. Unauth/unverified → external <code>.../waitlist/merchant-login</code>; non-merchant → <code>/dashboard</code>. Preview route uses <code>MerchantDashboardPreviewGate</code> (no role guard).
+<strong>Purpose:</strong> Merchant waitlist dashboard — referrals, quests, onboarding, volume commitment, settings.</p>
+<ul>
+<li><strong>Navbar/menu:</strong> Two-Factor Auth modal, Account modal, Commit/Edit Volume modal, <strong>Logout</strong> (confirm → <code>logout()</code> + external merchant-login). Wallet via <code>MerchantWalletButton</code>. Mobile bottom tabs (Home/Activity/Refer/Quests/Progress).</li>
+<li><strong>Refer Friends:</strong> Share Your Code → ReferralModal; How It Works modal.</li>
+<li><strong>Referral Code:</strong> Copy code/link; Twitter/Telegram share (intent links). Referral link → <code>origin + /merchant-register?ref=code</code>.</li>
+<li><strong>Onboarding CTA:</strong> <em>Submit Form</em> → <code>https://forms.gle/UyfhpcMdq8BSTQSZA</code> (+500 BLIP).</li>
+<li><strong>Social Quests:</strong> Follow Twitter (+500), Follow Telegram (+500), Retweet (+100, max 2 / 2-day cooldown), Share Referral (+50). <em>Start</em> → XFollow/Telegram/Retweet/Referral modal.</li>
+<li><strong>Beta banner:</strong> <em>Send Request</em> → <code>https://app.blip.money/waitlist/merchant</code>.</li>
+<li><strong>Progress gauge + Leaderboard + Steps.</strong></li>
+<li><strong>Modals:</strong> Logout confirm, How It Works, 2FA (enable/verify/regenerate/disable via <code>twoFactorApi</code>), Recovery Codes, Account Settings (Change Password → <code>POST /auth/change-password</code>), Commit Volume (corridor + monthly volume → <code>POST /auth/commit-volume</code>), Wallet/Twitter/XFollow/Telegram/Referral/Retweet/PointsHistory.</li>
+</ul>
+<h3>PAGE: SuperAdmin Dashboard — ROUTE <code>/superadmin</code> (<code>pages/Waitlist/SuperAdminDashboard.tsx</code>)</h3>
+<p><strong>Access:</strong> <code>ProtectedRoute requiredRole=&quot;admin&quot;</code>; component also <code>navigate(&quot;/dashboard&quot;)</code> if <code>role !== &quot;ADMIN&quot;</code>.
+<strong>Purpose:</strong> Internal analytics (read-only).</p>
+<ul>
+<li><strong>Header:</strong> Logout → external <code>.../waitlist/user</code>.</li>
+<li><strong>Tabs:</strong> overview | users | referrals | volume | bot-merchants | bot-users (lazy fetch via <code>airdropApi.*</code>).<ul>
+<li>Overview: stat cards + recharts (registrations, points, volume).</li>
+<li>Users / Bot-Merchants / Bot-Users: search forms + role/status/country filters + paginated read-only tables.</li>
+<li>Referrals / Volume: read-only tables.</li>
+</ul>
+</li>
+<li><strong>Forms:</strong> search inputs (Enter/Search). No mutating actions.</li>
+</ul>
+<h3>PAGE: Admin (CMS) — ROUTE <code>/admin</code> (<code>pages/Admin.tsx</code>)</h3>
+<p><strong>Access:</strong> ⚠️ Not a ProtectedRoute — client-side password gate (<code>ADMIN_PASSWORD</code> hardcoded in source, stored in localStorage). <strong>Security concern.</strong>
+<strong>Purpose:</strong> In-house CMS — live-edit Home/Merchant/User marketing copy &amp; images, manage card variants, generate illustrations.</p>
+<ul>
+<li><strong>AdminGate form:</strong> password → unlock.</li>
+<li><strong>Header links:</strong> Home/Merchant/User (new tab), Card creator → <code>window.open(&quot;/card-creator&quot;)</code>.</li>
+<li><strong>Tabs:</strong> Home | Merchant | User | Card variants | Generated library | Asset library | Card generator. Field editors persist overrides to localStorage (<code>useOverride</code>); image upload → dev <code>POST /__dev_upload</code>. Footer link → <code>/card-preview</code>.</li>
+</ul>
+<h3>PAGE: Card Creator — ROUTE <code>/card-creator</code> (<code>pages/CardCreator.tsx</code>)</h3>
+<p><strong>Access:</strong> ⚠️ Unprotected (no gate). Dev-only. <strong>Purpose:</strong> Generate card illustrations via Gemini (dev <code>POST /__dev_generate_card</code>) + manage library. Copy path / remove per card. Link → <code>/admin</code>.</p>
+<hr>
+<h2>5. Markets / SEO Landing Pages</h2>
+<p>Two template families:</p>
+<ul>
+<li><strong>Family A — Static SEO Landing:</strong> SEO/Head + Breadcrumbs + Hero (CTA) + 3–6 content blocks + FAQ accordion + bottom CTA. Default CTA → <code>https://app.blip.money/waitlist/user</code>.</li>
+<li><strong>Family B — Live Converter:</strong> Family A <strong>plus</strong> a CoinGecko-powered converter card (amount input, asset dropdown, buy/sell toggle, 0.5% fee, live price + 24h change, price chart, rates table, URL deep-link params <code>?from&amp;amount&amp;direction</code>).</li>
+</ul>
+<p><strong>Shared deps:</strong> <code>SEO</code>, <code>Breadcrumbs</code>, <code>HreflangTags</code>, <code>StructuredData</code> (FAQPage; converters add HowTo + FinancialService), <code>sounds</code>, framer-motion, lucide-react.</p>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Route</th>
+<th>Family</th>
+<th>CTA / notable deviation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SellUsdtDubai</td>
+<td><code>/sell-usdt-dubai</code></td>
+<td>A</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>BuyUsdtDubai</td>
+<td><code>/buy-usdt-dubai</code></td>
+<td>A</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>CryptoPaymentsUAE</td>
+<td><code>/crypto-payments-uae</code></td>
+<td>A</td>
+<td>&quot;Join Blip in the UAE&quot; → waitlist</td>
+</tr>
+<tr>
+<td>AcceptCryptoBusiness</td>
+<td><code>/accept-crypto-business</code></td>
+<td>A</td>
+<td>⚠️ CTA → <code>/merchant</code></td>
+</tr>
+<tr>
+<td>CryptoToAed</td>
+<td><code>/crypto-to-aed</code></td>
+<td>B (reference)</td>
+<td>→ waitlist; deep-link params; <code>CTAButton</code></td>
+</tr>
+<tr>
+<td>CryptoRemittanceUae</td>
+<td><code>/crypto-remittance-uae</code></td>
+<td>B-style</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>BtcToAed</td>
+<td><code>/btc-to-aed</code></td>
+<td>B (BTC)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>EthToAed</td>
+<td><code>/eth-to-aed</code></td>
+<td>B (ETH)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>SolToAed</td>
+<td><code>/sol-to-aed</code></td>
+<td>B (SOL)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>CryptoToInr</td>
+<td><code>/crypto-to-inr</code></td>
+<td>B (INR)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>BtcToInr</td>
+<td><code>/btc-to-inr</code></td>
+<td>B (INR/BTC)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>EthToInr</td>
+<td><code>/eth-to-inr</code></td>
+<td>B (INR/ETH)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>SolToInr</td>
+<td><code>/sol-to-inr</code></td>
+<td>B (INR/SOL)</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>CryptoToBankUae</td>
+<td><code>/crypto-to-bank-uae</code></td>
+<td>B-style</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>UsdtVsUsdc</td>
+<td><code>/usdt-vs-usdc</code></td>
+<td>A</td>
+<td>comparison; → waitlist</td>
+</tr>
+<tr>
+<td>CryptoTaxUae</td>
+<td><code>/crypto-tax-uae</code></td>
+<td>A + tax checker</td>
+<td>interactive tax-scenario tool; → waitlist</td>
+</tr>
+<tr>
+<td>CryptoEscrowUae</td>
+<td><code>/crypto-escrow-uae</code></td>
+<td>A</td>
+<td>cross-links to sibling pages; → waitlist</td>
+</tr>
+<tr>
+<td>CryptoSalaryUae</td>
+<td><code>/crypto-salary-uae</code></td>
+<td>A + salary calculator</td>
+<td><code>#salary-converter</code>; → waitlist</td>
+</tr>
+<tr>
+<td>CryptoOtcDubai</td>
+<td><code>/crypto-otc-dubai</code></td>
+<td>A</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>BestCryptoExchangeUae</td>
+<td><code>/best-crypto-exchange-uae</code></td>
+<td>A</td>
+<td>→ waitlist</td>
+</tr>
+<tr>
+<td>BitcoinPriceUae</td>
+<td><code>/bitcoin-price-uae</code></td>
+<td>B (BTC price)</td>
+<td>⚠️ CTA → <code>/btc-to-aed</code></td>
+</tr>
+<tr>
+<td>CryptoToUae</td>
+<td><code>/cryptoToAed</code> <em>(camelCase route)</em></td>
+<td>A (large)</td>
+<td>merchant-bid simulation; extra → <code>/how-it-works</code>, <code>/coming-soon</code></td>
+</tr>
+</tbody></table>
+<h3>Programmatic SEO — PseoCorridor (<code>pages/Markets/PseoCorridor.tsx</code>)</h3>
+<ul>
+<li><strong>Routes:</strong> dynamic <code>/:slug</code> for each of <strong>25</strong> slugs from <code>data/pseoCorridors.ts</code> (<code>getAllPseoSlugs()</code>); unknown slug → <code>&lt;Navigate to=&quot;/&quot; replace&gt;</code>.</li>
+<li><strong>Examples:</strong> <code>usdt-to-inr-without-kyc</code>, <code>usdt-to-inr-via-upi</code>, <code>sell-usdt-india-instant</code>, <code>binance-p2p-alternative-india</code>, <code>crypto-to-upi-instant</code>, <code>btc-to-inr-without-kyc</code>, <code>uae-to-india-remittance-crypto</code>, <code>usdt-to-php-gcash-instant</code>, <code>accept-stablecoin-payments-uae-business</code>, <code>blip-vs-binance-p2p</code>.</li>
+<li><strong>Config-driven sections:</strong> Hero (indicative rate card, <code>ctaPrimary</code>), Intro, Comparison table, How-it-works, Benefits, FAQ, Related corridors, Final CTA. ⚠️ CTAs → <code>/rates</code> (not waitlist). Schemas: FAQPage + HowTo + BreadcrumbList + FinancialService.</li>
+</ul>
+<hr>
+<h2>6. Resources / Company / Legal / Protocol Content</h2>
+<h3>Resources</h3>
+<ul>
+<li><strong>Blog</strong> <code>/blog</code> — category tabs (filter), featured + feed rows → <code>/blog/:slug</code>. Data: <code>data/blogArticles</code>.</li>
+<li><strong>BlogArticle</strong> <code>/blog/:slug</code> — content render; not-found → <code>&lt;Navigate to=&quot;/blog&quot;&gt;</code>; related rows; Explore More → <code>/faq</code>, <code>/glossary</code>, <code>/use-cases</code>, <code>/compare</code>.</li>
+<li><strong>Research</strong> <code>/research</code> — category tabs + date sort → <code>/research/:slug</code>. Data: <code>data/researchArticles</code>.</li>
+<li><strong>ResearchArticle</strong> <code>/research/:slug</code> — not-found → <code>&lt;Navigate to=&quot;/research&quot;&gt;</code>; related + Explore More cross-links.</li>
+<li><strong>FAQ</strong> <code>/faq</code> — category tabs + single-open accordion (<code>openFaq</code>); injects FAQPage JSON-LD. No detail pages. Data: <code>data/faqData</code>.</li>
+<li><strong>Glossary</strong> <code>/glossary</code> — search input + category tabs + A–Z filter; term cards are anchors (<code>#slug</code>), not links. Data: <code>data/glossaryData</code>.</li>
+<li><strong>Compare</strong> <code>/compare</code> (+<code>/compare/:slug</code>) — card grid → <code>/compare/:slug</code>; detail = feature table + verdict + <em>Join Waitlist</em> (<code>CTAButton</code>) → <code>https://app.blip.money/waitlist/user</code>. Unknown slug → silently shows listing. Data: <code>data/comparisonData</code>.</li>
+</ul>
+<h3>Protocol / Use Cases</h3>
+<ul>
+<li><strong>Changelog</strong> <code>/changelog</code> — release timeline (type badges). Data: <code>data/changelogData</code>. No links.</li>
+<li><strong>UseCases</strong> <code>/use-cases</code> — card grid → <code>/use-cases/:slug</code>. Data: <code>data/useCasesData</code>.</li>
+<li><strong>UseCaseDetail</strong> <code>/use-cases/:slug</code> — pain points + &quot;How Blip Helps&quot; + data-driven CTA (<code>useCase.cta.link</code>); not-found → <code>&lt;Navigate to=&quot;/use-cases&quot;&gt;</code>.</li>
+<li><strong>Docs</strong> <code>/docs</code> (in <code>pages/Unused/</code>) — static API docs; sidebar scroll-nav; CopyButtons → clipboard. No real links.</li>
+</ul>
+<h3>Company</h3>
+<ul>
+<li><strong>About</strong> <code>/about</code> — <em>Read whitepaper</em> → <code>/whitepaper</code>; <em>Get in touch</em> → <code>/contact</code>; mission/vision/values carousels.</li>
+<li><strong>Press</strong> <code>/press</code> — press releases; In-The-Media (hidden, empty data); Brand Assets → <strong>BrandAssetPreview modal</strong> → <em>Download SVG</em> (<code>/brand/*.svg</code>); Media Contact → <code>mailto:press@blip.money</code> + socials.</li>
+<li><strong>Community</strong> <code>/community</code> — social cards (Telegram/X/YouTube/LinkedIn); ecosystem partners; DAO steps; Ambassador <em>Apply Now</em> → <code>https://app.blip.money/waitlist/user</code>; CTA <em>Join on Telegram</em> → <code>https://t.me/blipmoney</code>. (Community Stats section commented out.)</li>
+<li><strong>ContactUs</strong> <code>/contact</code> — contact channels; <strong>email copy</strong> (clipboard); <strong>ContactForm</strong> (Name optional, Email, Inquiry Type select, Message) → <code>sendFormNotification</code> → <code>POST /auth/contact-form</code>; Dubai HQ visual.</li>
+</ul>
+<h3>Legal</h3>
+<ul>
+<li><strong>Privacy</strong> <code>/privacy</code> — TOC + scroll-spy; Contact email → Gmail compose link.</li>
+<li><strong>Terms</strong> <code>/terms</code> (<code>components/TermsService.tsx</code>) — TOC + scroll-spy.</li>
+<li><strong>Cookies</strong> <code>/cookies</code> (<code>components/Cookies.tsx</code>) — TOC + scroll-spy.</li>
+<li><strong>Gdpr</strong> <code>/gdpr</code> — TOC + scroll-spy.</li>
+<li><strong>LegalPage</strong> <code>/legal</code> — tab wrapper rendering Privacy/Terms/Cookies/GDPR inline (tabs switch state, not routes).</li>
+</ul>
+<h3>Misc</h3>
+<ul>
+<li><strong>ComingSoon</strong> <code>/coming-soon</code> — countdown to Feb 24 2026; <strong>Notify Me</strong> email form (⚠️ simulated, no backend — sonner toast); social links; feature preview.</li>
+<li><strong>Tokenomics</strong> <code>/tokenomics</code> → <code>&lt;Navigate to=&quot;/&quot; replace&gt;</code> (token launch removed).</li>
+<li><strong>Rewards</strong> <code>/rewards</code> → <code>&lt;Navigate to=&quot;/&quot; replace&gt;</code>.</li>
+<li><strong>NotFound</strong> <code>*</code> (<code>pages/NotFound.tsx</code>) — 404 catch-all.</li>
+</ul>
+<hr>
+<h2>7. Sitemap Tree</h2>
+<pre><code>blip.money (www)
+│
+├── / .......................... Home (Index)
+│
+├── PRODUCT / PROTOCOL
+│   ├── /how-it-works ........... How It Works
+│   ├── /market ................. Live Market
+│   ├── /merchant ............... Merchant (apply)
+│   ├── /user ................... User (consumer)
+│   ├── /rates .................. Rate Finder
+│   ├── /whitepaper ............. Whitepaper
+│   ├── /bounty ................. Bounty program
+│   ├── /card-preview .......... [dev] card variant sandbox
+│   ├── /preview/dark-fintech .. [dev] section preview
+│   ├── /app ................... App chooser (no layout)
+│   └── /uae ................... UAE landing
+│
+├── AUTH / ONBOARDING
+│   ├── /signup ................ AuthHero (signup) ◄─┐ legacy: /waitlist, /waitlist/user,
+│   ├── /signin ................ AuthHero (signin) ◄─┤ /waitlist/merchant, /register,
+│   │                                                │ /merchant-register, /login,
+│   │                                                │ /merchant-login, /join-waitlist,
+│   │                                                └ /merchant-waitlist  (all →Navigate)
+│   ├── /forgot-password
+│   ├── /reset-password ........ (Firebase ?mode=resetPassword → here)
+│   ├── /verify-email .......... (Firebase ?mode=verifyEmail → here)
+│   ├── /email-verification-pending
+│   ├── /redeem ................ Telegram redeem (public)
+│   └── /twoFactorAuth ......... 2FA management
+│
+├── DASHBOARDS (protected, no layout)
+│   ├── /dashboard ............. User dashboard            [role: user]
+│   ├── /merchant-dashboard .... Merchant dashboard        [role: merchant]
+│   ├── /merchant-dashboard-preview  (unprotected preview)
+│   └── /superadmin ........... Admin analytics           [role: admin]
+│
+├── ADMIN TOOLS (no layout)
+│   ├── /admin ................. CMS (password gate)
+│   └── /card-creator ......... Card generator (unprotected)
+│
+├── RESOURCES
+│   ├── /blog ──&gt; /blog/:slug
+│   ├── /research ──&gt; /research/:slug
+│   ├── /faq
+│   ├── /glossary
+│   ├── /compare ──&gt; /compare/:slug
+│   ├── /changelog
+│   ├── /use-cases ──&gt; /use-cases/:slug
+│   └── /docs
+│
+├── COMPANY
+│   ├── /about
+│   ├── /press
+│   ├── /community
+│   └── /contact
+│
+├── LEGAL
+│   ├── /legal (tabs: Privacy/Terms/Cookies/GDPR)
+│   ├── /privacy
+│   ├── /terms
+│   ├── /cookies
+│   └── /gdpr
+│
+├── MARKETS / SEO  (static + live-converter)
+│   ├── /sell-usdt-dubai      /buy-usdt-dubai        /crypto-otc-dubai
+│   ├── /crypto-payments-uae  /accept-crypto-business
+│   ├── /crypto-to-aed*       /crypto-remittance-uae /crypto-to-bank-uae
+│   ├── /btc-to-aed*  /eth-to-aed*  /sol-to-aed*
+│   ├── /crypto-to-inr*  /btc-to-inr*  /eth-to-inr*  /sol-to-inr*
+│   ├── /usdt-vs-usdc  /crypto-tax-uae  /crypto-escrow-uae
+│   ├── /crypto-salary-uae  /best-crypto-exchange-uae
+│   ├── /bitcoin-price-uae*  /cryptoToAed
+│   └── /:slug (×25 pSEO corridors → driven by pseoCorridors.ts)   (* = live converter)
+│
+├── REDIRECTS
+│   ├── /tokenomics → /     /rewards → /
+│
+└── * ......................... NotFound (404)
+
+EXTERNAL (app.blip.money) — most CTAs leave the marketing site:
+   /waitlist/user · /waitlist/merchant · /waitlist/merchant-login · /waitlist/login
+   /dashboard · /merchant-dashboard · /signin   (via /app)
+</code></pre>
+<hr>
+<h2>8. User Flow Diagrams</h2>
+<h3>Flow A — Visitor → User Waitlist (primary conversion)</h3>
+<pre><code>Home / any marketing page
+   │  (Join Waitlist / Get early access / Start sending)
+   ▼
+https://app.blip.money/waitlist/user   ── leaves SPA ──►  external app
+   (on this site, /signup also renders the signup form via AuthHero)
+        │
+        ▼  fill Register form (email, password, referral, reCAPTCHA)
+   POST /auth/register
+        │
+        ├─ success ──► /email-verification-pending ──► email link ──► /verify-email
+        │                                                               │ GET /auth/verify-email
+        │                                                               ▼ success
+        │                                                          (external) Login
+        └─ ROLE_ADDED ──► login ──► /dashboard
+</code></pre>
+<h3>Flow B — Returning User Sign-in</h3>
+<pre><code>/signin (AuthHero, role=user)
+   │  Login form → POST /auth/login
+   ▼
+ ┌─ 2FA required ─► TOTP / recovery code ─► /twofa/verify-login|recovery ─┐
+ │                                                                        ▼
+ ├─ email unverified (403) ─► /email-verification-pending                login()
+ │                                                                        │
+ └─ success ───────────────────────────────────────────────────────────►│
+                                                                          ▼
+                              role routing:  USER → /dashboard
+                                             MERCHANT → /merchant-dashboard
+                                             ADMIN/SUPERADMIN → /superadmin
+</code></pre>
+<h3>Flow C — Merchant Path</h3>
+<pre><code>Home/Market/Merchant page
+   │ (Become a merchant / Apply as Merchant / Join as Merchant popup)
+   ▼
+https://app.blip.money/waitlist/merchant(-login)   ──►  /signup?role=merchant (AuthHero)
+   │ Register(role=merchant) → POST /auth/register
+   ▼
+/email-verification-pending → verify → sign in → /merchant-dashboard
+   │
+   ├─ Submit onboarding Google Form (forms.gle/...)  → +500 BLIP
+   ├─ Commit Volume modal → POST /auth/commit-volume
+   ├─ Social quests (Follow/Telegram/Retweet/Referral) → updatePoints
+   └─ 2FA / Account settings (change password)
+</code></pre>
+<h3>Flow D — Protected Route Access Control (<code>ProtectedRoute.tsx</code>)</h3>
+<pre><code>Request /dashboard | /merchant-dashboard | /superadmin
+   │
+   ├─ isLoading ───────────────► spinner
+   ├─ not authenticated / email unverified ─► ExternalRedirect
+   │        (merchant route → .../waitlist/merchant-login ; else → .../waitlist/user)
+   ├─ SUPERADMIN / ADMIN ──────► allow (bypass role check)
+   ├─ wrong role ─────────────► Navigate  (merchant route → /dashboard ; user route → /merchant-dashboard)
+   └─ correct role ───────────► render dashboard
+</code></pre>
+<h3>Flow E — Airdrop / Points (quests)</h3>
+<pre><code>Dashboard (user or merchant)
+   │
+   ├─ Follow on X        → XFollowVerificationModal     → /twitter/campaign-status/x_follow      → updatePoints
+   ├─ Share on X         → TwitterVerificationModal     → /twitter/...                            → updatePoints
+   ├─ Join Telegram      → TelegramVerificationModal    → open t.me → POST /telegram/verify       → updatePoints
+   ├─ Retweet (merchant) → RetweetVerificationModal     → (cooldown-gated)                        → updatePoints
+   └─ Refer a friend     → ReferralModal (copy code/link: /merchant-register?ref= or /?ref=)
+</code></pre>
+<h3>Flow F — Telegram Bot Redeem</h3>
+<pre><code>Telegram bot link  →  /redeem?token=..&amp;otp=..&amp;role=..
+   │
+   ├─ not logged in ─► save token/otp to localStorage ─► Join Waitlist / Log In (external)
+   │                                                          │ (after auth, return to /redeem)
+   ▼                                                          ▼
+ authenticated ─► airdropApi.verifyLinkToken / verifyRedeemOTP ─► success ─► /dashboard
+</code></pre>
+<h3>Flow G — Markets Live Converter (e.g. /crypto-to-aed, /btc-to-inr)</h3>
+<pre><code>Land on converter page  (URL may carry ?from=&amp;amount=&amp;direction=)
+   │ CoinGecko simple/price (seeded by STATIC_RATES, refresh 5 min)
+   ▼
+Enter amount → pick asset → toggle Buy/Sell
+   │ compute youReceive (−0.5% fee), show 24h change + price chart
+   ▼
+&quot;Convert Now&quot;  →  https://app.blip.money/waitlist/user
+</code></pre>
+<hr>
+<h2>9. Cross-Cutting Findings &amp; Anomalies</h2>
+<ul>
+<li><strong>External handoff:</strong> Nearly all conversion CTAs leave the marketing SPA for <code>app.blip.money/waitlist/*</code>. The on-site <code>/signup</code> &amp; <code>/signin</code> render the same forms, but the forms&#39; own &quot;switch/sign-in/sign-up/back&quot; links point to <strong>external</strong> <code>app.blip.money</code> hosts.</li>
+<li><strong>Dead imports / routes:</strong> <code>WaitlistUserHero</code>, <code>UserLoginHero</code>, <code>MerchantLoginHero</code>, <code>UserLogin</code>, <code>UserRegister</code>, <code>MerchantLogin</code>, <code>MerchantRegister</code> are imported but routed nowhere. <code>/uae</code> links to <code>/register-uae</code> which <strong>doesn&#39;t exist</strong> (→ 404). Login&#39;s <code>getDashboardForUser</code> returns <code>/admin-dashboard</code> but only <code>/superadmin</code> is defined.</li>
+<li><strong>Inert buttons:</strong> Bounty hero buttons + &quot;Reward Documentation&quot; (<code>href=&quot;#&quot;</code>) + the Bounty submit (<code>preventDefault</code> only); CardPreview&#39;s BecomeMerchantPreview buttons; AppLanding store pills.</li>
+<li><strong>Mocked, no backend:</strong> ComingSoon &quot;Notify Me&quot; form (simulated). Most live feeds (LiveNetworkFeed, dashboards&#39; sample activity) are client-simulated; live rates come from <code>useP2PRate</code> (p2prate.live) and CoinGecko.</li>
+<li><strong>Security:</strong> <code>/admin</code> uses a <strong>hardcoded client-side password</strong> in source. <code>/card-creator</code> is fully unprotected. <code>/merchant-dashboard-preview</code> exposes the merchant dashboard with no role guard.</li>
+<li><strong>Mixed link types:</strong> <code>/whitepaper</code>, <code>/merchant</code>, <code>/docs</code> are reached via both router <code>&lt;Link&gt;</code> (SPA nav) and raw <code>&lt;a&gt;</code> (full reload) in different sections.</li>
+<li><strong>Only real submitting forms:</strong> Auth (login/register/forgot/reset/verify/2FA/change-password/commit-volume), ContactUs (<code>/auth/contact-form</code>), quest verification modals, RedeemTelegram. Everything else is filter/demo/clipboard.</li>
+<li><strong>Data-driven content:</strong> Blog, Research, FAQ, Glossary, Compare, UseCases, Changelog, pSEO corridors all read from <code>src/data/*</code> files; list→detail via <code>slug</code>.</li>
+</ul>
+<hr>
+<p><em>A duplicate tree exists at <code>blip-protocol-ui-test/</code> (test/staging copy) — not covered here; the live app is <code>blip-protocol-ui/</code>.</em></p>
+<pre><code>
+</code></pre>
+
+</body></html>

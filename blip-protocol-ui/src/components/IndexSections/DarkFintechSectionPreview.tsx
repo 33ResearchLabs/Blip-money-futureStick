@@ -2370,7 +2370,7 @@ function MobileFlow() {
         </div>
         <h2 className="text-center heading-h2 leading-[1.05] mt-4 text-black dark:text-white">
           <EditableText id="home.howitworks.title.line1" default="From wallet" as="span" className="block" />
-          <EditableText id="home.howitworks.title.line2" default="to cash." as="span" className="block text-black/40 dark:text-white/30" />
+          <EditableText id="home.howitworks.title.line2" default="to cash." as="span" className="block text-black/40 dark:text-white/30 " />
         </h2>
         <p className="text-center text-[15px] text-black/55 dark:text-white/55 max-w-md mx-auto mt-6 leading-relaxed">
           <EditableText id="home.howitworks.sub" default="Six stages. Under sixty seconds." multiline />
