@@ -20,7 +20,7 @@ import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* Light-bg primary — solid black, white text */
-const PrimaryLink = ({
+export const PrimaryLink = ({
   to,
   children,
   className = "",
@@ -34,7 +34,7 @@ const PrimaryLink = ({
     onClick={() => sounds.click()}
     onMouseEnter={() => sounds.hover()}
     className={
-      "group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] active:scale-[0.98] dark:bg-white dark:text-black dark:border-white " +
+      "group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black shadow-[0_8px_28px_rgba(0,0,0,0.25)] active:scale-[0.98] dark:bg-white dark:text-black dark:border-white " +
       className
     }
   >
@@ -283,7 +283,7 @@ export default function About() {
           />
 
           <div className="relative max-w-[1200px] mx-auto px-6 w-full">
-            <div className="mb-8 flex justify-center">
+            <div className="mb-8 flex justify-center ">
               <Breadcrumbs
                 items={[{ label: "Home", href: "/" }, { label: "About" }]}
               />

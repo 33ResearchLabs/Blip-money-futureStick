@@ -47,7 +47,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
               {item.href && !isLast ? (
                 <Link
                   to={item.href}
-                  className="text-black/40 dark:text-white/40 hover:text-black/70 dark:hover:text-white/70 transition-colors duration-200"
+                  className="text-black/40 dark:text-invert hover:text-black/70 dark:hover:text-white/70 transition-colors duration-200"
                 >
                   {item.label}
                 </Link>
@@ -55,8 +55,8 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
                 <span
                   className={
                     isLast
-                      ? "text-black/70 dark:text-white/70 font-medium"
-                      : "text-black/40 dark:text-white/40"
+                      ? "text-black/70 dark:text-invert font-medium"
+                      : "text-black/40 dark:text-invert"
                   }
                   aria-current={isLast ? "page" : undefined}
                 >

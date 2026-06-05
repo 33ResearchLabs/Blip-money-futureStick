@@ -45,7 +45,8 @@ function AnnotationPin({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-15%" }}
       transition={{ duration: 0.5, delay, ease: EASE }}
-      className="hidden lg:flex absolute z-30 pointer-events-none items-center gap-3"
+      className="hidden  absolute z-30 pointer-events-none items-center gap-3"
+      // className="hidden lg:flex absolute z-30 pointer-events-none items-center gap-3"
       style={{
         top,
         left,
@@ -54,7 +55,7 @@ function AnnotationPin({
       }}
     >
       {/* Connector line + dot */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ">
         <motion.div
           animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -280,7 +281,7 @@ const Market = () => {
         </div>
 
         {/* ── DASHBOARD with annotation pins · desktop only ──── */}
-        <div className="relative px-4 sm:px-6 ">
+        <div className="relative px-4 sm:px-6  ">
           <div className="max-w-[1280px] mx-auto relative">
             {/* Annotation pins — desktop only, positioned over the dash */}
             <AnnotationPin

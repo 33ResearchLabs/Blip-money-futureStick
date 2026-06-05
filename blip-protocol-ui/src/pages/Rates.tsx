@@ -4,6 +4,7 @@ import { ArrowRight, Check, X, Search, RefreshCw, ChevronDown, TrendingDown } fr
 import { SEO } from "@/components";
 import { CTAButton } from "@/components/Navbar";
 import { useP2PRate, type Fiat } from "@/hooks/useP2PRate";
+import { PrimaryLink } from "./Company/About";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -767,7 +768,7 @@ const ComparisonSection = () => {
                 </div>
                 {/* Blip cell — continuous black */}
                 <div className="px-5 py-4 bg-black text-white flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-[#cc785c] shrink-0" strokeWidth={3} />
+                  <Check className="w-3.5 h-3.5 text-white shrink-0" strokeWidth={3} />
                   <span className="text-[13px] font-bold tabular-nums">
                     {row.blip.value}
                   </span>
@@ -779,7 +780,7 @@ const ComparisonSection = () => {
                     className={`px-5 py-4 flex items-center gap-2 ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
                   >
                     {c.good ? (
-                      <Check className="w-3 h-3 text-[#cc785c] shrink-0" strokeWidth={3} />
+                      <Check className="w-3 h-3 text-white shrink-0" strokeWidth={3} />
                     ) : (
                       <X className="w-3 h-3 text-black/25 dark:text-white/25 shrink-0" strokeWidth={3} />
                     )}
@@ -839,7 +840,8 @@ const ComparisonSection = () => {
               One protocol. Every venue beat on the row that matters: the rate
               you actually pay.
             </p>
-            <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
+            <CTAButton to="https://app.blip.money/waitlist/user" className="w-[180px] h-[48px]">Join Waitlist</CTAButton>
+            
           </div>
       </motion.div>
     </section>
