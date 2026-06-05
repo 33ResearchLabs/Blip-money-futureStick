@@ -968,10 +968,12 @@ const Whitepaper = () => {
                         END OF DOCUMENT · v1.0
                       </div>
                       <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-black mb-2">
-                        Download the full specification.
+                        Read the full specification.
                       </h3>
                       <p className="text-[13.5px] leading-[1.6]" style={{ color: "rgba(0,0,0,0.58)" }}>
-                        Complete paper as a portable PDF — including appendices and protocol references.
+                        
+
+Complete paper - Technical notes, protocol assumptions, settlement flows, appendices and supporting material referenced throughout this paper.
                       </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 ">

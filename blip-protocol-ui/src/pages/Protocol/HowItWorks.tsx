@@ -659,10 +659,10 @@ export const HowItWorksPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-              className="text-[11px] font-bold tracking-[0.22em] text-black/40 mt-3"
+              className="text-[11px] font-bold tracking-[0.22em]  text-black/40 mt-3"
               style={{ fontFamily: MONO }}
             >
-              ~ 60 SECONDS · 0% FEES · NON-CUSTODIAL
+              ~ 60 SECONDS · 0% FEES  <br className="md:hidden block " /> <span > ·  NON-CUSTODIAL</span>
             </motion.p>
           </div>
         </div>

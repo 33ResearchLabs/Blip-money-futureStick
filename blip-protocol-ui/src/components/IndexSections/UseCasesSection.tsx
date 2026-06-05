@@ -357,8 +357,8 @@ const UseCasesSection = () => {
                 </p>
                 <div className="flex items-center gap-5 mb-6">
                   {[{ val: "<60s", lbl: "Settle" }, { val: "42", lbl: "Routes" }, { val: "On-chain", lbl: "Proof" }].map((s, i) => (
-                    <div key={s.lbl} className="flex items-center gap-1.5">
-                      {i > 0 && <div className="w-px h-4 bg-white/10 mr-2" />}
+                    <div key={s.lbl} className="flex flex-col md:flex-row items-center md:gap-1.5">
+                      {/* {i > 0 && <div className="w-px h-4 bg-white/10 mr-2" />} */}
                       <span className="font-mono text-sm font-bold text-white">{s.val}</span>
                       <span className="text-[9px] uppercase text-white/30">{s.lbl}</span>
                     </div>

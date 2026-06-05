@@ -590,7 +590,7 @@ const RateFinder = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 sm:flex-1 sm:flex-nowrap sm:gap-6 sm:justify-end sm:text-right">
+              <div className="grid grid-cols-2  gap-y-2.5 sm:flex sm:flex-1 sm:flex-nowrap sm:items-center sm:gap-6 sm:justify-end sm:text-right">
                 <div className="min-w-0">
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">Rate</div>
                   <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums break-all">
@@ -601,12 +601,12 @@ const RateFinder = () => {
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">
                     You {values.direction === "buy" ? "pay" : "get"}
                   </div>
-                  <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums break-all">
+                  <div className="font-mono text-[13px] sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums break-all">
                     {formatRate(c.total, currency.digits, currency.symbol)}
                   </div>
                 </div>
                 {c.youLose > 0 && (
-                  <div className="min-w-0 sm:ml-3">
+                  <div className="col-start-2 min-w-0 sm:col-start-auto sm:ml-3">
                     <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">
                       vs Blip
                     </div>
