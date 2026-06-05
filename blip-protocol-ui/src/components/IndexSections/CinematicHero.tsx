@@ -2085,7 +2085,7 @@ function NotificationRow({ notif }: { notif: DashNotification }) {
    ──────────────────────────────────────────────────────────── */
 const CinematicHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: true, amount: 0 });
 
   /* Scroll-linked black → white background transition.
      As the user scrolls past the hero into the dashboard area,
