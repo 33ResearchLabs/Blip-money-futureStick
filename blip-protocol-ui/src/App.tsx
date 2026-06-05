@@ -135,7 +135,6 @@ const BestCryptoExchangeUae = lazy(
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
 const Bounty = lazy(() => import("./pages/Bounty"));
-const RewardPage = lazy(() => import("./pages/RewardPage"));
 const Rates = lazy(() => import("./pages/Rates"));
 const PseoCorridor = lazy(() => import("./pages/Markets/PseoCorridor"));
 import { getAllPseoSlugs } from "./data/pseoCorridors";
@@ -247,7 +246,7 @@ const App = () => (
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
                     {/* <Route path="/airdrop" element={<Airdrop />} /> */}
                     <Route path="/bounty" element={<Bounty />} />
-                    <Route path="/rewards" element={<RewardPage />} />
+                    <Route path="/rewards" element={<Navigate to="/" replace />} />
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<TermsService />} />
