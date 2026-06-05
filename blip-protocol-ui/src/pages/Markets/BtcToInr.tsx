@@ -488,8 +488,6 @@ export default function BtcToInr() {
   return (
     <>
       <SEO
-        title="Bitcoin to INR — Live BTC/INR Rate | Blip Money"
-        description="Convert Bitcoin to Indian Rupees instantly. Live BTC/INR exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to INR rate in India."
         canonical="https://www.blip.money/btc-to-inr"
         keywords="BTC to INR, bitcoin to INR, bitcoin price INR, BTC INR rate, convert bitcoin to INR, sell bitcoin India, bitcoin price India, 1 BTC to INR, bitcoin to Indian Rupee, BTC to INR today"
         type="website"

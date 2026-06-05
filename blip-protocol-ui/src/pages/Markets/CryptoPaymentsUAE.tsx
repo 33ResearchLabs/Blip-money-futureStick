@@ -583,8 +583,6 @@ const CryptoPaymentsUAE = () => {
   return (
     <>
       <SEO
-        title="Crypto Payments in the UAE - Send & Receive Crypto Easily | Blip Money"
-        description="Make crypto payments in the UAE with Blip Money. Buy, sell, and settle cryptocurrency across Dubai and the Emirates with escrow-protected, fast settlement."
         canonical="https://www.blip.money/crypto-payments-uae"
         keywords="crypto payments UAE, cryptocurrency UAE, Bitcoin payments Dubai, crypto to fiat UAE, buy crypto AED, sell crypto UAE, crypto settlement Dubai"
       />

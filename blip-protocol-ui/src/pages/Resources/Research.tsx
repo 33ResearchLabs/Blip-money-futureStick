@@ -202,8 +202,6 @@ export default function Research() {
   return (
     <>
       <SEO
-        title="Research | Blip Money - AI Agents, P2P Bots & On-Chain Infrastructure"
-        description="In-depth research on AI-powered crypto bots, autonomous agents, Telegram trading, MEV protection, and the future of decentralized P2P payments."
         canonical="https://www.blip.money/research"
         keywords="AI crypto research, P2P trading bots, autonomous agents, Telegram bots crypto, MEV, DeFi research, blockchain AI"
       />

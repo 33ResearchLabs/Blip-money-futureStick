@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
+import { getSEO } from "@/data/seo";
 
 interface SEOProps {
-  title: string;
-  description: string;
-  canonical: string;
+  title?: string;
+  description?: string;
+  canonical?: string;
   keywords?: string;
   image?: string;
   type?: string;
@@ -11,14 +13,22 @@ interface SEOProps {
 }
 
 export default function SEO({
-  title,
-  description,
-  canonical,
-  keywords,
+  title: titleProp,
+  description: descProp,
+  canonical: canonicalProp,
+  keywords: keywordsProp,
   image = "https://www.blip.money/og-image.png",
   type = "website",
   twitterCard = "summary_large_image",
 }: SEOProps) {
+  const { pathname } = useLocation();
+  const seoData = getSEO(pathname);
+
+  const title = titleProp ?? seoData.title;
+  const description = descProp ?? seoData.description;
+  const keywords = keywordsProp ?? seoData.keywords;
+  const canonical = canonicalProp ?? `https://www.blip.money${pathname}`;
+
   return (
     <Helmet>
       <title>{title}</title>

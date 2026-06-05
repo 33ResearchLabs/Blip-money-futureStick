@@ -1541,9 +1541,7 @@ const User = () => {
   return (
     <>
       <SEO
-        title="Blip Money for Users — Instant crypto-to-cash settlement"
         canonical="https://www.blip.money/user"
-        description="Convert crypto to fiat instantly with Blip. Non-custodial, escrow-backed, peer-to-peer settlement with live market rates."
         keywords="crypto to cash, USDT to AED, USDT to INR, non-custodial swap, peer-to-peer crypto"
       />
       <HreflangTags path="/user" />

@@ -396,8 +396,6 @@ export default function Press() {
   return (
     <>
       <SEO
-        title="Press & Media - Blip Money News & Coverage"
-        description="Read the latest Blip Money press releases, media coverage, and download brand assets. Stay up to date with our announcements and milestones."
         canonical="https://www.blip.money/press"
         keywords="Blip Money press, Blip Money news, crypto payments press release, Blip media coverage"
       />

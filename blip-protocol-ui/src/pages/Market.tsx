@@ -188,8 +188,6 @@ const Market = () => {
   return (
     <>
       <SEO
-        title="Blip Market | Live Open Markets"
-        description="Trade in live open markets. Real-time sealed-bid auctions, non-custodial escrow, on-chain reputation — all on Solana."
         canonical="https://www.blip.money/market"
       />
 

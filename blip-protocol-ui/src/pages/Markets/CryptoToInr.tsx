@@ -672,8 +672,6 @@ export default function CryptoToInr() {
   return (
     <>
       <SEO
-        title="Crypto to INR Converter \u2014 Live Rates | Blip Money"
-        description="Convert USDT, USDC, BTC, ETH, SOL to INR instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes. Best crypto to INR rates in India."
         canonical="https://www.blip.money/crypto-to-inr"
         keywords="crypto to INR, USDT to INR, convert crypto to INR, USDC to INR rate, sell crypto India, crypto to INR rate today, best crypto exchange India, USDT INR live rate, buy INR with crypto, crypto cashout India"
         type="website"

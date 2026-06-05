@@ -250,8 +250,6 @@ const Whitepaper = () => {
   return (
     <>
       <SEO
-        title="Whitepaper | Blip Money"
-        description="Blip Market: An open liquidity network for fast, cheap global value settlement."
         canonical="https://www.blip.money/whitepaper"
       />
       <HreflangTags path="/whitepaper" />
@@ -267,6 +265,10 @@ const Whitepaper = () => {
       </div>
 
       <style>{`
+        @media print {
+          aside { display: none !important; }
+          .prose-tech section { page-break-inside: avoid; scroll-margin-top: 0 !important; }
+        }
         .prose-tech section { scroll-margin-top: 120px; }
         .prose-tech h2 {
           font-size: clamp(20px, 3.5vw, 27px);
@@ -394,15 +396,9 @@ const Whitepaper = () => {
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-              <button onClick={handleDownload}
-                className="group inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight transition-all hover:-translate-y-[1px]"
-                style={{ background: "#0a0a0a", color: "#fff", boxShadow: "0 10px 30px -10px rgba(0,0,0,0.32)" }}>
-                <Download className="w-4 h-4" />
-                Download PDF
-              </button>
               <a href="#abstract" onClick={(e) => { e.preventDefault(); scrollToSection("abstract"); }}
                 className="inline-flex items-center gap-2 px-5 h-11 rounded-full text-[13px] font-semibold tracking-tight"
-                style={{ color: "rgba(0,0,0,0.82)", border: "1px solid rgba(0,0,0,0.14)" }}>
+                style={{ background: "#0a0a0a", color: "#fff", boxShadow: "0 10px 30px -10px rgba(0,0,0,0.32)" }}>
                 Read in-browser →
               </a>
             </div>

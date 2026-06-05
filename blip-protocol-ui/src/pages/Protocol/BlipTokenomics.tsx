@@ -789,8 +789,6 @@ export const BlipTokenomics = () => {
   return (
     <>
       <SEO
-        title="Blip Money Tokenomics | Sustainable Payment Economy"
-        description="Explore Blip Money tokenomics, including supply, utility, and incentives designed for long-term ecosystem growth."
         canonical="https://www.blip.money/tokenomics"
       />
       <HreflangTags path="/tokenomics" />

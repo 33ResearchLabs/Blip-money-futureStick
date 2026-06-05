@@ -347,8 +347,6 @@ export default function CryptoRemittanceUae() {
   return (
     <>
       <SEO
-        title="Send Money from UAE with Crypto — Remittance Calculator | Blip Money"
-        description="Send money from UAE to India, Pakistan, Philippines using crypto. Compare fees: bank wire vs crypto remittance. Save up to 90% on transfer fees with stablecoin settlement."
         canonical="https://www.blip.money/crypto-remittance-uae"
         keywords="crypto remittance UAE, send money from UAE crypto, cheap remittance UAE, USDT remittance Dubai, crypto money transfer, send money India from UAE crypto, Pakistan remittance crypto"
       />

@@ -460,8 +460,6 @@ export default function EthToAed() {
   return (
     <>
       <SEO
-        title="Ethereum to AED — Live ETH/AED Rate | Blip Money"
-        description="Convert Ethereum to UAE Dirhams instantly. Live ETH/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best ETH to AED rate in Dubai and UAE."
         canonical="https://www.blip.money/eth-to-aed"
         keywords="ETH to AED, ethereum to AED, ethereum price AED, ETH AED rate, convert ethereum to AED, sell ethereum Dubai, ethereum price UAE, 1 ETH to AED, ethereum to dirham, ETH to AED today"
         type="website"

@@ -589,8 +589,6 @@ const BuyUsdtDubai = () => {
   return (
     <>
       <SEO
-        title="Buy USDT in Dubai - Instant Tether Purchase | Blip Money"
-        description="Buy USDT in Dubai and convert AED to Tether instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payment options across the UAE."
         canonical="https://www.blip.money/buy-usdt-dubai"
         keywords="buy USDT Dubai, AED to USDT, buy tether Dubai, buy crypto Dubai, purchase USDT Dubai, USDT Dubai price, buy USDT UAE"
       />

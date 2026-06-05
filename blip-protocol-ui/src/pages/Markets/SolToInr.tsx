@@ -460,8 +460,6 @@ export default function SolToInr() {
   return (
     <>
       <SEO
-        title="Solana to INR — Live SOL/INR Rate | Blip Money"
-        description="Convert Solana to Indian Rupees instantly. Live SOL/INR exchange rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to INR rate in India."
         canonical="https://www.blip.money/sol-to-inr"
         keywords="SOL to INR, solana to INR, solana price INR, SOL INR rate, convert solana to INR, sell solana India, solana price India, 1 SOL to INR, solana to Indian Rupee, SOL to INR today"
         type="website"

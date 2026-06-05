@@ -549,8 +549,6 @@ export default function BlipRates() {
   return (
     <>
       <SEO
-        title="Blip Rates — Live USDT/INR P2P Prices from Binance, Bybit, OKX & more"
-        description="Search live USDT to INR rates across every major P2P exchange. Find the cheapest price in seconds. No login, no paywall."
         canonical="https://www.blip.money/blip-rates"
         keywords="usdt to inr, usdt inr rate, binance p2p, bybit p2p, buy usdt india, sell usdt india, p2p usdt"
       />

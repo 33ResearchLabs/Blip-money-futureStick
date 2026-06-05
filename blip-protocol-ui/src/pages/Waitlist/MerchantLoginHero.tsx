@@ -12,8 +12,6 @@ export default function MerchantLoginHero() {
   return (
     <>
       <SEO
-        title="Sign In as Merchant | Blip Money"
-        description="Sign back in to your Blip merchant account — check live orders, settlements, and earnings."
         canonical="https://app.blip.money/waitlist/merchant-login"
       />
       <HreflangTags path="https://app.blip.money/waitlist/merchant-login" />

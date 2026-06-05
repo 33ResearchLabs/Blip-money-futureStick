@@ -460,8 +460,6 @@ export default function SolToAed() {
   return (
     <>
       <SEO
-        title="Solana to AED — Live SOL/AED Rate | Blip Money"
-        description="Convert Solana to UAE Dirhams instantly. Live SOL/AED exchange rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to AED rate in Dubai and UAE."
         canonical="https://www.blip.money/sol-to-aed"
         keywords="SOL to AED, solana to AED, solana price AED, SOL AED rate, convert solana to AED, sell solana Dubai, solana price UAE, 1 SOL to AED, solana to dirham, SOL to AED today"
         type="website"

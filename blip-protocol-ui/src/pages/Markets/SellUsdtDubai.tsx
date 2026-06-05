@@ -573,8 +573,6 @@ const SellUsdtDubai = () => {
   return (
     <>
       <SEO
-        title="Sell USDT in Dubai - Instant Crypto to AED Conversion | Blip Money"
-        description="Sell USDT in Dubai and convert Tether to AED instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payout options across the UAE."
         canonical="https://www.blip.money/sell-usdt-dubai"
         keywords="sell USDT Dubai, USDT to AED, sell tether Dubai, crypto to AED Dubai, convert USDT Dubai, sell crypto Dubai, USDT cashout Dubai"
       />

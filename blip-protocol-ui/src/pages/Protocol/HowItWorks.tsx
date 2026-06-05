@@ -567,8 +567,6 @@ export const HowItWorksPage = () => {
   return (
     <>
       <SEO
-        title="How Blip Works | Live Merchant Auctions, On-Chain Escrow"
-        description="Blip is a live order book for cross-border value. Merchants compete in sealed-bid auctions, funds settle through non-custodial escrow on Solana. Here's how."
         canonical="https://www.blip.money/how-it-works"
       />
       <HreflangTags path="/how-it-works" />
@@ -1047,7 +1045,6 @@ export const HowItWorksPage = () => {
             </span>
           </>
         }
-        description="Join the waitlist for early access, or explore the live order book."
         primaryButtonText="Join Waitlist"
         primaryButtonLink="https://app.blip.money/waitlist/user"
         secondaryButtonText="See the live market"

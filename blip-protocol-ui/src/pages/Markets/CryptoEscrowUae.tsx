@@ -1183,8 +1183,6 @@ const CryptoEscrowUae = () => {
   return (
     <>
       <SEO
-        title="Crypto Escrow UAE — On-Chain Smart Contract Escrow Service | Blip Money"
-        description="Secure your crypto trades with on-chain escrow in the UAE. Smart contract protection for P2P trading, OTC deals, and real estate transactions. Non-custodial, transparent, instant settlement."
         canonical="https://www.blip.money/crypto-escrow-uae"
         keywords="crypto escrow UAE, crypto escrow service Dubai, smart contract escrow, on-chain escrow, crypto escrow real estate, P2P crypto escrow UAE, non-custodial escrow"
       />

@@ -644,8 +644,6 @@ const ContactUs = () => {
   return (
     <>
       <SEO
-        title="Contact Blip Money | Get in Touch with Our Team"
-        description="Contact Blip Money for support, partnerships, or general inquiries. Our team is here to help."
         canonical="https://www.blip.money/contact"
       />
       <HreflangTags path="/contact" />

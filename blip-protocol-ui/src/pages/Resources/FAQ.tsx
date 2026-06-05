@@ -137,8 +137,6 @@ export default function FAQ() {
   return (
     <>
       <SEO
-        title="FAQ | Blip Money - Frequently Asked Questions"
-        description="Find answers to common questions about Blip Money, crypto payments, escrow security, merchant tools, tokenomics, and technical details."
         canonical="https://www.blip.money/faq"
         keywords="Blip Money FAQ, crypto payments FAQ, escrow FAQ, Solana FAQ, BLIP token FAQ"
       />

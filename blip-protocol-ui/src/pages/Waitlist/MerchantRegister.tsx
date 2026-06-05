@@ -12,8 +12,6 @@ export default function MerchantRegister() {
   return (
     <>
       <SEO
-        title="Become a Blip Merchant | Earn on Every Order"
-        description="Settle orders, set your spread, and earn margin on every trade. Founding merchants receive priority routing, reduced fees, and early dashboard access."
         canonical="https://app.blip.money/waitlist/merchant"
       />
       <HreflangTags path="https://app.blip.money/waitlist/merchant" />

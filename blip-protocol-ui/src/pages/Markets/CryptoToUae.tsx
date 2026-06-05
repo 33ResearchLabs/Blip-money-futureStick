@@ -1818,9 +1818,6 @@ const CryptoToUae: React.FC = () => {
   return (
     <div className="bg-[#FAF8F5] dark:bg-[#030303] text-black dark:text-white min-h-screen selection:bg-black/20 dark:selection:bg-white/20 selection:text-black dark:selection:text-white overflow-x-hidden font-sans">
       <SEO
-        title="Crypto to AED | USDT to AED Converter & Cashout in UAE | Blip Money
-"
-        description="Convert crypto to AED effortlessly with Blip Money. Instantly estimate USDT to AED rates, sell crypto in UAE, and explore reliable crypto cashout, withdrawals, and crypto-to-cash solutions tailored for UAE users."
         canonical="https://www.blip.money/cryptoToAed"
       />
       <HreflangTags path="/cryptoToAed" />

@@ -27,8 +27,6 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="Blip Money - Instant Merchant-to-Merchant Crypto Settlement"
-        description="No banks. No delays. Global liquidity. Blip is the non-custodial settlement protocol for instant crypto-to-cash transfers, secured by escrow and reputation."
         canonical="https://www.blip.money/"
       />
 

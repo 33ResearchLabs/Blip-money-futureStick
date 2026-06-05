@@ -672,8 +672,6 @@ export default function CryptoToAed() {
   return (
     <>
       <SEO
-        title="Crypto to AED Converter — Live Rates | Blip Money"
-        description="Convert USDT, USDC, BTC, ETH, SOL to AED instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes. Best crypto to AED rates in UAE."
         canonical="https://www.blip.money/crypto-to-aed"
         keywords="crypto to AED, USDT to AED, convert crypto to AED, USDC to AED rate, sell crypto UAE, crypto to AED rate today, best crypto exchange UAE, USDT AED live rate, buy AED with crypto, crypto cashout Dubai"
         type="website"

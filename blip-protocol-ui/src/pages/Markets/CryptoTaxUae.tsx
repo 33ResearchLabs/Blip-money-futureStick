@@ -1236,8 +1236,6 @@ const CryptoTaxUae = () => {
   return (
     <>
       <SEO
-        title="Crypto Tax UAE 2026 — Complete Guide for Individuals & Businesses | Blip Money"
-        description="Is crypto taxed in the UAE? Complete 2026 guide to cryptocurrency taxation for individuals and businesses. Zero personal income tax, 9% corporate tax rules, CARF reporting, and VARA compliance."
         canonical="https://www.blip.money/crypto-tax-uae"
         keywords="crypto tax UAE, crypto tax Dubai 2026, is crypto taxed in UAE, cryptocurrency tax UAE, VARA tax, UAE crypto capital gains, corporate tax crypto UAE"
       />

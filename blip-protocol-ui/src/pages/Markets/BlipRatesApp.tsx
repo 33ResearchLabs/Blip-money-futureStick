@@ -596,8 +596,6 @@ export default function BlipRatesApp() {
   return (
     <>
       <SEO
-        title="Blip Rates — Live USDT, Cash & Wire Prices · Built like an app"
-        description="The real USD/USDT to INR, AED, and PHP market price across P2P, OTC cash, wires and remittance. One terminal. Live. No login."
         canonical="https://www.blip.money/rates"
         keywords="usdt inr rate, usdt aed rate, usdt php, p2p rate, otc rate, wire rate, cash rate, arbitrage"
       />

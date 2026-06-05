@@ -488,8 +488,6 @@ export default function BtcToAed() {
   return (
     <>
       <SEO
-        title="Bitcoin to AED — Live BTC/AED Rate | Blip Money"
-        description="Convert Bitcoin to UAE Dirhams instantly. Live BTC/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to AED rate in Dubai and UAE."
         canonical="https://www.blip.money/btc-to-aed"
         keywords="BTC to AED, bitcoin to AED, bitcoin price AED, BTC AED rate, convert bitcoin to AED, sell bitcoin Dubai, bitcoin price UAE, 1 BTC to AED, bitcoin to dirham, BTC to AED today"
         type="website"

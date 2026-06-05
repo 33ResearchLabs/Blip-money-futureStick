@@ -1215,8 +1215,6 @@ const CryptoSalaryUae = () => {
   return (
     <>
       <SEO
-        title="Crypto Salary UAE — Get Paid in Crypto in Dubai 2026 | Blip Money"
-        description="Can you get paid in crypto in the UAE? Complete guide to crypto salaries in Dubai. Dubai Court ruling, legal framework, salary conversion calculator, and how to settle crypto salary to AED."
         canonical="https://www.blip.money/crypto-salary-uae"
         keywords="crypto salary UAE, get paid crypto Dubai, salary in bitcoin UAE, crypto payroll Dubai, cryptocurrency salary Dubai, convert crypto salary to AED"
       />

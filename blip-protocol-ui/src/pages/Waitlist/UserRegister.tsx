@@ -14,8 +14,6 @@ export default function UserRegister() {
   return (
     <>
       <SEO
-        title="Join the Blip Waitlist | Early Access"
-        description="Reserve your spot for borderless payments — settled by verified merchants in under 60 seconds. Early users earn bonus points and priority access."
         canonical="https://app.blip.money/waitlist/user"
       />
       <HreflangTags path="https://app.blip.money/waitlist/user" />

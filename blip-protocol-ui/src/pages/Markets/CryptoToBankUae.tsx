@@ -426,8 +426,6 @@ export default function CryptoToBankUae() {
   return (
     <>
       <SEO
-        title="Withdraw Crypto to UAE Bank Account — Step-by-Step Guide | Blip Money"
-        description="Learn how to withdraw crypto to your UAE bank account. Compare withdrawal methods, fees, and settlement times. Cash out BTC, ETH, USDT to AED safely with escrow protection."
         canonical="https://www.blip.money/crypto-to-bank-uae"
         keywords="withdraw crypto to bank UAE, cash out crypto Dubai, crypto to bank account AED, sell crypto UAE bank transfer, USDT to bank account Dubai, cryptocurrency withdrawal UAE"
       />

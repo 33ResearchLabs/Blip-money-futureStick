@@ -120,8 +120,6 @@ export default function Glossary() {
   return (
     <>
       <SEO
-        title="Glossary | Blip Money - Crypto & DeFi Terms Explained"
-        description="A comprehensive glossary of crypto, DeFi, payments, and blockchain terms. Learn the key concepts behind Blip Money and decentralized finance."
         canonical="https://www.blip.money/glossary"
         keywords="crypto glossary, DeFi terms, blockchain glossary, Blip Money glossary, crypto dictionary"
       />

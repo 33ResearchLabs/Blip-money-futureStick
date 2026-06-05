@@ -23,8 +23,6 @@ const NotFound = () => {
   return (
     <>
       <SEO
-        title="Page Not Found | Blip Money"
-        description="The page you're looking for doesn't exist or has been moved. Browse our site to find what you need."
         canonical="https://www.blip.money/404"
       />
 

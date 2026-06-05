@@ -840,9 +840,7 @@ const Rates = () => {
   return (
     <>
       <SEO
-        title="Best USDT Rate, Live | Blip vs Binance P2P, Paxful & More"
         canonical="https://www.blip.money/rates"
-        description="Find the cheapest USDT rate in the market. Blip beats Binance P2P, Paxful, KuCoin, OKX, and direct P2P on rate, speed, privacy, and on-chain settlement guarantees. See live rates compared."
         keywords="cheapest USDT rate, USDT INR rate, USDT AED rate, Blip vs Binance P2P, P2P USDT comparison, Paxful alternative"
       />
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white min-h-screen">

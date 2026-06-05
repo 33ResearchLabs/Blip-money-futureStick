@@ -403,8 +403,6 @@ export default function Community() {
   return (
     <>
       <SEO
-        title="Blip Community & Ecosystem - Join the Movement"
-        description="Join the Blip Money community across Telegram, Twitter, Discord, and GitHub. Explore our ecosystem partners, DAO governance, and ambassador program."
         canonical="https://www.blip.money/community"
         keywords="Blip community, Blip ecosystem, Blip DAO, crypto community, Solana community, BLIP token governance"
       />
