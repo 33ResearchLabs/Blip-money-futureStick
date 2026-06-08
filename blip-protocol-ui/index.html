@@ -125,15 +125,26 @@
       })();
     </script>
     <div id="root"></div>
-    <footer style="background:#faf8f5;padding:32px 24px;font-family:Arial,sans-serif;color:#333;">
-      <h1 style="font-size:18px;font-weight:700;margin:0 0 8px 0;">Blip Money — Peer-to-Peer USDT Trading Platform</h1>
-      <p style="font-size:14px;line-height:1.6;margin:0 0 12px 0;max-width:680px;">Blip is a peer-to-peer USDT trading platform that connects buyers and sellers through verified merchants. Buy and sell USDT instantly with escrow-protected transactions, competitive exchange rates, and real-time global settlement.</p>
-      <p style="font-size:13px;margin:0;">
-        <a href="https://www.blip.money/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a>
-        &nbsp;·&nbsp;
-        <a href="https://www.blip.money/terms" style="color:#555;text-decoration:underline;">Terms of Service</a>
-      </p>
+    <footer id="static-footer" style="background:#faf8f5;padding:24px;font-family:Arial,sans-serif;color:#555;font-size:13px;line-height:1.6;">
+      <strong style="display:block;margin-bottom:6px;color:#222;">Blip Money</strong>
+      Blip is a peer-to-peer crypto trading app. Buy and sell USDT directly with verified merchants using escrow-protected transactions and competitive rates.
+      &nbsp;·&nbsp;
+      <a href="https://www.blip.money/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.blip.money/terms" style="color:#555;text-decoration:underline;">Terms</a>
     </footer>
+    <script>
+      // Hide static footer once React has rendered its own footer
+      document.addEventListener('DOMContentLoaded', function() {
+        var check = setInterval(function() {
+          if (document.getElementById('root').children.length > 0) {
+            var el = document.getElementById('static-footer');
+            if (el) el.style.display = 'none';
+            clearInterval(check);
+          }
+        }, 200);
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
