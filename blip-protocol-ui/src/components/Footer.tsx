@@ -69,9 +69,8 @@ const FOOTER_SECTIONS = [
       { label: "Press", to: "/press" },
       { label: "Community", to: "/community" },
       { label: "Waitlist", to: "https://app.blip.money/waitlist/user" },
-      // { label: "Privacy Policy", to: "/privacy" },
-      // { label: "Terms of Service", to: "/terms" },
-      // { label: "Cookies", to: "/cookies" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Terms of Service", to: "/terms" },
       { label: "Legal", to: "/legal" },
     ],
   },
@@ -162,6 +161,15 @@ export const Footer = ({
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ================= APP DESCRIPTION ================= */}
+      <div className="border-t border-black/5 dark:border-white/5 bg-[#F5F3F0] dark:bg-[#050505] px-6 pt-8 pb-2">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-[13px] text-black/50 dark:text-white/30 leading-relaxed max-w-2xl">
+            Blip is a peer-to-peer USDT trading platform that connects buyers and sellers through verified merchants. Buy and sell USDT with escrow-protected transactions, competitive rates, and real-time global settlement. <a href="/privacy" className="underline hover:text-black dark:hover:text-white transition-colors">Privacy Policy</a> · <a href="/terms" className="underline hover:text-black dark:hover:text-white transition-colors">Terms of Service</a>
+          </p>
         </div>
       </div>
 
