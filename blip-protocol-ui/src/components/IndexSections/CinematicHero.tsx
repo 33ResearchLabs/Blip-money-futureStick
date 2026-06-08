@@ -2202,7 +2202,7 @@ const CinematicHero = () => {
           >
             <EditableText
               id="home.hero.sub"
-              default="Blip connects users with verified merchants who compete to settle payments faster, safer, and at better rates."
+              default="Blip is a peer-to-peer crypto trading app. Buy and sell USDT directly with verified merchants — escrow-protected, instant settlement, competitive rates."
               multiline
             />
           </motion.p>
