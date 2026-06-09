@@ -176,7 +176,7 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <CTAButton to="https://app.blip.money">
+                <CTAButton to="https://blip.money">
                   <Download className="w-4 h-4" strokeWidth={2.5} />
                   Download App
                 </CTAButton>
@@ -529,7 +529,7 @@ const MobileMenu = memo(({
               </a>
             ) : (
               <a
-                href="https://app.blip.money"
+                href="https://blip.money"
                 onClick={() => { sounds.click(); onClose(); }}
                 className="block w-full text-center py-1.5 rounded-full text-sm font-semibold transition-all duration-200 active:scale-[0.98] inline-flex items-center justify-center gap-2"
                 style={{ background: "#cc785c", color: "#fff", boxShadow: "0 8px 22px -8px rgba(204,120,92,0.55)" }}
@@ -537,6 +537,7 @@ const MobileMenu = memo(({
                 <Download className="w-4 h-4" strokeWidth={2.5} />
                 Download App
               </a>
+
             )}
           </div>
       </div>
