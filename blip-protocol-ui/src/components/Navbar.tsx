@@ -257,7 +257,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
           Blip
         </span>
         <span
-          className={`-ml-1 ${onDark ? "text-white" : "text-black dark:text-white"}`}
+          className={`ml-1 ${onDark ? "text-white" : "text-black dark:text-white"}`}
           style={{
             fontStyle: "italic",
             fontWeight: 600,
