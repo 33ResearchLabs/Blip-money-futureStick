@@ -35,12 +35,9 @@ export default function PublicNavbar({
             }
           }}
         >
-          <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
-            <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
-          </div>
+          <img src="/blip-icon.png" alt="Blip" width="34" height="34" style={{ objectFit: "contain", flexShrink: 0 }} />
           <span className="text-xl sm:text-2xl font-bold text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
+            Blip<span className="italic font-semibold">money</span>
           </span>
         </Link>
 

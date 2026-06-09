@@ -86,24 +86,10 @@ const brandAssets: BrandAsset[] = [
   },
   {
     icon: Package,
-    title: "Icon — Black",
-    description: "Standalone Zap icon on a black rounded tile — SVG.",
-    href: "/brand/blip-icon.svg",
-    previewBg: "light",
-  },
-  {
-    icon: Package,
-    title: "Icon — White",
-    description: "Standalone Zap icon in white on transparent — for dark backgrounds.",
-    href: "/brand/blip-icon-white.svg",
+    title: "Icon — Starburst",
+    description: "Blip starburst icon — PNG, use on dark backgrounds.",
+    href: "/blip-icon.png",
     previewBg: "dark",
-  },
-  {
-    icon: Package,
-    title: "Icon — Orange",
-    description: "Standalone Zap icon in brand orange (#f97316) on transparent — SVG.",
-    href: "/brand/blip-icon-orange.svg",
-    previewBg: "light",
   },
   {
     icon: Palette,
