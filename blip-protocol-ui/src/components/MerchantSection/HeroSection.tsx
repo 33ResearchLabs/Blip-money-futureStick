@@ -82,7 +82,7 @@ export const CinematicHeroOfMerchant = () => {
       />
 
       <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-24 md:pt-32 pb-16 md:pb-24 flex-1 flex flex-col items-stretch">
-        <div className="flex flex-col items-center text-center">
+        <div className="relative z-30 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
