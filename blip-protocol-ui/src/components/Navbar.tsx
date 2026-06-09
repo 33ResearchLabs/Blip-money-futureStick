@@ -241,28 +241,18 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
       onClick={() => sounds.click()}
     >
       <motion.span
-        className={`${className} font-display text-[22px] leading-none flex items-center gap-1.5`}
+        className={`${className} font-display text-[22px] leading-none flex items-center gap-0.5`}
         style={{ letterSpacing: "-0.045em", fontWeight: 700 }}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <svg
-          viewBox="0 0 120 120"
-          width="20"
-          height="20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          style={{ flexShrink: 0, marginBottom: 1 }}
-        >
-          <path
-            d="M20 60 L36 60 L48 24 L72 96 L84 60 L100 60"
-            stroke={onDark ? "#ffffff" : "#0b0b0c"}
-            strokeWidth="11"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <img
+          src="/blip-icon.png"
+          alt="Blip"
+          width="37"
+          height="37"
+          style={{ flexShrink: 0, objectFit: "contain" }}
+        />
         <span className={onDark ? "text-white" : "text-black dark:text-white"}>
           Blip
         </span>
