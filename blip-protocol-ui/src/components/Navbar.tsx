@@ -176,7 +176,10 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
+                <CTAButton to="https://app.blip.money">
+                  <Download className="w-4 h-4" strokeWidth={2.5} />
+                  Download App
+                </CTAButton>
               )}
             </div>
 
@@ -526,11 +529,13 @@ const MobileMenu = memo(({
               </a>
             ) : (
               <a
-                href="https://app.blip.money/waitlist/user"
-                onClick={(e) => handleNavClick(e, "https://app.blip.money/waitlist/user")}
-                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
+                href="https://app.blip.money"
+                onClick={() => { sounds.click(); onClose(); }}
+                className="block w-full text-center py-1.5 rounded-full text-sm font-semibold transition-all duration-200 active:scale-[0.98] inline-flex items-center justify-center gap-2"
+                style={{ background: "#cc785c", color: "#fff", boxShadow: "0 8px 22px -8px rgba(204,120,92,0.55)" }}
               >
-                Join Waitlist
+                <Download className="w-4 h-4" strokeWidth={2.5} />
+                Download App
               </a>
             )}
           </div>

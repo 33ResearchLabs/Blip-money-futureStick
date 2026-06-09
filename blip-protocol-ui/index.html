@@ -125,9 +125,36 @@
       })();
     </script>
     <div id="root"></div>
-    <footer id="static-footer" style="background:#faf8f5;padding:24px;font-family:Arial,sans-serif;color:#555;font-size:13px;line-height:1.6;">
-      <strong style="display:block;margin-bottom:6px;color:#222;">Blip Money</strong>
-      Blip is a peer-to-peer crypto trading app. Buy and sell USDT directly with verified merchants using escrow-protected transactions and competitive rates.
+
+    <!-- Static content for crawlers / bots that do not execute JavaScript -->
+    <div id="static-content" style="font-family:Arial,sans-serif;color:#222;background:#faf8f5;padding:40px 24px;max-width:860px;margin:0 auto;">
+      <h1 style="font-size:28px;font-weight:700;margin-bottom:12px;">Blip Money — Global Peer-to-Peer Crypto Settlement</h1>
+      <p style="font-size:16px;line-height:1.7;margin-bottom:16px;">
+        Blip Money is a peer-to-peer crypto trading platform that lets you buy and sell USDT (and other stablecoins)
+        directly with verified merchants. Every trade is protected by an on-chain escrow, ensuring your funds are safe
+        until both sides confirm the transaction. Merchants compete to offer the best rates, so you always get a fair deal.
+      </p>
+      <h2 style="font-size:20px;font-weight:600;margin-bottom:8px;">What you can do with Blip</h2>
+      <ul style="font-size:15px;line-height:1.9;padding-left:20px;margin-bottom:16px;">
+        <li>Send money internationally using USDT stablecoins on the Solana network</li>
+        <li>Buy USDT from verified local merchants at competitive rates</li>
+        <li>Sell USDT and receive local currency directly in your bank account</li>
+        <li>Track live exchange rates across 150+ countries</li>
+        <li>Sign in with Google to manage your account and transaction history</li>
+      </ul>
+      <p style="font-size:15px;line-height:1.7;margin-bottom:24px;">
+        Blip uses Google Sign-In to create and authenticate user accounts. Your Google account email is used
+        only to identify your Blip account — we do not access your Gmail, contacts, or any other Google data.
+      </p>
+      <nav style="font-size:13px;color:#555;">
+        <a href="https://www.blip.money/privacy" style="color:#555;text-decoration:underline;margin-right:16px;">Privacy Policy</a>
+        <a href="https://www.blip.money/terms" style="color:#555;text-decoration:underline;margin-right:16px;">Terms of Service</a>
+        <a href="https://www.blip.money/rates" style="color:#555;text-decoration:underline;">Live Rates</a>
+      </nav>
+    </div>
+
+    <footer id="static-footer" style="background:#faf8f5;padding:16px 24px;font-family:Arial,sans-serif;color:#555;font-size:13px;line-height:1.6;border-top:1px solid #e5e5e5;">
+      <strong style="color:#222;">Blip Money</strong>
       &nbsp;·&nbsp;
       <a href="https://www.blip.money/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a>
       &nbsp;·&nbsp;
@@ -138,8 +165,10 @@
       document.addEventListener('DOMContentLoaded', function() {
         var check = setInterval(function() {
           if (document.getElementById('root').children.length > 0) {
-            var el = document.getElementById('static-footer');
-            if (el) el.style.display = 'none';
+            var footer = document.getElementById('static-footer');
+            if (footer) footer.style.display = 'none';
+            var content = document.getElementById('static-content');
+            if (content) content.style.display = 'none';
             clearInterval(check);
           }
         }, 200);
