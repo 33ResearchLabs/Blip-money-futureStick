@@ -43,21 +43,21 @@ const Index = () => {
           </Suspense>
         </LazySection>
 
-        {/* 3. How It Works — Animated Flow */}
+{/* 3. How It Works — Animated Flow */}
         <LazySection minHeight="100vh">
           <Suspense fallback={null}>
             <DarkFintechSection />
           </Suspense>
         </LazySection>
 
-        {/* 4. The Blip Protocol — Proof Layer */}
+{/* 4. The Blip Protocol — Proof Layer */}
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
             <ProtocolInterstitial />
           </Suspense>
         </LazySection>
 
-        {/* 5. A live marketplace for global settlement (replaces "This is Blip") */}
+{/* 5. A live marketplace for global settlement (replaces "This is Blip") */}
         <LazySection minHeight="100vh">
           <Suspense fallback={null}>
             <BlipMarketsSection />
@@ -65,42 +65,42 @@ const Index = () => {
         </LazySection>
 
         <div className="overflow-x-clip">
-          {/* 6. Use Cases — Tabbed (Users / Merchants / LPs) */}
+    {/* 6. Use Cases — Tabbed (Users / Merchants / LPs) */}
           <LazySection minHeight="80vh">
             <Suspense fallback={null}>
               <UseCasesSection />
             </Suspense>
           </LazySection>
 
-          {/* 7. Liquidity Layer */}
+    {/* 7. Liquidity Layer */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
               <LiquidityLayer />
             </Suspense>
           </LazySection>
 
-          {/* 8. Live Network / Airdrop Feed */}
+    {/* 8. Live Network / Airdrop Feed */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
               <LiveNetworkFeed />
             </Suspense>
           </LazySection>
 
-          {/* 9. Product Experience */}
+    {/* 9. Product Experience */}
           <LazySection minHeight="100vh">
             <Suspense fallback={null}>
               <AppShowcaseSection  />
             </Suspense>
           </LazySection>
 
-          {/* 10. Trust & Architecture */}
+    {/* 10. Trust & Architecture */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
               <TrustSection />
             </Suspense>
           </LazySection>
 
-          {/* 11. Final CTA */}
+    {/* 11. Final CTA */}
           <LazySection minHeight="40vh">
             <Suspense fallback={null}>
               <CTASection />
