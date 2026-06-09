@@ -238,8 +238,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            The non-custodial settlement protocol for instant global payments.
-            Send crypto, receive local currency in seconds.
+            Blip is a peer-to-peer crypto trading app — buy and sell USDT directly with verified merchants using escrow-protected transactions. Sign in with Google to get started.
           </motion.p>
 
           {/* CTAs */}
