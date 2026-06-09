@@ -247,7 +247,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
         transition={{ duration: 0.2 }}
       >
         <img
-          src="/blip-icon.png"
+          src="/blip-icon-sm.png"
           alt="Blip"
           width="37"
           height="37"

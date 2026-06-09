@@ -35,7 +35,7 @@ export default function PublicNavbar({
             }
           }}
         >
-          <img src="/blip-icon.png" alt="Blip" width="34" height="34" style={{ objectFit: "contain", flexShrink: 0 }} />
+          <img src="/blip-icon-sm.png" alt="Blip" width="34" height="34" style={{ objectFit: "contain", flexShrink: 0 }} />
           <span className="text-xl sm:text-2xl font-bold text-white">
             Blip<span className="italic font-semibold">money</span>
           </span>
