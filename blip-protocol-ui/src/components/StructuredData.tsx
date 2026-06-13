@@ -32,7 +32,7 @@ const defaultOrganizationSchema: OrganizationSchema = {
   '@type': 'Organization',
   name: 'Blip Money',
   url: 'https://www.blip.money',
-  logo: 'https://www.blip.money/logo.png',
+  logo: 'https://www.blip.money/blip-icon-sm.png',
   description: 'Fast, secure, and simple payment processing solutions for businesses of all sizes.',
   contactPoint: {
     '@type': 'ContactPoint',
@@ -145,7 +145,7 @@ export const createArticleSchema = (article: {
     name: 'Blip Money',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.blip.money/logo.png',
+      url: 'https://www.blip.money/blip-icon-sm.png',
     },
   },
 });

@@ -1279,7 +1279,9 @@ export function MerchantDashboardBody({
       <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 bg-black border-b border-white/[0.06]">
         {/* Brand */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          <Activity className="w-3.5 h-3.5 text-white/70" />
+          {/* <Activity className="w-3.5 h-3.5 text-white/70" /> */}
+          {/* Blip-money-futureStick/blip-protocol-ui/public/favicon-16x16.png */}
+          <img src="/favicon-16x16.png" className="w-5 h-5 text-white/70 rounded-full" />
           <span className="font-display text-sm font-semibold text-white">
             Blip{" "}
             <span

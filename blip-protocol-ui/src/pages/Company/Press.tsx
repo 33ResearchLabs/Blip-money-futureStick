@@ -74,14 +74,16 @@ const brandAssets: BrandAsset[] = [
     icon: FileText,
     title: "Logo — Dark",
     description: "Blip Money wordmark in white — for use on dark backgrounds.",
-    href: "/brand/blip-logo-dark.svg",
+    // href: "/brand/blip-logo-dark.svg",
+    href: "/brand/darklogo.png",
     previewBg: "dark",
   },
   {
     icon: FileText,
     title: "Logo — Light",
     description: "Blip Money wordmark in black — for use on light backgrounds.",
-    href: "/brand/blip-logo-light.svg",
+    // href: "/brand/blip-logo-light.svg",
+    href: "/brand/lightlogo.png",
     previewBg: "light",
   },
   {
