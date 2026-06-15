@@ -19,7 +19,7 @@ export function BlipPhoneMockup(_props: BlipPhoneMockupProps = {}) {
          {/* <img className="block w-full h-full object-cover" src="/screenshots/image20-bg.png" alt="" /> */}
       <img
         className="block w-full h-full object-cover"
-        style={{ transform: "scale(1.02)" }}
+        style={{ transform: "scale(1.01)" }}
         src="/screenshots/image.png"
         alt=""
       />
