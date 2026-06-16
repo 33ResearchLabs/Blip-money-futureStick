@@ -167,11 +167,11 @@ const MARKET_OFFERS = [
 
 function BlipMarketHeroVisual() {
   /* Live USDT/INR rate from our /api/p2p-rates aggregator (p2prate.live).
-     Payouts shown are for a $1,000 settlement; falls back to ~97.85 when
-     the API is loading or unreachable, matching the previous static copy. */
+     Payouts shown are for a $1,000 settlement; falls back to ~102.5 when
+     the API is loading or unreachable, matching current market. */
   const live = useP2PRate("INR");
   const basePayout =
-    (live.isLive && live.buy != null ? live.buy : 97.85) * 1000;
+    (live.isLive && live.buy != null ? live.buy : 102.5) * 1000;
   const offers = MARKET_OFFERS.map((o) => ({
     ...o,
     rate: "₹" + Math.round(basePayout * o.factor).toLocaleString("en-IN"),
@@ -552,7 +552,7 @@ function QuietNetwork() {
    Send on top, Receive below, tagline beneath.
    ──────────────────────────────────────────────────────────── */
 const FIATS = [
-  { code: "INR", symbol: "₹", flag: "🇮🇳", rate: 97.85, locale: "en-IN", digits: 0 },
+  { code: "INR", symbol: "₹", flag: "🇮🇳", rate: 102.5, locale: "en-IN", digits: 0 },
   { code: "AED", symbol: "AED", flag: "🇦🇪", rate: 3.665, locale: "en-AE", digits: 2 },
   { code: "PHP", symbol: "₱", flag: "🇵🇭", rate: 55.81, locale: "en-PH", digits: 0 },
   { code: "THB", symbol: "฿", flag: "🇹🇭", rate: 35.4, locale: "en-TH", digits: 0 },
@@ -855,7 +855,7 @@ export function InlineMerchantDashboard({
       rate:
         liveINR.isLive && liveINR.buy != null
           ? `₹${liveINR.buy.toFixed(2)}`
-          : "₹97.85",
+          : "₹102.50",
     },
     {
       code: "AED",
