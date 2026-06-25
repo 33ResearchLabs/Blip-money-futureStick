@@ -2,18 +2,24 @@ import { useEffect, useState } from "react";
 import SEO from "./SEO";
 
 const sections = [
-  { id: "nature", title: "Nature of the Service" },
+  { id: "acceptance", title: "Acceptance of Terms" },
+  { id: "nature", title: "Nature of Blip.money" },
+  { id: "non-custodial", title: "Non-Custodial Services" },
+  { id: "marketplace", title: "Marketplace Model" },
   { id: "responsibilities", title: "User Responsibilities" },
-  { id: "escrow", title: "Escrow System" },
-  { id: "merchant", title: "Merchant Terms" },
-  { id: "disputes", title: "Dispute Resolution" },
-  { id: "risk", title: "Risk Disclosure" },
-  { id: "aml", title: "AML / CTF Policy" },
-  { id: "suspension", title: "Account Suspension" },
+  { id: "prohibited", title: "Prohibited Activities" },
+  { id: "reputation", title: "Reputation System" },
+  { id: "merchants", title: "Merchants and Liquidity Providers" },
+  { id: "fees", title: "Fees" },
+  { id: "risk", title: "Risk Disclosures" },
+  { id: "warranties", title: "No Warranties" },
   { id: "liability", title: "Limitation of Liability" },
-  { id: "jurisdiction", title: "Jurisdiction" },
-  { id: "termination", title: "Termination of Service" },
-  { id: "changes", title: "Changes to Terms" },
+  { id: "ip", title: "Intellectual Property" },
+  { id: "modifications", title: "Modifications" },
+  { id: "termination", title: "Termination" },
+  { id: "force-majeure", title: "Force Majeure" },
+  { id: "entire-agreement", title: "Entire Agreement" },
+  { id: "contact", title: "Contact" },
 ];
 
 const TermsService = () => {
@@ -63,7 +69,10 @@ const TermsService = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const offset = 30;
+      const top =
+        element.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
@@ -116,261 +125,504 @@ const TermsService = () => {
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
                 {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                  These Terms of Service ("Terms") govern your access to and use
-                  of the blip.money protocol, website, applications, and related
-                  services (collectively, the "Services").
+                <p className="text-black dark:text-white mb-2 font-medium">
+                  IMPORTANT NOTICE
                 </p>
-
                 <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By accessing or using blip.money, you agree to be bound by
-                  these Terms.
+                  BLIP.MONEY is a decentralized protocol interface and
+                  marketplace that facilitates interactions between users and
+                  independent participants. BLIP.money is not a bank, financial
+                  institution, money transmitter, payment processor, broker,
+                  investment advisor, or custodian of assets. By accessing or
+                  using the Services, you acknowledge and accept the risks
+                  associated with blockchain technology, digital assets, and
+                  peer-to-peer transactions.
                 </p>
 
                 {/* Section 1 */}
-                <section id="nature" className="mb-8">
+                <section id="acceptance" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    1. Nature of the Service
+                    1. Acceptance of Terms
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    blip.money is:
+                    These Terms of Service ("Terms") govern your access to and
+                    use of the BLIP.money website, applications, interfaces,
+                    software, APIs, smart contracts, and related services
+                    (collectively, the "Services").
                   </p>
-
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
-                    <li>A non-custodial escrow coordination protocol</li>
-                    <li>
-                      A technology platform that facilitates peer-to-peer
-                      transactions
-                    </li>
-                  </ul>
-
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    blip.money is not:
+                    By accessing or using the Services, you acknowledge that:
                   </p>
-
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
-                    <li>A bank</li>
-                    <li>A wallet provider</li>
-                    <li>A payment institution</li>
-                    <li>A financial intermediary</li>
-                    <li>A custodian of funds</li>
+                    <li>You are at least eighteen (18) years old.</li>
+                    <li>
+                      You have the legal capacity to enter into binding
+                      agreements.
+                    </li>
+                    <li>
+                      You understand the risks associated with digital assets
+                      and blockchain technology.
+                    </li>
+                    <li>
+                      You agree to comply with all applicable laws and
+                      regulations.
+                    </li>
+                    <li>You agree to be bound by these Terms.</li>
                   </ul>
-
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    blip.money does not hold user funds. Funds remain in smart
-                    contracts or in accounts controlled by users or their chosen
-                    payment providers.
+                    If you do not agree with these Terms, you must discontinue
+                    using the Services immediately.
                   </p>
                 </section>
 
                 {/* Section 2 */}
-                <section id="responsibilities" className="mb-8">
+                <section id="nature" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    2. User Responsibilities
+                    2. Nature of Blip.money
                   </h2>
 
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
-                    <li>You control your wallet(s), accounts, and funds</li>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money provides software interfaces and tools that enable
+                    users to participate in a decentralized peer-to-peer
+                    marketplace and settlement protocol.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Does not hold customer funds.</li>
+                    <li>Does not maintain custody of digital assets.</li>
+                    <li>Does not control private keys.</li>
+                    <li>Does not execute trades on behalf of users.</li>
+                    <li>Does not guarantee transaction completion.</li>
                     <li>
-                      You understand the risks associated with cryptocurrencies
-                      and peer-to-peer transactions
+                      Does not act as a money transmitter or financial
+                      intermediary.
                     </li>
+                    <li>Does not provide banking services.</li>
                     <li>
-                      You are solely responsible for all actions taken using
-                      your wallet or account
-                    </li>
-                    <li>
-                      You are responsible for complying with all applicable laws
-                      and regulations
-                    </li>
-                    <li>
-                      You will not use the Services for illegal, fraudulent, or
-                      abusive activities
+                      Does not provide investment, legal, accounting, or tax
+                      advice.
                     </li>
                   </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Transactions occur directly between users and independent
+                    participants.
+                  </p>
                 </section>
 
                 {/* Section 3 */}
-                <section id="escrow" className="mb-8">
+                <section id="non-custodial" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    3. Escrow System (User Escrow Agreement)
+                    3. Non-Custodial Services
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    When you open or participate in a trade:
+                    Users retain sole control over their wallets and private
+                    keys.
                   </p>
-
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
-                    <li>
-                      Funds are locked using escrow logic defined by the
-                      Protocol
-                    </li>
-                    <li>
-                      Funds are released only when both parties confirm
-                      completion or a dispute resolution decision is made
-                    </li>
-                  </ul>
-
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    By using the escrow system, you agree that any proofs,
-                    documents, or information you submit are truthful, accurate,
-                    and not misleading.
+                    BLIP.money cannot:
                   </p>
-
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Access user funds.</li>
+                    <li>Recover lost wallets.</li>
+                    <li>Reverse transactions.</li>
+                    <li>Freeze assets.</li>
+                    <li>Retrieve private keys.</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    You are solely responsible for:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Wallet security.</li>
+                    <li>Backup procedures.</li>
+                    <li>Password management.</li>
+                    <li>Device security.</li>
+                    <li>Private key protection.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Submitting false or fraudulent evidence may result in
-                    permanent suspension, loss of access to the platform, and
-                    cooperation with law enforcement where required.
+                    Loss of access credentials may result in permanent loss of
+                    digital assets.
                   </p>
                 </section>
 
                 {/* Section 4 */}
-                <section id="merchant" className="mb-8">
+                <section id="marketplace" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    4. Merchant Terms (Merchant Agreement)
+                    4. Marketplace Model
                   </h2>
 
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
-                    <li>
-                      You will provide genuine liquidity and legitimate services
-                    </li>
-                    <li>You will honor advertised prices and availability</li>
-                    <li>You will use lawful and compliant payment channels</li>
-                    <li>
-                      You will respond to disputes and user requests within
-                      required timeframes
-                    </li>
-                  </ul>
-
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    You accept the risks associated with bank freezes, payment
-                    reversals, and local regulatory obligations.
+                    BLIP.money operates as a decentralized marketplace and
+                    coordination layer.
                   </p>
-
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money does not:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Buy or sell digital assets.</li>
+                    <li>Provide liquidity.</li>
+                    <li>Match orders as principal.</li>
+                    <li>Participate in fiat settlements.</li>
+                    <li>Guarantee payment obligations.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    blip.money reserves the right to impose restrictions or
-                    suspend merchant accounts at its sole discretion.
+                    Users interact directly with independent counterparties at
+                    their own risk.
                   </p>
                 </section>
 
                 {/* Section 5 */}
-                <section id="disputes" className="mb-8">
+                <section id="responsibilities" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    5. Dispute Resolution Framework
+                    5. User Responsibilities
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    In the event of a dispute, both parties must submit relevant
-                    evidence. Disputes are reviewed using internal processes.
+                    By using the Services, you represent and warrant that:
                   </p>
-
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>All information provided is accurate.</li>
+                    <li>You are acting on your own behalf.</li>
+                    <li>
+                      You understand the risks associated with digital assets.
+                    </li>
+                    <li>You are solely responsible for your actions.</li>
+                    <li>You will comply with all applicable laws.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    You acknowledge that blip.money is not a court and only
-                    determines how escrowed funds are routed within the
-                    Protocol. Decisions are final within the platform.
+                    You are responsible for determining whether the use of
+                    digital assets is lawful in your jurisdiction.
                   </p>
                 </section>
 
                 {/* Section 6 */}
-                <section id="risk" className="mb-8">
+                <section id="prohibited" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    6. Risk Disclosure
+                    6. Prohibited Activities
                   </h2>
 
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
-                    <li>Cryptocurrency price volatility</li>
-                    <li>Payment reversals or bank account freezes</li>
-                    <li>Regulatory or legal changes</li>
-                    <li>Counterparty default or fraud</li>
-                    <li>Blockchain or smart contract failures</li>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Users shall not:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Engage in fraud or deceptive practices.</li>
+                    <li>Conduct money laundering activities.</li>
+                    <li>Finance terrorism or sanctioned entities.</li>
+                    <li>Use stolen funds or stolen assets.</li>
+                    <li>Exploit vulnerabilities or smart contracts.</li>
+                    <li>Introduce malware or harmful software.</li>
+                    <li>Interfere with network operations.</li>
+                    <li>Circumvent security mechanisms.</li>
+                    <li>Violate intellectual property rights.</li>
+                    <li>Impersonate another person or entity.</li>
+                    <li>Manipulate reputation systems.</li>
+                    <li>Conduct unlawful activities.</li>
                   </ul>
-
-                  <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
-                    You use the Services at your own risk.
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    BLIP.money reserves the right to restrict access to users
+                    engaged in harmful or prohibited conduct.
                   </p>
                 </section>
 
                 {/* Section 7 */}
-                <section id="aml" className="mb-8">
+                <section id="reputation" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    7. AML / CTF Policy
+                    7. Reputation System
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    blip.money operates a risk-based compliance and
-                    abuse-prevention framework, which may include monitoring,
-                    sanctions screening, and mandatory verification in certain
-                    cases.
+                    BLIP.money may maintain reputation mechanisms to promote
+                    trust and marketplace integrity.
                   </p>
-
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Reputation scores may be influenced by:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Successful transaction history.</li>
+                    <li>Disputes and appeals.</li>
+                    <li>Fraud reports.</li>
+                    <li>Counterparty feedback.</li>
+                    <li>Merchant staking and participation.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Money laundering, terrorist financing, sanctions evasion,
-                    and fraud are strictly prohibited.
+                    BLIP.money reserves the right to suspend, limit, or remove
+                    reputation privileges to protect users and maintain
+                    marketplace integrity.
                   </p>
                 </section>
 
                 {/* Section 8 */}
-                <section id="suspension" className="mb-8">
+                <section id="merchants" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    8. Account Suspension and Enforcement
+                    8. Merchants and Liquidity Providers
                   </h2>
 
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Merchants and liquidity providers participate independently.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Does not employ merchants.</li>
+                    <li>Does not guarantee merchant performance.</li>
+                    <li>Does not supervise transactions.</li>
+                    <li>Does not guarantee profitability.</li>
+                    <li>Does not verify bank accounts or payment methods.</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Merchants and liquidity providers are solely responsible for:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Compliance with applicable laws.</li>
+                    <li>Tax obligations.</li>
+                    <li>Reporting requirements.</li>
+                    <li>Anti-money laundering obligations.</li>
+                    <li>Counterparty risk.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    blip.money may suspend or terminate access to the Services
-                    at any time in cases of fraud, abuse, legal risk, or
-                    violation of these Terms.
+                    Any risks associated with frozen bank accounts, chargebacks,
+                    fraud, or regulatory actions are borne solely by
+                    participants.
                   </p>
                 </section>
 
                 {/* Section 9 */}
-                <section id="liability" className="mb-8">
-                  <h2 className="text-xl font-semibold mb-3">
-                    9. Limitation of Liability
-                  </h2>
+                <section id="fees" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">9. Fees</h2>
 
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money may charge protocol or marketplace fees.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Fees:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>May change without notice.</li>
+                    <li>Are generally non-refundable.</li>
+                    <li>
+                      May vary depending on network conditions and transaction
+                      size.
+                    </li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    To the maximum extent permitted by law, blip.money shall not
-                    be liable for indirect, incidental, special, or
-                    consequential damages arising from use of the Services.
+                    Blockchain network fees are determined independently by
+                    underlying networks and are outside BLIP.money's control.
                   </p>
                 </section>
 
                 {/* Section 10 */}
-                <section id="jurisdiction" className="mb-8">
+                <section id="risk" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    10. Jurisdiction and Arbitration
+                    10. Risk Disclosures
                   </h2>
 
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Digital assets involve substantial risks, including:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Volatility.</li>
+                    <li>Stablecoin de-pegging.</li>
+                    <li>Smart contract vulnerabilities.</li>
+                    <li>Network congestion.</li>
+                    <li>Counterparty risk.</li>
+                    <li>Regulatory uncertainty.</li>
+                    <li>Loss of private keys.</li>
+                    <li>Cybersecurity attacks.</li>
+                    <li>Software bugs.</li>
+                    <li>Blockchain forks.</li>
+                    <li>Permanent loss of assets.</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Past performance does not guarantee future results.
+                  </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Jurisdiction and dispute resolution methods may vary based
-                    on your location and the nature of the dispute.
+                    Users assume all risks associated with their use of the
+                    Services.
                   </p>
                 </section>
 
                 {/* Section 11 */}
-                <section id="termination" className="mb-8">
+                <section id="warranties" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    11. Termination of Service
+                    11. No Warranties
                   </h2>
 
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    The Services are provided on an "AS IS" and "AS AVAILABLE"
+                    basis.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money makes no representations or warranties regarding:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Availability.</li>
+                    <li>Accuracy.</li>
+                    <li>Reliability.</li>
+                    <li>Security.</li>
+                    <li>Performance.</li>
+                    <li>Fitness for any particular purpose.</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    blip.money may terminate or restrict access to the Services
-                    at any time in accordance with applicable law.
+                    BLIP.money does not guarantee uninterrupted access to the
+                    Services.
                   </p>
                 </section>
 
                 {/* Section 12 */}
-                <section id="changes">
+                <section id="liability" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    12. Changes to These Terms
+                    12. Limitation of Liability
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    To the maximum extent permitted by law, BLIP.money and its
+                    affiliates shall not be liable for:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Loss of funds.</li>
+                    <li>Loss of profits.</li>
+                    <li>Loss of revenue.</li>
+                    <li>Loss of opportunity.</li>
+                    <li>Loss of reputation.</li>
+                    <li>Data loss.</li>
+                    <li>Smart contract failures.</li>
+                    <li>Network disruptions.</li>
+                    <li>Third-party actions.</li>
+                    <li>
+                      Indirect, incidental, consequential, or punitive damages.
+                    </li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Users assume all risks arising from use of the Services.
+                  </p>
+                </section>
+
+                {/* Section 13 */}
+                <section id="ip" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    13. Intellectual Property
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    All software, trademarks, logos, content, interfaces,
+                    designs, and materials associated with BLIP.money are
+                    protected by intellectual property laws.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Users may not:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Copy.</li>
+                    <li>Modify.</li>
+                    <li>Distribute.</li>
+                    <li>Reverse engineer.</li>
+                    <li>Create derivative works.</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Without prior written permission.
+                  </p>
+                </section>
+
+                {/* Section 14 */}
+                <section id="modifications" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    14. Modifications
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money reserves the right to modify these Terms or any
+                    aspect of the Services at any time.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Continued use of the Services constitutes acceptance of
+                    revised Terms.
+                  </p>
+                </section>
+
+                {/* Section 15 */}
+                <section id="termination" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">15. Termination</h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money may suspend or restrict access in order to:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Protect users.</li>
+                    <li>Preserve system integrity.</li>
+                    <li>Prevent fraud.</li>
+                    <li>Address abuse.</li>
+                    <li>Comply with legal obligations.</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Termination does not affect obligations incurred before
+                    termination.
+                  </p>
+                </section>
+
+                {/* Section 16 */}
+                <section id="force-majeure" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    16. Force Majeure
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    BLIP.money shall not be liable for delays, interruptions, or
+                    failures caused by:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
+                    <li>Internet outages.</li>
+                    <li>Government actions.</li>
+                    <li>Regulatory changes.</li>
+                    <li>Wars.</li>
+                    <li>Natural disasters.</li>
+                    <li>Cyber attacks.</li>
+                    <li>Blockchain failures.</li>
+                    <li>Third-party infrastructure disruptions.</li>
+                    <li>Events beyond reasonable control.</li>
+                  </ul>
+                </section>
+
+                {/* Section 17 */}
+                <section id="entire-agreement" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    17. Entire Agreement
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    We may update these Terms from time to time. Continued use
-                    of the Services constitutes acceptance of the updated Terms.
+                    These Terms constitute the entire agreement between you and
+                    BLIP.money regarding the Services and supersede all prior
+                    understandings and communications.
                   </p>
                 </section>
+
+                {/* Section 18 */}
+                <section id="contact" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">18. Contact</h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Questions regarding these Terms may be directed to:
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                    <a
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=support@blip.money"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-black dark:text-white underline"
+                    >
+                      support@blip.money
+                    </a>
+                  </p>
+                </section>
+
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  By using the Services, you acknowledge that you have read,
+                  understood, and agreed to these Terms of Service.
+                </p>
               </div>
             </div>
           </div>
