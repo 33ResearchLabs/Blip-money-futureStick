@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import SEO from "../../components/SEO";
 
 const sections = [
-  { id: "commitment", title: "Commitment to GDPR" },
-  { id: "controller", title: "Data Controller" },
-  { id: "collection", title: "Personal Data Collection" },
-  { id: "blockchain", title: "Blockchain & Public Data" },
-  { id: "rights", title: "User Rights Under GDPR" },
-  { id: "legal-basis", title: "Legal Basis" },
-  { id: "security", title: "Data Security" },
-  { id: "conclusion", title: "Conclusion" },
+  { id: "principles", title: "Our Privacy Principles" },
+  { id: "data-process", title: "Personal Data We May Process" },
+  { id: "data-not-collect", title: "Personal Data We Do Not Collect" },
+  { id: "purposes", title: "Purposes of Processing" },
+  { id: "legal-bases", title: "Legal Bases for Processing" },
+  { id: "minimization", title: "Data Minimization" },
+  { id: "retention", title: "Data Retention" },
+  { id: "transfers", title: "International Data Transfers" },
+  { id: "rights", title: "Your GDPR Rights" },
+  { id: "automated", title: "Automated Decision-Making" },
+  { id: "security", title: "Security" },
+  { id: "third-party", title: "Third-Party Services" },
+  { id: "cookies", title: "Cookies" },
+  { id: "children", title: "Children's Privacy" },
+  { id: "changes", title: "Changes to This Notice" },
+  { id: "contact", title: "Contact" },
 ];
 
 const Gdpr = () => {
@@ -77,7 +85,7 @@ const Gdpr = () => {
         <div className="py-8 px-6">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-5xl sm:text-6xl font-bold tracking-tight">
-              GDPR Compliance
+              GDPR Compliance Notice
             </h1>
           </div>
         </div>
@@ -112,167 +120,483 @@ const Gdpr = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
+                {/* Intro */}
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  Blip.money ("Blip.money", "we", "our", or "us") respects the
+                  privacy rights of individuals and is committed to handling
+                  personal information in a transparent and responsible manner.
+                </p>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  This GDPR Compliance Notice explains how we process personal
+                  data relating to individuals located in the European Economic
+                  Area ("EEA"), the United Kingdom ("UK"), and other
+                  jurisdictions with similar data protection laws.
+                </p>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
+                  This Notice supplements our Privacy Policy.
+                </p>
+
                 {/* Section 1 */}
-                <section id="commitment" className="mb-8">
+                <section id="principles" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    1. Our Commitment to Data Protection and GDPR
+                    1. Our Privacy Principles
                   </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money is committed to the following principles:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Lawfulness</li>
+                    <li>Fairness</li>
+                    <li>Transparency</li>
+                    <li>Data minimization</li>
+                    <li>Accuracy</li>
+                    <li>Storage limitation</li>
+                    <li>Integrity</li>
+                    <li>Confidentiality</li>
+                    <li>Accountability</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Blip.money is fundamentally designed to be a
-                    privacy-preserving, trust-minimized protocol. Our approach
-                    to privacy and data protection, including compliance with
-                    the General Data Protection Regulation (GDPR), is rooted in
-                    the principle of data minimization. We are committed to not
-                    collecting or processing personal data.
+                    We seek to collect only the information reasonably necessary
+                    to provide and improve our Services.
                   </p>
                 </section>
 
                 {/* Section 2 */}
-                <section id="controller" className="mb-8">
+                <section id="data-process" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    2. Data Controller and Processor
+                    2. Personal Data We May Process
                   </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Depending on how you use the Services, we may process:
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Account Information
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Username</li>
+                    <li>Email address</li>
+                    <li>Telegram username (if voluntarily provided)</li>
+                  </ul>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Technical Information
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>IP address</li>
+                    <li>Browser type</li>
+                    <li>Device information</li>
+                    <li>Operating system</li>
+                    <li>Session information</li>
+                    <li>Diagnostic logs</li>
+                  </ul>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Blockchain Information
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Because public blockchains are transparent by design, we may
+                    process publicly available blockchain information, including:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Wallet addresses</li>
+                    <li>Public transaction history</li>
+                    <li>Public smart contract interactions</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    The Blip.money protocol is a decentralized, autonomous
-                    software application. There is no central entity that acts
-                    as a data controller or data processor in the traditional
-                    sense. Interaction with the protocol is peer-to-peer (P2P)
-                    or between a user and an independent merchant. We, the
-                    developers and contributors, do not have access to, manage,
-                    or process any personal data related to transactions on the
-                    protocol.
+                    Blockchain records cannot generally be altered or deleted.
                   </p>
                 </section>
 
                 {/* Section 3 */}
-                <section id="collection" className="mb-8">
+                <section id="data-not-collect" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    3. Personal Data Collection and Processing
+                    3. Personal Data We Do Not Collect
                   </h2>
+
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Blip.money is privacy-preserving by design. We do not
-                    collect, store, or process any Personal Identifiable
-                    Information (PII). This includes:
+                    Blip.money does not intentionally collect or store:
                   </p>
-
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
+                    <li>Private keys</li>
+                    <li>Seed phrases</li>
+                    <li>Wallet passwords</li>
                     <li>
-                      Names, email addresses, phone numbers, or physical
-                      addresses.
+                      Government-issued identification documents (unless
+                      explicitly requested for a separate compliance process)
                     </li>
-                    <li>IP addresses or device identifiers.</li>
-                    <li>KYC (Know Your Customer) documentation.</li>
+                    <li>Credit or debit card information</li>
+                    <li>Bank account login credentials</li>
+                    <li>Biometric data</li>
                   </ul>
-
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Your interaction with the protocol is solely through a
-                    non-custodial cryptocurrency wallet. We have no means of
-                    linking your public wallet address to your real-world
-                    identity.
-                  </p>
                 </section>
 
                 {/* Section 4 */}
-                <section id="blockchain" className="mb-8">
+                <section id="purposes" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    4. Blockchain and Public Data
+                    4. Purposes of Processing
                   </h2>
+
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    All transactions conducted on the Blip.money protocol are
-                    recorded on a public blockchain. This is an inherent and
-                    necessary feature of decentralized technology. This on-chain
-                    data includes:
+                    Personal information may be processed for purposes including:
                   </p>
-
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
-                    <li>Pseudonymous wallet addresses.</li>
-                    <li>Transaction amounts and timestamps.</li>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
+                    <li>Providing the Services</li>
+                    <li>Operating the platform</li>
+                    <li>Improving user experience</li>
+                    <li>Fraud prevention</li>
+                    <li>Security monitoring</li>
+                    <li>Customer support</li>
+                    <li>Product development</li>
+                    <li>Service analytics</li>
+                    <li>Legal compliance</li>
+                    <li>Enforcing our Terms of Service</li>
                   </ul>
-
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    This information is public by nature and is not controlled
-                    by Blip.money. Users should be aware that blockchain data is
-                    immutable and public. Your on-chain privacy is your own
-                    responsibility.
-                  </p>
                 </section>
 
                 {/* Section 5 */}
-                <section id="rights" className="mb-8">
+                <section id="legal-bases" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    5. User Rights Under GDPR
+                    5. Legal Bases for Processing
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    GDPR grants individuals several rights concerning their
-                    personal data, including the right to access, rectify,
-                    erase, and restrict processing.
-                  </p>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Since Blip.money does not collect or store any of your
-                    personal data, these rights are not directly applicable in
-                    the conventional sense. You are in full control of your
-                    data.
+                    Where GDPR applies, Blip.money may process personal
+                    information on one or more of the following legal bases:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
-                    <li>
-                      <span className="text-black dark:text-white">
-                        Control :
-                      </span>{" "}
-                      You control your funds and data via your personal,
-                      non-custodial wallet and private keys.
-                    </li>
-                    <li>
-                      <span className="text-black dark:text-white">
-                        Privacy :
-                      </span>{" "}
-                      As we do not link your identity to your wallet address,
-                      there is no "personal data" for us to access, rectify, or
-                      erase on your behalf.
-                    </li>
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Performance of a Contract
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Processing necessary to provide requested Services.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Legitimate Interests
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Including:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Platform security</li>
+                    <li>Fraud prevention</li>
+                    <li>Service improvements</li>
+                    <li>Network integrity</li>
+                    <li>Customer support</li>
                   </ul>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Legal Obligations
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Where processing is required by applicable law.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Consent
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Where required by law, we rely upon user consent before
+                    processing certain categories of information.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Users may withdraw consent where applicable.
+                  </p>
                 </section>
 
                 {/* Section 6 */}
-                <section id="legal-basis" className="mb-8">
+                <section id="minimization" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    6. Legal Basis for Processing
+                    6. Data Minimization
                   </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money seeks to collect only the information reasonably
+                    necessary to operate the Services.
+                  </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    We do not process personal data, and therefore, we do not
-                    require a legal basis for processing under GDPR. The
-                    functioning of the protocol relies on the public and
-                    pseudonymous nature of blockchain technology, which users
-                    opt-in to use.
+                    We avoid collecting unnecessary personal information whenever
+                    possible.
                   </p>
                 </section>
 
                 {/* Section 7 */}
-                <section id="security" className="mb-8">
+                <section id="retention" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    7. Data Security
+                    7. Data Retention
                   </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Personal information is retained only for as long as
+                    reasonably necessary to:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Provide the Services</li>
+                    <li>Comply with legal obligations</li>
+                    <li>Resolve disputes</li>
+                    <li>Protect users</li>
+                    <li>Enforce agreements</li>
+                  </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    While we do not hold your data, we are committed to the
-                    security of the protocol itself. However, the security of
-                    your assets is your responsibility. You are solely
-                    responsible for securing your wallet's private keys and seed
-                    phrase.
+                    Public blockchain records remain permanently available on
+                    their respective networks.
                   </p>
                 </section>
 
                 {/* Section 8 */}
-                <section id="conclusion">
-                  <h2 className="text-xl font-semibold mb-3">8. Conclusion</h2>
+                <section id="transfers" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    8. International Data Transfers
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Your information may be processed by infrastructure providers
+                    located in multiple jurisdictions.
+                  </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Blip.money's architecture is designed to be fundamentally
-                    compliant with the spirit of GDPR by championing data
-                    minimization and user control. By not collecting personal
-                    data, we provide a service that respects user privacy at its
-                    core.
+                    Where appropriate, reasonable safeguards may be implemented
+                    to protect personal information during international
+                    transfers.
                   </p>
                 </section>
+
+                {/* Section 9 */}
+                <section id="rights" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    9. Your GDPR Rights
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Subject to applicable law, individuals may have the following
+                    rights:
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right of Access
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Request confirmation regarding whether personal information
+                    is processed.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Rectification
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Request correction of inaccurate personal information.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Erasure
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Request deletion of personal information where legally
+                    applicable.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Certain blockchain records cannot be deleted because they
+                    exist on decentralized public networks.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Restrict Processing
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Request limitation of certain processing activities.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Data Portability
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Receive certain personal information in a commonly used
+                    format where applicable.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Object
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Object to processing based upon legitimate interests.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Withdraw Consent
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Withdraw consent where processing relies upon consent.
+                  </p>
+
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    Right to Lodge a Complaint
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Individuals may submit complaints to the relevant supervisory
+                    authority if they believe their rights have been violated.
+                  </p>
+                </section>
+
+                {/* Section 10 */}
+                <section id="automated" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    10. Automated Decision-Making
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money may use automated systems to:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Detect fraud</li>
+                    <li>Improve platform security</li>
+                    <li>Identify abusive behavior</li>
+                    <li>Protect marketplace integrity</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    These systems assist operational decisions but are not
+                    intended to produce solely automated legal or similarly
+                    significant effects without appropriate review where required
+                    by applicable law.
+                  </p>
+                </section>
+
+                {/* Section 11 */}
+                <section id="security" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">11. Security</h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money implements commercially reasonable administrative,
+                    technical, and organizational measures designed to protect
+                    personal information.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Despite these efforts, no system can guarantee complete
+                    security.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Users should also take appropriate measures to secure their
+                    devices and wallets.
+                  </p>
+                </section>
+
+                {/* Section 12 */}
+                <section id="third-party" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    12. Third-Party Services
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    The Services may integrate with third-party providers
+                    including:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
+                    <li>Wallet providers</li>
+                    <li>Blockchain networks</li>
+                    <li>Analytics providers</li>
+                    <li>Infrastructure providers</li>
+                    <li>Customer support providers</li>
+                  </ul>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    These third parties maintain their own privacy practices and
+                    policies.
+                  </p>
+                </section>
+
+                {/* Section 13 */}
+                <section id="cookies" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">13. Cookies</h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money uses cookies and similar technologies as described
+                    in our Cookie Policy.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Users may control cookie preferences through browser settings
+                    where available.
+                  </p>
+                </section>
+
+                {/* Section 14 */}
+                <section id="children" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    14. Children's Privacy
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    The Services are intended only for individuals who are at
+                    least 18 years of age.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Blip.money does not knowingly collect personal information
+                    from children.
+                  </p>
+                </section>
+
+                {/* Section 15 */}
+                <section id="changes" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    15. Changes to This Notice
+                  </h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money may update this GDPR Compliance Notice
+                    periodically.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Updated versions become effective upon publication.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Continued use of the Services constitutes acceptance of the
+                    revised Notice.
+                  </p>
+                </section>
+
+                {/* Section 16 */}
+                <section id="contact" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">16. Contact</h2>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Questions regarding GDPR or privacy matters may be directed
+                    to:
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                    <a
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=privacy@blip.money"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-black dark:text-white underline"
+                    >
+                      privacy@blip.money
+                    </a>
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                    <a
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=support@blip.money"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-black dark:text-white underline"
+                    >
+                      support@blip.money
+                    </a>
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
+                    If you wish to exercise any applicable data protection
+                    rights, please contact us using the above email addresses.
+                  </p>
+                </section>
+
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  By using the Services, you acknowledge that you have read and
+                  understood this GDPR Compliance Notice and your rights
+                  regarding the processing of personal information.
+                </p>
               </div>
             </div>
           </div>
