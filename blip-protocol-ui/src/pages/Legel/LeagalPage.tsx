@@ -193,51 +193,7 @@ export default function LegalPage() {
         </div>
       </div>
 
-       <div className="flex items-center gap-2">
-      <svg
-        aria-hidden="true"
-        width={22}
-        height={22}
-        viewBox="0 0 32 32"
-        style={{
-          filter: "drop-shadow(0 4px 12px rgba(15,118,110,0.25))",
-        }}
-      >
-        <defs>
-          <linearGradient id="openRateGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#5EEAD4" />
-            <stop offset="100%" stopColor="#0f766e" />
-          </linearGradient>
-        </defs>
-
-        <path
-          d="M26.5 8.5A13 13 0 1 1 22 4.7"
-          fill="none"
-          stroke="url(#openRateGradient)"
-          strokeWidth={3.6}
-          strokeLinecap="round"
-        />
-
-        <circle
-          cx={22}
-          cy={4.7}
-          r={2.2}
-          fill="#0f766e"
-        />
-      </svg>
-
-      <span
-        className="font-bold tracking-tight text-gray-900 dark:text-white"
-        style={{
-          fontSize: "18.7px",
-          letterSpacing: "-0.025em",
-          lineHeight: 1,
-        }}
-      >
-        Open
-        <span className="text-teal-700">Rate</span>
-      </span>
-    </div>
+       
 
     </div>
   );
