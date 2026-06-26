@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "important-notice", title: "Important Notice" },
   { id: "illegal", title: "Illegal Activities" },
   { id: "money-laundering", title: "Money Laundering" },
   { id: "sanctions", title: "Sanctions Evasion" },
@@ -113,7 +114,9 @@ const ProhibitedUse = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "important-notice"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -122,23 +125,25 @@ const ProhibitedUse = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-black dark:text-white mb-2 font-medium">
-                  IMPORTANT NOTICE
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This Prohibited Use Policy ("Policy") forms part of the Terms
-                  of Service governing the use of BLIP.money ("Blip.money", "we",
-                  "our", or "us").
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  By accessing or using the Services, you agree not to engage in
-                  any prohibited activities described herein.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  Violation of this Policy may result in suspension, termination,
-                  restricted access, or other protective measures.
-                </p>
+                {/* Important Notice */}
+                <section id="important-notice" className="mb-8">
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    IMPORTANT NOTICE
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This Prohibited Use Policy ("Policy") forms part of the Terms
+                    of Service governing the use of blip.money ("blip.money",
+                    "we", "our", or "us").
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    By accessing or using the Services, you agree not to engage in
+                    any prohibited activities described herein.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Violation of this Policy may result in suspension,
+                    termination, restricted access, or other protective measures.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="illegal" className="mb-8">
@@ -358,7 +363,7 @@ const ProhibitedUse = () => {
                     <li>Interfere with platform availability.</li>
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Reasonable API or automated access authorized by Blip.money is
+                    Reasonable API or automated access authorized by blip.money is
                     permitted.
                   </p>
                 </section>

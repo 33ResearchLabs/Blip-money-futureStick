@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "important-notice", title: "Important Notice" },
   { id: "no-guarantee", title: "No Guarantee of Profits" },
   { id: "market", title: "Market Risk" },
   { id: "stablecoin", title: "Stablecoin Risk" },
@@ -113,7 +114,9 @@ const RiskDisclosure = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "important-notice"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -122,22 +125,24 @@ const RiskDisclosure = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-black dark:text-white mb-2 font-medium">
-                  IMPORTANT NOTICE
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Digital assets, blockchain technologies, peer-to-peer
-                  transactions, and decentralized systems involve significant
-                  risks. Before accessing or using BLIP.money ("Blip.money",
-                  "we", "our", or "us"), you should carefully read and understand
-                  this Risk Disclosure Statement.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By using the Services, you acknowledge that you understand and
-                  accept the risks described herein and assume full
-                  responsibility for your activities.
-                </p>
+                {/* Important Notice */}
+                <section id="important-notice" className="mb-8">
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    IMPORTANT NOTICE
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Digital assets, blockchain technologies, peer-to-peer
+                    transactions, and decentralized systems involve significant
+                    risks. Before accessing or using blip.money ("blip.money",
+                    "we", "our", or "us"), you should carefully read and
+                    understand this Risk Disclosure Statement.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    By using the Services, you acknowledge that you understand and
+                    accept the risks described herein and assume full
+                    responsibility for your activities.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="no-guarantee" className="mb-8">
@@ -575,7 +580,7 @@ const RiskDisclosure = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    To the maximum extent permitted by law, Blip.money shall not
+                    To the maximum extent permitted by law, blip.money shall not
                     be liable for:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
@@ -607,7 +612,7 @@ const RiskDisclosure = () => {
                     <li>You understand the risks involved.</li>
                     <li>You voluntarily assume such risks.</li>
                     <li>
-                      You release Blip.money from liability to the maximum extent
+                      You release blip.money from liability to the maximum extent
                       permitted by applicable law.
                     </li>
                   </ul>

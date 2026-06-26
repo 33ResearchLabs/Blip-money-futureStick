@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import SEO from "./SEO";
 
 const sections = [
+  { id: "important-notice", title: "Important Notice" },
   { id: "acceptance", title: "Acceptance of Terms" },
-  { id: "nature", title: "Nature of Blip.money" },
+  { id: "nature", title: "Nature of blip.money" },
   { id: "non-custodial", title: "Non-Custodial Services" },
   { id: "marketplace", title: "Marketplace Model" },
   { id: "responsibilities", title: "User Responsibilities" },
@@ -115,7 +116,9 @@ const TermsService = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "important-notice"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -124,20 +127,22 @@ const TermsService = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-black dark:text-white mb-2 font-medium">
-                  IMPORTANT NOTICE
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  BLIP.MONEY is a decentralized protocol interface and
-                  marketplace that facilitates interactions between users and
-                  independent participants. BLIP.money is not a bank, financial
-                  institution, money transmitter, payment processor, broker,
-                  investment advisor, or custodian of assets. By accessing or
-                  using the Services, you acknowledge and accept the risks
-                  associated with blockchain technology, digital assets, and
-                  peer-to-peer transactions.
-                </p>
+                {/* Important Notice */}
+                <section id="important-notice" className="mb-8">
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    IMPORTANT NOTICE
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Blip.money is a decentralized protocol interface and
+                    marketplace that facilitates interactions between users and
+                    independent participants. Blip.money is not a bank, financial
+                    institution, money transmitter, payment processor, broker,
+                    investment advisor, or custodian of assets. By accessing or
+                    using the Services, you acknowledge and accept the risks
+                    associated with blockchain technology, digital assets, and
+                    peer-to-peer transactions.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="acceptance" className="mb-8">
@@ -147,7 +152,7 @@ const TermsService = () => {
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     These Terms of Service ("Terms") govern your access to and
-                    use of the BLIP.money website, applications, interfaces,
+                    use of the blip.money website, applications, interfaces,
                     software, APIs, smart contracts, and related services
                     (collectively, the "Services").
                   </p>
@@ -179,16 +184,16 @@ const TermsService = () => {
                 {/* Section 2 */}
                 <section id="nature" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">
-                    2. Nature of Blip.money
+                    2. Nature of blip.money
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money provides software interfaces and tools that enable
+                    Blip.money provides software interfaces and tools that enable
                     users to participate in a decentralized peer-to-peer
                     marketplace and settlement protocol.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money:
+                    Blip.money:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Does not hold customer funds.</li>
@@ -223,7 +228,7 @@ const TermsService = () => {
                     keys.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money cannot:
+                    Blip.money cannot:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Access user funds.</li>
@@ -255,11 +260,11 @@ const TermsService = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money operates as a decentralized marketplace and
+                    Blip.money operates as a decentralized marketplace and
                     coordination layer.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money does not:
+                    Blip.money does not:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Buy or sell digital assets.</li>
@@ -322,7 +327,7 @@ const TermsService = () => {
                     <li>Conduct unlawful activities.</li>
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    BLIP.money reserves the right to restrict access to users
+                    Blip.money reserves the right to restrict access to users
                     engaged in harmful or prohibited conduct.
                   </p>
                 </section>
@@ -334,7 +339,7 @@ const TermsService = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money may maintain reputation mechanisms to promote
+                    Blip.money may maintain reputation mechanisms to promote
                     trust and marketplace integrity.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
@@ -348,7 +353,7 @@ const TermsService = () => {
                     <li>Merchant staking and participation.</li>
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    BLIP.money reserves the right to suspend, limit, or remove
+                    Blip.money reserves the right to suspend, limit, or remove
                     reputation privileges to protect users and maintain
                     marketplace integrity.
                   </p>
@@ -364,7 +369,7 @@ const TermsService = () => {
                     Merchants and liquidity providers participate independently.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money:
+                    Blip.money:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Does not employ merchants.</li>
@@ -395,7 +400,7 @@ const TermsService = () => {
                   <h2 className="text-xl font-semibold mb-3">9. Fees</h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money may charge protocol or marketplace fees.
+                    Blip.money may charge protocol or marketplace fees.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     Fees:
@@ -410,7 +415,7 @@ const TermsService = () => {
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Blockchain network fees are determined independently by
-                    underlying networks and are outside BLIP.money's control.
+                    underlying networks and are outside blip.money's control.
                   </p>
                 </section>
 
@@ -456,7 +461,7 @@ const TermsService = () => {
                     basis.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money makes no representations or warranties regarding:
+                    Blip.money makes no representations or warranties regarding:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Availability.</li>
@@ -467,7 +472,7 @@ const TermsService = () => {
                     <li>Fitness for any particular purpose.</li>
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    BLIP.money does not guarantee uninterrupted access to the
+                    Blip.money does not guarantee uninterrupted access to the
                     Services.
                   </p>
                 </section>
@@ -479,7 +484,7 @@ const TermsService = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    To the maximum extent permitted by law, BLIP.money and its
+                    To the maximum extent permitted by law, blip.money and its
                     affiliates shall not be liable for:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
@@ -509,7 +514,7 @@ const TermsService = () => {
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     All software, trademarks, logos, content, interfaces,
-                    designs, and materials associated with BLIP.money are
+                    designs, and materials associated with blip.money are
                     protected by intellectual property laws.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
@@ -534,7 +539,7 @@ const TermsService = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money reserves the right to modify these Terms or any
+                    Blip.money reserves the right to modify these Terms or any
                     aspect of the Services at any time.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -548,7 +553,7 @@ const TermsService = () => {
                   <h2 className="text-xl font-semibold mb-3">15. Termination</h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money may suspend or restrict access in order to:
+                    Blip.money may suspend or restrict access in order to:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Protect users.</li>
@@ -570,7 +575,7 @@ const TermsService = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    BLIP.money shall not be liable for delays, interruptions, or
+                    Blip.money shall not be liable for delays, interruptions, or
                     failures caused by:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
@@ -594,7 +599,7 @@ const TermsService = () => {
 
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     These Terms constitute the entire agreement between you and
-                    BLIP.money regarding the Services and supersede all prior
+                    blip.money regarding the Services and supersede all prior
                     understandings and communications.
                   </p>
                 </section>

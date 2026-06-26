@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "@/components/Cookies";
 import Gdpr from "@/pages/Legel/Gdpr";
 import Privacy from "@/pages/Legel/Privecy";
@@ -33,36 +33,116 @@ const tabComponents = {
   aml: AmlCompliance,
 } as const;
 
+type TabId = keyof typeof tabComponents;
+
 export default function LegalPage() {
-  const [activeTab, setActiveTab] =
-    useState<keyof typeof tabComponents>("privacy");
+  const [activeTab, setActiveTab] = useState<TabId>("privacy");
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const ActiveComponent = tabComponents[activeTab];
+  const activeIndex = tabs.findIndex((t) => t.id === activeTab);
+
+  // Keep the active tab centered within the horizontal scroller.
+  useEffect(() => {
+    const container = scrollRef.current;
+    const btn = tabRefs.current[activeIndex];
+    if (!container || !btn) return;
+
+    const cRect = container.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+    const delta =
+      bRect.left + bRect.width / 2 - (cRect.left + cRect.width / 2);
+
+    container.scrollBy({ left: delta, behavior: "smooth" });
+  }, [activeIndex]);
+
+  const selectTab = (index: number) => {
+    setActiveTab(tabs[index].id as TabId);
+  };
+
+  // Roving tabindex keyboard navigation (WAI-ARIA tabs pattern).
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    let next = activeIndex;
+    switch (e.key) {
+      case "ArrowRight":
+        next = (activeIndex + 1) % tabs.length;
+        break;
+      case "ArrowLeft":
+        next = (activeIndex - 1 + tabs.length) % tabs.length;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = tabs.length - 1;
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+    selectTab(next);
+    tabRefs.current[next]?.focus();
+  };
 
   return (
     <div className="max-w-screen-2xl mx-auto px-6 py-16">
+      {/* Hide the horizontal scrollbar on the tab strip */}
+      <style>{`.legal-tab-scroll::-webkit-scrollbar{display:none}`}</style>
+
       {/* Content */}
-      <ActiveComponent />
+      <div
+        id="legal-panel"
+        role="tabpanel"
+        aria-labelledby={`legal-tab-${activeTab}`}
+        tabIndex={0}
+        className="focus:outline-none"
+      >
+        <ActiveComponent />
+      </div>
 
       {/* Tabs */}
       <div className="mt-16 border-t border-black/10 dark:border-white/10 pt-10">
-        <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 mb-6">
-          Legal
-        </p>
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id as keyof typeof tabComponents)}
-              className={`px-5 py-2.5 rounded-full text-sm border transition-all duration-200 ${
-                activeTab === t.id
-                  ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white font-semibold shadow-sm"
-                  : "bg-transparent text-gray-600 dark:text-gray-300 border-black/15 dark:border-white/15 hover:border-black/40 dark:hover:border-white/40 hover:text-black dark:hover:text-white"
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
+       
+        <div
+          ref={scrollRef}
+          className="legal-tab-scroll mx-auto max-w-4xl overflow-x-auto"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+        >
+          <div
+            role="tablist"
+            aria-label="Legal documents"
+            aria-orientation="horizontal"
+            onKeyDown={onKeyDown}
+            className="mx-auto flex w-max items-center gap-1 rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.04] p-1.5 shadow-sm backdrop-blur-sm"
+          >
+            {tabs.map((t, i) => {
+              const isActive = activeTab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
+                  id={`legal-tab-${t.id}`}
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  aria-controls="legal-panel"
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => selectTab(i)}
+                  className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-black/30 dark:focus-visible:ring-white/40 ${
+                    isActive
+                      ? "bg-black text-white dark:bg-white dark:text-black font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.18)]"
+                      : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.07]"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

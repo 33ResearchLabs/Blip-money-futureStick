@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "introduction", title: "Introduction" },
   { id: "collect", title: "Information We Collect" },
   { id: "not-collect", title: "Information We Do Not Collect" },
   { id: "use", title: "How We Use Information" },
@@ -111,7 +112,9 @@ const Privacy = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "introduction"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -120,29 +123,33 @@ const Privacy = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Welcome to BLIP.MONEY ("blip.money", "we", "our", or "us").
-                </p>
+                {/* Introduction */}
+                <section id="introduction" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">Introduction</h2>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This Privacy Policy explains how information is collected,
-                  used, disclosed, and protected when you access or use the
-                  blip.money website, applications, protocol, interfaces, APIs,
-                  smart contracts, and related services (collectively, the
-                  "Services").
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Welcome to blip.money ("blip.money", "we", "our", or "us").
+                  </p>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Blip.money is committed to protecting user privacy while
-                  providing access to decentralized peer-to-peer marketplace
-                  infrastructure.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This Privacy Policy explains how information is collected,
+                    used, disclosed, and protected when you access or use the
+                    blip.money website, applications, protocol, interfaces, APIs,
+                    smart contracts, and related services (collectively, the
+                    "Services").
+                  </p>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By accessing or using the Services, you acknowledge and agree
-                  to the practices described in this Privacy Policy.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money is committed to protecting user privacy while
+                    providing access to decentralized peer-to-peer marketplace
+                    infrastructure.
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    By accessing or using the Services, you acknowledge and agree
+                    to the practices described in this Privacy Policy.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="collect" className="mb-8">
@@ -402,7 +409,7 @@ const Privacy = () => {
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Blockchain records are permanent and cannot be deleted by
-                    Blip.money.
+                    blip.money.
                   </p>
                 </section>
 

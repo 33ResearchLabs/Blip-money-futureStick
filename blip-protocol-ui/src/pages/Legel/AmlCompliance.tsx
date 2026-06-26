@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "introduction", title: "Introduction" },
   { id: "role", title: "Our Role" },
   { id: "principles", title: "Compliance Principles" },
   { id: "responsibilities", title: "User Responsibilities" },
@@ -108,7 +109,9 @@ const AmlCompliance = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "introduction"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -117,29 +120,33 @@ const AmlCompliance = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Blip.money ("Blip.money", "we", "our", or "us") is committed
-                  to fostering a secure, transparent, and responsible
-                  peer-to-peer marketplace.
-                </p>
+                {/* Introduction */}
+                <section id="introduction" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">Introduction</h2>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This AML &amp; Compliance Statement explains the principles
-                  that guide our approach to compliance, marketplace integrity,
-                  and the prevention of unlawful activity.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money ("blip.money", "we", "our", or "us") is committed
+                    to fostering a secure, transparent, and responsible
+                    peer-to-peer marketplace.
+                  </p>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This Statement should be read together with our:
-                </p>
-                <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-10">
-                  <li>Terms of Service</li>
-                  <li>Privacy Policy</li>
-                  <li>Risk Disclosure Statement</li>
-                  <li>Merchant &amp; Liquidity Provider Terms</li>
-                  <li>Prohibited Use Policy</li>
-                </ul>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This AML &amp; Compliance Statement explains the principles
+                    that guide our approach to compliance, marketplace integrity,
+                    and the prevention of unlawful activity.
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This Statement should be read together with our:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
+                    <li>Terms of Service</li>
+                    <li>Privacy Policy</li>
+                    <li>Risk Disclosure Statement</li>
+                    <li>Merchant &amp; Liquidity Provider Terms</li>
+                    <li>Prohibited Use Policy</li>
+                  </ul>
+                </section>
 
                 {/* Section 1 */}
                 <section id="role" className="mb-8">
@@ -273,7 +280,7 @@ const AmlCompliance = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    To help maintain a trustworthy marketplace, Blip.money may
+                    To help maintain a trustworthy marketplace, blip.money may
                     implement reasonable measures to:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
@@ -368,7 +375,7 @@ const AmlCompliance = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Where appropriate to protect the marketplace, Blip.money may:
+                    Where appropriate to protect the marketplace, blip.money may:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Review reported abuse.</li>
@@ -390,12 +397,12 @@ const AmlCompliance = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Where legally required, Blip.money may respond to valid
+                    Where legally required, blip.money may respond to valid
                     requests from competent authorities in accordance with
                     applicable law.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Nothing in this Statement obligates Blip.money to disclose
+                    Nothing in this Statement obligates blip.money to disclose
                     information except where legally required or otherwise
                     permitted by applicable law.
                   </p>

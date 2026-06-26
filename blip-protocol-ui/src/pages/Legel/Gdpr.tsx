@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "../../components/SEO";
 
 const sections = [
+  { id: "introduction", title: "Introduction" },
   { id: "principles", title: "Our Privacy Principles" },
   { id: "data-process", title: "Personal Data We May Process" },
   { id: "data-not-collect", title: "Personal Data We Do Not Collect" },
@@ -111,7 +112,9 @@ const Gdpr = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "introduction"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -120,23 +123,27 @@ const Gdpr = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Blip.money ("Blip.money", "we", "our", or "us") respects the
-                  privacy rights of individuals and is committed to handling
-                  personal information in a transparent and responsible manner.
-                </p>
+                {/* Introduction */}
+                <section id="introduction" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">Introduction</h2>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This GDPR Compliance Notice explains how we process personal
-                  data relating to individuals located in the European Economic
-                  Area ("EEA"), the United Kingdom ("UK"), and other
-                  jurisdictions with similar data protection laws.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money ("blip.money", "we", "our", or "us") respects the
+                    privacy rights of individuals and is committed to handling
+                    personal information in a transparent and responsible manner.
+                  </p>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  This Notice supplements our Privacy Policy.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This GDPR Compliance Notice explains how we process personal
+                    data relating to individuals located in the European Economic
+                    Area ("EEA"), the United Kingdom ("UK"), and other
+                    jurisdictions with similar data protection laws.
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    This Notice supplements our Privacy Policy.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="principles" className="mb-8">
@@ -265,7 +272,7 @@ const Gdpr = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Where GDPR applies, Blip.money may process personal
+                    Where GDPR applies, blip.money may process personal
                     information on one or more of the following legal bases:
                   </p>
 

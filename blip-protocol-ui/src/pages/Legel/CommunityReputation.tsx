@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "introduction", title: "Introduction" },
   { id: "purpose", title: "Purpose of the Reputation System" },
   { id: "score", title: "Reputation Score" },
   { id: "trust-levels", title: "Trust Levels" },
@@ -109,7 +110,9 @@ const CommunityReputation = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "introduction"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -118,18 +121,22 @@ const CommunityReputation = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Blip.money is a decentralized peer-to-peer marketplace that
-                  relies on trust, transparency, and responsible participation.
-                  This Community &amp; Reputation Policy explains how reputation
-                  is earned, maintained, and, where appropriate, reduced to help
-                  create a safe and reliable marketplace for all users.
-                </p>
+                {/* Introduction */}
+                <section id="introduction" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">Introduction</h2>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By using the Services, you agree to comply with this Policy.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Blip.money is a decentralized peer-to-peer marketplace that
+                    relies on trust, transparency, and responsible participation.
+                    This Community &amp; Reputation Policy explains how reputation
+                    is earned, maintained, and, where appropriate, reduced to help
+                    create a safe and reliable marketplace for all users.
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    By using the Services, you agree to comply with this Policy.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="purpose" className="mb-8">
@@ -205,7 +212,7 @@ const CommunityReputation = () => {
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Trust levels are informational only and do not constitute
-                    guarantees or endorsements by Blip.money.
+                    guarantees or endorsements by blip.money.
                   </p>
                 </section>
 
@@ -347,7 +354,7 @@ const CommunityReputation = () => {
                     good faith.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    When reviewing disputes, Blip.money may consider:
+                    When reviewing disputes, blip.money may consider:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Transaction records.</li>
@@ -428,7 +435,7 @@ const CommunityReputation = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    To maintain a trusted marketplace, Blip.money may:
+                    To maintain a trusted marketplace, blip.money may:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Monitor abnormal activity.</li>
@@ -518,7 +525,7 @@ const CommunityReputation = () => {
                 </section>
 
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  By participating in the Blip.money marketplace, you acknowledge
+                  By participating in the blip.money marketplace, you acknowledge
                   that you have read, understood, and agreed to this Community
                   &amp; Reputation Policy.
                 </p>

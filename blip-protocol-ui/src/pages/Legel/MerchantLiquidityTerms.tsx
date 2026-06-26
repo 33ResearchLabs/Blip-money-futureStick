@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/SEO";
 
 const sections = [
+  { id: "important-notice", title: "Important Notice" },
   { id: "independent", title: "Independent Participation" },
   { id: "no-guarantee", title: "No Guarantee of Volume or Profits" },
   { id: "responsibilities", title: "Merchant Responsibilities" },
@@ -111,7 +112,9 @@ const MerchantLiquidityTerms = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "important-notice"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -120,21 +123,23 @@ const MerchantLiquidityTerms = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-black dark:text-white mb-2 font-medium">
-                  IMPORTANT NOTICE
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  These Merchant &amp; Liquidity Provider Terms ("Merchant
-                  Terms") govern participation by merchants, liquidity providers,
-                  and marketplace participants ("Participants") utilizing the
-                  BLIP.money platform and related Services.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By acting as a merchant or liquidity provider, you acknowledge
-                  that you act independently and assume all risks associated with
-                  your activities.
-                </p>
+                {/* Important Notice */}
+                <section id="important-notice" className="mb-8">
+                  <p className="text-black dark:text-white mb-2 font-medium">
+                    IMPORTANT NOTICE
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    These Merchant &amp; Liquidity Provider Terms ("Merchant
+                    Terms") govern participation by merchants, liquidity
+                    providers, and marketplace participants ("Participants")
+                    utilizing the blip.money platform and related Services.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    By acting as a merchant or liquidity provider, you acknowledge
+                    that you act independently and assume all risks associated
+                    with your activities.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="independent" className="mb-8">
@@ -150,11 +155,11 @@ const MerchantLiquidityTerms = () => {
                     <li>They are independent users.</li>
                     <li>
                       They are not employees, agents, contractors,
-                      representatives, or partners of Blip.money.
+                      representatives, or partners of blip.money.
                     </li>
                     <li>
                       No employment or agency relationship exists between
-                      Blip.money and any Participant.
+                      blip.money and any Participant.
                     </li>
                   </ul>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -437,7 +442,7 @@ const MerchantLiquidityTerms = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    Nothing provided by Blip.money constitutes:
+                    Nothing provided by blip.money constitutes:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Financial advice.</li>
@@ -482,7 +487,7 @@ const MerchantLiquidityTerms = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    To the maximum extent permitted by applicable law, Blip.money
+                    To the maximum extent permitted by applicable law, blip.money
                     shall not be liable for:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
@@ -515,7 +520,7 @@ const MerchantLiquidityTerms = () => {
                     <li>They understand the risks involved.</li>
                     <li>They accept full responsibility for their activities.</li>
                     <li>
-                      They release Blip.money from liability to the maximum
+                      They release blip.money from liability to the maximum
                       extent permitted by applicable law.
                     </li>
                   </ul>

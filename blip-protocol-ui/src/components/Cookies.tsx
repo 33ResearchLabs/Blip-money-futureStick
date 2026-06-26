@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SEO from "./SEO";
 
 const sections = [
+  { id: "introduction", title: "Introduction" },
   { id: "what-are-cookies", title: "What Are Cookies?" },
   { id: "types", title: "Types of Cookies We Use" },
   { id: "similar-tech", title: "Similar Technologies" },
@@ -107,7 +108,9 @@ const Cookies = () => {
                             : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
-                        {index + 1}. {section.title}
+                        {section.id === "introduction"
+                          ? section.title
+                          : `${index}. ${section.title}`}
                       </button>
                     ))}
                   </nav>
@@ -116,19 +119,23 @@ const Cookies = () => {
 
               {/* Main Content */}
               <div className="flex-1 max-w-3xl">
-                {/* Intro */}
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  This Cookie Policy explains how Blip.money ("blip.money", "we",
-                  "our", or "us") uses cookies and similar technologies when you
-                  access or use our website, applications, interfaces, and
-                  related services (collectively, the "Services").
-                </p>
+                {/* Introduction */}
+                <section id="introduction" className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">Introduction</h2>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-                  By continuing to use the Services, you consent to the use of
-                  cookies and similar technologies in accordance with this Cookie
-                  Policy.
-                </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    This Cookie Policy explains how Blip.money ("blip.money",
+                    "we", "our", or "us") uses cookies and similar technologies
+                    when you access or use our website, applications, interfaces,
+                    and related services (collectively, the "Services").
+                  </p>
+
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    By continuing to use the Services, you consent to the use of
+                    cookies and similar technologies in accordance with this
+                    Cookie Policy.
+                  </p>
+                </section>
 
                 {/* Section 1 */}
                 <section id="what-are-cookies" className="mb-8">
@@ -266,7 +273,7 @@ const Cookies = () => {
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    In addition to cookies, Blip.money may use:
+                    In addition to cookies, blip.money may use:
                   </p>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Local storage.</li>
@@ -372,7 +379,7 @@ const Cookies = () => {
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Because there is currently no universally accepted standard
-                    regarding such signals, Blip.money may not respond to Do Not
+                    regarding such signals, blip.money may not respond to Do Not
                     Track requests.
                   </p>
                 </section>
