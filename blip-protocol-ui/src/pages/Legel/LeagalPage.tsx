@@ -109,10 +109,11 @@ export default function LegalPage() {
   };
 
   const arrowClasses =
-    "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 transition-all duration-200 hover:text-black dark:hover:text-white hover:bg-black/[0.06] dark:hover:bg-white/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 dark:focus-visible:ring-white/40 disabled:opacity-25 disabled:pointer-events-none";
+    "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 transition-all duration-200 hover:text-black hover:bg-black/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 disabled:opacity-25 disabled:pointer-events-none";
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 py-16">
+    <div className="bg-white text-black min-h-screen">
+      <div className="max-w-screen-2xl mx-auto px-6 py-16">
       {/* Hide the horizontal scrollbar on the tab strip */}
       <style>{`.legal-tab-scroll::-webkit-scrollbar{display:none}`}</style>
 
@@ -128,8 +129,8 @@ export default function LegalPage() {
       </div>
 
       {/* Tabs */}
-      <div className="mt-16 border-t border-black/10 dark:border-white/10 pt-10">
-        <div className="mx-auto flex w-full max-w-4xl items-center gap-1 rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.04] p-1.5 shadow-sm backdrop-blur-sm">
+      <div className="mt-16 border-t border-black/10 pt-10">
+        <div className="mx-auto flex w-full max-w-4xl items-center gap-1 rounded-2xl border border-black/[0.08] bg-black/[0.02] p-1.5 shadow-sm backdrop-blur-sm">
           <button
             type="button"
             aria-label="Scroll tabs left"
@@ -168,10 +169,10 @@ export default function LegalPage() {
                     aria-controls="legal-panel"
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-black/30 dark:focus-visible:ring-white/40 ${
+                    className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-black/30 ${
                       isActive
-                        ? "bg-black text-white dark:bg-white dark:text-black font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.18)]"
-                        : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.07]"
+                        ? "bg-black text-white font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.18)]"
+                        : "text-gray-600 hover:text-black hover:bg-black/[0.05]"
                     }`}
                   >
                     {t.label}
@@ -193,8 +194,9 @@ export default function LegalPage() {
         </div>
       </div>
 
-       
 
+
+      </div>
     </div>
   );
 }

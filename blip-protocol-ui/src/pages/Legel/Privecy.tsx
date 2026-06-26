@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FileText, GitCommit, Hash, Clock, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
 const ACCENT = "#cc785c";
@@ -28,7 +28,7 @@ const DOC_META = [
   { label: "Document", value: "Privacy" },
   { label: "Sections", value: "15" },
   { label: "Status", value: "Active" },
-  { label: "Updated", value: "Jun 2026" },
+  { label: "Updated", value: "May 2026" },
 ];
 
 const Privacy = () => {
@@ -191,7 +191,7 @@ const Privacy = () => {
         }
       `}</style>
 
-      <div className="min-h-screen bg-white text-black pt-20 relative overflow-hidden">
+      <div className="min-h-screen bg-white text-black relative overflow-hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.42]"
@@ -205,33 +205,8 @@ const Privacy = () => {
         />
 
         {/* ── HERO ── */}
-        <div className="relative pt-12 sm:pt-24 pb-12 sm:pb-20 px-5 sm:px-6">
+        <div className="relative pt-2 sm:pt-6 pb-10 sm:pb-14 px-5 sm:px-6">
           <div className="max-w-6xl mx-auto text-center lg:text-left">
-            <div
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 mb-10 text-[10.5px] font-semibold tracking-[0.22em] uppercase"
-              style={{ fontFamily: MONO, color: "rgba(0,0,0,0.42)" }}
-            >
-              <span className="flex items-center gap-1.5">
-                <FileText className="w-3 h-3" style={{ color: ACCENT }} />
-                Legal · Privacy
-              </span>
-              <span style={{ color: "rgba(0,0,0,0.14)" }}>/</span>
-              <span className="flex items-center gap-1.5">
-                <GitCommit className="w-3 h-3" />
-                active
-              </span>
-              <span style={{ color: "rgba(0,0,0,0.14)" }}>/</span>
-              <span className="flex items-center gap-1.5">
-                <Hash className="w-3 h-3" />
-                blip-money/privacy
-              </span>
-              <span style={{ color: "rgba(0,0,0,0.14)" }}>/</span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-3 h-3" />
-                ~6 min read
-              </span>
-            </div>
-
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
               style={{
@@ -267,8 +242,6 @@ const Privacy = () => {
                 Policy.
               </span>
             </h1>
-
-            
           </div>
         </div>
 
