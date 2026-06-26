@@ -111,25 +111,11 @@ export default function LegalPage() {
   const arrowClasses =
     "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 transition-all duration-200 hover:text-black hover:bg-black/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 disabled:opacity-25 disabled:pointer-events-none";
 
-  return (
-    <div className="bg-white text-black min-h-screen">
-      <div className="max-w-screen-2xl mx-auto px-6 py-16">
-      {/* Hide the horizontal scrollbar on the tab strip */}
-      <style>{`.legal-tab-scroll::-webkit-scrollbar{display:none}`}</style>
-
-      {/* Content */}
-      <div
-        id="legal-panel"
-        role="tabpanel"
-        aria-labelledby={`legal-tab-${activeTab}`}
-        tabIndex={0}
-        className="focus:outline-none"
-      >
-        <ActiveComponent />
-      </div>
-
-      {/* Tabs */}
-      <div className="mt-16 border-t border-black/10 pt-10">
+  // The tab strip is injected into the active page so it can sit directly
+  // below that page's heading (the heading lives inside each page component).
+  const tabStrip = (
+    <div className="px-5 sm:px-6 mb-12">
+      <div className="max-w-6xl mx-auto">
         <div className="mx-auto flex w-full max-w-4xl items-center gap-1 rounded-2xl border border-black/[0.08] bg-black/[0.02] p-1.5 shadow-sm backdrop-blur-sm">
           <button
             type="button"
@@ -193,9 +179,22 @@ export default function LegalPage() {
           </button>
         </div>
       </div>
+    </div>
+  );
 
+  return (
+    <div className="bg-white text-black min-h-screen">
+      {/* Hide the horizontal scrollbar on the tab strip */}
+      <style>{`.legal-tab-scroll::-webkit-scrollbar{display:none}`}</style>
 
-
+      <div
+        id="legal-panel"
+        role="tabpanel"
+        aria-labelledby={`legal-tab-${activeTab}`}
+        tabIndex={0}
+        className="focus:outline-none"
+      >
+        <ActiveComponent tabSlot={tabStrip} />
       </div>
     </div>
   );

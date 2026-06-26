@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -32,7 +32,7 @@ const DOC_META = [
   { label: "Updated", value: "May 2026" },
 ];
 
-const CommunityReputation = () => {
+const CommunityReputation = ({ tabSlot }: { tabSlot?: ReactNode }) => {
   const [activeSection, setActiveSection] = useState("");
   const [progress, setProgress] = useState(0);
   const [panelMaxH, setPanelMaxH] = useState<number | undefined>(undefined);
@@ -206,7 +206,7 @@ const CommunityReputation = () => {
         />
 
         {/* ── HERO ── */}
-        <div className="relative pt-2 sm:pt-6 pb-10 sm:pb-14 px-5 sm:px-6">
+        <div className="relative pt-2 sm:pt-6 pb-3 sm:pb-4 px-5 sm:px-6">
           <div className="max-w-6xl mx-auto text-center lg:text-left">
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
@@ -245,6 +245,8 @@ const CommunityReputation = () => {
             </h1>
           </div>
         </div>
+
+        {tabSlot}
 
         {/* ── CONTENT + SIDEBAR ── */}
         <div className="relative">
