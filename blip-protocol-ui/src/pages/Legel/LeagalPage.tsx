@@ -30,7 +30,7 @@ const tabs: { id: string; label: string; icon: TabIcon }[] = [
   { id: "cookies", label: "Cookies Policy", icon: Cookie },
   { id: "gdpr", label: "GDPR", icon: Lock },
   { id: "risk", label: "Risk Disclosure Statement", icon: AlertTriangle },
-  { id: "merchant", label: "Merchant & Liquidity Provider Terms", icon: Store },
+  { id: "merchant", label: "Liquidity Provider Terms", icon: Store },
   { id: "prohibited", label: "Prohibited Use Policy", icon: Ban },
   { id: "community", label: "Community & Reputation Policy", icon: Users },
   { id: "aml", label: "AML & Compliance Statement", icon: Scale },

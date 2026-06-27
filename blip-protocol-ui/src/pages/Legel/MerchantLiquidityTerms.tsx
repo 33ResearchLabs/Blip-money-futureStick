@@ -233,7 +233,7 @@ const MerchantLiquidityTerms = ({ tabSlot }: { tabSlot?: ReactNode }) => {
               className="font-semibold tracking-[-0.035em] leading-[1.02] mb-6"
               style={{ fontSize: "clamp(44px, 10vw, 74px)", color: "#0a0a0a" }}
             >
-              Merchant &amp; Liquidity Provider{" "}
+              Liquidity Provider{" "}
               <span
                 style={{
                   color: ACCENT,
