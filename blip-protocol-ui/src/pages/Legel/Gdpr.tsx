@@ -438,7 +438,6 @@ const Gdpr = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Introduction — first, directly below the heading */}
                 <section id="introduction" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Introduction</h2>
                   <p>
                     Blip.money ("blip.money", "we", "our", or "us") respects the
                     privacy rights of individuals and is committed to handling

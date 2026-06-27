@@ -437,7 +437,6 @@ const AmlCompliance = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Introduction — first, directly below the heading */}
                 <section id="introduction" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Introduction</h2>
                   <div className="callout">
                     Blip.money ("blip.money", "we", "our", or "us") is committed
                     to fostering a secure, transparent, and responsible

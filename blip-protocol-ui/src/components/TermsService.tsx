@@ -440,7 +440,6 @@ const TermsService = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Important Notice — first, directly below the heading */}
                 <section id="important-notice" className="mb-16">
                   <span className="sec-num">IMPORTANT NOTICE</span>
-                  <h2>Important Notice</h2>
                   <p>
                     Blip.money is a decentralized protocol interface and
                     marketplace that facilitates interactions between users and

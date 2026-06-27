@@ -442,7 +442,6 @@ const RiskDisclosure = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Important Notice — first, directly below the heading */}
                 <section id="important-notice" className="mb-16">
                   <span className="sec-num">IMPORTANT NOTICE</span>
-                  <h2>Important Notice</h2>
                   <p>
                     Digital assets, blockchain technologies, peer-to-peer
                     transactions, and decentralized systems involve significant

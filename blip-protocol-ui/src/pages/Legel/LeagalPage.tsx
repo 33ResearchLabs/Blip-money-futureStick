@@ -1,5 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ShieldCheck,
+  FileText,
+  Cookie,
+  Lock,
+  AlertTriangle,
+  Store,
+  Ban,
+  Users,
+  Scale,
+} from "lucide-react";
 import Cookies from "@/components/Cookies";
 import Gdpr from "@/pages/Legel/Gdpr";
 import Privacy from "@/pages/Legel/Privecy";
@@ -10,16 +22,18 @@ import ProhibitedUse from "@/pages/Legel/ProhibitedUse";
 import CommunityReputation from "@/pages/Legel/CommunityReputation";
 import AmlCompliance from "@/pages/Legel/AmlCompliance";
 
-const tabs = [
-  { id: "privacy", label: "Privacy Policy" },
-  { id: "terms", label: "Terms of Service" },
-  { id: "cookies", label: "Cookies Policy" },
-  { id: "gdpr", label: "GDPR" },
-  { id: "risk", label: "Risk Disclosure Statement" },
-  { id: "merchant", label: "Merchant & Liquidity Provider Terms" },
-  { id: "prohibited", label: "Prohibited Use Policy" },
-  { id: "community", label: "Community & Reputation Policy" },
-  { id: "aml", label: "AML & Compliance Statement" },
+type TabIcon = ComponentType<{ className?: string }>;
+
+const tabs: { id: string; label: string; icon: TabIcon }[] = [
+  { id: "privacy", label: "Privacy Policy", icon: ShieldCheck },
+  { id: "terms", label: "Terms of Service", icon: FileText },
+  { id: "cookies", label: "Cookies Policy", icon: Cookie },
+  { id: "gdpr", label: "GDPR", icon: Lock },
+  { id: "risk", label: "Risk Disclosure Statement", icon: AlertTriangle },
+  { id: "merchant", label: "Merchant & Liquidity Provider Terms", icon: Store },
+  { id: "prohibited", label: "Prohibited Use Policy", icon: Ban },
+  { id: "community", label: "Community & Reputation Policy", icon: Users },
+  { id: "aml", label: "AML & Compliance Statement", icon: Scale },
 ];
 
 const tabComponents = {
@@ -38,11 +52,26 @@ type TabId = keyof typeof tabComponents;
 
 export default function LegalPage() {
   const [activeTab, setActiveTab] = useState<TabId>("privacy");
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // While the strip auto-centers a tab, the tabs slide under a stationary
+  // cursor and fire spurious mouseenter events. Ignore hover during that window
+  // so dividers don't flicker on/off as tabs pass beneath the pointer.
+  const autoScrolling = useRef(false);
+  const autoScrollTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  const beginAutoScroll = () => {
+    autoScrolling.current = true;
+    setHoveredIndex(null);
+    clearTimeout(autoScrollTimer.current);
+    autoScrollTimer.current = setTimeout(() => {
+      autoScrolling.current = false;
+    }, 450);
+  };
 
   const ActiveComponent = tabComponents[activeTab];
   const activeIndex = tabs.findIndex((t) => t.id === activeTab);
@@ -72,13 +101,19 @@ export default function LegalPage() {
     const delta =
       bRect.left + bRect.width / 2 - (cRect.left + cRect.width / 2);
 
-    container.scrollBy({ left: delta, behavior: "smooth" });
+    if (Math.abs(delta) > 1) {
+      beginAutoScroll();
+      container.scrollBy({ left: delta, behavior: "smooth" });
+    }
     updateScrollState();
   }, [activeIndex]);
 
   const scrollByDirection = (direction: 1 | -1) => {
+    beginAutoScroll();
     scrollRef.current?.scrollBy({ left: direction * 260, behavior: "smooth" });
   };
+
+  useEffect(() => () => clearTimeout(autoScrollTimer.current), []);
 
   const selectTab = (index: number) => {
     setActiveTab(tabs[index].id as TabId);
@@ -108,15 +143,16 @@ export default function LegalPage() {
     tabRefs.current[next]?.focus();
   };
 
+  // Circular, bordered scroll controls — matched to the reference design.
   const arrowClasses =
-    "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 transition-all duration-200 hover:text-black hover:bg-black/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 disabled:opacity-25 disabled:pointer-events-none";
+    "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/[0.08] bg-white text-gray-500 shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all duration-200 hover:text-black hover:border-black/15 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/25 disabled:opacity-30 disabled:pointer-events-none disabled:shadow-none";
 
   // The tab strip is injected into the active page so it can sit directly
   // below that page's heading (the heading lives inside each page component).
   const tabStrip = (
     <div className="px-5 sm:px-6 mb-12">
       <div className="max-w-6xl mx-auto">
-        <div className="mx-auto flex w-full max-w-4xl items-center gap-1 rounded-2xl border border-black/[0.08] bg-black/[0.02] p-1.5 shadow-sm backdrop-blur-sm">
+        <div className="mx-auto flex w-full max-w-4xl items-center gap-1.5 sm:gap-2 rounded-[20px] border border-black/[0.08] bg-white/70 p-1.5 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.18),0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-md">
           <button
             type="button"
             aria-label="Scroll tabs left"
@@ -142,27 +178,59 @@ export default function LegalPage() {
             >
               {tabs.map((t, i) => {
                 const isActive = activeTab === t.id;
+                const Icon = t.icon;
+                // Show a divider before every tab except the first, and hide it
+                // whenever it would touch the filled active pill or a hovered
+                // tab on either side (so neither reads as a boxed-in tab).
+                const touchesActiveOrHover = (idx: number) =>
+                  activeTab === tabs[idx].id || hoveredIndex === idx;
+                const showDivider =
+                  i > 0 && !touchesActiveOrHover(i) && !touchesActiveOrHover(i - 1);
                 return (
-                  <button
-                    key={t.id}
-                    ref={(el) => {
-                      tabRefs.current[i] = el;
-                    }}
-                    id={`legal-tab-${t.id}`}
-                    role="tab"
-                    type="button"
-                    aria-selected={isActive}
-                    aria-controls="legal-panel"
-                    tabIndex={isActive ? 0 : -1}
-                    onClick={() => selectTab(i)}
-                    className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-black/30 ${
-                      isActive
-                        ? "bg-black text-white font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.18)]"
-                        : "text-gray-600 hover:text-black hover:bg-black/[0.05]"
-                    }`}
-                  >
-                    {t.label}
-                  </button>
+                  <div key={t.id} className="flex items-center">
+                    {i > 0 && (
+                      <span
+                        aria-hidden
+                        className={`h-5 w-px shrink-0 transition-opacity duration-200 ${
+                          showDivider ? "bg-black/[0.12]" : "bg-transparent"
+                        }`}
+                      />
+                    )}
+                    <button
+                      ref={(el) => {
+                        tabRefs.current[i] = el;
+                      }}
+                      id={`legal-tab-${t.id}`}
+                      role="tab"
+                      type="button"
+                      aria-selected={isActive}
+                      aria-controls="legal-panel"
+                      tabIndex={isActive ? 0 : -1}
+                      onClick={() => selectTab(i)}
+                      onMouseEnter={() => {
+                        if (!autoScrolling.current) setHoveredIndex(i);
+                      }}
+                      onMouseLeave={() =>
+                        setHoveredIndex((prev) => (prev === i ? null : prev))
+                      }
+                      className={`group flex items-center gap-2 whitespace-nowrap rounded-xl px-3.5 py-2.5 sm:px-4 text-[13px] font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-black/30 ${
+                        i > 0 ? "ml-1" : ""
+                      } ${
+                        isActive
+                          ? "bg-black text-white font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.18)]"
+                          : "text-gray-600 hover:text-black hover:bg-black/[0.05]"
+                      }`}
+                    >
+                      <Icon
+                        className={`h-4 w-4 shrink-0 transition-colors duration-200 ${
+                          isActive
+                            ? "text-white"
+                            : "text-gray-400 group-hover:text-black"
+                        }`}
+                      />
+                      {t.label}
+                    </button>
+                  </div>
                 );
               })}
             </div>

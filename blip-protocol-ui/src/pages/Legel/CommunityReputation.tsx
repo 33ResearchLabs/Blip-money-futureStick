@@ -438,7 +438,6 @@ const CommunityReputation = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Introduction — first, directly below the heading */}
                 <section id="introduction" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Introduction</h2>
                   <p>
                     Blip.money is a decentralized peer-to-peer marketplace that
                     relies on trust, transparency, and responsible participation.

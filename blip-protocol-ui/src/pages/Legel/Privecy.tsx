@@ -437,7 +437,6 @@ const Privacy = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Introduction — first, directly below the heading */}
                 <section id="introduction" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Introduction</h2>
                   <div className="callout">
                     Welcome to blip.money ("blip.money", "we", "our", or "us").
                   </div>

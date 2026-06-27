@@ -432,7 +432,6 @@ const Cookies = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Introduction — first, directly below the heading */}
                 <section id="introduction" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Introduction</h2>
                   <p>
                     This Cookie Policy explains how Blip.money ("blip.money",
                     "we", "our", or "us") uses cookies and similar technologies

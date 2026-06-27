@@ -440,7 +440,6 @@ const MerchantLiquidityTerms = ({ tabSlot }: { tabSlot?: ReactNode }) => {
                 {/* Important Notice — first, directly below the heading */}
                 <section id="important-notice" className="mb-16">
                   <span className="sec-num">INTRODUCTION</span>
-                  <h2>Important Notice</h2>
                   <div className="callout">
                     These Merchant &amp; Liquidity Provider Terms ("Merchant
                     Terms") govern participation by merchants, liquidity
