@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -42,7 +42,7 @@ const MerchantLiquidityTerms = ({ tabSlot }: { tabSlot?: ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   // Match the scrollable content panel's height to the sidebar (desktop only).
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const measure = () => {
       setPanelMaxH(

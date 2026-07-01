@@ -56,8 +56,13 @@ export default function LegalPage() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // The tab strip is injected into the active page (tabSlot), so it fully
+  // remounts on every tab change. Remember its horizontal scroll position on
+  // LegalPage (which does NOT remount) so the fresh strip can be restored
+  // synchronously instead of flashing back to the start and sliding.
+  const savedScrollLeft = useRef(0);
   // While the strip auto-centers a tab, the tabs slide under a stationary
   // cursor and fire spurious mouseenter events. Ignore hover during that window
   // so dividers don't flicker on/off as tabs pass beneath the pointer.
@@ -80,6 +85,7 @@ export default function LegalPage() {
   const updateScrollState = () => {
     const el = scrollRef.current;
     if (!el) return;
+    savedScrollLeft.current = el.scrollLeft;
     setCanScrollLeft(el.scrollLeft > 1);
     setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
   };
@@ -164,7 +170,14 @@ export default function LegalPage() {
           </button>
 
           <div
-            ref={scrollRef}
+            ref={(el) => {
+              scrollRef.current = el;
+              // Runs during commit (before paint): restore the pre-switch
+              // scroll offset onto the freshly mounted strip so it doesn't
+              // jump to the start. The activeIndex effect then makes a small,
+              // intentional smooth adjustment to re-center the new tab.
+              if (el) el.scrollLeft = savedScrollLeft.current;
+            }}
             onScroll={updateScrollState}
             className="legal-tab-scroll min-w-0 flex-1 overflow-x-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
