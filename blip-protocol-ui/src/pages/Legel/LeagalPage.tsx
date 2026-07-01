@@ -96,6 +96,19 @@ export default function LegalPage() {
     return () => window.removeEventListener("resize", updateScrollState);
   }, []);
 
+  // Reserve the window scrollbar gutter while the Legal page is mounted. Docs
+  // differ in length, so without this the vertical scrollbar can toggle
+  // between tabs, shifting all content horizontally (a visible jump). Scoped
+  // to this page and reverted on unmount so the rest of the app is unaffected.
+  useEffect(() => {
+    const root = document.documentElement;
+    const prev = root.style.scrollbarGutter;
+    root.style.scrollbarGutter = "stable";
+    return () => {
+      root.style.scrollbarGutter = prev;
+    };
+  }, []);
+
   // Keep the active tab centered within the horizontal scroller.
   useEffect(() => {
     const container = scrollRef.current;

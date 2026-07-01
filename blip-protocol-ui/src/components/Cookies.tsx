@@ -56,7 +56,7 @@ const Cookies = ({ tabSlot }: { tabSlot?: ReactNode }) => {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
     contentRef.current?.scrollTo({ top: 0 });
   }, []);
