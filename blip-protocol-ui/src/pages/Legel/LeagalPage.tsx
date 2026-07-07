@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+} from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -58,16 +65,20 @@ export default function LegalPage() {
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  // The tab strip is injected into the active page (tabSlot), so it fully
-  // remounts on every tab change. Remember its horizontal scroll position on
-  // LegalPage (which does NOT remount) so the fresh strip can be restored
-  // synchronously instead of flashing back to the start and sliding.
-  const savedScrollLeft = useRef(0);
   // While the strip auto-centers a tab, the tabs slide under a stationary
   // cursor and fire spurious mouseenter events. Ignore hover during that window
   // so dividers don't flicker on/off as tabs pass beneath the pointer.
   const autoScrolling = useRef(false);
   const autoScrollTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  const ActiveComponent = tabComponents[activeTab];
+  const activeIndex = tabs.findIndex((t) => t.id === activeTab);
+  // The strip lives inside the swapped page, so it mounts fresh on every tab
+  // change. A stable ref callback (below) centers it during commit, before
+  // paint — but the callback runs outside render, so it reads the live index
+  // from this ref instead of a stale closure.
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
 
   const beginAutoScroll = () => {
     autoScrolling.current = true;
@@ -78,23 +89,60 @@ export default function LegalPage() {
     }, 450);
   };
 
-  const ActiveComponent = tabComponents[activeTab];
-  const activeIndex = tabs.findIndex((t) => t.id === activeTab);
-
-  // Track whether the strip can scroll further in each direction.
-  const updateScrollState = () => {
+  // Track whether the strip can scroll further in each direction. Guarded so a
+  // scroll event that doesn't flip either flag causes no re-render (avoids
+  // rebuilding the strip 60×/sec while a smooth scroll animates).
+  const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
-    savedScrollLeft.current = el.scrollLeft;
-    setCanScrollLeft(el.scrollLeft > 1);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  };
-
-  useEffect(() => {
-    updateScrollState();
-    window.addEventListener("resize", updateScrollState);
-    return () => window.removeEventListener("resize", updateScrollState);
+    const left = el.scrollLeft > 1;
+    const right = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+    setCanScrollLeft((prev) => (prev === left ? prev : left));
+    setCanScrollRight((prev) => (prev === right ? prev : right));
   }, []);
+
+  // Center the active tab within the horizontal scroller. Called synchronously
+  // (smooth=false) when a fresh strip mounts so it paints already centered — no
+  // reset-then-slide flash — and smoothly for the arrow controls / resize.
+  const centerActiveTab = useCallback(
+    (el: HTMLDivElement | null, smooth: boolean) => {
+      const btn = tabRefs.current[activeIndexRef.current];
+      if (!el || !btn) return;
+      const cRect = el.getBoundingClientRect();
+      const bRect = btn.getBoundingClientRect();
+      const delta = bRect.left + bRect.width / 2 - (cRect.left + cRect.width / 2);
+      if (Math.abs(delta) < 1) return;
+      const max = el.scrollWidth - el.clientWidth;
+      const target = Math.max(0, Math.min(max, el.scrollLeft + delta));
+      if (smooth) el.scrollTo({ left: target, behavior: "smooth" });
+      else el.scrollLeft = target;
+    },
+    [],
+  );
+
+  // Stable ref callback: React invokes it only when the scroller actually
+  // mounts/unmounts (never on ordinary re-renders), so the synchronous centering
+  // runs exactly once per fresh strip and never fights the user's own scrolling.
+  const attachScroller = useCallback(
+    (el: HTMLDivElement | null) => {
+      scrollRef.current = el;
+      if (el) {
+        centerActiveTab(el, false);
+        updateScrollState();
+      }
+    },
+    [centerActiveTab, updateScrollState],
+  );
+
+  // Re-center + refresh scroll affordances when the viewport resizes.
+  useEffect(() => {
+    const onResize = () => {
+      centerActiveTab(scrollRef.current, false);
+      updateScrollState();
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [centerActiveTab, updateScrollState]);
 
   // Reserve the window scrollbar gutter while the Legal page is mounted. Docs
   // differ in length, so without this the vertical scrollbar can toggle
@@ -108,24 +156,6 @@ export default function LegalPage() {
       root.style.scrollbarGutter = prev;
     };
   }, []);
-
-  // Keep the active tab centered within the horizontal scroller.
-  useEffect(() => {
-    const container = scrollRef.current;
-    const btn = tabRefs.current[activeIndex];
-    if (!container || !btn) return;
-
-    const cRect = container.getBoundingClientRect();
-    const bRect = btn.getBoundingClientRect();
-    const delta =
-      bRect.left + bRect.width / 2 - (cRect.left + cRect.width / 2);
-
-    if (Math.abs(delta) > 1) {
-      beginAutoScroll();
-      container.scrollBy({ left: delta, behavior: "smooth" });
-    }
-    updateScrollState();
-  }, [activeIndex]);
 
   const scrollByDirection = (direction: 1 | -1) => {
     beginAutoScroll();
@@ -183,14 +213,7 @@ export default function LegalPage() {
           </button>
 
           <div
-            ref={(el) => {
-              scrollRef.current = el;
-              // Runs during commit (before paint): restore the pre-switch
-              // scroll offset onto the freshly mounted strip so it doesn't
-              // jump to the start. The activeIndex effect then makes a small,
-              // intentional smooth adjustment to re-center the new tab.
-              if (el) el.scrollLeft = savedScrollLeft.current;
-            }}
+            ref={attachScroller}
             onScroll={updateScrollState}
             className="legal-tab-scroll min-w-0 flex-1 overflow-x-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
@@ -288,7 +311,23 @@ export default function LegalPage() {
         tabIndex={0}
         className="focus:outline-none"
       >
-        <ActiveComponent tabSlot={tabStrip} />
+        {/* Crossfade the whole page (heading + strip + body) as one unit. mode
+            "wait" holds the previous doc until it has faded out, then mounts and
+            fades in the next one — so there is never a hard remount flash, two
+            docs with duplicate section ids on the page at once, or a layout jump.
+            Opacity-only keeps it compositor-driven (60fps) and leaves the sticky
+            sidebar/content untouched. */}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.24, ease: "easeOut" } }}
+            exit={{ opacity: 0, transition: { duration: 0.13, ease: "easeIn" } }}
+            style={{ willChange: "opacity" }}
+          >
+            <ActiveComponent tabSlot={tabStrip} />
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
