@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Check, ChevronUp, Copy, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, ChevronUp, Copy, ShieldCheck, Sparkles, Trophy } from "lucide-react";
 import {
   useMerchantCardsVariant,
   MERCHANT_CARDS_VARIANTS,
@@ -1375,68 +1375,88 @@ function ClearAvatar({ initials, bg, size, badge }: { initials: string; bg: stri
   );
 }
 
+/* Merchant / liquidity-provider feature cards — protocol-grade, not retail promos. */
+const CLEAR_FEATURE_CARDS = [
+  { key: "orderbook", label: "ORDER FLOW · LIVE", refTag: "ROUTING", hero: "orderbook" as const, titlePre: "Verified orders route", titleAccent: "straight to your desk.", cta: "Open desk" },
+  { key: "spread", label: "MERCHANT SPREAD", refTag: "YOU SET IT", hero: "spread" as const, titlePre: "Set your own spread.", titleAccent: "Keep the margin.", cta: "Set spread" },
+  { key: "settle", label: "INSTANT SETTLEMENT", refTag: "< 60s", hero: "settle" as const, titlePre: "Profit settles", titleAccent: "instantly, on-chain.", cta: "View payouts" },
+  { key: "verified", label: "VERIFIED · FINAL", refTag: "ON-CHAIN", hero: "verified" as const, titlePre: "Final settlement.", titleAccent: "No chargebacks, ever.", cta: "Get verified" },
+];
+
 export function DashboardClearCards() {
   const renderHero = (kind: string) => {
-    if (kind === "fees") return (
-      <div className="flex items-center justify-center gap-5 px-4">
-        <ClearAvatar initials="AW" bg="#ffe1d6" size={64} />
-        <div className="relative">
-          <motion.div animate={{ boxShadow: [`0 0 0 ${APPLE_ACCENT}00`, `0 0 32px ${APPLE_ACCENT}55`, `0 0 0 ${APPLE_ACCENT}00`] }} transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} className="rounded-full flex flex-col items-center justify-center font-bold leading-none" style={{ width: 96, height: 96, background: APPLE_ACCENT, color: "#0a0a0a", fontFamily: "ui-serif, Georgia, serif" }}>
-            <span style={{ fontSize: 40, fontWeight: 800, lineHeight: 1 }}>0%</span>
-            <span style={{ fontSize: 9, fontFamily: "ui-monospace, monospace", fontWeight: 700, letterSpacing: "0.18em", marginTop: 2 }}>FEES</span>
+    if (kind === "orderbook") {
+      const rows = [
+        { pair: "USDT → INR", amt: "$1,000", take: "+$2.40", live: true },
+        { pair: "USDC → BRL", amt: "$420", take: "+$0.98", live: false },
+        { pair: "USDT → NGN", amt: "$780", take: "+$1.82", live: false },
+      ];
+      return (
+        <div className="w-full px-4 flex flex-col gap-1.5">
+          {rows.map((r, i) => (
+            <motion.div key={r.pair} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 + i * 0.1, duration: 0.5, ease: EASE }} className="flex items-center justify-between rounded-lg px-2.5 py-1.5" style={{ background: r.live ? `${APPLE_ACCENT}14` : "#ffffff", border: `1px solid ${r.live ? APPLE_ACCENT + "55" : "rgba(0,0,0,0.06)"}` }}>
+              <div className="flex items-center gap-1.5">
+                {r.live && <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.4, repeat: Infinity }} className="w-1.5 h-1.5 rounded-full" style={{ background: APPLE_ACCENT }} />}
+                <span className="text-[10px] font-bold tracking-tight text-black/70" style={{ fontFamily: "ui-monospace, monospace" }}>{r.pair}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold text-black/45" style={{ fontFamily: "ui-monospace, monospace" }}>{r.amt}</span>
+                <span className="text-[10px] font-bold" style={{ color: APPLE_ACCENT, fontFamily: "ui-monospace, monospace" }}>{r.take}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      );
+    }
+    if (kind === "spread") return (
+      <div className="w-full px-5 flex flex-col items-center justify-center gap-3">
+        <div className="w-full flex items-baseline justify-between" style={{ fontFamily: "ui-monospace, monospace" }}>
+          <div className="flex flex-col">
+            <span className="text-[8px] font-bold tracking-[0.18em] text-black/40">BUY</span>
+            <span className="text-[15px] font-bold text-black/80">102.5</span>
+          </div>
+          <div className="flex flex-col items-end">
+            <span className="text-[8px] font-bold tracking-[0.18em]" style={{ color: APPLE_ACCENT }}>SELL</span>
+            <span className="text-[15px] font-bold" style={{ color: APPLE_ACCENT }}>105.4</span>
+          </div>
+        </div>
+        <div className="relative w-full h-2 rounded-full" style={{ background: "rgba(0,0,0,0.06)" }}>
+          <motion.div initial={{ width: 0 }} whileInView={{ width: "58%" }} viewport={{ once: true }} transition={{ duration: 1, ease: EASE }} className="absolute left-0 top-0 h-full rounded-full" style={{ background: APPLE_ACCENT }} />
+          <motion.div initial={{ left: 0 }} whileInView={{ left: "calc(58% - 8px)" }} viewport={{ once: true }} transition={{ duration: 1, ease: EASE }} className="absolute -top-1 w-4 h-4 rounded-full border-2 border-white" style={{ background: APPLE_ACCENT, boxShadow: `0 4px 12px ${APPLE_ACCENT}66` }} />
+        </div>
+        <div className="px-2.5 py-1 rounded-full text-[9.5px] font-bold tracking-[0.14em]" style={{ background: "#0a0a0a", color: "#fff", fontFamily: "ui-monospace, monospace" }}>YOUR MARGIN · 2.9%</div>
+      </div>
+    );
+    if (kind === "settle") return (
+      <div className="flex flex-col items-center justify-center gap-3 px-4">
+        <div className="flex items-center gap-2.5 rounded-2xl px-4 py-2.5" style={{ background: "#0a0a0a" }}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[12px]" style={{ background: APPLE_ACCENT, color: "#0a0a0a", fontFamily: "ui-serif, Georgia, serif" }}>$</div>
+          <div className="flex flex-col">
+            <span className="text-white font-bold text-[15px] leading-none" style={{ fontFamily: "ui-monospace, monospace" }}>+$1,000</span>
+            <span className="text-white/45 text-[8px] font-bold tracking-[0.14em] mt-1">USDT · SETTLED</span>
+          </div>
+          <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 1.8, repeat: Infinity, delay: 0.4 }} className="ml-1 w-5 h-5 rounded-full flex items-center justify-center" style={{ background: APPLE_ACCENT }}>
+            <Check className="w-3 h-3 text-white" strokeWidth={3.5} />
           </motion.div>
-          <Sparkles className="absolute -top-2 -right-2 w-5 h-5" style={{ color: APPLE_ACCENT }} strokeWidth={2.5} />
         </div>
-      </div>
-    );
-    if (kind === "route") return (
-      <div className="flex flex-col items-center justify-center px-4">
-        <div className="flex items-center gap-3">
-          <div className="rounded-full flex items-center justify-center" style={{ background: "#fff", border: "3px solid #fff", width: 56, height: 56, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", fontSize: 28 }}><span aria-hidden>🇺🇸</span></div>
-          <svg width="64" height="40" viewBox="0 0 64 40">
-            <motion.path d="M 4 28 Q 32 -4 60 28" stroke={APPLE_ACCENT} strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" fill="none" animate={{ strokeDashoffset: [0, -32] }} transition={{ duration: 1.6, repeat: Infinity, ease: "linear" }} />
-            <path d="M 56 24 L 62 28 L 56 32" stroke={APPLE_ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          </svg>
-          <div className="rounded-full flex items-center justify-center" style={{ background: "#fff", border: "3px solid #fff", width: 56, height: 56, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", fontSize: 28 }}><span aria-hidden>🇮🇳</span></div>
-        </div>
-        <div className="mt-4 flex items-baseline gap-3">
-          <span className="font-bold text-black" style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>$1,000</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-black/40 rotate-45" strokeWidth={2.5} />
-          <span className="font-bold" style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, color: APPLE_ACCENT }}>₹83,250</span>
-        </div>
-      </div>
-    );
-    if (kind === "friend") return (
-      <div className="flex items-center justify-center px-4">
-        <ClearAvatar initials="Y" bg="#ffd6e7" size={56} />
-        <motion.div animate={{ rotate: [-6, 6, -6], y: [0, -4, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="relative -mx-3 z-10" style={{ filter: `drop-shadow(0 8px 24px ${APPLE_ACCENT}66)` }}>
-          <div className="rounded-full flex items-center justify-center font-bold" style={{ background: `radial-gradient(circle at 35% 30%, #ffe5b8, ${APPLE_ACCENT} 70%)`, border: "3px solid #fff", width: 72, height: 72, color: "#0a0a0a", fontFamily: "ui-serif, Georgia, serif", fontSize: 28 }}>$</div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap" style={{ background: "#0a0a0a", color: "#fff", fontFamily: "ui-monospace, monospace" }}>+$20</div>
-        </motion.div>
-        <ClearAvatar initials="K" bg="#d6f5eb" size={56} />
+        <span className="text-[9px] font-bold tracking-[0.16em] text-black/45" style={{ fontFamily: "ui-monospace, monospace" }}>0x7a…f3 · CONFIRMED</span>
       </div>
     );
     return (
-      <div className="flex items-center justify-center gap-5 px-4">
-        <div className="relative">
-          <motion.div animate={{ y: [0, -3, 0] }} transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} className="rounded-2xl flex items-center justify-center" style={{ width: 80, height: 80, background: `linear-gradient(180deg, ${APPLE_ACCENT}, ${APPLE_ACCENT}dd)`, boxShadow: `0 12px 32px ${APPLE_ACCENT}55` }}>
-            <Trophy className="w-10 h-10 text-white" strokeWidth={1.8} />
-          </motion.div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap flex items-center gap-1" style={{ background: "#0a0a0a", color: "#fff", fontFamily: "ui-monospace, monospace" }}>
-            <ChevronUp className="w-2.5 h-2.5" strokeWidth={3} />
-            RANK 3
-          </div>
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <span className="font-bold leading-none" style={{ fontFamily: "ui-serif, Georgia, serif", fontSize: 30, color: APPLE_ACCENT, letterSpacing: "-0.03em" }}>+15%</span>
-          <span className="text-[9px] font-bold tracking-[0.18em] text-black/45">5 LEFT</span>
+      <div className="flex flex-col items-center justify-center gap-3 px-4">
+        <motion.div animate={{ boxShadow: [`0 0 0 ${APPLE_ACCENT}00`, `0 0 28px ${APPLE_ACCENT}44`, `0 0 0 ${APPLE_ACCENT}00`] }} transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: APPLE_ACCENT }}>
+          <ShieldCheck className="w-8 h-8 text-white" strokeWidth={1.8} />
+        </motion.div>
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-[9.5px] font-bold tracking-[0.16em] text-black/55">VERIFIED MERCHANT</span>
+          <span className="px-2.5 py-1 rounded-full text-[9px] font-bold tracking-[0.14em] line-through" style={{ background: "rgba(0,0,0,0.05)", color: "#0a0a0a", fontFamily: "ui-monospace, monospace" }}>CHARGEBACKS</span>
         </div>
       </div>
     );
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-      {CLEAR_CARDS.map((c, i) => (
+      {CLEAR_FEATURE_CARDS.map((c, i) => (
         <motion.div
           key={c.key}
           initial={{ opacity: 0, y: 18 }}

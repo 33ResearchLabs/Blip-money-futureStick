@@ -1,4 +1,5 @@
-// Vercel Edge function — server-side P2P rate fetcher.
+// Edge function — server-side P2P rate fetcher. Portable across Vercel,
+// Netlify Edge and Cloudflare (plain Request -> Response, env via ./_env).
 // Reads from Supabase (populated by blip-rates-crawler on VPS):
 //   - rates_feed (per-ad detail) for direct-crawled exchanges
 //   - p2p_army_latest (per-payment-method aggregate) for the rest
@@ -6,6 +7,8 @@
 //
 // GET /api/rates?source=<exchange>&side=BUY|SELL[&fiat=INR&crypto=USDT]
 // Returns { quotes: Quote[], source: "db" | "live", observed_at, age_seconds }
+
+import { supabaseCreds } from "./_env.ts";
 
 export const config = { runtime: "edge" };
 
@@ -309,13 +312,6 @@ type P2pArmyRow = {
   observed_at: string;
 };
 
-function supabaseCreds(): { url: string; key: string } | null {
-  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
-  if (!url || !key) return null;
-  return { url, key };
-}
 
 async function fetchFromDbDirect(
   source: Source,

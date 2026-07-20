@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+
+    <!-- Background subtle vignette -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#111115"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </radialGradient>
+
+    <!-- Cyan trail: invisible at left edge, full at center -->
+    <linearGradient id="cyanL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00c8e8" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#00c8e8" stop-opacity="1"/>
+    </linearGradient>
+
+    <!-- Orange trail: full at center, invisible at right edge -->
+    <linearGradient id="orangeR" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#cc785c" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#cc785c" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Star soft glow (blur copy behind sharp shape) -->
+    <filter id="starGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Tight center bloom -->
+    <filter id="centerBloom" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Radial for center hotspot -->
+    <radialGradient id="hotspot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="55%"  stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- ── CYAN TRAILS (left, approach) ── -->
+  <!-- primary beam -->
+  <rect x="72"  y="253.5" width="176" height="5"   rx="2.5" fill="url(#cyanL)" opacity="0.90"/>
+  <!-- secondary fine lines -->
+  <rect x="100" y="250"   width="148" height="2"   rx="1"   fill="url(#cyanL)" opacity="0.50"/>
+  <rect x="100" y="260"   width="148" height="2"   rx="1"   fill="url(#cyanL)" opacity="0.50"/>
+  <!-- tertiary whisper -->
+  <rect x="130" y="247"   width="118" height="1"   rx="0.5" fill="url(#cyanL)" opacity="0.22"/>
+  <rect x="130" y="264"   width="118" height="1"   rx="0.5" fill="url(#cyanL)" opacity="0.22"/>
+
+  <!-- ── ORANGE TRAILS (right, departure) ── -->
+  <rect x="264" y="253.5" width="176" height="5"   rx="2.5" fill="url(#orangeR)" opacity="0.90"/>
+  <rect x="264" y="250"   width="148" height="2"   rx="1"   fill="url(#orangeR)" opacity="0.50"/>
+  <rect x="264" y="260"   width="148" height="2"   rx="1"   fill="url(#orangeR)" opacity="0.50"/>
+  <rect x="264" y="247"   width="118" height="1"   rx="0.5" fill="url(#orangeR)" opacity="0.22"/>
+  <rect x="264" y="264"   width="118" height="1"   rx="0.5" fill="url(#orangeR)" opacity="0.22"/>
+
+  <!-- ── 8-POINT STARBURST ──
+       Long cardinal spikes  r = 105  (N/E/S/W)
+       Short diagonal spikes r = 50   (NE/SE/SW/NW)
+       Inner concave radius  r = 20
+  -->
+  <polygon
+    points="
+      256,151
+      264,238  291,221
+      274,248  361,256
+      274,264  291,291
+      264,274  256,361
+      248,274  221,291
+      238,264  151,256
+      238,248  221,221
+      248,238
+    "
+    fill="white"
+    filter="url(#starGlow)"
+  />
+
+  <!-- Subtle pulse ring (radar feel) -->
+  <circle cx="256" cy="256" r="128"
+    fill="none"
+    stroke="white"
+    stroke-width="0.75"
+    opacity="0.07"
+  />
+
+  <!-- Center hotspot glow -->
+  <circle cx="256" cy="256" r="32" fill="url(#hotspot)"/>
+
+  <!-- Hard white center -->
+  <circle cx="256" cy="256" r="7" fill="white" filter="url(#centerBloom)"/>
+
+</svg>

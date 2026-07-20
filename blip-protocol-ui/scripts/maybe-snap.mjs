@@ -20,7 +20,7 @@ if (process.env.BLIP_PRERENDER !== "1") {
     "[maybe-snap] BLIP_PRERENDER not set — skipping react-snap prerender.",
   );
   console.log(
-    "[maybe-snap] To enable, set BLIP_PRERENDER=1 in env (Vercel project settings).",
+    "[maybe-snap] To enable, set BLIP_PRERENDER=1 in env (set in netlify.toml [build.environment]).",
   );
   process.exit(0);
 }

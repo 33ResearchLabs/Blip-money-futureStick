@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blip Money — Whitepaper 1.0</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 20mm 18mm;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --accent: #cc785c;
+      --accent-light: #f5ede9;
+      --ink: #111111;
+      --muted: #555555;
+      --border: #e0e0e0;
+      --bg: #ffffff;
+      --mono: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Screen wrapper ── */
+    .page-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* ── Cover ── */
+    .cover {
+      padding-bottom: 48px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .cover-brand {
+      font-size: 9pt;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-size: 28pt;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .cover-title span {
+      color: var(--accent);
+    }
+
+    .cover-subtitle {
+      font-size: 11pt;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+
+    .cover-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cover-meta .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 52px;
+    }
+
+    .section-number {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-family: var(--mono);
+    }
+
+    h2 {
+      font-size: 17pt;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    li {
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    li strong {
+      color: var(--ink);
+    }
+
+    /* ── Pull quote / lead ── */
+    .lead {
+      font-size: 11.5pt;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      padding-left: 14px;
+      border-left: 2.5px solid var(--accent);
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 10pt;
+      color: var(--ink);
+    }
+
+    /* ── Formula ── */
+    .formula {
+      font-family: var(--mono);
+      font-size: 9.5pt;
+      background: #f7f7f7;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 16px 0;
+      color: var(--ink);
+      overflow-x: auto;
+    }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+    }
+
+    thead tr {
+      background: #f4f4f4;
+    }
+
+    th {
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 600;
+      font-size: 8.5pt;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    td:first-child {
+      font-weight: 500;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* ── Diagram container ── */
+    .diagram-wrap {
+      margin: 28px 0;
+      padding: 24px;
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .diagram-label {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-family: var(--mono);
+    }
+
+    .diagram-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── License footer ── */
+    .license {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 8pt;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .license strong {
+      color: var(--ink);
+    }
+
+    /* ── Print styles ── */
+    @media print {
+      html, body {
+        font-size: 10pt;
+      }
+
+      .page-wrap {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .cover {
+        page-break-after: always;
+        padding-bottom: 0;
+        border-bottom: none;
+        margin-bottom: 0;
+        min-height: 240mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .section {
+        page-break-inside: avoid;
+      }
+
+      h2 {
+        page-break-after: avoid;
+      }
+
+      h3 {
+        page-break-after: avoid;
+      }
+
+      .diagram-wrap {
+        page-break-inside: avoid;
+      }
+
+      .table-wrap {
+        page-break-inside: avoid;
+      }
+
+      table {
+        page-break-inside: avoid;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <!-- ══════════════════════════════════════════
+         COVER
+    ══════════════════════════════════════════ -->
+    <div class="cover">
+      <div class="cover-brand">Blip Money &nbsp;·&nbsp; blip.money</div>
+      <div class="cover-title">
+        <span>Blip Market</span><br />
+        Whitepaper
+      </div>
+      <div class="cover-subtitle">
+        An open network for fast, cheap global value settlement.<br />
+        Blip Market is a peer-to-peer liquidity network where merchants provide settlement capacity, users stake behind the merchants they trust, and any developer can plug in via API to move value anywhere — instantly and cheaply.
+      </div>
+      <div class="cover-meta">
+        <span><span class="dot"></span> Version 1.0</span>
+        <span><span class="dot"></span> Draft</span>
+        <span><span class="dot"></span> May 2026</span>
+        <span><span class="dot"></span> ~20 min read</span>
+        <span><span class="dot"></span> CC BY 4.0</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         01 ABSTRACT
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">01</div>
+      <h2>Abstract</h2>
+      <p class="lead">
+        Blip Market is an open, enforceable settlement network — where liquidity flows through a competitive mesh of merchants, stakers earn alongside the merchants they back, and any application in the world can plug in through the Blip API.
+      </p>
+      <p>
+        Moving money across borders today is slow, expensive, and fragmented. Blip Market proposes a different model: a competitive network of liquidity providers (merchants) who settle value on behalf of users, enforced by smart contracts rather than trust. Merchants compete in real-time auctions to offer the best rate. Users and stakers back their preferred merchants with stake and earn a share of fees. Developers access the entire network through a single, unified API.
+      </p>
+      <p>
+        The result is a self-reinforcing marketplace — cheaper over time as competition intensifies, safer as merchant reputation compounds on-chain, and open by design so any product can integrate global settlement without building infrastructure from scratch.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         02 THE PROBLEM
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">02</div>
+      <h2>The Problem</h2>
+      <p>
+        Global value transfer is still structured around a model designed for the 1970s: chains of correspondent banks, opaque fees, and multi-day settlement windows. Even modern crypto-based systems have largely recreated the same trust problems in new clothes.
+      </p>
+
+      <h3>2.1 High cost, high friction</h3>
+      <ul>
+        <li><strong>Hidden fees.</strong> Sending $200 internationally costs 6–8% on average when you factor in exchange rates and transfer charges. The money often arrives days late.</li>
+        <li><strong>No competition at the point of transfer.</strong> Users accept whatever rate the app offers. There is no real-time market forcing providers to compete.</li>
+        <li><strong>Fragmented rails.</strong> Different corridors require different apps, different accounts, and different wait times. No single layer connects them.</li>
+      </ul>
+
+      <h3>2.2 Trust without guarantees</h3>
+      <ul>
+        <li><strong>Off-chain verification.</strong> Even in P2P crypto exchanges, the critical step — confirming the fiat arrived — happens over screenshots and chat. There is no enforceable proof.</li>
+        <li><strong>Centralized reputation.</strong> Ratings live inside the app that hosts them. They can be reset, gamed, or deleted. A reliable merchant has no portable track record.</li>
+        <li><strong>No recourse.</strong> When something goes wrong, users are at the mercy of the platform's support process — not a transparent, rule-based resolution system.</li>
+      </ul>
+
+      <h3>2.3 Developers have no good option</h3>
+      <p>
+        Any app that wants to move money — a fintech, a marketplace, a payroll tool — must either build its own rails (expensive, slow, jurisdictionally limited) or integrate incumbents that charge heavily and move slowly. There is no open, composable settlement primitive that developers can build on top of.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         03 BLIP MARKET
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">03</div>
+      <h2>Blip Market</h2>
+      <p>
+        Blip Market is a peer-to-peer settlement network. At its core is a competitive marketplace of merchants — entities who hold local currency and payment relationships — bidding to fulfill user orders in real time.
+      </p>
+      <p>
+        Think of it as a live, global order book for value transfer. Merchants post capacity and rates. Users submit orders. The market finds the best match automatically — and on-chain contracts enforce the outcome.
+      </p>
+
+      <h3>3.1 How the market works</h3>
+      <p>
+        When a user wants to send value — say, dollars in New York to pesos in Mexico City — they submit an order to the network. Merchants with local settlement capacity in the target corridor bid on the order. The auction selects the best merchant, not just on price, but on a composite score that includes their on-chain reputation and staked collateral. The user gets the best available rate. The merchant earns a fee.
+      </p>
+      <p>
+        All of this happens in seconds. The user's funds are held in an escrow contract during transit — released only when the merchant proves the settlement was completed. If the merchant fails to deliver, the user gets a full refund. No trust required.
+      </p>
+
+      <h3>3.2 Merchant-to-merchant transactions</h3>
+      <p>
+        Merchants don't only settle for end users. They can transact with each other — bridging liquidity across corridors, netting positions, and routing through the most efficient path. A merchant in London and a merchant in Lagos can settle directly when it's cheaper than going through the main market pool. This mesh of bilateral merchant relationships is what gives the network depth and resilience.
+      </p>
+
+      <!-- LIQUIDITY FLOW DIAGRAM -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Fig. 1 — Liquidity Flow</div>
+        <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" aria-label="Liquidity flow diagram">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#888" />
+            </marker>
+            <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#cc785c" />
+            </marker>
+          </defs>
+
+          <!-- Staker -->
+          <rect x="20" y="30" width="110" height="38" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="75" y="53" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#222" text-anchor="middle">Staker</text>
+
+          <!-- Merchant -->
+          <rect x="20" y="130" width="110" height="38" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="75" y="153" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#222" text-anchor="middle">Merchant</text>
+
+          <!-- User -->
+          <rect x="20" y="230" width="110" height="38" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="75" y="253" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#222" text-anchor="middle">User</text>
+
+          <!-- Market Pool (center, accented) -->
+          <rect x="255" y="120" width="130" height="58" rx="10" fill="#cc785c" />
+          <text x="320" y="145" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Market Pool</text>
+          <text x="320" y="163" font-family="Inter,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)" text-anchor="middle">Auction Engine</text>
+
+          <!-- Merchant Network -->
+          <rect x="490" y="80" width="130" height="38" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="555" y="103" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#222" text-anchor="middle">Merchant Network</text>
+
+          <!-- Blip API -->
+          <rect x="490" y="180" width="130" height="38" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="555" y="203" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#222" text-anchor="middle">Blip API</text>
+
+          <!-- Arrows: Staker → Merchant -->
+          <line x1="75" y1="68" x2="75" y2="126" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="83" y="101" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#888">stake</text>
+
+          <!-- Merchant → Market Pool -->
+          <line x1="130" y1="149" x2="252" y2="149" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="177" y="143" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#888">bids / capacity</text>
+
+          <!-- User → Market Pool -->
+          <line x1="130" y1="249" x2="250" y2="175" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="165" y="225" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#888">order</text>
+
+          <!-- Market Pool → Merchant Network -->
+          <line x1="385" y1="138" x2="487" y2="110" stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrow-accent)" />
+          <text x="415" y="118" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#cc785c">matched order</text>
+
+          <!-- Market Pool → Blip API -->
+          <line x1="385" y1="162" x2="487" y2="190" stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrow-accent)" />
+          <text x="408" y="188" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#cc785c">rate + settlement</text>
+
+          <!-- Merchant Network → back to Staker (fees) -->
+          <path d="M555,80 C555,20 75,10 75,28" stroke="#ddd" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow)" />
+          <text x="290" y="14" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#aaa">fee share to stakers</text>
+        </svg>
+      </div>
+
+      <h3>3.3 Open by design</h3>
+      <p>
+        Blip Market is not a closed product — it's a protocol. Any merchant, staker, or developer can participate. The rules are enforced by code, not policy. The rates are set by competition, not by any single entity.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         04 PARTICIPANTS
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">04</div>
+      <h2>Participants</h2>
+      <p>
+        The market has four distinct roles. Each one earns from the activity of the others, creating a flywheel where volume drives value for everyone.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>What they do</th>
+              <th>How they earn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>User</td>
+              <td>Submits transfer orders. Deposits value into escrow. Receives settlement on the other side.</td>
+              <td>Gets the best available market rate. No hidden fees.</td>
+            </tr>
+            <tr>
+              <td>Merchant</td>
+              <td>Provides settlement capacity in local corridors. Bids on orders. Executes fiat-side transfers.</td>
+              <td>Earns the spread between their cost and the winning auction price. Higher reputation → more wins.</td>
+            </tr>
+            <tr>
+              <td>Staker</td>
+              <td>Backs a merchant by staking alongside them. Increases the merchant's effective credibility and auction score.</td>
+              <td>Earns a share of the fees generated by the merchants they stake behind.</td>
+            </tr>
+            <tr>
+              <td>Developer / API Consumer</td>
+              <td>Integrates the Blip API into any product — fintech app, marketplace, payroll tool, wallet.</td>
+              <td>Accesses the full merchant network without building infrastructure. Can earn referral flows.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         05 LIQUIDITY ARCHITECTURE
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">05</div>
+      <h2>Liquidity Architecture</h2>
+      <p>
+        Liquidity in Blip Market doesn't sit in a central pool — it's distributed across the merchant network and activated on demand through the auction mechanism.
+      </p>
+
+      <h3>5.1 How liquidity flows</h3>
+      <p>
+        Each merchant maintains their own settlement capacity — local bank accounts, mobile money relationships, payment rails — in the corridors they serve. When an order is matched to a merchant, that merchant's liquidity is reserved for that specific settlement. Nothing is pooled or commingled.
+      </p>
+      <p>
+        Stakers amplify merchant liquidity by contributing stake to a merchant's collateral position. A merchant with more total stake behind them can accept larger orders and scores better in auctions. This means stakers directly increase a merchant's earning potential — and are compensated proportionally.
+      </p>
+
+      <h3>5.2 The auction mechanism</h3>
+      <p>
+        Order matching uses a sealed-bid, second-price auction. Each merchant submits a bid — their proposed fee for handling the order. The winning merchant is chosen not just on the lowest fee, but on a composite score:
+      </p>
+      <div class="formula">Score_i = (1 / fee_i) + α · reputation_i + β · stake_i</div>
+      <p>
+        Where α and β are network-set weights. A higher reputation or more stake behind a merchant lifts their effective score, allowing them to win more orders even when they don't have the absolute lowest fee.
+      </p>
+      <p>
+        The second-price rule means the winning merchant pays the price of the second-best offer — incentivizing honest bidding rather than strategic undercutting.
+      </p>
+
+      <h3>5.3 Escrow enforcement</h3>
+      <p>
+        When an order is matched, the user's funds are locked in a smart-contract escrow. The contract releases funds to the merchant only after a signed proof of settlement is submitted and verified on-chain. If the merchant fails to deliver within the agreed window, the user can trigger a full refund. The escrow is controlled entirely by the protocol — no single party can unilaterally move funds.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         06 TRANSACTION LIFECYCLE
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">06</div>
+      <h2>Transaction Lifecycle</h2>
+      <p>
+        Every transaction moves through a defined set of states. The contracts enforce each transition — no step can be skipped, reversed, or faked.
+      </p>
+
+      <!-- LIFECYCLE DIAGRAM -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Fig. 2 — Transaction Lifecycle</div>
+        <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" aria-label="Transaction lifecycle diagram">
+          <defs>
+            <marker id="arrow2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#888" />
+            </marker>
+            <marker id="arrow2-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#cc785c" />
+            </marker>
+            <marker id="arrow2-dashed" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#aaa" />
+            </marker>
+          </defs>
+
+          <!-- Main flow nodes (y=50) -->
+          <!-- ORDER -->
+          <rect x="10" y="36" width="82" height="36" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="51" y="58" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" fill="#333" text-anchor="middle">ORDER</text>
+
+          <!-- MATCH -->
+          <rect x="116" y="36" width="82" height="36" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="157" y="58" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" fill="#333" text-anchor="middle">MATCH</text>
+
+          <!-- ESCROW -->
+          <rect x="222" y="36" width="82" height="36" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="263" y="58" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" fill="#333" text-anchor="middle">ESCROW</text>
+
+          <!-- SETTLE -->
+          <rect x="328" y="36" width="82" height="36" rx="8" fill="#f0f0f0" stroke="#ddd" stroke-width="1" />
+          <text x="369" y="58" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" fill="#333" text-anchor="middle">SETTLE</text>
+
+          <!-- RELEASED (accented) -->
+          <rect x="434" y="36" width="90" height="36" rx="8" fill="#cc785c" />
+          <text x="479" y="58" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">RELEASED</text>
+
+          <!-- Main flow arrows -->
+          <line x1="92" y1="54" x2="113" y2="54" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow2)" />
+          <line x1="198" y1="54" x2="219" y2="54" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow2)" />
+          <line x1="304" y1="54" x2="325" y2="54" stroke="#bbb" stroke-width="1.5" marker-end="url(#arrow2)" />
+          <line x1="410" y1="54" x2="431" y2="54" stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrow2-accent)" />
+
+          <!-- Branch: ESCROW → REFUND (below) -->
+          <line x1="263" y1="72" x2="263" y2="130" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow2-dashed)" />
+          <rect x="210" y="130" width="106" height="34" rx="8" fill="#f7f7f7" stroke="#ccc" stroke-width="1" stroke-dasharray="4,2" />
+          <text x="263" y="151" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#888" text-anchor="middle">REFUND</text>
+          <text x="263" y="120" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#aaa" text-anchor="middle">timeout</text>
+
+          <!-- Branch: SETTLE → DISPUTE (below) -->
+          <line x1="369" y1="72" x2="369" y2="130" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow2-dashed)" />
+          <rect x="316" y="130" width="106" height="34" rx="8" fill="#f7f7f7" stroke="#ccc" stroke-width="1" stroke-dasharray="4,2" />
+          <text x="369" y="151" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#888" text-anchor="middle">DISPUTE</text>
+          <text x="369" y="120" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#aaa" text-anchor="middle">contested</text>
+
+          <!-- Step labels -->
+          <text x="51" y="30" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">1</text>
+          <text x="157" y="30" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">2</text>
+          <text x="263" y="30" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">3</text>
+          <text x="369" y="30" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">4</text>
+          <text x="479" y="30" font-family="ui-monospace,monospace" font-size="8" fill="#cc785c" text-anchor="middle">5</text>
+          <text x="263" y="178" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">6</text>
+          <text x="369" y="178" font-family="ui-monospace,monospace" font-size="8" fill="#aaa" text-anchor="middle">7</text>
+        </svg>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Step</th>
+              <th>What happens</th>
+              <th>Where</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Order</strong></td>
+              <td>User (or API) submits a transfer order specifying amount, corridor, and maximum time window.</td>
+              <td>Off-chain / API</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Match</strong></td>
+              <td>Merchants bid in a sealed auction. The network scores bids by fee, reputation, and stake.</td>
+              <td>Off-chain auction</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Escrow</strong></td>
+              <td>User deposits funds into a smart-contract escrow tied to the matched order. Settlement clock starts.</td>
+              <td>On-chain</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Settle</strong></td>
+              <td>The winning merchant executes the fiat-side transfer and obtains a signed proof of completion from the oracle.</td>
+              <td>Off-chain fiat</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Released</strong></td>
+              <td>Proof is verified on-chain. Escrow releases funds to the merchant. Reputation incremented. Stakers earn fees.</td>
+              <td>On-chain</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Refund</strong></td>
+              <td>If the settlement window expires without proof, the user triggers a refund. Merchant reputation decremented.</td>
+              <td>On-chain (timeout)</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Dispute</strong></td>
+              <td>Either party can flag a dispute. A decentralized arbiter reviews evidence and resolves to release or refund.</td>
+              <td>On-chain / DAO</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         07 STAKING & INCENTIVES
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">07</div>
+      <h2>Staking &amp; Incentives</h2>
+      <p>
+        Staking in Blip Market is not abstract yield farming — it's a direct bet on a specific merchant's performance. Stakers and merchants are aligned: both earn more when the merchant executes reliably and wins more orders.
+      </p>
+
+      <h3>7.1 How staking works</h3>
+      <p>
+        Any user can stake behind one or more merchants. Their stake is added to the merchant's total collateral position, boosting the merchant's auction score and unlocking access to larger order sizes. In return, stakers receive a proportional share of the fees earned by that merchant.
+      </p>
+      <ul>
+        <li>Stake more → merchant scores higher → merchant wins more orders → staker earns more fees.</li>
+        <li>If a merchant underperforms, their reputation decreases, they win fewer orders, and staker returns fall. Stake can be withdrawn, so bad merchants lose backing over time.</li>
+        <li>Stake is not slashed for normal merchant failure — only in proven cases of fraud, where the merchant's own bond is at risk.</li>
+      </ul>
+
+      <h3>7.2 Merchant bond</h3>
+      <p>
+        Every active merchant must post a bond — their own capital at risk. The bond sets the maximum order size the merchant can accept. A larger bond unlocks larger orders. If a merchant is found to have acted fraudulently, their bond is slashed by the protocol. This makes cheating economically irrational: the potential gain from any single fraud is always smaller than the bond required to be eligible for it.
+      </p>
+      <div class="formula">max_order &lt; slashing_factor · bond</div>
+
+      <h3>7.3 Fee distribution</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Share</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Merchant</td>
+              <td>Largest portion</td>
+              <td>Direct revenue for executing settlement</td>
+            </tr>
+            <tr>
+              <td>Stakers</td>
+              <td>Proportional to stake</td>
+              <td>Split from merchant's fee pool</td>
+            </tr>
+            <tr>
+              <td>Protocol treasury</td>
+              <td>Small %</td>
+              <td>Funds governance and development</td>
+            </tr>
+            <tr>
+              <td>Referral / API partner</td>
+              <td>Optional</td>
+              <td>For orders sourced via partner integrations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>7.4 On-chain reputation</h3>
+      <p>
+        Every merchant's track record is stored on-chain and cannot be reset or deleted. Successful settlements increase the score (logarithmically, weighted by order size). Failures decrease it — more sharply for larger orders. This score follows the merchant permanently and is visible to every staker and user.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         08 BOOSTED TRANSACTIONS
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">08</div>
+      <h2>Boosted Transactions</h2>
+      <p>
+        Not all transfers are the same. Blip Market includes a boost mechanism — a way for users or API partners to prioritize certain orders in the matching queue.
+      </p>
+
+      <h3>8.1 What a boost does</h3>
+      <ul>
+        <li><strong>Priority matching.</strong> Boosted orders are surfaced to higher-tier merchants first, getting access to the most reliable and liquid providers in the network.</li>
+        <li><strong>Faster auction window.</strong> A boosted order shortens the bid collection window, accelerating time-to-match for time-sensitive transfers.</li>
+        <li><strong>Elevated in the queue.</strong> When the network is busy, boosted orders move ahead of unboosted ones at the same price point.</li>
+      </ul>
+
+      <h3>8.2 Who uses boosts</h3>
+      <p>
+        Boosts are most useful for high-value or time-critical transfers — businesses making payroll runs, API partners handling checkout flows, or users who need confirmation in a tight window. The boost cost is small relative to the value of certainty. Boosting can be applied programmatically via the API, making it composable into any downstream product logic.
+      </p>
+
+      <h3>8.3 Boost economics</h3>
+      <p>
+        Boost fees flow directly to the protocol treasury and to the merchants who fill boosted orders. This creates a secondary incentive for high-reputation merchants to stay active — premium orders pay premium rates.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         09 BLIP API
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">09</div>
+      <h2>Blip API</h2>
+      <p>
+        The Blip API is the developer interface to the full Blip Market network. Any product that wants to move value globally can integrate the API and immediately access every merchant, every corridor, and every liquidity relationship in the network — without building any settlement infrastructure themselves.
+      </p>
+      <div class="callout">
+        One integration. Every corridor. Real-time rates. Settlement finality in seconds.
+      </div>
+
+      <h3>9.1 What the API provides</h3>
+      <ul>
+        <li><strong>Rate quotes.</strong> Get live, competitive rates for any corridor before committing to a transfer.</li>
+        <li><strong>Order submission.</strong> Submit transfer orders programmatically. Apply boosts, set time windows, specify corridors.</li>
+        <li><strong>Settlement tracking.</strong> Track order state in real time — from match to escrow to settlement or refund.</li>
+        <li><strong>Webhook notifications.</strong> Get callbacks on state changes so downstream systems can react immediately.</li>
+        <li><strong>Batch processing.</strong> Submit multiple orders in a single call — ideal for payroll, bulk disbursements, or marketplace payouts.</li>
+      </ul>
+
+      <h3>9.2 Where the API can be used</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Use case</th>
+              <th>What Blip enables</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fintech apps</td>
+              <td>Embed cross-border transfers with live rates and settlement guarantees into any consumer product.</td>
+            </tr>
+            <tr>
+              <td>Marketplaces</td>
+              <td>Pay sellers in any country, in their local currency, without holding foreign exchange positions.</td>
+            </tr>
+            <tr>
+              <td>Payroll tools</td>
+              <td>Disburse salaries across jurisdictions in a single batch call. Guaranteed delivery.</td>
+            </tr>
+            <tr>
+              <td>E-commerce checkout</td>
+              <td>Accept payment in one currency, settle the merchant in another — instantly, at market rates.</td>
+            </tr>
+            <tr>
+              <td>Wallet providers</td>
+              <td>Add cross-border send capability without building correspondent banking relationships.</td>
+            </tr>
+            <tr>
+              <td>B2B payments</td>
+              <td>Settle invoices across borders faster and cheaper than SWIFT, with full on-chain audit trail.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>9.3 API economics</h3>
+      <p>
+        API-sourced orders are treated identically to user-generated orders in the auction. Partners can optionally configure referral arrangements — earning a share of the fee on every order they source. Boosts can be applied programmatically. Rate quotes are free; settlement fees are paid only on completed transfers.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         10 ECOSYSTEM VISION
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">10</div>
+      <h2>Ecosystem Vision</h2>
+      <p>
+        The long-term vision for Blip Market is a global, open settlement layer — the infrastructure primitive that sits underneath any product that moves value.
+      </p>
+
+      <h3>10.1 A self-reinforcing network</h3>
+      <p>
+        Every new merchant adds liquidity. Every new staker deepens merchant capacity. Every new API integration brings more order flow. More order flow means better rates, which attracts more users, which attracts more merchants. The network compounds over time.
+      </p>
+
+      <h3>10.2 Merchant network expansion</h3>
+      <ul>
+        <li><strong>Corridor depth.</strong> As more merchants join each corridor, rates become tighter and settlement becomes more reliable. Thin corridors today become competitive markets over time.</li>
+        <li><strong>Merchant tiers.</strong> High-reputation merchants unlock premium order sizes and access to large institutional flows — giving them a long-term business built on their track record.</li>
+        <li><strong>Merchant-to-merchant routing.</strong> As the network matures, merchants will increasingly settle with each other directly — netting positions, sharing liquidity, and routing around inefficiencies automatically.</li>
+      </ul>
+
+      <h3>10.3 Protocol governance</h3>
+      <p>
+        Core protocol parameters — auction weights, slashing rules, boost mechanics, fee splits — are governed by the protocol's DAO. Any participant can propose changes. The DAO also manages dispute resolution for contested settlements and oversees the oracle network that verifies off-chain proofs.
+      </p>
+
+      <h3>10.4 The open settlement primitive</h3>
+      <p>
+        The ultimate goal is for Blip Market to be the settlement layer that every financial product builds on top of — the way TCP/IP is the layer the internet builds on top of. Open, composable, competitive, and enforceable by design. Any value that needs to move anywhere in the world should be able to flow through Blip Market, instantly and cheaply, without asking anyone's permission.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         11 CONCLUSION
+    ══════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-number">11</div>
+      <h2>Conclusion</h2>
+      <p class="lead">
+        Blip Market is a competitive, open network for global value settlement.
+      </p>
+      <p>
+        Merchants provide the liquidity. Users set the demand. Stakers align incentives by backing the merchants they trust. Boosts let high-priority flows move to the front of the queue. And the Blip API makes all of it accessible to any product, anywhere.
+      </p>
+      <p>
+        The market enforces itself — through smart-contract escrow, on-chain reputation, and a bond system that makes fraud economically irrational. No single entity controls it. No gatekeeper sets the rates. The network gets better as it gets bigger, and it's open to anyone who wants to join.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         LICENSE FOOTER
+    ══════════════════════════════════════════ -->
+    <div class="license">
+      <strong>Blip Money</strong> &nbsp;·&nbsp; blip.money &nbsp;·&nbsp; Whitepaper v1.0 &nbsp;·&nbsp; May 2026<br />
+      This document is released under <strong>CC BY 4.0</strong>. You are free to share and adapt this material for any purpose, provided appropriate credit is given to Blip Money. This document does not constitute financial, legal, or investment advice.
+    </div>
+
+  </div><!-- /page-wrap -->
+</body>
+</html>

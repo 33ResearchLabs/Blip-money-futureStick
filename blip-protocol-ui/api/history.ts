@@ -1,9 +1,12 @@
-// Vercel Edge function — P2P rate history bars.
+// Edge function — P2P rate history bars. Portable across Vercel,
+// Netlify Edge and Cloudflare (plain Request -> Response, env via ./_env).
 // Reads from Supabase view rate_history_5m_best (populated from the ads
 // time-series). Returns 5-min bars for the last hour by default.
 //
 // GET /api/history?fiat=INR&crypto=USDT
 // Returns { bars: [{ t, best_buy, best_sell, exchanges_seen }], observed_at }
+
+import { env } from "./_env.ts";
 
 export const config = { runtime: "edge" };
 
@@ -28,10 +31,8 @@ export default async function handler(req: Request): Promise<Response> {
   const fiat = (url.searchParams.get("fiat") ?? "INR").toUpperCase();
   const crypto = (url.searchParams.get("crypto") ?? "USDT").toUpperCase();
 
-  const supaUrl =
-    process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
-  const supaKey =
-    process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
+  const supaUrl = env("SUPABASE_URL") ?? env("VITE_SUPABASE_URL");
+  const supaKey = env("SUPABASE_ANON_KEY") ?? env("VITE_SUPABASE_ANON_KEY");
 
   const commonHeaders = {
     "content-type": "application/json",

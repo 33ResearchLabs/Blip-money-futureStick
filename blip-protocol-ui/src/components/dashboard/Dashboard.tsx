@@ -6,6 +6,10 @@ import { useEditMode, setEditMode } from "./Editable";
 import { CardGeneratorPanel } from "./CardGeneratorPanel";
 import { useGeneratedCards } from "@/hooks/useGeneratedCards";
 import { AssetLibraryTab } from "./AssetLibrary";
+import {
+  useMerchantCardsVariant,
+  type MerchantCardsVariant,
+} from "@/hooks/useMerchantCardsVariant";
 
 const ACCENT = "#ff7a3d";
 const PAGES = [
@@ -292,7 +296,10 @@ function VariantField({ field }: { field: Extract<SectionField, { kind: "variant
 
 function CardVariantsTab() {
   const variantField = SECTIONS.find((s) => s.id === "home.merchant-section")?.fields.find((f) => f.kind === "variant") as Extract<SectionField, { kind: "variant" }> | undefined;
-  const [variant, setVariant] = useOverride<string>(variantField?.id ?? "blip:merchant-cards-variant", variantField?.default ?? "mixed");
+  // Use the same hook the homepage reads from (CinematicHero), so picking a
+  // variant here actually changes the cards on "/". Previously this used
+  // useOverride, which wrote to a different localStorage key/event entirely.
+  const { variant, setVariant } = useMerchantCardsVariant();
   return (
     <div>
       <p className="text-[11.5px] text-white/65 mb-4 leading-relaxed">
@@ -303,7 +310,7 @@ function CardVariantsTab() {
         {variantField?.options.map((o) => {
           const active = o.value === variant;
           return (
-            <button key={o.value} onClick={() => setVariant(o.value)}
+            <button key={o.value} onClick={() => setVariant(o.value as MerchantCardsVariant)}
               className="px-3 py-1.5 rounded-full text-[11.5px] font-semibold tracking-tight transition-all"
               style={{ background: active ? "#fff" : "rgba(255,255,255,0.06)", color: active ? "#0a0a0a" : "rgba(255,255,255,0.75)", border: `1px solid ${active ? "#fff" : "rgba(255,255,255,0.1)"}` }}>
               {active ? "✓ " : ""}{o.label}

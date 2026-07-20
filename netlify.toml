@@ -1,0 +1,77 @@
+[build]
+  base    = "blip-protocol-ui"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION   = "20"
+  BLIP_PRERENDER = "1"
+
+# Edge functions: api/*.ts are plain (Request) => Response handlers,
+# mounted at the same /api/* paths they used on Vercel.
+[[edge_functions]]
+  path     = "/api/rates"
+  function = "rates"
+
+[[edge_functions]]
+  path     = "/api/history"
+  function = "history"
+
+[[edge_functions]]
+  path     = "/api/p2p-rates"
+  function = "p2p-rates"
+
+# ── Redirects (ported from vercel.json, order matters) ──────────────
+[[redirects]]
+  from   = "/blip-rates"
+  to     = "https://p2prate.live"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/blip-rates/*"
+  to     = "https://p2prate.live/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/ae"
+  to     = "/"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/ae/*"
+  to     = "/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/usdt-to-inr"
+  to     = "/usdt-to-inr-p2p"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/reward"
+  to     = "/rewards"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/protocol"
+  to     = "/how-it-works"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "/cryptoToAed"
+  to     = "/crypto-to-aed"
+  status = 301
+  force  = true
+
+# ── SPA fallback (must be last; /api/* is handled by edge functions) ──
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
